@@ -58,7 +58,7 @@
 		"zendframework/zend-uri" : "2.2.*",
 		"zendframework/zend-validator" : "2.2.*",
 		"zendframework/zend-view" : "2.2.*",
-		"contentinum/content-managment-5" : "dev-master",	
+		"contentinum/content-managment-5" : "dev-master"	
 	},
 	"autoload" : {
 		"psr-0" : {
