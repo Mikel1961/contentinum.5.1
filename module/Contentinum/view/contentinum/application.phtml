@@ -1,0 +1,143 @@
+<?php 
+//use ContentinumComponents\Html\HtmlAttribute;
+//print '<pre>';
+//var_dump($this->entries);
+
+//exit();
+/*
+var_dump($this->nav);
+*/
+
+//$container = new Zend\Navigation\Navigation($this->topbar);
+//$nav = $this->navigationcontentinum($container)->setAcl($this->acl)->setRole($this->role)->setUlClass('right');
+
+
+
+//echo $nav;
+//exit();
+/*
+print '</pre>';
+*/
+
+$groupstyles = $this->groupstyles[$this->layoutKey];
+$htmlwidgets = $this->htmlwidgets[$this->layoutKey];
+
+//$content['brand'] = 'contentinum';
+//$content['brandlink'] = '/';
+//$content['menuelabel'] = 'Menue';
+
+//(array $nav, $content, $medias, array $template = null)
+
+//var_dump($this->navigationtopbar(array(), $content, array(),$htmlwidgets['topbar']->toArray() ));
+
+//var_dump($this->entries);
+//exit;
+//$tmp = array();
+//foreach ($this->entries as $row){
+  //  $tmp[$row['adjustments']][$row['url']][] = $row['url'];
+//}
+
+//var_dump($tmp);
+//exit;
+
+$content = '';
+$html = '';
+$it = 1;
+foreach ($this->entries as $row){
+    //print '<pre>';
+    //var_dump($row);
+    //exit;
+    
+    switch ($row['groupStyle']){
+        case 'grid':
+            $content = $this->contentgrid($row,$groupstyles['grid']->toArray(), $this->medias,$htmlwidgets);
+            break;
+        case 'tabs':
+            $content = $this->contenttabs($row,$groupstyles['tabs']->toArray(), $this->medias,$htmlwidgets);
+            break;  
+        case 'tabsvertical':
+            $content = $this->contenttabs($row,$groupstyles['tabsvertical']->toArray(), $this->medias,$htmlwidgets);
+            break; 
+        case 'accordion':            
+            $content = $this->contentaccordion($row,$groupstyles['accordion']->toArray(), $this->medias,$htmlwidgets);
+            break;    
+        case 'news':
+            $content = $this->news($row, $this->medias, $groupstyles['news']->toArray());
+            break;                     
+            case 'none':
+        default:
+            $content = $this->contribution($row,$this->medias,$htmlwidgets);
+            break;
+    }
+    switch ($row['htmlwidgets']){
+        case 'footergrid':
+        case 'headergrid':
+        case 'footergrid':
+        case 'headergrid':            
+        case 'content':            
+            $html[$row['adjustments']][$row['url']][] = $this->contentrow( $row,$content,$htmlwidgets );
+            break;
+        case 'none':
+            default:            
+            $html[$row['adjustments']][$row['url']][] = $content;
+            break;
+    }
+    
+    
+    $it++;
+
+}
+
+
+$mcontent = '';
+$header = '';
+$footer = '';
+
+if ( isset($html['HEADER']['_default']) ){
+    $header = implode ( ' ' , $html['HEADER']['_default'] );
+} 
+
+if ( isset($html['HEADER'][$this->pageurl]) ){
+    $header = implode ( ' ' , $html['HEADER'][$this->pageurl] );
+}
+$mcontent .= $header;
+if ( isset($html['CONTENT'][$this->pageurl]) ){
+    $mcontent .= implode ( ' ' , $html['CONTENT'][$this->pageurl] );
+} elseif ( isset($html['CONTENT']['_default']) ){
+    $mcontent .= implode ( ' ' , $html['CONTENT']['_default'] );
+}
+$mcontent .= $this->content;
+if ( isset($html['FOOTER']['_default']) ){
+    $footer = implode ( ' ' , $html['FOOTER']['_default'] );
+}
+
+if ( isset($html['FOOTER'][$this->pageurl]) ){
+    $footer = implode ( ' ' , $html['FOOTER'][$this->pageurl] );
+}
+$mcontent .= $footer;
+
+
+
+$layout = $this->buildlayout($this->htmllayouts,$this->layoutKey);
+foreach ($layout as $row) {
+	if (is_array($row)) {
+		foreach ($row as $k => $v) {
+			switch ($k) {
+				case 'assign':
+					$assign = explode(';', $v);
+					foreach ($assign as $value) {
+						if ('allcontent' == $value) {
+							echo "\n" . $mcontent;
+						} else {
+							echo "\n" . $this->$value;
+						}
+					}
+					break;
+				default:
+			}
+		}
+	} else {
+		echo "\n" . $row;
+	}
+}
+?>

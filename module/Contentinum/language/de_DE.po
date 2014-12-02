@@ -1,0 +1,1147 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Michael Jochum <michael.jochum@jochum-mediaservices.de>\n"
+"Language-Team: jochum-mediaservices <hallo@jochum-mediaservices.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"X-Generator: Poedit 1.6.7\n"
+
+#: ../view/error/index.phtml:1
+msgid "An error occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+#: ../view/error/index.phtml:8
+msgid "Additional information"
+msgstr "Zusätzliche Information"
+
+#: ../view/error/index.phtml:11 ../view/error/index.phtml:35
+msgid "File"
+msgstr "Datei"
+
+#: ../view/error/index.phtml:15 ../view/error/index.phtml:39
+msgid "Message"
+msgstr "Meldung"
+
+#: ../view/error/index.phtml:19 ../view/error/index.phtml:43
+#: ../view/error/404.phtml:55
+msgid "Stack trace"
+msgstr "Stapelüberwachung"
+
+#: ../view/error/index.phtml:29
+msgid "Previous exceptions"
+msgstr "Vorherige Ausnahme"
+
+#: ../view/error/index.phtml:58
+msgid "No Exception available"
+msgstr "Es ist keine Ausnahme verfügbar"
+
+#: ../view/error/404.phtml:1
+msgid "A 404 error occurred"
+msgstr "Es trat ein 404 Fehler auf"
+
+#: ../view/error/404.phtml:10
+msgid "The requested controller was unable to dispatch the request."
+msgstr ""
+"Der angeforderte Controller war nicht in der Lage die Anfrage zu verarbeiten."
+
+#: ../view/error/404.phtml:13
+msgid ""
+"The requested controller could not be mapped to an existing controller class."
+msgstr ""
+"Der angeforderte Controller konnte keiner Controller Klasse zugeordnet "
+"werden."
+
+#: ../view/error/404.phtml:16
+msgid "The requested controller was not dispatchable."
+msgstr "Der angeforderte Controller ist nicht aufrufbar."
+
+#: ../view/error/404.phtml:19
+msgid "The requested URL could not be matched by routing."
+msgstr ""
+"Für die angeforderte URL konnte keine Übereinstimmung gefunden werden."
+
+#: ../view/error/404.phtml:22
+msgid "We cannot determine at this time why a 404 was generated."
+msgstr ""
+"Zu diesem Zeitpunkt ist es uns nicht möglich zu bestimmen, warum ein 404 "
+"Fehler aufgetreten ist."
+
+#: ../view/error/404.phtml:34
+msgid "Controller"
+msgstr "Controller"
+
+#: ../view/error/404.phtml:41
+#, php-format
+msgid "resolves to %s"
+msgstr "wird aufgelöst in %s"
+
+#: ../view/error/404.phtml:51
+msgid "Exception"
+msgstr "Ausnahme"
+
+#: mcwork controllers Navigation
+msgid "Mcwork_Controller_Index"
+msgstr "Dashboard"
+
+msgid "Nav_Content"
+msgstr "Content"
+
+msgid "Content"
+msgstr "Inhalte"
+
+msgid "mcContent"
+msgstr "Content"
+
+msgid "Pages"
+msgstr "Seiten"
+
+msgid "PageContent"
+msgstr "Seiteneigenschaften"
+
+msgid "Contribution"
+msgstr "Beiträge"
+
+msgid "Menue"
+msgstr "Navigationspunkte"
+
+msgid "Medias"
+msgstr "Öffentliche Dateien"
+
+msgid "MediaMetas"
+msgstr "Metadaten für Dateien"
+
+msgid "MediaGroup"
+msgstr "Dateigruppen"
+
+msgid "Conf"
+msgstr "Konfiguration"
+
+msgid "Preferences"
+msgstr "Einstellungen"
+
+msgid "Redirects"
+msgstr "Umleitungen"
+
+msgid "Fieldtypes"
+msgstr "Inhaltstypen"
+
+msgid "Fieldconf"
+msgstr "Inhaltskonfiguration"
+
+msgid "Administration"
+msgstr "Administration"
+
+msgid "Directories"
+msgstr "Verzeichnisse"
+
+msgid "Contacts"
+msgstr "Kontakte, Ressourcen"
+
+msgid "Users"
+msgstr "Benutzer"
+
+msgid "Logs"
+msgstr "Logdateien"
+
+msgid "Cache"
+msgstr "Cache"
+
+msgid "Apps"
+msgstr "Apps"
+
+msgid "Mcwork_Controller_User"
+msgstr "Benutzer"
+
+#: add und edit
+msgid "add_Pages"
+msgstr "Seiten anlegen"
+
+msgid "edit_Pages"
+msgstr "Seiten bearbeiten"
+
+msgid "edit_PageContent"
+msgstr "Seiteneigenschaften bearbeiten"
+
+msgid "add_Contribution"
+msgstr "Beitrag anlegen"
+
+msgid "edit_Contribution"
+msgstr "Beitrag bearbeiten"
+
+msgid "add_MediaGroup"
+msgstr "Dateigruppen anlegen"
+
+msgid "edit_MediaGroup"
+msgstr "Dateigruppen bearbeiten"
+
+msgid "add_Directories"
+msgstr "Verzeichnisse anlegen"
+
+msgid "edit_Directories"
+msgstr "Verzeichnisse bearbeiten"
+
+msgid "add_Contacts"
+msgstr "Kontakte, Ressourcen anlegen"
+
+msgid "edit_Contacts"
+msgstr "Kontakte, Ressourcen bearbeiten"
+
+msgid "add_Users"
+msgstr "Benutzer anlegen"
+
+msgid "edit_Users"
+msgstr "Benutzer bearbeiten"
+
+msgid "add_Preferences"
+msgstr "Einstellungen anlegen"
+
+msgid "edit_Preferences"
+msgstr "Einstellungen bearbeiten"
+
+msgid "add_Redirects"
+msgstr "Umleitung anlegen"
+
+msgid "edit_Redirectss"
+msgstr "Umleitung bearbeiten"
+
+msgid "add_Fieldtypes"
+msgstr "Inhaltstypen anlegen"
+
+msgid "edit_Fieldtypes"
+msgstr "Inhaltstypen bearbeiten"
+
+msgid "add_Fieldconf"
+msgstr "Inhaltskonfiguration anlegen"
+
+msgid "edit_Fieldconf"
+msgstr "Inhaltskonfiguration bearbeiten"
+
+#: Tabellen und Masken
+msgid "Display file content"
+msgstr "Dateiinhalt anzeigen"
+
+msgid "Log files of applications"
+msgstr "Logdateien contentinum"
+
+msgid "entries per page"
+msgstr "Seiteneigenschaften"
+
+msgid "Last change"
+msgstr "Letzte Änderungen"
+
+msgid "Delete item"
+msgstr "Auswahl löschen"
+
+msgid "Edit item"
+msgstr "Auswahl bearbeiten"
+
+msgid "Add a new item"
+msgstr "Neu hinzufügen"
+
+msgid "Choose a row from table editing them"
+msgstr "Tabellenreihe zum Bearbeiten auswählen"
+
+msgid "choose a row from table delete them"
+msgstr "Tabellenreihe zum Löschen auswählen"
+
+msgid "No data available in table"
+msgstr "Keine Daten vorhanden"
+
+msgid "Headline"
+msgstr "Überschrift"
+
+msgid "Publish"
+msgstr "Veröffentlicht"
+
+msgid "Redirect"
+msgstr "Umleitung"
+
+msgid "Media and Document files"
+msgstr "Medien und Dokumente"
+
+msgid "Filename"
+msgstr "Dateiname"
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Select All"
+msgstr "Alle Auswählen"
+
+msgid "Unselect All"
+msgstr "Alle Abwählen"
+
+msgid "Copy"
+msgstr "Kopieren"
+
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Zip"
+msgstr "Packen"
+
+msgid "Unzip"
+msgstr "Entpacken"
+
+msgid "Display"
+msgstr "Anzeigen"
+
+msgid "Clear"
+msgstr "Zurücksetzen"
+
+msgid "New Folder"
+msgstr "Neuer Ordner"
+
+msgid "Folder"
+msgstr "Ordner"
+
+msgid "Rename"
+msgstr "Umbenennen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Use checkboxes to select items"
+msgstr "Checkbox anklicken, um Auswahl zu treffen"
+
+msgid "Media meta description"
+msgstr "Metadaten für Dateien"
+
+msgid "Mcwork_Controller_Content_Pages"
+msgstr "Seiten"
+
+msgid "pagecontent"
+msgstr "Seiteneigenschaften"
+
+msgid "mediametas"
+msgstr "Medien-Metadaten"
+
+msgid "Access rights"
+msgstr "Zugriffsrechte"
+
+msgid "Please select"
+msgstr "Bitte auswählen"
+
+msgid "Choose a content widget"
+msgstr "Formatierung zuweisen"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Save+"
+msgstr "Speichern+"
+
+msgid "Mcwork_Controller_Apps"
+msgstr "PlugIns"
+
+msgid "Groupname"
+msgstr "Gruppenname"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Public"
+msgstr "Öffentlich"
+
+msgid "Not Publicly"
+msgstr "Nicht Öffentlich"
+
+msgid "Author Resource"
+msgstr "CMS-Autoren"
+
+msgid "Publisher Resource"
+msgstr "CMS-Publisher"
+
+msgid "Manager Resource"
+msgstr "CMS-Manager"
+
+msgid "Administrator Resource"
+msgstr "CMS-Administratoren"
+
+msgid "Display content"
+msgstr "Inhalt ohne Formatierung anzeigen"
+
+msgid "Contribution with media left"
+msgstr "Beitrag mit Bild links"
+
+msgid "Contribution with media right"
+msgstr "Beitrag mit Bild rechts"
+
+msgid "Contribution with media center"
+msgstr "Beitrag mit Bild mittig"
+
+msgid "Contribution block with media left"
+msgstr "Block-Beitrag mit Bild links"
+
+msgid "Contribution block with media right"
+msgstr "Block-Beitrag mit Bild rechts"
+
+msgid "Kind of navigation"
+msgstr "Navigationsart"
+
+msgid "add_Navigation"
+msgstr "Navigationsbaum anlegen"
+
+msgid "edit_Navigation"
+msgstr "Navigationsbaum bearbeiten"
+
+msgid "Create a helper navigation tree"
+msgstr "Hilfs-Navigationsbaum anlegen"
+
+msgid "Create another main tree"
+msgstr "Weiteren Haupt-Navigationsbaum anlegen"
+
+msgid "Sequence"
+msgstr "Reihenfolge"
+
+msgid "Page"
+msgstr "Seite"
+
+msgid "Branch"
+msgstr "Zweig"
+
+msgid "Forms"
+msgstr "Formulare"
+
+msgid "add_Menue"
+msgstr "Navigationspunkt anlegen"
+
+msgid "edit_Menue"
+msgstr "Navigationspunkt bearbeiten"
+
+msgid "Page or link to this item"
+msgstr "Seite oder Link auswählen"
+
+msgid "Unpublished"
+msgstr "Unveröffentlicht"
+
+msgid "Link rel attribute"
+msgstr "Link Attribute"
+
+msgid ""
+"Links to an alternate version of the document (i.e. print page, translated "
+"or mirror)"
+msgstr "Link auf eine alternative Version"
+
+msgid "Resource is linked outside the current domain"
+msgstr "Ausgehener Link"
+
+msgid "Links to the author of the document"
+msgstr "Link auf den Autor des Dokumentes"
+
+msgid "Permanent URL used for bookmarking"
+msgstr "Hauptdomain für Bookmarking"
+
+msgid "Links to a help document"
+msgstr "Link zu einem Hilfedokument"
+
+msgid "Links to copyright information for the document"
+msgstr "Link zu Copyright Informationen"
+
+msgid "The next document in a selection"
+msgstr "Link zum nächsten Dokument einer Sammlung"
+
+msgid "Links to an unendorsed document, like a paid link."
+msgstr "Link zu kostenpflichtigen Dokument"
+
+msgid ""
+"Specifies that the browser should not send a HTTP referer header if the user "
+"follows the hyperlink"
+msgstr ""
+"Gibt an, dass der Browser keine HTTP-Referer-Header senden, wenn der "
+"Benutzer den Hyperlink folgt"
+
+msgid "Specifies that the target document should be cached"
+msgstr "Gibt an, dass das Zieldokument zwischengespeichert werden soll"
+
+msgid "The previous document in a selection"
+msgstr "Link zum vorherigen Dokument einer Sammlung"
+
+msgid "Links to a search tool for the document"
+msgstr "Link zu einer Suchfunktion"
+
+msgid "A tag (keyword) for the current document"
+msgstr "Verschlagwortung des Dokumentes"
+
+msgid "Load in a new window"
+msgstr "Im neuenn Fenster öffnen"
+
+msgid "Load in the same frame as it was clicked"
+msgstr "Im selben Fenster öffnen"
+
+msgid "Load in the parent frameset"
+msgstr "Im übergeorneten Frame öffnen"
+
+msgid "Load in the full body of the window"
+msgstr "Im Hauptfenster öffnen"
+
+msgid "Element ID selector"
+msgstr "ID-Attribut für Layoutsteuerung (CSS-Angabe)"
+
+msgid "Element CLASS selector"
+msgstr "Class-Attribut für Layoutsteuerung (CSS-Angabe)"
+
+msgid "Link target attribute (deprecated, use caution when)"
+msgstr "Linkziel Attribut (veraltet)"
+
+msgid "addsubmenue"
+msgstr "Untermenü einfügen"
+
+msgid "Navigation structure"
+msgstr "Navigationsstruktur"
+
+msgid "Navigation name"
+msgstr "Navigationsname / Überschrift"
+
+msgid "Helper navigation"
+msgstr "Hilfsnavigation"
+
+msgid "Navigation branch"
+msgstr "Navigationszweig"
+
+msgid "Navigation root"
+msgstr "Hauptnavigation"
+
+msgid "Page Id"
+msgstr "Seiten Id"
+
+msgid "Page standard datas"
+msgstr "Standard-Daten"
+
+msgid "Page Standard"
+msgstr "Seiten Standards"
+
+msgid "Page metadatas (SEO)"
+msgstr "Seiten Metadaten (SEO)"
+
+msgid "Page publication"
+msgstr "Seitenveröffentlichung"
+
+msgid "Assign page to a domain"
+msgstr "Domain auswählen"
+
+msgid "Add this page in a navigation"
+msgstr "Seite in die Navigation einfügen"
+
+msgid "Parent default page"
+msgstr "Layout-Musterseite auswählen"
+
+msgid "Set access rights to that resource"
+msgstr "Veröffentlichung steuern"
+
+msgid "Page meta specified"
+msgstr "Seiten Metadaten"
+
+msgid "Link title (is displayed as a tooltip)"
+msgstr "Link Title (wird als Tooltip angezeigt)"
+
+msgid "Page title"
+msgstr "Seiten Title"
+
+msgid "Set meta value robots"
+msgstr "Robot-Anweisungen"
+
+msgid "Meta value description"
+msgstr "Meta Description / Seitenbeschreibung"
+
+msgid "Page publications"
+msgstr "Seiten Veröffentlichung"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Language parent page"
+msgstr "Verlinkung zur entsprechenden Seite der Hauptsprache"
+
+msgid "Set forwarding"
+msgstr "Weiterleitung setzen"
+
+msgid "PageAttribute"
+msgstr "Seitenattribute"
+
+msgid "add_PageAttribute"
+msgstr "Seitenattribute anlegen"
+
+msgid "edit_PageAttribute"
+msgstr "Seitenattribute bearbeiten"
+
+msgid "Basedata"
+msgstr "Basisdaten"
+
+msgid "Pagemetadatas"
+msgstr "Seitenmetadaten"
+
+msgid "Published beginning"
+msgstr "Beginn der Veröffentlichung"
+
+msgid "Published ending"
+msgstr "Ende der Veröffentlichung"
+
+msgid "Javascript instructions"
+msgstr "JavaScript Anweisungen"
+
+msgid "Basic format"
+msgstr "Basisformatierungen"
+
+msgid "Choose a layout"
+msgstr "Layout auswählen"
+
+msgid "Style instruction"
+msgstr "Style Befehle"
+
+msgid "Html body tag id"
+msgstr "HTML Body ID"
+
+msgid "Html body tag class attribute value"
+msgstr "HTML Body Klasse"
+
+msgid "edit_Links"
+msgstr "Links bearbeiten"
+
+msgid "add_Links"
+msgstr "Links anlegen"
+
+msgid "Properties"
+msgstr "Beitrag Einstellungen"
+
+msgid "Assign to a page"
+msgstr "Einer Seite zuweisen"
+
+msgid "Assign in contribution group"
+msgstr "Einer Beitragsgruppe zuweisen"
+
+msgid "Access resources"
+msgstr "Zugriff"
+
+msgid "Contribution media attachment"
+msgstr "Medien anhängen"
+
+msgid "Media size"
+msgstr "Medien Größe"
+
+msgid "Choose a contribution widget"
+msgstr "Formatierung beeinflussen"
+
+msgid "Media Link"
+msgstr "freie Verlinkung"
+
+msgid "Link to a page or set an external link"
+msgstr "Verlinkung zu einer Seite oder einem angelegten Link"
+
+msgid "Contribution Styles"
+msgstr "Beitragsformatierungen"
+
+msgid "Contribution element"
+msgstr "Beitragselement"
+
+msgid "Contribution attributte"
+msgstr "Beitragsattribut"
+
+msgid "Forming published author"
+msgstr "Beitragsverfasser"
+
+msgid "Contribution plugin attachment"
+msgstr "PlugIns"
+
+msgid "Publish Author"
+msgstr "Verfasser"
+
+msgid "Author Email"
+msgstr "Verfasser E-Mail"
+
+msgid "contributionProperties"
+msgstr "Beitragseigenschaften"
+
+msgid "contributionGroup"
+msgstr "Beitragsgruppen"
+
+msgid "Files"
+msgstr "Dateien"
+
+msgid "Mapdata"
+msgstr "Map-Standorte"
+
+msgid "edit_Mapdata"
+msgstr "Map-Standort bearbeiten"
+
+msgid "add_Mapdata"
+msgstr "Map-Standort anlegen"
+
+msgid "Media item"
+msgstr "Bild zufügen"
+
+msgid "add_Maps"
+msgstr "Map anlegen"
+
+msgid "edit_Maps"
+msgstr "Map bearbeiten"
+
+msgid "Map zoom"
+msgstr "Map Zoom"
+
+msgid "Longitude"
+msgstr "Längengrad (Longitude)"
+
+msgid "Latitude"
+msgstr "Breitengrad (Latitude)"
+
+msgid "Street with number"
+msgstr "Straße und Hausnummer"
+
+msgid "Zipcode and city"
+msgstr "PLZ und Ort"
+
+msgid "Teaser Headline"
+msgstr "Teaser"
+
+msgid "Form"
+msgstr "Formular"
+
+msgid "Send to"
+msgstr "Senden an"
+
+msgid "add_Form"
+msgstr "Formular anlegen"
+
+msgid "edit_Form"
+msgstr "Formular bearbeiten"
+
+msgid "form_basedata"
+msgstr "Formular Basisdaten"
+
+msgid "Send form to"
+msgstr "Formular senden an"
+
+msgid "Email name"
+msgstr "Name des E-Mail Empfängers"
+
+msgid "Send form to CC"
+msgstr "Formular in Kopie senden (CC)"
+
+msgid "Email subject"
+msgstr "E-Mail Betreff"
+
+msgid "form_extended"
+msgstr "erweiterte Formular-Daten"
+
+msgid "Description above the form"
+msgstr "Beschreibung oberhalb des Formulars"
+
+msgid "Response text after send mail success"
+msgstr "Antworttext nach erfolgreichem Versenden des Formulars"
+
+msgid "form_adjusments"
+msgstr "Formular Einstellungen"
+
+msgid "Replay email"
+msgstr "E-Mail Antwort-Adresse (Absender)"
+
+msgid "Replayemail name"
+msgstr "Name E-Mail Antwort"
+
+msgid "Response email"
+msgstr "E-Mail Antwort-Adresse"
+
+msgid "Formfields"
+msgstr "Formularfelder"
+
+msgid "Field"
+msgstr "Feld"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "field_basedata"
+msgstr "Basisdaten Formularfeld"
+
+msgid "field_extended"
+msgstr "erweitere Daten Formularfeld"
+
+msgid "Required field"
+msgstr "Pflichtfeld"
+
+msgid "Not required"
+msgstr "kein Pflichtfeld"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Form element"
+msgstr "Formular-Element"
+
+msgid "Input field"
+msgstr "Eingabefeld"
+
+msgid "Input field email"
+msgstr "Eingabefeld E-Mail Adresse"
+
+msgid "Input field url"
+msgstr "Eingabefeld URL"
+
+msgid "Text field"
+msgstr "Textfeld"
+
+msgid "Select field"
+msgstr "Auswahlfeld"
+
+msgid "Fieldset"
+msgstr "Umrandung / Zusammenfassung"
+
+msgid "Field value"
+msgstr "Feldwert"
+
+msgid "Field name"
+msgstr "Feldname"
+
+msgid "No Media"
+msgstr "Kein Bild"
+
+msgid "edit_Formfields"
+msgstr "Formularfeld bearbeiten"
+
+msgid "add_Formfields"
+msgstr "Formularfeld anlegen"
+
+msgid "Value"
+msgstr "Wert"
+
+msgid "Fieldoptions"
+msgstr "Formularfeld Optionen"
+
+msgid "add_Fieldoptions"
+msgstr "Formularfeld Optionen anlegen"
+
+msgid "edit_Fieldoptions"
+msgstr "Formularfeld Optionen bearbeiten"
+
+msgid "Meta value keywords"
+msgstr "Meta Keyword / Schlagwörter"
+
+msgid "Header javascript instructions"
+msgstr "JavaScrip Anweisungen im Seitenkopf"
+
+msgid "Footer inline javascript instructions"
+msgstr "JavaScrip Anweisungen im Seitenfuß"
+
+msgid "Domain refer"
+msgstr "zugehörige Domain"
+
+msgid "Member"
+msgstr "Mitglied"
+
+msgid "Salutation"
+msgstr "Anrede"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Business title"
+msgstr "Position"
+
+msgid "Content type"
+msgstr "Inhalts Typ"
+
+msgid "Assort"
+msgstr "Sortieren"
+
+msgid "Template variable"
+msgstr "Template Platzhalter"
+
+msgid "edit_ContributionProperties"
+msgstr "Betragseigenschaften bearbeiten"
+
+msgid "add_ContributionProperties"
+msgstr "Beitagseigenschaften anlegen"
+
+msgid "Group type"
+msgstr "Gruppen Typ"
+
+msgid "edit_ContributionGroup"
+msgstr "Newsgruppen bearbeiten"
+
+msgid "add_ContributionGroup"
+msgstr "Newsgruppen anlegen"
+
+msgid "Group name"
+msgstr "Gruppen Name"
+
+msgid "Content group type"
+msgstr "Typ Beitragsgruppe"
+
+msgid "add_News"
+msgstr "News anlegen"
+
+msgid "edit_News"
+msgstr "News bearbeiten"
+
+msgid "Number characters"
+msgstr "Anzahl Zeichen im Anriss"
+
+msgid "Link label"
+msgstr "Linkbezeichnung"
+
+msgid "Contributory group"
+msgstr "Beitragsgruppe"
+
+msgid "Dissolve"
+msgstr "Neitragsgruppe auflösen"
+
+msgid "edit_Contentgroup"
+msgstr "Beitragsgruppe bearbeiten"
+
+msgid "add_Contentgroup"
+msgstr "Beitragsgruppe anlegen"
+
+msgid "Content Group style"
+msgstr "Beitragsgruppen Style"
+
+msgid "Group element"
+msgstr "Gruppen Element"
+
+msgid "Group attributte"
+msgstr "Gruppen Attribut"
+
+msgid "AccountCategories"
+msgstr "Kontakt"
+
+msgid "Contact data"
+msgstr "Kontaktdaten"
+
+msgid "Select Account"
+msgstr "Account auswählen"
+
+msgid "Department"
+msgstr "Abteilung"
+
+msgid "First name"
+msgstr "Vorname"
+
+msgid "Last name"
+msgstr "Nachname"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Phone (work)"
+msgstr "Telefon dienstlich"
+
+msgid "Phone (mobile)"
+msgstr "Mobil"
+
+msgid "User roles"
+msgstr "Benutzerkategorie"
+
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Website title"
+msgstr "Webseiten Titel"
+
+msgid "Alias domain from"
+msgstr "Alias Domain von"
+
+msgid "Location parameters"
+msgstr "Land auswählen"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Google site verification"
+msgstr "Google Verifizierung"
+
+msgid "Javascript block head tag"
+msgstr "JavaScrip Anweisungen im Seitenkopf"
+
+msgid "Javascript block body end tag"
+msgstr "JavaScrip Anweisungen im Seitenfuß"
+
+msgid "Select a link or page"
+msgstr "Seite oder Link auswählen"
+
+msgid "Redirect Url"
+msgstr "Umleitungs URL"
+
+msgid "HTTP Status Codes"
+msgstr "HTTP Status Code"
+
+msgid "Submit"
+msgstr "Speichern"
+
+msgid "edit_Redirects"
+msgstr "Umleitungen bearbeiten"
+
+msgid "Fieldtype"
+msgstr "Feldtypen"
+
+msgid "Scope"
+msgstr "Anwendungsbereich"
+
+msgid "Fieldgroups"
+msgstr "Feldgruppen"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "add_Fieldgroup"
+msgstr "Feldgruppen anlegen"
+
+msgid "edit_Fieldgroup"
+msgstr "Feldgruppen bearbeiten"
+
+msgid "mcwork_calendar"
+msgstr "Kalender"
+
+msgid "mcwork_events"
+msgstr "Termine"
+
+msgid "Events"
+msgstr "Termine"
+
+msgid "mcwork_event_organizer"
+msgstr "Veranstalter"
+
+msgid "Organizer"
+msgstr "Veranstalter"
+
+msgid "mcwork_event_resources"
+msgstr "Rescourcen"
+
+msgid "Resources"
+msgstr "Rescourcen"
+
+msgid "Usergroups"
+msgstr "Benutzergruppen"
+
+msgid "add_Usergroup"
+msgstr "Benutzergruppe anlegen"
+
+msgid "edit_Usergroup"
+msgstr "Benutzergruppe bearbeiten"
+
+msgid "Useringroups"
+msgstr "Benutzer einer Gruppe"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "add_Usersingroups"
+msgstr "Benutzer einer Gruppe zuordnen"
+
+msgid "edit_Usersingroups"
+msgstr "Benutzer einer Gruppe bearbeiten"
+
+msgid "User in groups"
+msgstr "Benutzer in Gruppen"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Usergroup"
+msgstr "Benutzergruppe"
+
+msgid "uploadfiles"
+msgstr "Datei-Upload"
+
+msgid "currentdir"
+msgstr "ausgewählter Pfad / Ordner"
+
+msgid "newdir"
+msgstr "neuen Ordner anlegen"
+
+msgid "uploadfile"
+msgstr "Datei zum Hochladen"
+
+msgid "upload"
+msgstr "Upload"
+
+msgid "newsGroup"
+msgstr "Newsgruppe"
+
+msgid "add_NewsGroup"
+msgstr "Newsgruppe anlegen"
+
+msgid "edit_NewsGroup"
+msgstr "Newsgruppe bearbeiten"
+
+msgid "Adress"
+msgstr "Adressdaten"
+
+msgid "Select field meta"
+msgstr "Felddaten auswählen"
+
+msgid "Parent organisation"
+msgstr "zugehörige Organisation"
+
+msgid "Mapdatas"
+msgstr "Mapdaten"
+
+msgid "Map section (location)"
+msgstr "Kartenausschnitt (Standort) suchen"
+
+msgid "Search location"
+msgstr "Standort suchen"
+
+msgid "Street and number"
+msgstr "Straße und Hausnummer"
+
+msgid "Markerdatas"
+msgstr "Standortdaten"
+
+msgid "MediaCategories"
+msgstr "Dateigruppe konfigurieren"
+
+msgid "add_MediaCategories"
+msgstr "Dateien zu einer Dateigruppe zufügen"
+
+msgid "edit_mediaCategories"
+msgstr "Dateien einer Dateigruppe bearbeiten"
+
+msgid "Media Group"
+msgstr "Dateigruppe"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Street"
+msgstr "Straße"
+
+msgid "Zipcode"
+msgstr "PLZ"
+
+msgid "City"
+msgstr "Stadt"
+
+msgid "State or province"
+msgstr "Bundesland"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Contact"
+msgstr "Kontaktdaten"
+
+msgid "NoPublicFiles"
+msgstr "Nicht-Öffentliche Dateien"
+
+msgid "Year"
+msgstr "Jahr"
+
+msgid "Back"
+msgstr "Zurück"
