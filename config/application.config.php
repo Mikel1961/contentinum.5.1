@@ -4,8 +4,8 @@ return array(
     'modules' => array(	
         'Contentinum',
     	//'Mcevent',
-    	//'Mcuser',
-    	//'Mcwork',
+    	'Mcuser',
+    	'Mcwork',
     	'AsseticBundle',    
         'DoctrineModule', 
         'DoctrineORMModule',           		
