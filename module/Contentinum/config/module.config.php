@@ -39,7 +39,7 @@ return array(
             'Contentinum\Acl' => 'Contentinum\Service\Acl\SettingsServiceFactory',
             'Contentinum\Acl\Acl' => 'Contentinum\Service\AclServiceFactory',
             'Contentinum\AuthService' => 'Contentinum\Service\Domains\AuthServiceFactory',
-            
+            'Contentinum\Customer' => 'Contentinum\Service\Opt\CustomerServiceFactory',
             'Contentinum\Configure' => 'Contentinum\Service\ConfigurationServiceFactory',
             
             'Contentinum\Cache\PublicContent' => function ($sm)
@@ -100,7 +100,13 @@ return array(
             'Contentinum\Modul' => 'Contentinum\Factory\Mapper\ModulFactory',
             'Contentinum\Htmllayouts' => 'Contentinum\Service\Templates\HtmllayoutsServiceFactory',
             'Contentinum\Widgets' => 'Contentinum\Service\Templates\WidgetsStylesServiceFactory',
-            'Contentinum\GroupStyles' => 'Contentinum\Service\Templates\GroupStylesServiceFactory',            
+            'Contentinum\GroupStyles' => 'Contentinum\Service\Templates\GroupStylesServiceFactory',
+
+            // mappers
+            'Contentinum\Navigation' => 'Contentinum\Factory\Mapper\NavigationFactory',
+            'Contentinum\Newsarchive' => 'Contentinum\Factory\Mapper\NewsarchiveFactory',
+            'Contentinum\News' => 'Contentinum\Factory\Mapper\NewsFactory',
+            'Contentinum\Mediagroup' => 'Contentinum\Factory\Mapper\MediagroupFactory',            
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator'
@@ -163,7 +169,8 @@ return array(
         'etc_cfg_files' => array(
             'app_pages' => __DIR__ . '/../../../data/locale/etc/module/app/pages.php',
             'content_widgets_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/widgets.php',
-            'content_group_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/styles.php',            
+            'content_group_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/styles.php',
+            'opt_customer' => __DIR__ . '/../../../data/locale/etc/opt/customer.config.php',
         ),
         'db_cache_keys' => array(
             'contentinum_domain_preference' => array(

@@ -24,6 +24,8 @@ return array(
         'mediagroup' => 'ContentinumComponents\View\Helper\Content\Mediagroup',
         
         'filesize' => 'ContentinumComponents\View\Helper\Filesize',
+        
+        'buildlayout' => 'ContentinumComponents\View\Helper\Buildlayout'
 
     )
 );
