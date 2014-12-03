@@ -52,7 +52,7 @@ abstract class ContentinumServiceFactory implements FactoryInterface
      * Name cache factory
      * @var string
      */    
-    const CONTENTINUM_CACHE = 'Contentinum\Cache\Filesystem7200';
+    const CONTENTINUM_CACHE = 'Contentinum\Cache\StrutureContent';
 
     /**
      *
