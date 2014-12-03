@@ -344,18 +344,25 @@ class PageOptions extends AbstractOptions
      * @param sting $seperator
      * @return string
      */
-    public function split($query = null, $i = null, $seperator = null)
+    public function split($query = null, $i = null, $seperator = null, $remove = true)
     {
         if (!$query){
             $query = $this->query;
         }
-        
+                
         if (null === $i) {
             $i = self::URL_I;
         }
     
         if (null === $seperator) {
             $seperator = self::URL_SEPERATOR;
+        }
+        
+            
+        if (true === $remove){
+            if (substr($query, 0, 1) === $seperator){
+                $query = substr($query,1);
+            }
         }
     
         return implode($seperator, array_slice(explode($seperator, $query), 0, $i, true));
