@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<?php
+echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+echo $this->headTitle()->setAutoEscape(false);
+echo $this->plugin('HeadLink');
+echo $this->plugin('HeadStyle');
+echo $this->plugin('HeadScript');
+?>
+</head>
+<?php echo '<body' . $this->bodyAttributes . '>' ?>
+<nav class="top-bar" data-topbar="data-topbar">
+<ul class="title-area">
+<li class="name"><h1><a href="#">contentinum 5</a></h1></li>
+<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+</ul><section class="top-bar-section">
+<?php
+$container = $this->navigation('navigation')->getContainer();
+$apps = $this->navigation('appsmenu')->getContainer()->getPages();
+if ($this->identity){
+    $user = $container->findBy('label','Mcwork_Controller_User');
+    $user->setLabel('Hallo ' . $this->identity->name);
+}
+$container->findBy('label', 'Mcwork_Controller_Apps')->addPages($apps);
+
+echo $this->navigationcontentinum($container)->setAcl($this->acl)->setRole($this->role)->setUlClass('right');
+?>
+</section></nav>
+<header class="row" role="banner">
+<div class="large-6 columns"><h1><?php echo $this->translate($this->headline);  ?></h1></div>
+<div class="large-6 columns"><?php echo $this->columnright; ?></div>
+</header>
+<?php echo $this->content; ?>
+<div id="modal" class="reveal-modal" data-reveal></div>
+<div id="second_modal" class="reveal-modal" data-reveal></div>
+<div id="big_modal" class="reveal-modal large" data-reveal></div>
+<?php echo $this->plugin('InlineScript'); ?>
+</body>
+</html>
