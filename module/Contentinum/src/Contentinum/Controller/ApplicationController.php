@@ -60,7 +60,7 @@ class ApplicationController extends AbstractFrontendController
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
-        $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Webmedias');
+        $variables['medias'] = array(); //$this->getServiceLocator()->get('Contentinum\Webmedias');
         $variables['entries'] = $entries;
         $variables['plugins'] = $modul->fetchContent();
         $variables['role'] = $defaultRole;
@@ -84,10 +84,5 @@ class ApplicationController extends AbstractFrontendController
             $view->setTemplate($template);
         }
         return $view;
-    }
-
-    public function indexAction()
-    {
-        return new ViewModel();
     }
 }

@@ -63,7 +63,6 @@ class ApplicationControllerFactory implements FactoryInterface
         $pages = (isset($pages[$pageOptions->getStdParams()])) ? $pages[$pageOptions->getStdParams()] : array();
         $attribute = $sl->get('Contentinum\AttributePages');
         $attribute = (is_array($attribute)) ? $attribute : $attribute->toArray();
-        
         $url = $pageOptions->split($pageOptions->getQuery(),1);
         if (strlen($url) == 0){
             $url = 'index';
