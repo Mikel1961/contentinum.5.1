@@ -57,12 +57,13 @@
 		"zendframework/zend-text" : "2.2.*",
 		"zendframework/zend-uri" : "2.2.*",
 		"zendframework/zend-validator" : "2.2.*",
-		"zendframework/zend-view" : "2.2.*",
-		"contentinum/content-managment-5" : "dev-master"	
+		"zendframework/zend-view" : "2.2.*"
 	},
 	"autoload" : {
 		"psr-0" : {
-			"Contentinum" : "module/Contentinum/src"
+			"Contentinum" : "module/Contentinum/src",
+			"Mcuser" : "module/Mcuser/src/",
+			"Mcwork" : "module/Mcwork/src/"			
 		}
 	},
 	"minimum-stability" : "dev"
