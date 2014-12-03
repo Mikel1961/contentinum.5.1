@@ -1,0 +1,49 @@
+body {
+	background: #EEEEEE;
+}
+
+
+
+p.formElement {
+	padding: 0.8em 0;
+	margin-bottom: 0;
+}
+
+p.formElement.elmNoPadd {
+	padding-bottom: 0;
+}
+
+p.formElement input {
+	margin-bottom: 0;
+}
+
+p.formElement.error label {
+	font-weight: bold;
+	color: #E74C3C;
+}
+
+p.formElement.valid label {
+	font-weight: bold;
+	color: #2ECC71;
+}
+
+p.formElement.error input {
+	border-color: #E74C3C;
+}
+
+p.formElement.valid input {
+	border-color: #2ECC71;
+}
+
+.validation-valid,
+.validation-error,
+.server-error {
+	background: #E74C3C;
+	color: #FFFFFF;
+	padding: 6px 0 6px 4px;
+	display: block;
+}
+
+.validation-valid {
+	background: #2ECC71;
+}

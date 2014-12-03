@@ -1,0 +1,25 @@
+<?php
+
+echo $this->doctype();
+echo "\n<html" . $this->htmlTagAttribs . ">\n";
+?>
+<head>
+<meta charset="utf-8">
+<?php
+echo $this->headTitle()->setAutoEscape(false) . "\n";
+echo $this->headMeta() . "\n";
+echo $this->plugin('HeadLink');
+echo $this->plugin('HeadStyle');
+echo $this->plugin('HeadScript');
+?>
+</head>
+<?php
+echo "<body" . $this->bodyTagAttribs . ">";
+echo '<div class="row"><div class="small-6 large-centered columns">';
+echo '<h1>Login Data</h1>';
+echo $this->content;
+echo '</div></div>';
+echo $this->plugin('InlineScript');
+?>
+</body>
+</html>
