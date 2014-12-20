@@ -118,6 +118,8 @@ return array(
             )
         ),
         'news' => array(
+            'teaserLandscapeSize' => '250',
+            'teaserPortraitSize' => '200',
             'row' => array(
                 'element' => 'section',
                 'attr' => array(
@@ -138,6 +140,52 @@ return array(
                     )
                 )
             ),
+            
+            'media' => array(
+                'row' => array(
+                    'element' => 'figure',
+                    'attr' => array(
+                        'class' => 'news-article-imageitem center'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figcaption',
+                    'attr' => array(
+                        'class' => 'news-article-imagecaption'
+                    )
+                )
+            ),
+            
+            'mediateaserleft' => array(
+                'row' => array(
+                    'element' => 'figure',
+                    'attr' => array(
+                        'class' => 'news-article-teaser-imageitem left'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figcaption',
+                    'attr' => array(
+                        'class' => 'news-article-teaser-imagecaption'
+                    )
+                )
+            ), 
+
+            'mediateaserright' => array(
+                'row' => array(
+                    'element' => 'figure',
+                    'attr' => array(
+                        'class' => 'news-article-teaser-imageitem right'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figcaption',
+                    'attr' => array(
+                        'class' => 'news-article-teaser-imagecaption'
+                    )
+                )
+            ),            
+            
             'footer' => array(
                 'row' => array(
                     'element' => 'footer',
@@ -148,7 +196,7 @@ return array(
             ),
             'publishAuthor' => array(
                 'row' => array(
-                    'element' => 'p',
+                    'element' => 'span',
                     'attr' => array(
                         'class' => 'news-article-author'
                     )

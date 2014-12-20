@@ -28,20 +28,49 @@
 namespace Contentinum\Service\Templates;
 
 use Contentinum\Service\ContentinumServiceFactory;
+use Zend\Config\Config;
 
 /**
  * Config template key html layout
- * 
+ *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
 class GroupStylesServiceFactory extends ContentinumServiceFactory
 {
 
     const CONTENTINUM_CFG_FILE = 'content_group_styles';
-    
+
     /**
      * Name cache factory
+     * 
      * @var string
      */
-    const CONTENTINUM_CACHE = 'Contentinum\Cache\StrutureContent';    
+    const CONTENTINUM_CACHE = 'Contentinum\Cache\StrutureContent';
+
+    /**
+     * Get result from cache or read from php file
+     *
+     * @param string $file path to file and filename
+     * @param string $key template file ident
+     * @param ServiceLocatorInterface $sl            
+     */
+    protected function getFileAsConfig($dir, $key, $sl)
+    {
+        $cache = $sl->get(static::CONTENTINUM_CACHE);
+        if (! ($result = $cache->getItem($key))) {
+            $i = 1;
+            foreach (scandir($dir) as $file) {
+                if ('.' != $file && '..' != $file) {
+                    if (1 === $i) {
+                        $result = new Config(include $dir . DS . $file);
+                    } else {
+                        $result->merge(new Config(include $dir . DS . $file));
+                    }
+                    $i ++;
+                }
+            }
+            $cache->setItem($key, $result);
+        }
+        return $result;
+    }
 }

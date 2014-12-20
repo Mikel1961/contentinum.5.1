@@ -28,6 +28,8 @@
 namespace Contentinum\Service\Templates;
 
 use Contentinum\Service\TemplateServiceFactory;
+use Zend\Config\Reader\Xml;
+use Zend\Config\Config;
 
 /**
  * Config template key html layout
@@ -44,4 +46,33 @@ class HtmllayoutsServiceFactory extends TemplateServiceFactory
      * @var string
      */
     const CONTENTINUM_CACHE = 'Contentinum\Cache\StrutureContent';    
+    
+    
+    /**
+     * Get result from cache or read from xml file
+     *
+     * @param string $file path to file and filename
+     * @param string $key template file ident
+     * @param ServiceLocatorInterface $sl
+     */
+    protected function getTemplateFileAsConfig($dir, $key, $sl)
+    {
+        $cache = $sl->get(static::CONTENTINUM_CACHE);
+        if (! ($result = $cache->getItem($key))) {
+            $xmlFile = new Xml();
+            $i = 1;
+            foreach (scandir($dir) as $file){
+                if ('.' != $file && '..' != $file){
+                    if (1 === $i){
+                        $result = new Config($xmlFile->fromFile($dir.DS.$file));
+                    } else {
+                        $result->merge(new Config($xmlFile->fromFile($dir.DS.$file)));
+                    }
+                    $i++;
+                }
+            }
+            $cache->setItem($key, $result);
+        }
+        return $result;
+    }    
 }
