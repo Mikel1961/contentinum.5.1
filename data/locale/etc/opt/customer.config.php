@@ -27,11 +27,7 @@ return array(
                 )
             ),
             'alternate_sizes' => array(
-                'max' => '1440',
                 'thumbnail' => '200',
-                'mobile' => '480',
-                'std' => '516',
-                'l' => '1024',
             ),
             'alternate_sizes_labels' => array(
                 'max' => 'Original',
@@ -105,7 +101,14 @@ return array(
                 'p81' => null,
                 'P81' => null
             )
-        )
+        ),
+        'support_mail' => array(
+             
+                'mailfrom' => 'webmaster@jochum-mediaservices.net',
+                'mailfromname' => 'Webmaster',
+                'signature' => '[ Dies ist eine automatisch durch das Webformular generierte E-Mail. ]',
+                  
+        ),
         
     )
 );
