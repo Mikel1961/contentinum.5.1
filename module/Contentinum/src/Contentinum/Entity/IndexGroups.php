@@ -442,7 +442,7 @@ class IndexGroups extends AbstractEntity
      * @param \Contentinum\Entity\FieldTypes $fieldTypes
      * @return FieldTypeMetas
      */
-    public function setFieldTypes(\Contentinum\Entity\FieldTypes $fieldTypes = null)
+    public function setFieldTypes($fieldTypes = null)
     {
         $this->fieldTypes = $fieldTypes;
     

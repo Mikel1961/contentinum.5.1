@@ -21,6 +21,13 @@ class WebMedias extends AbstractEntity
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="parent_media", type="integer", nullable=false)
+     */    
+    private $parentMedia = 0;
 
     /**
      * @var string
@@ -77,14 +84,23 @@ class WebMedias extends AbstractEntity
      *
      * @ORM\Column(name="media_sizes", type="string", length=250, nullable=false)
      */
-    private $mediaSizes = '';    
+    private $mediaSizes = '';  
+
     
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="media_in_use", type="boolean", nullable=false)
+     * @ORM\Column(name="media_dimensions", type="string", length=250, nullable=false)
+     */    
+    private $mediaDimensions = '';
+    
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="media_description", type="text", nullable=true)
      */
-    private $mediaInUse = '0';
+    private $mediaDescription = '';
         
     /**
      * @var string
@@ -193,6 +209,22 @@ class WebMedias extends AbstractEntity
     }
 
     /**
+     * @return the $parentMedia
+     */
+    public function getParentMedia()
+    {
+        return $this->parentMedia;
+    }
+
+	/**
+     * @param number $parentMedia
+     */
+    public function setParentMedia($parentMedia)
+    {
+        $this->parentMedia = $parentMedia;
+    }
+
+	/**
 	 * @return the $mediaName
 	 */
 	public function getMediaName() 
@@ -344,23 +376,36 @@ class WebMedias extends AbstractEntity
     }
 
 	/**
-	 * @return the $mediaInUse
-	 */
-	public function getMediaInUse() 
-	{
-		return $this->mediaInUse;
-	}
+     * @return the $mediaDimensions
+     */
+    public function getMediaDimensions()
+    {
+        return $this->mediaDimensions;
+    }
 
 	/**
-	 * @param boolean $mediaInUse
-	 * @return WebMedias
-	 */
-	public function setMediaInUse($mediaInUse) 
-	{
-		$this->mediaInUse = $mediaInUse;
-		
-		return $this;
-	}
+     * @param string $mediaDimensions
+     */
+    public function setMediaDimensions($mediaDimensions)
+    {
+        $this->mediaDimensions = $mediaDimensions;
+    }
+
+	/**
+     * @return the $mediaDescription
+     */
+    public function getMediaDescription()
+    {
+        return $this->mediaDescription;
+    }
+
+	/**
+     * @param string $mediaDescription
+     */
+    public function setMediaDescription($mediaDescription)
+    {
+        $this->mediaDescription = $mediaDescription;
+    }
 
 	/**
 	 * @return the $metaCoding

@@ -34,7 +34,14 @@ class WebPagesParameter extends AbstractEntity
      *
      * @ORM\Column(name="parent_page", type="integer", nullable=false)
      */
-    private $parentPage;    
+    private $parentPage;  
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="htmlstructure", type="string", length=50, nullable=false)
+     */
+    private $htmlstructure = '';    
 
     /**
      * @var string
@@ -270,6 +277,22 @@ class WebPagesParameter extends AbstractEntity
     public function setParentPage($parentPage)
     {
         $this->parentPage = $parentPage;
+    }
+
+	/**
+     * @return the $htmlstructure
+     */
+    public function getHtmlstructure()
+    {
+        return $this->htmlstructure;
+    }
+
+	/**
+     * @param string $htmlstructure
+     */
+    public function setHtmlstructure($htmlstructure)
+    {
+        $this->htmlstructure = $htmlstructure;
     }
 
 	/**

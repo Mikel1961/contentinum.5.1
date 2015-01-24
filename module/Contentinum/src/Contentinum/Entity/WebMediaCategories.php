@@ -343,7 +343,7 @@ class WebMediaCategories extends AbstractEntity
     
     /**
      *
-     * @param \Contentinum\Entity\WebMedia $webMediasId
+     * @param \Contentinum\Entity\WebMedias $webMediasId
      * @return WebMediaGroupitems
      */
     public function setWebMediasId($webMediasId)

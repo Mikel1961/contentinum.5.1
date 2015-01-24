@@ -27,14 +27,14 @@ class WebContent extends AbstractEntity
      *
      * @ORM\Column(name="web_contentgroup_id", type="integer", nullable=false)
      */
-    private $webContentgroup;    
+    private $contentgroup = 0;    
     
     /**
      * @var integer
      *
      * @ORM\Column(name="web_pages_id", type="integer", nullable=false)
      */
-    private $webPages;    
+    private $webPagesIdent = 0;    
     
     /**
      * @var string
@@ -229,6 +229,20 @@ class WebContent extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="publish_up", type="string", nullable=false)
+     */
+    private $publishUp = '0000-00-00 00:00:00';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="publish_down", type="string", nullable=false)
+     */
+    private $publishDown = '0000-00-00 00:00:00';
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="comment_status", type="boolean", nullable=false)
      */
     private $commentStatus = '0';    
@@ -239,6 +253,20 @@ class WebContent extends AbstractEntity
      * @ORM\Column(name="version", type="integer", nullable=false)
      */
     private $version = '0';
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="overwrite", type="integer", nullable=false)
+     */
+    private $overwrite = '0';    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="replace_default", type="integer", nullable=false)
+     */
+    private $replaceDefault = 0;
     
     /**
      * @var boolean
@@ -346,35 +374,35 @@ class WebContent extends AbstractEntity
     }
 
 	/**
-     * @return the $webContentgroup
+     * @return the $contentgroup
      */
-    public function getWebContentgroup()
+    public function getContentgroup()
     {
-        return $this->webContentgroup;
+        return $this->contentgroup;
     }
 
 	/**
-     * @param number $webContentgroup
+     * @param number $contentgroup
      */
-    public function setWebContentgroup($webContentgroup)
+    public function setContentgroup($contentgroup)
     {
-        $this->webContentgroup = $webContentgroup;
+        $this->contentgroup = $contentgroup;
     }
 
 	/**
-     * @return the $webPages
+     * @return the $webPagesIdent
      */
-    public function getWebPages()
+    public function getWebPagesIdent()
     {
-        return $this->webPages;
+        return $this->webPagesIdent;
     }
 
 	/**
-     * @param number $webPages
+     * @param number $webPagesIdent
      */
-    public function setWebPages($webPages)
+    public function setWebPagesIdent($webPagesIdent)
     {
-        $this->webPages = $webPages;
+        $this->webPagesIdent = $webPagesIdent;
     }
 
 	/**
@@ -810,6 +838,38 @@ class WebContent extends AbstractEntity
     }
 
 	/**
+     * @return the $publishUp
+     */
+    public function getPublishUp()
+    {
+        return $this->publishUp;
+    }
+
+	/**
+     * @param string $publishUp
+     */
+    public function setPublishUp($publishUp)
+    {
+        $this->publishUp = $publishUp;
+    }
+
+	/**
+     * @return the $publishDown
+     */
+    public function getPublishDown()
+    {
+        return $this->publishDown;
+    }
+
+	/**
+     * @param string $publishDown
+     */
+    public function setPublishDown($publishDown)
+    {
+        $this->publishDown = $publishDown;
+    }
+
+	/**
      * @return the $commentStatus
      */
     public function getCommentStatus()
@@ -839,6 +899,38 @@ class WebContent extends AbstractEntity
     public function setVersion($version)
     {
         $this->version = $version;
+    }
+
+	/**
+     * @return the $overwrite
+     */
+    public function getOverwrite()
+    {
+        return $this->overwrite;
+    }
+
+	/**
+     * @param number $overwrite
+     */
+    public function setOverwrite($overwrite)
+    {
+        $this->overwrite = $overwrite;
+    }
+
+	/**
+     * @return the $replace
+     */
+    public function getReplaceDefault()
+    {
+        return $this->replaceDefault;
+    }
+
+	/**
+     * @param number $replace
+     */
+    public function setReplaceDefault($replace)
+    {
+        $this->replaceDefault = $replace;
     }
 
 	/**

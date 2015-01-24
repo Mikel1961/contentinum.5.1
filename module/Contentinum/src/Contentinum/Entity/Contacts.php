@@ -25,7 +25,7 @@ class Contacts extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=5, nullable=false)
+     * @ORM\Column(name="title", type="string", length=100, nullable=false)
      */
     private $title = '';
 
@@ -56,13 +56,13 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="business_title", type="string", length=100, nullable=false)
      */
     private $businessTitle = '';
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="department", type="string", length=255, nullable=false)
+     * @ORM\Column(name="just_sign", type="string", length=10, nullable=false)
      */
-    private $department = '';
+    private $justSign = '';    
 
     /**
      * @var string
@@ -105,6 +105,13 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="contact_email", type="string", length=100, nullable=false)
      */
     private $contactEmail;
+        
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="alternate_email", type="string", length=100, nullable=false)
+     */
+    private $alternateEmail;    
 
     /**
      * @var string
@@ -112,6 +119,34 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="contact_chat", type="string", length=100, nullable=false)
      */
     private $contactChat = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook", type="string", length=150, nullable=false)
+     */    
+    private $facebook = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter", type="string", length=150, nullable=false)
+     */    
+    private $twitter = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instagram", type="string", length=150, nullable=false)
+     */    
+    private $instagram = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pinterest", type="string", length=150, nullable=false)
+     */    
+    private $pinterest = '';
 
     /**
      * @var string
@@ -133,6 +168,13 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="birthdate", type="string", nullable=false)
      */
     private $birthdate = '0000-00-00 00:00:00';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     */
+    private $description = '';    
 
     /**
      * @var string
@@ -326,19 +368,19 @@ class Contacts extends AbstractEntity
     }
 
 	/**
-     * @return the $department
+     * @return the $justSign
      */
-    public function getDepartment()
+    public function getJustSign()
     {
-        return $this->department;
+        return $this->justSign;
     }
 
 	/**
-     * @param string $department
+     * @param string $justSign
      */
-    public function setDepartment($department)
+    public function setJustSign($justSign)
     {
-        $this->department = $department;
+        $this->justSign = $justSign;
     }
 
 	/**
@@ -438,6 +480,22 @@ class Contacts extends AbstractEntity
     }
 
 	/**
+     * @return the $alternateEmail
+     */
+    public function getAlternateEmail()
+    {
+        return $this->alternateEmail;
+    }
+
+	/**
+     * @param string $alternateEmail
+     */
+    public function setAlternateEmail($alternateEmail)
+    {
+        $this->alternateEmail = $alternateEmail;
+    }
+
+	/**
      * @return the $contactChat
      */
     public function getContactChat()
@@ -451,6 +509,70 @@ class Contacts extends AbstractEntity
     public function setContactChat($contactChat)
     {
         $this->contactChat = $contactChat;
+    }
+
+	/**
+     * @return the $facebook
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+	/**
+     * @param string $facebook
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+	/**
+     * @return the $twitter
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
+	/**
+     * @param string $twitter
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
+    }
+
+	/**
+     * @return the $instagram
+     */
+    public function getInstagram()
+    {
+        return $this->instagram;
+    }
+
+	/**
+     * @param string $instagram
+     */
+    public function setInstagram($instagram)
+    {
+        $this->instagram = $instagram;
+    }
+
+	/**
+     * @return the $pinterest
+     */
+    public function getPinterest()
+    {
+        return $this->pinterest;
+    }
+
+	/**
+     * @param string $pinterest
+     */
+    public function setPinterest($pinterest)
+    {
+        $this->pinterest = $pinterest;
     }
 
 	/**
@@ -499,6 +621,22 @@ class Contacts extends AbstractEntity
     public function setBirthdate($birthdate)
     {
         $this->birthdate = $birthdate;
+    }
+
+	/**
+     * @return the $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+	/**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
 	/**

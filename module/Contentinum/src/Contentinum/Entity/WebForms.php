@@ -98,6 +98,13 @@ class WebForms extends AbstractEntity
      * @ORM\Column(name="emailcc", type="string", length=250, nullable=false)
      */
     private $emailcc = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sendfrom", type="string", length=150, nullable=false)
+     */    
+    private $sendfrom = '';
 
     /**
      * @var string
@@ -387,6 +394,22 @@ class WebForms extends AbstractEntity
     public function setEmailcc($emailcc)
     {
         $this->emailcc = $emailcc;
+    }
+
+	/**
+     * @return the $sendfrom
+     */
+    public function getSendfrom()
+    {
+        return $this->sendfrom;
+    }
+
+	/**
+     * @param string $sendfrom
+     */
+    public function setSendfrom($sendfrom)
+    {
+        $this->sendfrom = $sendfrom;
     }
 
 	/**

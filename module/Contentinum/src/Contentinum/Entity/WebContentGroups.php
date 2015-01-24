@@ -84,7 +84,14 @@ class WebContentGroups extends AbstractEntity
      *
      * @ORM\Column(name="publish_date", type="string", length=30, nullable=false)
      */
-    private $publishDate = '0000-00-00 00:00:00';    
+    private $publishDate = '0000-00-00 00:00:00'; 
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="group_params", type="text", nullable=false)
+     */
+    private $groupParams = '';    
 
     /**
      * @var integer
@@ -331,6 +338,22 @@ class WebContentGroups extends AbstractEntity
     public function setPublishDate($publishDate)
     {
         $this->publishDate = $publishDate;
+    }
+
+	/**
+     * @return the $groupParams
+     */
+    public function getGroupParams()
+    {
+        return $this->groupParams;
+    }
+
+	/**
+     * @param string $groupParams
+     */
+    public function setGroupParams($groupParams)
+    {
+        $this->groupParams = $groupParams;
     }
 
 	/**
