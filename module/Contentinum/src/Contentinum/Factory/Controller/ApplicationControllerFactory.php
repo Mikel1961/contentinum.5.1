@@ -34,7 +34,12 @@ use Contentinum\Controller\ApplicationController;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 
 
-
+/**
+ * Application bootstrap factory
+ *
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ *
+ */
 class ApplicationControllerFactory implements FactoryInterface
 {
 
@@ -66,15 +71,13 @@ class ApplicationControllerFactory implements FactoryInterface
         $url = $pageOptions->split($pageOptions->getQuery(),1);
         if (strlen($url) == 0){
             $url = 'index';
-        }      
-
+        }     
+       
         if (isset($pages[$url])){
-            $pageOptions->addPageOptions($pages, $url);
             $page = $pages[$url];
-            
             ( isset( $attribute[$page['parentPage']] ) ) ? $pageOptions->addPageOptions($attribute, $page['parentPage']) : false;
             ( isset( $attribute[$page['id']] ) ) ? $pageOptions->addPageOptions($attribute, $page['id']) : false;            
-            
+            $pageOptions->addPageOptions($pages, $url);
             $em = $sl->get($pageOptions->getAppOption('entitymanager'));
             $workerName = $pageOptions->getAppOption('worker');
             $worker = new $workerName($em);
