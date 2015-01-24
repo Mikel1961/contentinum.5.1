@@ -33,7 +33,6 @@ use Zend\View\Model\ViewModel;
 /**
  * The application controller
  *
- * @todo draft status
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
 class ApplicationController extends AbstractFrontendController
@@ -55,12 +54,17 @@ class ApplicationController extends AbstractFrontendController
         $this->worker->setCategory($pageOptions->getCategory());
         $entries = $this->worker->fetchContent($page);
         $modul = $this->getServiceLocator()->get('Contentinum\Modul');
+        $modul->setPlugins($this->getServiceLocator()->get('Contentinum\PluginKeys'));
+        $modul->setArticle($pageOptions->getArticle());
+        $modul->setCategory($pageOptions->getCategory());
+        $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
                 
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
-        $variables['medias'] = array(); //$this->getServiceLocator()->get('Contentinum\Webmedias');
+        $variables['contentstyles'] = $this->getServiceLocator()->get('Contentinum\ContentStyles');
+        $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Medias');
         $variables['entries'] = $entries;
         $variables['plugins'] = $modul->fetchContent();
         $variables['role'] = $defaultRole;
@@ -70,13 +74,61 @@ class ApplicationController extends AbstractFrontendController
         $variables['pageurl'] = $page['url'];
         $variables['article'] = $pageOptions->getArticle();
         $variables['category'] = $pageOptions->getCategory();
-        $variables['layoutKey'] = $pageOptions->htmlstructure;
+        $variables['templateKey'] = $pageOptions->htmlstructure;
         
         
         
         return $this->buildView($variables,$pageOptions->template);
     }
+    
+    /**
+     * Process action processed a request form
+     * @param Contentinum\Options\PageOptions $pageOptions Contentinum\Options\PageOptions
+     * @param array $page
+     * @param string $defaultRole
+     * @param Zend\Permissions\Acl\Acl $acl Zend\Permissions\Acl\Acl
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function process($pageOptions, $page, $defaultRole, $acl)
+    {
+        $datas = $this->getRequest()->getPost();
+        $formIdent = $datas['formident'];
+        $formFactory = $this->getServiceLocator()->get('Contentinum\Forms');
+        $formFactory->setConfigure(array('modulParams' => $formIdent));
+        unset($datas['formident']);
+        $result = $formFactory->fetchContent();
+        $form = $result['form'];
+        $form->setInputFilter($form->getInputFilter());
+        $form->setData($datas);
+        if ($form->isValid()) {
+            $configuration = $this->getConfiguration();
+            $process = $this->getServiceLocator()->get('Contentinum\FormProcess');
+            /**
+             * @var \Contentinum\Model\Sendmail $mail
+             */
+            $mail = $this->getServiceLocator()->get('Contentinum\Sendmail');
+            $mail->setFormConfigure($process->find($formIdent));
+            $mail->setFormFields($formFactory->getFormFields());
+            $mail->setFormDatas($form->getData());
+            $mail->setConfigure($configuration->default->support_mail);
+            $mail->send();
+            $response['success'] = $result['responsetext'];
+        } else {
+            $response['error'] = array('fields' => $form->getMessages());
+        }
+        $view = new ViewModel(array(
+            'data' => $response
+        ));
+        $view->setTemplate('contentinum/json');
+        return $view;
+    }
 
+    /**
+     * Prepare view renderer
+     * @param array $variables
+     * @param string $template template script and source
+     * @return \Zend\View\Model\ViewModel
+     */
     public function buildView($variables, $template = null)
     {
         $view = new ViewModel($variables);
