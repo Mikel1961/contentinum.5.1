@@ -57,6 +57,7 @@ class PublicServiceFactory extends WebsiteServiceFactory
         'id',
         'hostId',
         'parentPage',
+        'htmlstructure',
         'scope',
         'url',
         'resource',
