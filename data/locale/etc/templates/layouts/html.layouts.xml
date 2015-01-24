@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
+	<assets>
+		<header>
+			<styles>
+				<iconfonts>
+					<file>/assets/customer/css/font-awesome.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</iconfonts>
+				<normalize>
+					<file>/assets/customer/css/normalize.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</normalize>
+				<foundation>
+					<file>/assets/customer/css/foundation.min.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</foundation>
+			</styles>
+			<scripts>
+				<modernizr>
+					<file>/assets/customer/js/vendor/modernizr.js</file>
+					<type>text/javascript</type>
+					<charset>utf-8</charset>
+				</modernizr>
+			</scripts>
+		</header>
+		<footer>
+			<scripts>
+				<jquery>
+					<file>/assets/customer/js/vendor/jquery.js</file>
+					<type>text/javascript</type>
+					<charset>utf-8</charset>
+				</jquery>
+				<foundation>
+					<file>/assets/customer/js/foundation.min.js</file>
+					<type>text/javascript</type>
+					<charset>utf-8</charset>
+				</foundation>
+				<init>
+					<file>/assets/customer/js/init.js</file>
+					<type>text/javascript</type>
+					<charset>utf-8</charset>
+				</init>
+			</scripts>
+		</footer>
+	</assets>
 	<default name="Layout HTML5 Boilerplate">
-	    <layoutkey>default</layoutkey>
+		<layoutkey>default</layoutkey>
 		<sequence>
 			<action row="10" set="section">
 				<param type="role">
@@ -20,44 +70,91 @@
 				</param>
 			</action>
 		</sequence>
-		<header>
-			<styles>
-				<assets>1</assets>
-			</styles>
-			<scripts>
-				<assets>1</assets>
-			</scripts>
-		</header>
-		<footer>
-			<assets>1</assets>
-		</footer>
-		<alternative>
-			<!-- alternate adjustments -->
-		</alternative>
 	</default>
 	<foundation name="Layout Foundation based">
-	    <layoutkey>foundation</layoutkey>
+		<layoutkey>foundation</layoutkey>
 		<sequence>
 			<action row="100" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>
+			<action row="200" set="assign">
+				<param>
+					<value>aside</value>
+				</param>
+			</action>			
+			<action row="300" set="assign">
+				<param>
+					<value>contentheader</value>
+				</param>
+			</action>					
+			<action row="400" set="assign">
 				<param>
 					<value>allcontent</value>
 				</param>
 			</action>
-			<action></action>
+			<action row="500" set="assign">
+				<param>
+					<value>contentfooter</value>
+				</param>
+			</action>			
+			<action row="600" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
 		</sequence>
-		<header>
-			<styles>
-				<assets>1</assets>
-			</styles>
-			<scripts>
-				<assets>1</assets>
-			</scripts>
-		</header>
-		<footer>
-			<assets>1</assets>
-		</footer>
-		<alternative>
-			<!-- alternate adjustments -->
-		</alternative>
 	</foundation>
+	<login name="Loginpage layout">
+		<layoutkey>foundation</layoutkey>
+		<sequence>
+			<action row="400" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="500" set="div">
+				<param type="class">
+					<value>small-6 large-centered columns userlogin</value>
+				</param>
+			</action>
+			<action row="600" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="700" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="800" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>			
+		</sequence>
+		<assets>
+			<header>
+				<styles>
+					<login>
+						<file>/assets/customer/css/login.css</file>
+						<media>screen</media>
+						<rel>stylesheet</rel>
+						<type>text/css</type>
+					</login>
+				</styles>
+			</header>
+		<footer>
+			<scripts>
+				<login>
+					<file>/assets/customer/js/login.js</file>
+					<type>text/javascript</type>
+					<charset>utf-8</charset>
+				</login>
+			</scripts>
+		</footer>			
+		</assets>
+	</login>
 </layout>

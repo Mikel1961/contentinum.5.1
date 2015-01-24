@@ -64,9 +64,11 @@ class HtmllayoutsServiceFactory extends TemplateServiceFactory
             foreach (scandir($dir) as $file){
                 if ('.' != $file && '..' != $file){
                     if (1 === $i){
-                        $result = new Config($xmlFile->fromFile($dir.DS.$file));
+                        $localConfig = new Config($xmlFile->fromFile($dir.DS.$file));
+                        $result = $localConfig;
                     } else {
-                        $result->merge(new Config($xmlFile->fromFile($dir.DS.$file)));
+                        $result = new Config($xmlFile->fromFile($dir.DS.$file));
+                        $result->merge($localConfig);
                     }
                     $i++;
                 }
