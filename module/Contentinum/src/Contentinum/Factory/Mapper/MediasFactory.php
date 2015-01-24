@@ -29,10 +29,9 @@ namespace Contentinum\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\ContributionGroups;
+use Contentinum\Mapper\Medias;
 
-
-class NewsFactory implements FactoryInterface
+class MediasFactory implements FactoryInterface
 {
     /**
      * (non-PHPdoc)
@@ -42,6 +41,8 @@ class NewsFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new ContributionGroups($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $medias = new Medias($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $medias->setEntity(new \Contentinum\Entity\WebMedias());
+        return $medias->fetchContent();
     }
 }

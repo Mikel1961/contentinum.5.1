@@ -17,7 +17,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category contentinum
- * @package Model
+ * @package Mapper
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  * @copyright Copyright (c) 2009-2013 jochum-mediaservices, Katja Jochum (http://www.jochum-mediaservices.de)
  * @license http://www.opensource.org/licenses/bsd-license
@@ -25,23 +25,48 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Contentinum\Factory\Mapper;
+namespace Contentinum\Mapper;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\ContributionGroups;
-
-
-class NewsFactory implements FactoryInterface
+/**
+ * Mapper
+ *
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ */
+class Maps extends AbstractModuls
 {
+    const ENTITY_NAME = 'Contentinum\Entity\WebMapsData';
+    
+    const TABLE_NAME = 'web_maps_data';
+
     /**
      * (non-PHPdoc)
      * 
-     * @see \Zend\ServiceManager\FactoryInterface::createService()
+     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function fetchContent(array $params = null)
     {
-        $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new ContributionGroups($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        return $this->build($this->query($this->configure['modulParams']));
+    }
+    
+    /**
+     * Build content array from database query result
+     * @param array $entries query result
+     * @return multitype:multitype:string unknown multitype:multitype:string unknown
+     */
+    private function build($entries)
+    {
+
+        $result = array();
+        $result = $entries;
+        return $result;
+    }    
+    
+    /**
+     * Database query
+     * @param int $id integer
+     */
+    private function query($id)
+    {
+        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('webMaps' => $id));
     }
 }

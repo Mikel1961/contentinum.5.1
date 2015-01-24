@@ -32,71 +32,58 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class News extends AbstractModuls
+class ContributionGroups extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebContentGroups';
     
     const TABLE_NAME = 'web_content_groups';
 
     /**
-     * @return the $contributions
-     */
-    public function getContributions()
-    {
-        return $this->contributions;
-    }
-
-	/**
-     * @param field_type $contributions
-     */
-    public function setContributions($contributions)
-    {
-        $this->contributions = $contributions;
-    }
-
-    /**
      * (non-PHPdoc)
-     * 
-     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
+     * @see \Contentinum\Mapper\AbstractModul::fetchContent()
      */
-    public function fetchContent(array $params = null)
+	public function fetchContent(array $params = null)
     {
         return $this->build($this->query($this->configure['modulParams']));
     }
     
     /**
-     * 
-     * @param unknown $entries
+     * Build content array from query result
+     * @param array $entries database result
      * @return multitype:multitype:string unknown multitype:multitype:string unknown
      */
     private function build($entries)
     {
 
-        $news = array();
-        return $news;
+        $result = array();
+        $result = $this->page($this->configure['modulParams']);
+        if ($entries){
+            $result['news'] = $entries;
+        }
+        return $result;
     }    
     
     /**
-     * 
-     * @param unknown $id
+     * Contribution group query
+     * @param int $id
      */
     private function query($id)
     {
-        
-        return $this->fetchAll($this->queryString($id));
+        $repository = $this->getStorage()->getRepository( self::ENTITY_NAME );
+        if (null == $this->configure['modulDisplay']){
+            $limit = 10 + 1;
+        } else {
+            $limit = (int) $this->configure['modulDisplay'] + 1;
+        }
+        return $repository->findBy(array('webContentgroup' => $id), array('itemRang' => 'ASC', 'publishDate' => 'DESC'),$limit);
     }
     
     /**
-     * 
-     * @param int $id
-     * @return string
+     * Page query
+     * @param int $id contribution group ident
      */
-    private function queryString($id)
+    private function page($id)
     {
-        $sql = "SELECT web_content_id ";
-        $sql .= "FROM web_content_groups AS main ";
-        $sql .= "WHERE main.web_contentgroup_id = '".$id."' ";
-        $sql .= "ORDER BY main.publish_date DESC";
-        return $sql;
+        return $this->fetchRow("SELECT wpp.url FROM web_pages_content AS main LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id WHERE main.web_contentgroup_id = '{$id}'");
     }
 }

@@ -34,7 +34,7 @@ use ContentinumComponents\Tools\HandleSerializeDatabase;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Mediagroup extends AbstractModuls
+class Filegroup extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebMediaCategories';
     
@@ -57,8 +57,8 @@ class Mediagroup extends AbstractModuls
     }
     
     /**
-     * Build content array from database query result
-     * @param array $entries query result
+     * Build content array from query result 
+     * @param array $entries database result
      * @return multitype:multitype:string unknown multitype:multitype:string unknown
      */
     private function build($entries)
@@ -67,20 +67,25 @@ class Mediagroup extends AbstractModuls
         $result = array();
         foreach ($entries as $entry){
             $metas = $this->mcUnserialize->execUnserialize($entry->webMediasId->mediaMetas);
-            $result[$entry->webMediasId->mediaLink]['attr']['alt'] = $metas['alt'];
-            if (isset($metas['title'])){
-                $result[$entry->webMediasId->mediaLink]['attr']['title'] = $metas['title'];
+            if ('displayheadline' === $this->configure['modulConfig']) {
+                $result[$entry->webMediasId->id]['headline'] = $entry->webMediagroupId->groupName;
+            } else {
+                $result[$entry->webMediasId->id]['headline'] = '';
             }
-            if (isset($metas['caption'])){
-                $result[$entry->webMediasId->mediaLink]['caption'] = $metas['caption'];
-            }
+            $result[$entry->webMediasId->id]['description'] = $entry->webMediagroupId->description;
+            $result[$entry->webMediasId->id]['attr'] = $metas;
+            $result[$entry->webMediasId->id]['mediaName'] = $entry->webMediasId->mediaName;
+            $result[$entry->webMediasId->id]['mediaSource'] = $entry->webMediasId->mediaSource;
+            $result[$entry->webMediasId->id]['mediaType'] = $entry->webMediasId->mediaType;
+            $result[$entry->webMediasId->id]['mediaDescription'] = $entry->webMediasId->mediaDescription;
+            $result[$entry->webMediasId->id]['resource'] = $entry->webMediasId->resource;
         }
         return $result;
     }    
     
     /**
-     * Database query
-     * @param unknown $id
+     * File group query
+     * @param int $id file group ident
      */
     private function query($id)
     {

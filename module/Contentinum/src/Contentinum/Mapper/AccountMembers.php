@@ -27,32 +27,27 @@
  */
 namespace Contentinum\Mapper;
 
+use ContentinumComponents\Tools\HandleSerializeDatabase;
+use ContentinumComponents\Filter\Url\Prepare;
+
 /**
  * Mapper
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class News extends AbstractModuls
+class AccountMembers extends AbstractModuls
 {
-    const ENTITY_NAME = 'Contentinum\Entity\WebContentGroups';
-    
-    const TABLE_NAME = 'web_content_groups';
+
+    const ENTITY_NAME = 'Contentinum\Entity\Accounts';
+
+    const TABLE_NAME = 'accounts';
 
     /**
-     * @return the $contributions
+     * ContentinumComponents\Tools\HandleSerializeDatabase
+     * 
+     * @var ContentinumComponents\Tools\HandleSerializeDatabase
      */
-    public function getContributions()
-    {
-        return $this->contributions;
-    }
-
-	/**
-     * @param field_type $contributions
-     */
-    public function setContributions($contributions)
-    {
-        $this->contributions = $contributions;
-    }
+    private $mcUnserialize;
 
     /**
      * (non-PHPdoc)
@@ -61,42 +56,44 @@ class News extends AbstractModuls
      */
     public function fetchContent(array $params = null)
     {
+        $this->mcUnserialize = new HandleSerializeDatabase();
         return $this->build($this->query($this->configure['modulParams']));
     }
-    
+
     /**
-     * 
-     * @param unknown $entries
+     *
+     * @param unknown $entries            
      * @return multitype:multitype:string unknown multitype:multitype:string unknown
      */
     private function build($entries)
     {
+        $result = array();
+        $filter = new Prepare();
+        foreach ($entries as $entry) {
+            $organisation = $filter->filter($entry->organisation);
+            $orga = str_replace('stadt-', '', $organisation);
+            // $orga = str_replace('kreisstadt-', '', $organisation);
+            $orga = str_replace('gemeinde-', '', $orga);
+            if (strlen($entry->imgSource) == 0) {
+                $entry->imgSource = '/accounts/' . $entry->fieldtypes->typescope . '/' . $organisation . '.jpg';
+            }
+            $result[$orga] = $entry->toArray();
+        }
+        ksort($result);
+        return $result;
+    }
 
-        $news = array();
-        return $news;
-    }    
-    
     /**
-     * 
-     * @param unknown $id
+     *
+     * @param unknown $id            
      */
     private function query($id)
     {
-        
-        return $this->fetchAll($this->queryString($id));
-    }
-    
-    /**
-     * 
-     * @param int $id
-     * @return string
-     */
-    private function queryString($id)
-    {
-        $sql = "SELECT web_content_id ";
-        $sql .= "FROM web_content_groups AS main ";
-        $sql .= "WHERE main.web_contentgroup_id = '".$id."' ";
-        $sql .= "ORDER BY main.publish_date DESC";
-        return $sql;
+        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
+        return $repository->findBy(array(
+            'fieldtypes' => $id
+        ), array(
+            'organisation' => 'ASC'
+        ));
     }
 }

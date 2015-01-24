@@ -1,26 +1,42 @@
 <?php
-
+/**
+ * contentinum - accessibility websites
+ *
+ * LICENSE
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category contentinum
+ * @package Mapper
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ * @copyright Copyright (c) 2009-2013 jochum-mediaservices, Katja Jochum (http://www.jochum-mediaservices.de)
+ * @license http://www.opensource.org/licenses/bsd-license
+ * @since contentinum version 5.0
+ * @link      https://github.com/Mikel1961/contentinum-components
+ * @version   1.0.0
+ */
 namespace Contentinum\Mapper;
 
-use ContentinumComponents\Mapper\Worker;
-
-class Navigation extends Worker
+/**
+ * Mapper
+ *
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ */
+class Navigation extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebNavigationTree';
     
     const TABLE_NAME = 'web_navigation_tree';
-    
-    /**
-     * Configuration datas
-     * @var array
-     */
-    private $configure = array();
-    
-    /**
-     * Name configuration
-     * @var string
-     */
-    private $key;
     
     /**
      * Navigation level
@@ -33,43 +49,6 @@ class Navigation extends Worker
      * @var interger
      */
     private $currentlevel = 0;
-    
-    /**
-     * @return the $configure
-     */
-    public function getConfigure()
-    {
-        return $this->configure;
-    }
-
-	/**
-     * @param multitype: $configure
-     * @return \Contentinum\Mapper\Navigation
-     */
-    public function setConfigure($configure)
-    {
-        $this->configure = $configure;
-        return $this;
-    }
-
-	/**
-     * @return the $key
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
-
-    /**
-     * 
-     * @param string $key
-     * @return \Contentinum\Mapper\Navigation
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
-    }
     
     /**
      * Set level
@@ -88,13 +67,25 @@ class Navigation extends Worker
     }
 
     /**
+     * (non-PHPdoc)
      * 
-     * @return multitype:multitype:array|null
+     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
      */
-	public function fetchContent()
+    public function fetchContent(array $params = null)
     {
         $this->setLevel();
-        return $this->build($this->query($this->configure['modulParams']));
+        if ('topbar' === $this->key){
+            return $this->build($this->query($this->configure['modulParams']));
+        } else {
+            $nav = $this->build($this->query($this->configure['modulParams']));
+            if ('displayheadline' === $this->configure['modulConfig']) {
+                $headline = $this->fetchRow("SELECT * FROM web_navigations WHERE id = '{$this->configure['modulParams']}'");
+                $result['headline'] = $headline['headline'];
+                $result['tags'] = $headline['tags'];
+            }
+            $result['nav'] = $nav;
+            return $result;
+        }
     }
     
     /**
@@ -128,11 +119,18 @@ class Navigation extends Worker
                         $page['listClass'] = 'has-dropdown';
                         $page['subUlClass'] = 'dropdown';
                         $page['pages'] = $pages;
+                    } else {
+                        if (! empty($pages)){
+                            $page['listClass'] = 'navigation-list-has-dropdown';
+                            $page['subUlClass'] = 'navigation-list-dropdown';                        
+                            $page['pages'] = $pages;
+                        }
                     }
                 }
             }
             $nav[] = $page;
         }
+  
         return $nav;        
         
     }    
