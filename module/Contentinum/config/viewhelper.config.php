@@ -17,15 +17,29 @@ return array(
         'contentelement' => 'ContentinumComponents\View\Helper\Content\Element',
         'contentrow' => 'ContentinumComponents\View\Helper\Content\Row',
         'contentgrid' => 'ContentinumComponents\View\Helper\Content\Grid',     
+        'contentblockgrid' => 'ContentinumComponents\View\Helper\Content\Blockgrid',
         'contenttabs' => 'ContentinumComponents\View\Helper\Content\Tabs',
         'contentaccordion' => 'ContentinumComponents\View\Helper\Content\Accordion',
+        'contenttoolbar' => 'ContentinumComponents\View\Helper\Content\Toolbar',
         'news' => 'ContentinumComponents\View\Helper\Content\News',
+        'newsactual' => 'ContentinumComponents\View\Helper\Content\NewsActual',
+
+        
         'newsarchivelist' => 'ContentinumComponents\View\Helper\Content\Archivelist',
+        'newsarchiveyearlist' => 'ContentinumComponents\View\Helper\Content\ArchiveYearList',
         'mediagroup' => 'ContentinumComponents\View\Helper\Content\Mediagroup',
+        'filegroup' => 'ContentinumComponents\View\Helper\Content\Filegroup',
+        'maps' => 'ContentinumComponents\View\Helper\Content\Maps',
+        'forms' => 'ContentinumComponents\View\Helper\Content\Forms',
         
         'filesize' => 'ContentinumComponents\View\Helper\Filesize',
         
-        'buildlayout' => 'ContentinumComponents\View\Helper\Buildlayout'
+        'buildlayout' => 'ContentinumComponents\View\Helper\Buildlayout',
+        'layoutassets' => 'ContentinumComponents\View\Helper\Assets',
+        
+        'accountmembers' => 'ContentinumComponents\View\Helper\Content\Customer\AccountMembers',
+        
+
 
     )
 );
