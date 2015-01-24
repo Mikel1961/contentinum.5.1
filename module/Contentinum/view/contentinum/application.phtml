@@ -1,79 +1,52 @@
-<?php 
-//use ContentinumComponents\Html\HtmlAttribute;
-//print '<pre>';
-//var_dump($this->entries);
-
-//exit();
-/*
-var_dump($this->nav);
-*/
-
-//$container = new Zend\Navigation\Navigation($this->topbar);
-//$nav = $this->navigationcontentinum($container)->setAcl($this->acl)->setRole($this->role)->setUlClass('right');
-
-
-
-//echo $nav;
-//exit();
-/*
-print '</pre>';
-*/
-
-$groupstyles = $this->groupstyles[$this->layoutKey];
-$htmlwidgets = $this->htmlwidgets[$this->layoutKey];
-
-//$content['brand'] = 'contentinum';
-//$content['brandlink'] = '/';
-//$content['menuelabel'] = 'Menue';
-
-//(array $nav, $content, $medias, array $template = null)
-
-//var_dump($this->navigationtopbar(array(), $content, array(),$htmlwidgets['topbar']->toArray() ));
-
-//var_dump($this->entries);
-//exit;
-//$tmp = array();
-//foreach ($this->entries as $row){
-  //  $tmp[$row['adjustments']][$row['url']][] = $row['url'];
-//}
-
-//var_dump($tmp);
-//exit;
-
+<?php
+$layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
+$groupstyles = $this->groupstyles[$layoutKey];
+$htmlwidgets = $this->htmlwidgets[$layoutKey];
+$contentstyles = $this->contentstyles[$layoutKey];
 $content = '';
 $html = '';
 $it = 1;
+
+
 foreach ($this->entries as $row){
-    //print '<pre>';
-    //var_dump($row);
-    //exit;
-    
+
     switch ($row['groupStyle']){
         case 'grid':
-            $content = $this->contentgrid($row,$groupstyles['grid']->toArray(), $this->medias,$htmlwidgets);
-            break;
+            $content = $this->contentgrid($row,$groupstyles['grid']->toArray(), $this->medias,$contentstyles);
+            break;           
+        case 'blockgrid':
+            $content = $this->contentblockgrid($row,$groupstyles['blockgrid']->toArray(), $this->medias,$contentstyles);
+            break;            
         case 'tabs':
-            $content = $this->contenttabs($row,$groupstyles['tabs']->toArray(), $this->medias,$htmlwidgets);
+            $content = $this->contenttabs($row,$groupstyles['tabs']->toArray(), $this->medias,$contentstyles);
             break;  
         case 'tabsvertical':
-            $content = $this->contenttabs($row,$groupstyles['tabsvertical']->toArray(), $this->medias,$htmlwidgets);
+            $content = $this->contenttabs($row,$groupstyles['tabsvertical']->toArray(), $this->medias,$contentstyles);
             break; 
         case 'accordion':            
-            $content = $this->contentaccordion($row,$groupstyles['accordion']->toArray(), $this->medias,$htmlwidgets);
+            $content = $this->contentaccordion($row,$groupstyles['accordion']->toArray(), $this->medias,$contentstyles);
             break;    
         case 'news':
             $content = $this->news($row, $this->medias, $groupstyles['news']->toArray());
             break;                     
-            case 'none':
+        case 'none':
+            $content = $this->contribution($row,$this->medias,$contentstyles);
+            break;            
         default:
-            $content = $this->contribution($row,$this->medias,$htmlwidgets);
-            break;
+            if (isset($groupstyles[$row['groupStyle']]) && false !== strpos($row['groupStyle'], 'grid') ){
+                $content = $this->contentgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias,$contentstyles);
+            } else {
+                $content = $this->contribution($row,$this->medias,$contentstyles);
+            }
+            
     }
     switch ($row['htmlwidgets']){
+        case 'navcontaingrid' :
         case 'footergrid':
         case 'headergrid':
         case 'footergrid':
-        case 'headergrid':            
+        case 'headergrid':   
+        case 'contentgrid':         
         case 'content':            
             $html[$row['adjustments']][$row['url']][] = $this->contentrow( $row,$content,$htmlwidgets );
             break;
@@ -87,8 +60,9 @@ foreach ($this->entries as $row){
     $it++;
 
 }
-
-
+$aside = '';
+$contentheader = '';
+$contentfooter = '';
 $mcontent = '';
 $header = '';
 $footer = '';
@@ -98,27 +72,53 @@ if ( isset($html['HEADER']['_default']) ){
 } 
 
 if ( isset($html['HEADER'][$this->pageurl]) ){
-    $header = implode ( ' ' , $html['HEADER'][$this->pageurl] );
+    $header .= implode ( ' ' , $html['HEADER'][$this->pageurl] );
 }
-$mcontent .= $header;
-if ( isset($html['CONTENT'][$this->pageurl]) ){
-    $mcontent .= implode ( ' ' , $html['CONTENT'][$this->pageurl] );
-} elseif ( isset($html['CONTENT']['_default']) ){
+
+if ( isset($html['ASIDE']['_default']) ){
+    $aside .= implode ( ' ' , $html['ASIDE']['_default'] );
+}
+if ( isset($html['ASIDE'][$this->pageurl]) ){
+    $aside .= implode ( ' ' , $html['ASIDE'][$this->pageurl] );
+}
+
+if ( isset($html['CONTENTHEADER']['_default']) ){
+    $contentheader .= implode ( ' ' , $html['CONTENTHEADER']['_default'] );
+}
+if ( isset($html['CONTENTHEADER'][$this->pageurl]) ){
+    $contentheader .= implode ( ' ' , $html['CONTENTHEADER'][$this->pageurl] );
+}
+
+if ( isset($html['CONTENT']['_default']) ){
     $mcontent .= implode ( ' ' , $html['CONTENT']['_default'] );
 }
+if ( isset($html['CONTENT'][$this->pageurl]) ){
+    $mcontent .= implode ( ' ' , $html['CONTENT'][$this->pageurl] );
+} elseif ( isset($html['NEWSCONTENT'][$this->pageurl]) ){
+    $mcontent .= implode ( ' ' , $html['NEWSCONTENT'][$this->pageurl] );
+}
+
+
+if ( isset($html['CONTENTFOOTER']['_default']) ){
+    $contentfooter .= implode ( ' ' , $html['CONTENTFOOTER']['_default'] );
+}
+if ( isset($html['CONTENTFOOTER'][$this->pageurl]) ){
+    $contentfooter .= implode ( ' ' , $html['CONTENTFOOTER'][$this->pageurl] );
+}
+
+
 $mcontent .= $this->content;
 if ( isset($html['FOOTER']['_default']) ){
     $footer = implode ( ' ' , $html['FOOTER']['_default'] );
 }
 
 if ( isset($html['FOOTER'][$this->pageurl]) ){
-    $footer = implode ( ' ' , $html['FOOTER'][$this->pageurl] );
+    $footer .= implode ( ' ' , $html['FOOTER'][$this->pageurl] );
 }
-$mcontent .= $footer;
 
 
-
-$layout = $this->buildlayout($this->htmllayouts,$this->layoutKey);
+$this->layoutassets($this->htmllayouts,$this->templateKey);
+$layout = $this->buildlayout($this->htmllayouts,$this->templateKey);
 foreach ($layout as $row) {
 	if (is_array($row)) {
 		foreach ($row as $k => $v) {
@@ -126,8 +126,18 @@ foreach ($layout as $row) {
 				case 'assign':
 					$assign = explode(';', $v);
 					foreach ($assign as $value) {
-						if ('allcontent' == $value) {
-							echo "\n" . $mcontent;
+						if ('header' == $value) {
+							echo "\n" . $header;
+						} elseif ('aside' == $value){
+							echo "\n" . $aside;		
+						} elseif ('contentheader' == $value){
+						    echo "\n" . $contentheader;												
+						} elseif ('allcontent' == $value){
+						    echo "\n" . $mcontent;
+					    } elseif ('contentfooter' == $value){
+					        echo "\n" . $contentfooter;						    
+						} elseif ('footer' == $value){
+						    echo "\n" . $footer;
 						} else {
 							echo "\n" . $this->$value;
 						}
