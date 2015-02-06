@@ -110,8 +110,9 @@ class Navigation extends AbstractModuls
             }
         
             $page['uri'] = $uri;
-        
             $page['resource'] = $entry['resource'];
+            $page['listIdent'] = $entry['dom_id'];
+            $page['linkClass'] = $entry['style_class'];
         
             if ($entry['parent_from'] > '0' && $this->currentlevel <= $this->level){
                 if (null !== ($pages = $this->build($this->query($entry['parent_from'])))) {
@@ -151,7 +152,7 @@ class Navigation extends AbstractModuls
      */
     private function queryString($id)
     {
-        $sql = "SELECT main.rel_link, main.target_link, main.resource, main.parent_from, ";
+        $sql = "SELECT main.rel_link, main.target_link, main.resource, main.parent_from, main.dom_id, main.style_class, ";
         $sql .= "wpp.label, wpp.url ";
         $sql .= "FROM web_navigation_tree AS main ";
         $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id ";
