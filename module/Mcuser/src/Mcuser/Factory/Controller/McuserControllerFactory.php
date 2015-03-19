@@ -49,6 +49,9 @@ class McuserControllerFactory implements FactoryInterface
          *
          * @var Contentinum\Options\PageOptions $pageOptions Contentinum\Options\PageOptions
         */
+        
+        
+        
         $pageOptions = $sl->get('User\PageOptions');
         $request = new HttpRequest();
         $pageOptions->setHost($request->getUri()->getHost());
@@ -62,12 +65,13 @@ class McuserControllerFactory implements FactoryInterface
         $attribute = $sl->get('Contentinum\AttributePages');
         $attribute = (is_array($attribute)) ? $attribute : $attribute->toArray();
         
-        $url = $pageOptions->split($pageOptions->getQuery(),3,null,false);
+        $url = $pageOptions->split($pageOptions->getQuery(),3);
         if (strlen($url) == 0){
             $url = 'index';
-        }        
-        
+        }     
+
         if (isset($pages[$url])){
+            
             $pageOptions->addPageOptions($pages, $url);
             $page = $pages[$url];
         } else {
@@ -88,13 +92,14 @@ class McuserControllerFactory implements FactoryInterface
             }
         
         }        
-        
+   
         ( isset( $attribute[$page['parentPage']] ) ) ? $pageOptions->addPageOptions($attribute, $page['parentPage']) : false;
         ( isset( $attribute[$page['id']] ) ) ? $pageOptions->addPageOptions($attribute, $page['id']) : false;    
 
         $em = $sl->get($pageOptions->getAppOption('entitymanager'));
         $workerName = $pageOptions->getAppOption('worker');
         $worker = new $workerName($em);
+        $worker->setSl($sl);
         $entityName = $pageOptions->getAppOption('entity');
         $worker->setEntity(new $entityName());
         

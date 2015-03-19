@@ -47,12 +47,16 @@ class McuserController extends AbstractFrontendController
      */
     public function application($pageOptions, $page, $defaultRole, $acl)
     {
+        
+
+        
         $this->frontendlayout($pageOptions, $defaultRole, $acl, $this->layout(), $this->getServiceLocator()
             ->get('viewHelperManager'));
         
         $loginForm = $this->getServiceLocator()->get('User\FormLogin');
         
         return $this->buildView(array(
+            'htmllayouts' => $this->getServiceLocator()->get('Contentinum\Htmllayouts'),
             'form' => $loginForm,
             'messages' => $this->flashMessenger()
                 ->setNamespace('contentinum-login')
@@ -64,10 +68,9 @@ class McuserController extends AbstractFrontendController
      * Login forms-processing
      * @return Ambigous <\Zend\Http\Response, \Zend\Stdlib\ResponseInterface>
      */
-    public function process()
+    public function process($pageOptions, $page, $defaultRole, $acl)
     {
-        $loginForm = $this->getServiceLocator()->get('User\FormLogin');
-        
+        $loginForm = $this->getServiceLocator()->get('User\FormLogin');        
         $loginForm->setInputFilter($loginForm->getInputFilter());
         $loginForm->setData($this->getRequest()
             ->getPost());
@@ -80,15 +83,13 @@ class McuserController extends AbstractFrontendController
                         ->setNamespace('contentinum-login')
                         ->addMessage('Unknown user or incorrect input');
                     return $this->redirect()->toUrl('/login');
-                }
-                
-                $authService = $this->getServiceLocator()->get('User\Authentication');
+                }                
+                $authService = $this->getServiceLocator()->get('User\Authentication');               
                 /* @var $authAdapter Database */
-                $authAdapter = $this->getServiceLocator()->get('User\Authentication\Adapter');
+                $authAdapter = $this->getServiceLocator()->get('User\Authentication\Adapter');                
                 $authAdapter->setLoginDatas($formDatas['username'], $formDatas['loginPassword'], $this->worker, $user);
                 $authAdapter->setSalt($user['verify_string']);
-                $authService->setAdapter($authAdapter);
-                
+                $authService->setAdapter($authAdapter);                
                 $result = $authService->authenticate();
                 if (! $result->isValid()) {
                     switch ($result->getCode()) {
@@ -104,17 +105,22 @@ class McuserController extends AbstractFrontendController
                         ->setNamespace('contentinum-login')
                         ->addMessage($message);
                     return $this->redirect()->toUrl('/login');
-                } else {
-                    $identity = $authAdapter->getIdentityResult();
-                    $identity->usergroups = $this->worker->usergroups($user['id']);
-                    $authService->getStorage()->write($identity);
-                    
-                    $location = '/';
-                    if (isset($user['login_homedir']) && strlen($user['login_homedir']) > 0) {
-                        $location = $user['login_homedir'];
+                } else {                 
+                    if (false !== ($identity = $authAdapter->getIdentityResult($this->getServiceLocator()))){
+                        $identity->usergroups = $this->worker->usergroups($user['id']);
+                        $authService->getStorage()->write($identity);             
+                        $location = '/';
+                        if (isset($user['login_homedir']) && strlen($user['login_homedir']) > 0) {
+                            $location = $user['login_homedir'];
+                        }
+                        $this->worker->updateLogin($user);
+                        return $this->redirect()->toUrl($location);
+                    } else {
+                        $this->flashMessenger()
+                        ->setNamespace('contentinum-login')
+                        ->addMessage('Your user entries are not correct');
+                        return $this->redirect()->toUrl('/login');                        
                     }
-                    $this->worker->updateLogin($user);
-                    return $this->redirect()->toUrl($location);
                 }
             } catch (\Exception $e) {}
         } else {

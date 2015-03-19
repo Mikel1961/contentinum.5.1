@@ -69,7 +69,7 @@ class LoginFrom extends AbstractForms
                     'required' => true,
                     
                     'options' => array(
-                        'label' => 'Password',
+                        'label' => 'Passwort',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
                     

@@ -330,21 +330,20 @@ class Database extends AbstractAdapter implements AdapterInterface
         return $this->createAuthResult();
     }
     
-    public function getIdentityResult()
+    /**
+     * 
+     * @param unknown $sl
+     */
+    public function getIdentityResult($sl)
     {
-        $entity = $this->worker->find($this->user['id'],true);
-        $identity = new \stdClass();
-        $identity->username = $entity->username;
-        $identity->name = $entity->contacts->firstName . ' ' . $entity->contacts->lastName;
-        $identity->email = $entity->contacts->contactEmail;
-        $identity->userid = $entity->id;
-        $identity->roleident = $entity->userRoles->id;
-        $identity->rolename = $entity->userRoles->name;
-        $identity->role = $entity->userRoles->scope; 
-        $identity->language = $entity->language;
-        return $identity;
+        $user = $sl->get('User\Identity');
+        return $user->userIdentityInstance($this->user['id']);
     }
     
+    /**
+     * 
+     * @return string
+     */
     public function getSessionStorageKey()
     {
         return 'contentinum' . md5($this->user['username']. $this->user[$this->credentialColumn]);
@@ -358,6 +357,4 @@ class Database extends AbstractAdapter implements AdapterInterface
     {
         return new Result($this->authenticateResultInfo['code'], $this->identity, $this->authenticateResultInfo['messages']);
     }
-
-    
 }

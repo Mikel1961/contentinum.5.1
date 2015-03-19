@@ -51,7 +51,6 @@ class LogoutControllerFactory implements FactoryInterface
         */
         $pageOptions = $sl->get('User\PageOptions');
         $request = new HttpRequest();
-        // ?? $defaults = $sl->get('Contentinum\DefaultPages');
         $pageOptions->setHost($request->getUri()->getHost());
         $pageOptions->setQuery($request->getUri()->getPath());
         $preferences = $sl->get('Contentinum\Preference');
@@ -63,8 +62,7 @@ class LogoutControllerFactory implements FactoryInterface
         $attribute = $sl->get('Contentinum\AttributePages');
         $attribute = (is_array($attribute)) ? $attribute : $attribute->toArray();
         
-        $splitUrl = $sl->get('Contentinum\SplitUrl');
-        $url = $splitUrl->split($pageOptions->getQuery());
+        $url = $pageOptions->split($pageOptions->getQuery(),3);
         if (strlen($url) == 0){
             $url = 'index';
         }        

@@ -33,6 +33,11 @@ use ContentinumComponents\Mapper\Process;
 class User extends Process
 {
 
+    /**
+     * Username user input
+     * @param unknown $username
+     * @return Ambigous <\ContentinumComponents\Mapper\multitype:, \Doctrine\DBAL\Driver\mixed>|boolean
+     */
     public function userexists($username)
     {
         if (false !== ($user = $this->queryUser(md5($username)))){
@@ -43,6 +48,10 @@ class User extends Process
         
     }
     
+    /**
+     * Update user login success
+     * @param array $user
+     */
     public function updateLogin($user)
     {
         $update['countLogin'] = $user['count_login'] + 1;
@@ -51,6 +60,11 @@ class User extends Process
         parent::save($update, $this->find($user['id']), self::SAVE_UPDATE);
     }
     
+    /**
+     * Update count user faild logins
+     * @param array $user user identity
+     * @param number $add
+     */
     public function updateCountLogin($user, $add = 1)
     {
         if (1 === $add){
@@ -61,21 +75,28 @@ class User extends Process
         parent::save($update, $this->find($user['id']), self::SAVE_UPDATE);
     }
     
+    /**
+     * 
+     * @param int $userId user contact ident
+     * @return multitype:Ambigous <>
+     */
     public function usergroups($userId)
     {
         $result = array();
-        $conn = $this->getConnection();
-        $entries = $conn->query("SELECT acl_group_id FROM user_acl_index WHERE users_id  = '{$userId}'")->fetchAll();  
+        $entries = $this->fetchAll("SELECT acl_group_id FROM user_acl_index WHERE users_id  = '{$userId}'");
         foreach ($entries as $entry){
             $result[] = $entry['acl_group_id'];
         }      
         return $result;
     }
        
+    /**
+     * User query login username
+     * @param string $loginUsername md5 string
+     */
     protected function queryUser($loginUsername)
     {
-        $conn = $this->getConnection();
-        return $conn->query("SELECT * FROM users5 WHERE login_username = '{$loginUsername}' AND publish = 'yes'")->fetch();
+        return $this->fetchRow("SELECT * FROM users5 WHERE login_username = '{$loginUsername}' AND publish = 'yes'");
     }
     
 }

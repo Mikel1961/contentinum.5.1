@@ -97,6 +97,7 @@ return array(
             'User\Pages' => 'Mcuser\Service\Pages\DefaultsServiceFactory',
             'User\FormDecorators' => 'Mcuser\Service\Form\DecoratorsServiceFactory',
             'User\FormLogin' => 'Mcuser\Factory\Form\LoginFormFactory',
+            'User\Identity'   => 'Mcuser\Factory\IdentityFactory',
             'User\Authentication'   => 'Mcuser\Factory\AuthenticationServiceFactory',            
             'User\Authentication\Adapter'   => 'Mcuser\Authentication\Factory\AdapterServiceFactory',
         )
