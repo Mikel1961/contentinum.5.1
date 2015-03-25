@@ -1,0 +1,354 @@
+<?php
+/**
+ * contentinum - accessibility websites
+ *
+ * LICENSE
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category contentinum backend
+ * @package View
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ * @copyright Copyright (c) 2009-2013 jochum-mediaservices, Katja Jochum (http://www.jochum-mediaservices.de)
+ * @license http://www.opensource.org/licenses/bsd-license
+ * @since contentinum version 5.0
+ * @link      https://github.com/Mikel1961/contentinum-components
+ * @version   1.0.0
+ */
+use ContentinumComponents\Html\HtmlTable;
+use ContentinumComponents\Html\Table\FactoryTable;
+// prepare content, create a table
+$tableFactory = new HtmlTable(new FactoryTable());
+$ctrlpath = 'medias';
+// set table tag attributes
+$tableFactory->setAttributes('class', 'mcworkBackendTable table display');
+//$tableFactory->setAttributes('id', 'mcworkTables');
+$i = 0;
+$iClass = 0;
+$headlines = array(
+    '#' => array(),
+    'File' => array(),
+    'Size' => array(
+        'head' => array(
+            'class' => 'hide-for-small text-center'
+        ),
+        'body' => array(
+            'class' => 'hide-for-small text-center'
+        )    
+    
+    ),
+    'Date' => array(
+        'head' => array(
+            'class' => 'hide-for-small text-right'
+        ),
+        'body' => array(
+            'class' => 'hide-for-small text-right'
+        )    
+    ),
+    'Edit' => array(
+        'head' => array(
+            'class' => 'hide-for-small text-right'
+        ),
+        'body' => array(
+            'class' => 'hide-for-small text-right'
+        )
+    )
+);
+$ihead = count($headlines);
+foreach ($headlines as $column => $attributes) {
+    $columns[] = $this->translate($column);
+    if (is_array($attributes) && ! empty($attributes)) {
+        foreach ($attributes as $area => $attribute) {
+            switch ($area) {
+                case 'head':
+                    $tableFactory->setHeadlineAttributtes('class', $attribute['class'], $i);
+                    break;
+                case 'body':
+                    $tableFactory->setTagAttributtes('class', $attribute['class'], $i);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    $i ++;
+}
+
+$dbMediaTable = array();
+if ($this->services && isset($this->services['medias'])) {
+    $dbMediaTable = $this->services['medias'];
+}
+$dbAssignTagsTable = array();
+if ($this->services && isset($this->services['assigntags'])) {
+    $dbAssignTagsTable = $this->services['assigntags'];
+}
+
+
+$upDate = $registerDate = $owner = $updater = '';
+$tableFactory->setHeadline($columns);
+$disablefolder = array();
+$entries = $this->entries;
+$i = 0;
+
+$path = '';
+if ($this->category){
+    $up = '';
+    $array = explode('_', $this->category);
+    if (null != array_pop($array)) {
+        $up = '/' . implode('_', $array);
+    }
+    
+    $i ++;
+    $rowContent = array();
+    $rowContent[] = '&nbsp;';
+    $rowContent[] = '<a href="/mcwork/' . $ctrlpath .'/public' . $up . '" class="small button"><i class="fa fa-arrow-up"></i></a>';
+    $rowContent[] = '&nbsp;';
+    $rowContent[] = '&nbsp;';
+    $rowContent[] = '&nbsp;';
+    $tableFactory->setHtmlContent($rowContent);
+    $category = $this->category;
+    $path = $this->category;
+} else {
+    $category = '';
+}
+
+if (strlen($path) > 1){
+    $dir = $path . '_';
+} else {
+    $dir = '';
+}
+
+foreach ($entries as $entry) {
+
+    if ('.' != $entry->filename && '..' != $entry->filename && ! in_array($entry->filename, $disablefolder)  && 'dir' == $entry->type ) {
+        
+        $i ++;
+        $rowContent = array();
+        $dataAttribInUse = '';
+        if (true == $entry->childs ){
+            $dataAttribChilds = ' data-childs="yes"';
+            $icon = '<i class="fa fa-folder-open"></i>';
+        } else {
+            $dataAttribChilds = ' data-childs="no"';
+            $icon = '<i class="fa fa-folder"></i>';
+        }        
+
+        $rowContent[] = '<input type="checkbox" value="' . $entry->filename . '" name="cb[]" data-type="dir" '.$dataAttribInUse.$dataAttribChilds.'>';
+        $rowContent[] = '<a href="/mcwork/' . $ctrlpath .'/public/'.$dir.$entry->filename.'">'. $icon .' ' . $entry->filename . '</a>';
+        $rowContent[] = '&nbsp;';
+        $rowContent[] = date("d.m.Y H:i:s", $entry->time);    
+        
+        $props = array(
+            
+            'delete' => array(
+                'href' => '/mcwork/files/rmdir/' . $entry->filename . '/' . $path,
+                'attribs' => array(
+                    'data-name' => $entry->filename,
+                    'data-ident' => 'row' . $i,
+                    'title' => 'Delete item',
+                    'class' => 'button tiny alert deleteitem'
+                )
+            ),            
+            
+            'info' => array(
+                'attribs' => array(
+                    'data-service' => 'backend_client_app',
+                    'data-appkey' => 'infoapp',
+                    'data-upDate' => date("d.m.Y H:i:s", $entry->time),
+                    'data-registerDate' => date("d.m.Y H:i:s", $entry->time),
+                    'data-createBy' => $owner,
+                    'data-updateBy' => $updater,
+                    'data-username' => $this->identity->name,
+                    'data-role' => $this->role,
+                    'title' => 'Item properties',
+                    'class' => 'button tiny infotip'
+                )
+            )            
+            
+            
+        );
+        if (true == $entry->childs ){
+            unset($props['delete']);
+        }
+        
+        
+        $rowContent[] = $this->mcworkToolbar($props, true, $this->tableeditcontent->toArray(), false );
+        $tableFactory->setHtmlContent($rowContent);            
+    } 
+}
+foreach ($entries as $entry) {
+    if ('.' != $entry->filename && '..' != $entry->filename && 'file' == $entry->type && 'index.html' != $entry->filename && false === strpos($entry->filename, '-200-th') ) {
+        $pathname = \ContentinumComponents\Path\Clean::get($entry->pathname);
+        $pathname = str_replace($entry->docroot, '', $pathname);
+
+        $thisItem = array();
+        if (isset($dbMediaTable[$pathname])) {
+            $thisItem = $dbMediaTable[$pathname];
+        }
+        
+        switch ($entry->mimetype) {
+            case 'application/zip':
+                $icon = '<i class="fa fa-archive"></i> ';
+                break;
+            case 'application/pdfxx':
+                $icon = '<i class="fa fa-pdf-o"></i> ';
+                break;
+            case 'image/jpeg':
+                $icon = '<i class="fa fa-picture-o"></i> ';
+                break;
+            default:
+                $icon = '<i class="fa fa-file"></i> ';
+        }        
+        
+        $i ++;
+        $rowContent = array();
+        $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-name="' . $entry->filename . '" />';
+        $rowContent[] = $icon . $entry->filename;
+        $filesize = $this->filesize($entry->size);
+        $rowContent[] = $filesize;
+        $rowContent[] = date("d.m.Y H:i:s", $entry->time);  
+
+        if ( preg_match('/image\//', $entry->mimetype)  ){
+            $editApp = 'imageattribute';
+            $resizeapp = 'imageresize';
+        } else {
+            $editApp = 'fileattribute';
+            $resizeapp = false;
+        }
+        $tags = ' ';
+        $id = false;
+        if (isset($thisItem['id'])){
+            $id = $thisItem['id'];
+        }
+        $mediaName = false;
+        if (isset($thisItem['mediaName'])){
+            $mediaName = $thisItem['mediaName'];
+        }
+        $upDate = $registerDate = $owner = $updater = '';
+        if (isset($thisItem['upDate']) && isset($thisItem['registerDate'])){
+            $upDate = $thisItem['upDate']->format('d F Y, H:i:s');
+            $registerDate = $thisItem['registerDate']->format('d F Y, H:i:s');
+            $owner = $thisItem['createdBy'];
+            $updater = $thisItem['updateBy'];
+        }
+        
+        $props = array(
+            /*
+            'tags' => array(
+                'attribs' => array(
+                    'data-tags' => $tags,
+                    'data-ident' => $id,
+                    'data-filename' => $mediaName,
+                    'class' => 'button tiny filetags'
+                )
+            ),
+            'copy' => array(
+                'attribs' => array(
+                    'data-service' => 'backend_client_app',
+                    'data-appkey' => $resizeapp,
+                    'data-ident' => $id,
+                    'title' => 'Copy and resize item',
+                    'class' => 'button tiny editapp'
+                )
+            ),*/
+            'download' => array(
+                'href' => '/mcwork/' . $ctrlpath . '/download/' . $id,
+                'attribs' => array(
+                    'data-name' => $entry->filename,
+                    'data-ident' => 'row' . $i,
+                    'title' => 'Download this file',
+                    'class' => 'button tiny'
+                )
+            ),
+            'delete' => array(
+                'href' => '/mcwork/' . $ctrlpath . '/delete/' . $id,
+                'attribs' => array(
+                    'data-name' => $entry->filename,
+                    'data-ident' => 'row' . $i,
+                    'title' => 'Delete item',
+                    'class' => 'button tiny alert deleteitem'
+                )
+            ),
+            
+            'info' => array(
+                'attribs' => array(
+                    'data-service' => 'backend_client_app',
+                    'data-appkey' => 'infoapp',
+                    'data-upDate' => $upDate,
+                    'data-registerDate' => $registerDate,
+                    'data-createBy' => $owner,
+                    'data-updateBy' => $updater,
+                    'data-username' => $this->identity->name,
+                    'data-role' => $this->role,
+                    'title' => 'Item properties',
+                    'class' => 'button tiny infotip'
+                )
+            )
+            
+        );
+        if (false === $resizeapp){
+            unset($props['copy']);
+        }
+        $rowContent[] = $this->mcworkToolbar($props, true, $this->tableeditcontent->toArray(), false );
+        $tableFactory->setHtmlContent($rowContent);        
+        
+    }
+}
+
+$table = $tableFactory->display();
+
+if (strlen($path) > 1){
+    $path = '/' . $path;
+}
+
+$html = '<form id="mkDirForm" action="/mcwork/files/makedir'.$path.'" method="POST"><div id="mcworkcontent" role="main"><div class="large-12 columns">';
+$html .= '<div id="clNewFolder" class="row collapse">';
+$html .= '<div class="small-9 columns">';
+$html .= '<input id="new-folder" name="new-folder" type="text"><span class="errNewFolder"> </span>';
+$html .= '</div>';
+$html .= '<div class="small-3 columns">';
+$html .= '<a id="btnNewFolder" href="#" class="button postfix">'. $this->translate('New Folder') . '</a>';
+$html .= '</div></div><input name="currentpath" id="currentpath" data-currentpath="'.$category.'" type="hidden" value="'.$category.'" /></form>';
+$html .= $this->mcworkAlert($this->messages);
+$html .= '<div id="foldermediasfiles"><section id="filescrollarea">'; 
+$html .= $table;
+$html .= '</section></div>';
+$html .= $this->translate($this->mcworkContent('', $this->pagecontent, 'content'));
+$toolbar = '';
+if (isset($this->toolbarcontent)) {
+    $links = array(
+        'add' => array(
+            'label' => 'Upload',
+            'href' => '#',
+            'attribs' => array(
+                'id' => 'btnUpload',
+                'data-service' => 'backend_client_app',
+                'data-appkey' => 'dropzoneupload'
+            )
+        ),
+        'delete' => array(
+            'href' => '/mcwork/' . $ctrlpath . '/delete'
+        )
+    );
+    $toolbar = $this->mcworkToolbar($links, true, $this->toolbarcontent->toArray());
+}
+// output, display content
+if (isset($this->widget)) {
+    $content = str_replace('{TEMPLATE_HEADER}', $this->translate($this->mcworkContent($this->page, $this->pagecontent, 'subheadline')), $this->widget);
+    $content = str_replace('{TEMPLATE_TOOLBAR}', $toolbar, $content);
+    echo str_replace('{TEMPLATE_CONTENT}', $html, $content);
+} else {
+    echo $this->translate($this->mcworkContent($this->page, $this->pagecontent, 'subheadline'));
+    echo $html;
+}
+?>

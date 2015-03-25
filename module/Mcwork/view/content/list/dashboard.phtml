@@ -25,9 +25,51 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
+$dayname = array(
+    '1' => 'Montag',
+    '2' => 'Dienstag',
+    '3' => 'Mittwoch',
+    '4' => 'Donnerstag',
+    '5' => 'Freitag',
+    '6' => 'Samstag',
+    '7' => 'Sonntag'
+);
+$datetime = new \DateTime();
+//
 ?>
 <div class="row">
-    <div class="large-12 columns">
+	<div class="large-12 columns">
+		<div class="right">
+		
+			<ul class="stats">
+				<li class="peter-river"><a href="/mcwork/news"><i class="fa fa-file-text-o"></i></a>
+					<div class="details"><a href="/mcwork/news">
+						<span class="big">Nachrichten</span>
+						<span>bearbeiten</span></a>
+					</div></li>
+			</ul>			
+		
+			<ul class="stats">
+				<li class="midnight-blue"><a href="/mcwork/contribution"><i class="fa fa-pencil"></i></a>
+					<div class="details"><a href="/mcwork/contribution">
+						<span class="big">Beiträge</span>
+						<span>bearbeiten</span></a>
+					</div></li>
+			</ul>				
+		
+			<ul class="stats">
+				<li class="pomegranate"><i class="fa fa-calendar"></i>
+					<div class="details">
+						<span class="big"><?php echo $this->dateFormat(new \DateTime(), \IntlDateFormatter::LONG ) ?></span>
+						<span><?php echo $dayname[$datetime->format('N')] .', <time id="serverClock" datetime="">'.  $datetime->format("H:i:s"); ?></time></span>
+					</div></li>
+			</ul>
+			
+			<ul class="minitiles">
+				<li class="carrot"><a href="/" target="_blank"><i class="fa fa-home"></i></a>
+				</li>
+			</ul>			
 
-    </div>
+		</div>
+	</div>
 </div>
