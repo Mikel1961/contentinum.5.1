@@ -43,7 +43,9 @@ class McworkController extends AbstractMcworkController
         $this->backendlayout($pageOptions, $this->getIdentity(), $defaultRole, $acl, $this->layout(), $this->getServiceLocator()
             ->get('viewHelperManager'));
         $services = array();
-        $params = array();
+        $params = array(
+            'id' => $this->params()->fromRoute('id', 0)
+        );
         if (null !== ($getServices = $this->getServices())) {
             foreach ($getServices as $key => $service) {
                 $services[$key] = $this->getServiceLocator()->get($service);
@@ -60,29 +62,34 @@ class McworkController extends AbstractMcworkController
             'host' => $pageOptions->getHost(),
             'protocol' => 'http',
             'usrgrps' => '',
+            'category' => $this->params()->fromRoute('id', 0),
             'identity' => $this->getIdentity()
-        ), $pageOptions);        
+        ), $pageOptions);
     }
-    
-    
+
     /**
      * View settings
      *
-     * @param array $variables
+     * @param array $variables            
      * @return \Zend\View\Model\ViewModel
      */
     protected function buildView(array $variables, $pageOptions)
     {
         $view = new ViewModel($variables);
-    
+        
         $view->setVariable('customconfig', $this->getConfiguration());
+        
+        $view->setVariable('messages', $this->flashMessenger()
+            ->setNamespace('mcwork-controller')
+            ->getMessages());
+        
         $view->setVariable('usergroups', $this->getServiceLocator()
             ->get('Mcwork\Groups\User'));
-    
+        
         if (isset($pageOptions->templateWidget) && strlen($pageOptions->templateWidget) >= 3) {
             $view->setVariable('widget', $pageOptions->templateWidget);
         }
-    
+        
         if (isset($pageOptions->toolbar) && 1 === $pageOptions->toolbar) {
             $view->setVariable('toolbarcontent', $this->getServiceLocator()
                 ->get('Mcwork\Toolbar'));
@@ -91,8 +98,10 @@ class McworkController extends AbstractMcworkController
             $view->setVariable('tableeditcontent', $this->getServiceLocator()
                 ->get('Mcwork\Tableedit'));
         }
-    
+        
+        // var_dump($pageOptions->template);
+        // exit;
         $view->setTemplate($pageOptions->template);
         return $view;
-    }    
+    }
 }
