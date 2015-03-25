@@ -25,10 +25,16 @@ class PageOptions extends AbstractOptions
         'formaction',
         'formattributes',
         'settoroute',
-        'populate'
+        'populate',
+        'populateentity',
+        'populateFromRoute',
+        'setexclude',
+        'notpopulate',
+        'populateSerializeFields',
     );
 
     protected $properties = array(
+        'splitQuery',
         'resource',
         'title',
         'headTitle',
@@ -43,6 +49,7 @@ class PageOptions extends AbstractOptions
         'toolbar',
         'tableedit',
         'templateWidget',
+        'bodyScriptFiles',
         'app'
     );
 
@@ -52,6 +59,18 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     protected $stdParams = '_default';
+    
+    /**
+     * Article, Contributions, Tag source string
+     * @var string
+     */
+    protected $article;
+
+    /**
+     * Tag category
+     * @var string
+     */
+    protected $category;    
     
     
     /**
@@ -65,6 +84,18 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     protected $query;    
+    
+    /**
+     * 
+     * @var unknown
+     */
+    protected $splitQuery;
+    
+    /**
+     * 
+     * @var multiple
+     */
+    protected $ident;
 
 
     /**
@@ -158,6 +189,12 @@ class PageOptions extends AbstractOptions
      * @var string
      */    
     private $templateWidget;
+    
+    /**
+     * 
+     * @var string
+     */
+    private $bodyScriptFiles;
 
 
     /**
@@ -267,6 +304,38 @@ class PageOptions extends AbstractOptions
     }
 
     /**
+     * @return the $article
+     */
+    public function getArticle()
+    {
+        return $this->article;
+    }
+
+	/**
+     * @param string $article
+     */
+    public function setArticle($article)
+    {
+        $this->article = $article;
+    }
+
+	/**
+     * @return the $category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+	/**
+     * @param string $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+	/**
      * @return the $host
      */
     public function getHost()
@@ -296,6 +365,41 @@ class PageOptions extends AbstractOptions
     public function setQuery($query)
     {
         $this->query = $query;
+    }
+
+	/**
+     * @return the $splitQuery
+     */
+    public function getSplitQuery()
+    {
+        if (null === $this->splitQuery){
+            $this->splitQuery = self::URL_I;
+        }
+        return $this->splitQuery;
+    }
+
+	/**
+     * @param \Mcwork\Options\unknown $splitQuery
+     */
+    public function setSplitQuery($splitQuery)
+    {
+        $this->splitQuery = $splitQuery;
+    }
+
+	/**
+     * @return the $ident
+     */
+    public function getIdent()
+    {
+        return $this->ident;
+    }
+
+	/**
+     * @param \Mcwork\Options\multiple $ident
+     */
+    public function setIdent($ident)
+    {
+        $this->ident = $ident;
     }
 
 	/**
@@ -576,5 +680,21 @@ class PageOptions extends AbstractOptions
     {
         $this->templateWidget = $templateWidget;
     }
+	/**
+     * @return the $bodyScriptFiles
+     */
+    public function getBodyScriptFiles()
+    {
+        return $this->bodyScriptFiles;
+    }
+
+	/**
+     * @param string $bodyScriptFiles
+     */
+    public function setBodyScriptFiles($bodyScriptFiles)
+    {
+        $this->bodyScriptFiles = $bodyScriptFiles;
+    }
+
 
 }
