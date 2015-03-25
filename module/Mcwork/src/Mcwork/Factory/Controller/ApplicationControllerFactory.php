@@ -33,7 +33,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 
 
-class McworkControllerFactory implements FactoryInterface
+class ApplicationControllerFactory implements FactoryInterface
 {
     /**
      * Create controller
@@ -54,28 +54,15 @@ class McworkControllerFactory implements FactoryInterface
         $pageOptions->setHost($request->getUri()->getHost());
         $pageOptions->setQuery($request->getUri()->getPath());        
         $customer = $sl->get('Contentinum\Customer');
-        $uri = $pageOptions->split($pageOptions->getQuery(),$pageOptions->getSplitQuery());
+        $uri = $pageOptions->split($pageOptions->getQuery(),4);
         $pages = $sl->get('Mcwork\Pages');  
         $pages = (is_array($pages)) ? $pages : $pages->toArray();
+        
         if (isset($pages[$uri])){
             $pageOptions->addPageOptions($pages, $uri);
             $em = $sl->get($pageOptions->getAppOption('entitymanager'));            
             $workerName = $pageOptions->getAppOption('worker');
             $worker = new $workerName($em);
-            $entityName = $pageOptions->getAppOption('entity');
-            $worker->setEntity(new $entityName());
-            if ( method_exists($worker, 'setSl') ){
-                $worker->setSl($sl);
-            }
-            
-            if (false !== ($targetEntities = $pageOptions->getAppOption('targetentities'))){
-                if (is_array($targetEntities) && ! empty($targetEntities)) {
-                    foreach ($targetEntities as $key => $tEntity) {
-                        $worker->addTargetEntities($key, $tEntity);
-                    }
-                }
-            }            
-            
             $controllerName = $pageOptions->getAppOption('controller');
             $controller = new $controllerName($pageOptions, $uri);
             $controller->setConfiguration($customer);
@@ -83,22 +70,6 @@ class McworkControllerFactory implements FactoryInterface
             if (false !== ($services = $pageOptions->getAppOption('services'))){
                 $controller->setServices($services);
             }
-            if (false !== ($formfactory = $pageOptions->getAppOption('formfactory'))){
-                $controller->setFormfactory($formfactory);
-            } 
-            
-            if (false != ($populateSerializeFields = $pageOptions->getAppOption('populateSerializeFields'))) {
-                $controller->setUnserialize($populateSerializeFields);
-            }
-
-            if (false != ($notpopulate = $pageOptions->getAppOption('notpopulate'))) {
-                $controller->setNotPopulate($notpopulate);
-            }
-            
-            if (false != ($populateentity = $pageOptions->getAppOption('populateentity'))){
-                $controller->setPopulateentity($populateentity);
-            }            
-            
             return $controller;            
         } else {
             print '<h2>not found :-(</h2>';
