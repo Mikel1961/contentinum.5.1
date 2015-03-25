@@ -25,7 +25,7 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Mcwork\Service\Groups;
+namespace Mcwork\Service\User;
 
 use Contentinum\Service\WebsiteServiceFactory;
 use ContentinumComponents\Mapper\Worker;
