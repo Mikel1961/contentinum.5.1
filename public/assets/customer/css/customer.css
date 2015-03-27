@@ -78,6 +78,7 @@ ul.pagination li.unavailable button:focus {
     color: #FFFFFF;
     cursor: default;
 }
+#searchForm p.formElement,
 p.formElement input,
 p.formElement select,
 p.formElement textarea {
@@ -98,4 +99,10 @@ span.validation-error,
 }
 .validation-valid {
 	background: #2ECC71;
+}
+h3.searchresult a {
+	color:#006621;
+}
+.searchresultmark {
+	background-color:#FDFD00;
 }
