@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<assets>
+		<header>
+			<styles>
+				<iconfonts>
+					<file>/assets/customer/css/font-awesome.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</iconfonts>
+				<normalize>
+					<file>/assets/customer/css/foundation/normalize.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</normalize>
+				<foundation>
+					<file>/assets/customer/css/foundation/foundation.min.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</foundation>
+				<dev>
+					<file>/assets/customer/css/customer.css</file>
+					<media>screen</media>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+				</dev>				
+			</styles>
+		</header>
+		<footer>
+			<scripts>
+				<require>
+					<file>/assets/js/requirejs/require.js</file>
+					<type>text/javascript</type>
+				</require>
+				<app>
+					<file>/assets/js/app.js</file>
+					<type>text/javascript</type>
+				</app>
+			</scripts>
+		</footer>
+	</assets>
+	<standardtemplate name="Standard Kunden Template">
+		<layoutkey>foundation</layoutkey>
+		<sequence>
+			<action row="200" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>
+			<action row="950" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="960" set="div">
+				<param type="class">
+					<value>large-12 columns warpper</value>
+				</param>
+			</action>
+			<action row="1000" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="1050" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="1060" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="1150" set="footer">
+				<param type="id">
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="1200" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="1250" set="boxend">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+		</sequence>
+	</standardtemplate>
+	<asidestemplate name="2 Spalten (aside 3,content 9)">
+		<layoutkey>foundation</layoutkey>
+		<sequence>
+			<action row="200" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>
+			<action row="950" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="960" set="aside">
+				<param type="class">
+					<value>large-3 columns</value>
+				</param>
+			</action>
+			<action row="970" set="assign">
+				<param>
+					<value>aside</value>
+				</param>
+			</action>
+			<action row="980" set="boxend">
+				<param>
+					<value>aside</value>
+				</param>
+			</action>
+			<action row="990" set="section">
+				<param type="class">
+					<value>large-9 columns</value>
+				</param>
+			</action>
+			<action row="1000" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="1050" set="boxend">
+				<param>
+					<value>section</value>
+				</param>
+			</action>
+			<action row="1060" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="1200" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+		</sequence>
+	</asidestemplate>
+	<asiderightstemplate name="2 Spalten (content 9, aside 3)">
+		<layoutkey>foundation</layoutkey>
+		<sequence>
+			<action row="200" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>
+			<action row="400" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="450" set="section">
+				<param type="class">
+					<value>large-9 columns</value>
+				</param>
+			</action>
+			<action row="500" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="550" set="boxend">
+				<param>
+					<value>section</value>
+				</param>
+			</action>
+			<action row="600" set="aside">
+				<param type="class">
+					<value>large-3 columns</value>
+				</param>
+			</action>
+			<action row="650" set="assign">
+				<param>
+					<value>aside</value>
+				</param>
+			</action>
+			<action row="700" set="boxend">
+				<param>
+					<value>aside</value>
+				</param>
+			</action>
+			<action row="750" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="800" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+		</sequence>
+	</asiderightstemplate>
+</layout>

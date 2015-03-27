@@ -10,45 +10,31 @@
 					<type>text/css</type>
 				</iconfonts>
 				<normalize>
-					<file>/assets/customer/css/normalize.css</file>
+					<file>/assets/customer/css/foundation/normalize.css</file>
 					<media>screen</media>
 					<rel>stylesheet</rel>
 					<type>text/css</type>
 				</normalize>
 				<foundation>
-					<file>/assets/customer/css/foundation.min.css</file>
+					<file>/assets/customer/css/foundation/foundation.min.css</file>
 					<media>screen</media>
 					<rel>stylesheet</rel>
 					<type>text/css</type>
 				</foundation>
 			</styles>
-			<scripts>
-				<modernizr>
-					<file>/assets/customer/js/vendor/modernizr.js</file>
-					<type>text/javascript</type>
-					<charset>utf-8</charset>
-				</modernizr>
-			</scripts>
 		</header>
 		<footer>
 			<scripts>
-				<jquery>
-					<file>/assets/customer/js/vendor/jquery.js</file>
+				<require>
+					<file>/assets/js/requirejs/require.js</file>
 					<type>text/javascript</type>
-					<charset>utf-8</charset>
-				</jquery>
-				<foundation>
-					<file>/assets/customer/js/foundation.min.js</file>
+				</require>
+				<app>
+					<file>/assets/js/app.js</file>
 					<type>text/javascript</type>
-					<charset>utf-8</charset>
-				</foundation>
-				<init>
-					<file>/assets/customer/js/init.js</file>
-					<type>text/javascript</type>
-					<charset>utf-8</charset>
-				</init>
+				</app>
 			</scripts>
-		</footer>
+		</footer>		
 	</assets>
 	<default name="Layout HTML5 Boilerplate">
 		<layoutkey>default</layoutkey>
@@ -145,16 +131,7 @@
 						<type>text/css</type>
 					</login>
 				</styles>
-			</header>
-		<footer>
-			<scripts>
-				<login>
-					<file>/assets/customer/js/login.js</file>
-					<type>text/javascript</type>
-					<charset>utf-8</charset>
-				</login>
-			</scripts>
-		</footer>			
+			</header>		
 		</assets>
 	</login>
 </layout>
