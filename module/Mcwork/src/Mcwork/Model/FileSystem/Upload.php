@@ -110,7 +110,13 @@ class Upload extends Resize
      *
      * @var multitype
      */
-    protected $mediaAttributeFields;       
+    protected $mediaAttributeFields;   
+
+    /**
+     * 
+     * @var unknown
+     */
+    protected $notNew = false;
 
     /**
      * 
@@ -245,6 +251,7 @@ class Upload extends Resize
      */
     public function singleUpload($files, $newname)
     {
+        $this->notNew = false;
         $response = $this->singleUploadFile($files, $newname);
         return $this->uploadResponseCode(json_encode(array_merge(array(
             'FILES' => $response
@@ -344,6 +351,9 @@ class Upload extends Resize
      */
     protected function moveUploadFile($src, $dest)
     {
+        if (is_file($dest)){
+            $this->notNew = true;
+        }
         return move_uploaded_file($src, $dest);
     }   
 
@@ -433,6 +443,22 @@ class Upload extends Resize
     public function setMediaAttributeFields($mediaAttributeFields)
     {
         $this->mediaAttributeFields = $mediaAttributeFields;
-    }    
+    }
+	/**
+     * @return the $notNew
+     */
+    public function getNotNew()
+    {
+        return $this->notNew;
+    }
+
+	/**
+     * @param \Mcwork\Model\FileSystem\unknown $notNew
+     */
+    public function setNotNew($notNew)
+    {
+        $this->notNew = $notNew;
+    }
+    
     
 }

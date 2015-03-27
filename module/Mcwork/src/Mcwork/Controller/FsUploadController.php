@@ -66,13 +66,18 @@ class FsUploadController extends AbstractMcworkController
             $ret = $this->worker->singleUpload($uploadedFile, $datas['newname']);
             $model = $this->worker->getParameter('model');
             $entity = $this->worker->getParameter('entity');
-            $save = new $model($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
-            $this->worker->addInsert('resource', 'memberresource');
-            $save->save($this->worker->preparedInsert($datas->toArray())
-                ->emptyInserts(), new $entity());
-             $view = $view = new ViewModel(array('return' => $ret));
-             $view->setTemplate($pageOptions->template);
-             return $view;
+            if (false === $this->worker->getNotNew()){
+                $save = new $model($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
+                $this->worker->addInsert('resource', 'memberresource');
+                $save->save($this->worker->preparedInsert($datas->toArray())
+                    ->emptyInserts(), new $entity());
+            } else {
+                $this->worker->emptyInserts();
+            }
+            
+            $view = $view = new ViewModel(array('return' => $ret));
+            $view->setTemplate($pageOptions->template);
+            return $view;
         } catch (\Exception $e ){
             $view = new ViewModel(array('error' => 'Application error during upload' ));
             $view->setTemplate('content/response/json');
