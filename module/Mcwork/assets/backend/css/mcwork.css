@@ -39,6 +39,7 @@ body {
 	font-family: 'OpenSansRegular';
 	font-weight: normal;
 	font-style: normal;	
+	overflow-y: scroll;
 }
 
 body#mcworkdashboard {
@@ -132,6 +133,10 @@ ul.modal-buttons {
 }
 
 /* eildienst */
+#accordionEidlienst {
+	margin-bottom: 2em;
+}
+
 .eildienst .accordion-navigation {
 	border-style: solid;
 	border-color: #DDDDDD;
@@ -158,6 +163,21 @@ ul.modal-buttons {
 	width: 100%;
 }
 
+.eildienst .eildienst-panel-name {
+	overflow: hidden;
+}
+
+#setAvailableAuthors {
+	border: 1px solid #dddddd;
+	height: 300px;
+	overflow-x:scroll;
+}
+
+.ui-autocomplete
+{
+    z-index:9999 !important;
+}
+
 table thead {
     background: #ECF0F1;
 }
@@ -179,6 +199,15 @@ table.dataTable.compact thead th, table.dataTable.compact thead td {
 table.dataTable.no-footer {
     border-bottom: 1px solid #DDDDDD;
 }
+th.width25, td.width25 {
+	width: 25%;
+}
+th.width65, td.width65 {
+	width: 65%;
+}
+th.width75, td.width75 {
+	width: 75%;
+}
 #mcworkTables figure { 
 	margin: 0; 
 	text-align: center; 
@@ -188,6 +217,10 @@ table.dataTable.no-footer {
 table.mcworkBackendTable .button, table.mcworkBackendTable button,
 #mcworkTables .button, #mcworkTables button {
 	margin-bottom: 0;
+}
+
+.tblblock {
+	display: block;
 }
 
 ul.pagination li a, ul.pagination li button {
@@ -427,6 +460,8 @@ p.formElement.elmNoPadd {
 	padding-bottom: 0;
 }
 
+p.formElement textarea,
+p.formElement select,
 p.formElement input {
 	margin-bottom: 0;
 }
@@ -449,6 +484,21 @@ p.formElement.valid input {
 	border-color: #2ECC71;
 }
 
+.form-field-desc {
+	font-style: italic;
+	font-size: 0.75rem;
+}
+
+div.dataTables_filter,
+div.dataTables_filter label {
+	width: 100%;
+}
+div.dataTables_filter input {
+	width: 70% !important;
+}
+
+
+
 .validation-valid,
 .validation-error,
 .server-error {
@@ -466,12 +516,23 @@ p.formElement.valid input {
 	border: 1px #F6F6F6 solid;
 
 }
+#fieldsetnonpublic,
+#fieldsetpublicpdf,
+#fieldmediaLinkPage,
 #fieldwebMediasId {
 	padding-bottom: 0;
 }
 
 .nopadding {
 	padding: 0 !important;
+}
+
+.alert-box.secondary {
+    color: #FFFFFF;
+}
+
+.alert-box.secondary p {
+	margin-bottom: 0;
 }
 
 .stats,.minitiles {
@@ -481,6 +542,7 @@ p.formElement.valid input {
 
 .stats {
 	float: left;
+	margin-left: 15px;
 }
 
 .stats>li {
@@ -488,7 +550,7 @@ p.formElement.valid input {
 	*zoom: 1;
 	float: left;
 	padding: 10px 15px;
-	margin-right: 15px;
+	
 }
 
 .stats>li:after {
@@ -502,7 +564,7 @@ p.formElement.valid input {
 }
 
 .stats>li i {
-	font-size: 36px;
+	font-size: 42px;
 	color: white;
 	float: left;
 	margin: 0;
@@ -531,12 +593,13 @@ p.formElement.valid input {
 
 .minitiles {
 	float: left;
+	margin-left: 15px;
 }
 
 .minitiles>li {
 	list-style: none;
 	float: left;
-	margin-right: 15px;
+	
 	padding: 2px 15px;
 }
 
