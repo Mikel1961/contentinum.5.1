@@ -4,6 +4,15 @@ return array(
         'class' => 'button-group right'
     ),
     'standards' => array(
+        'copy' => array(
+            'label' => '<i class="fa fa-files-o"></i>',
+            'href' => '#',
+            'attribs' => array(
+                'title' => 'Copy item',
+                'class' => 'small button copyitem',
+                'role' => 'button'
+            )
+        ),        
         'edit' => array(
             'label' => '<i class="fa fa-pencil"></i>',
             'href' => '#',
@@ -39,7 +48,8 @@ return array(
                 'class' => 'small button alert removeitem',
                 'role' => 'button'
             )
-        ),        
+        ), 
+              
         'clear' => array(
             'label' => 'Clear',
             'attribs' => array(
@@ -56,12 +66,22 @@ return array(
             )
         ),
         'download' => array(
-            'label' => '<i class="fa fa-download"></i>',
+            'label' => '<i class="fa fa-download"> </i>',
             'href' => '#',
             'attribs' => array(
                 'class' => 'small button'
             )
-        ),        
+        ), 
+        'tags' => array(
+            'label' => '<i class="fa fa-tags"> </i>',
+            'href' => '#',
+            'attribs' => array(
+                'title' => 'Assign tags to this item',
+                'class' => 'small button assigntags',
+                'role' => 'button'
+            )
+        ),
+        
         'info' => array(
             'label' => '<i class="fa fa-gear"></i>',
             'href' => '#',
