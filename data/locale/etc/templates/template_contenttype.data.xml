@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data version="1.0.0">
+	<HEADER name="Header"></HEADER>
+	<FOOTER name="Footer"></FOOTER>
+	<CONTENT name="Main content"></CONTENT>
+	<ASIDE name="Main content sidebar"></ASIDE>
+	<CONTENTFOOTER name="Past main content"></CONTENTFOOTER>
+	<CONTENTHEADER name="Ahead of main content"></CONTENTHEADER>
+	<MAINNAVIGATION name="Hauptnavigation"></MAINNAVIGATION>
+</data>
