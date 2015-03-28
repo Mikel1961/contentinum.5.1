@@ -31,7 +31,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 
-class UploadMaxFileSizeFactory implements FactoryInterface
+class FsUploadMaxSizeFactory implements FactoryInterface
 {
     /* (non-PHPdoc)
      * @see \Zend\ServiceManager\FactoryInterface::createService()

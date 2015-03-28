@@ -32,7 +32,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use ContentinumComponents\Tools\HandleSerializeDatabase;
 
 
-class NonPublicFactory implements FactoryInterface
+class DeniedFileFactory implements FactoryInterface
 {
     
     /**
