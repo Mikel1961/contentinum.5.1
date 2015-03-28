@@ -44,14 +44,14 @@ class AccountMembers extends AbstractModuls
 
     /**
      * ContentinumComponents\Tools\HandleSerializeDatabase
-     * 
+     *
      * @var ContentinumComponents\Tools\HandleSerializeDatabase
      */
     private $mcUnserialize;
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
      */
     public function fetchContent(array $params = null)
@@ -67,20 +67,33 @@ class AccountMembers extends AbstractModuls
      */
     private function build($entries)
     {
-        $result = array();
-        $filter = new Prepare();
-        foreach ($entries as $entry) {
-            $organisation = $filter->filter($entry->organisation);
-            $orga = str_replace('stadt-', '', $organisation);
-            // $orga = str_replace('kreisstadt-', '', $organisation);
-            $orga = str_replace('gemeinde-', '', $orga);
-            if (strlen($entry->imgSource) == 0) {
-                $entry->imgSource = '/accounts/' . $entry->fieldtypes->typescope . '/' . $organisation . '.jpg';
-            }
-            $result[$orga] = $entry->toArray();
+        switch ($this->configure['modulFormat']) {
+            case 'listdatas':
+                return $entries;
+                break;
+            default:                
+                $result = array();
+                $filter = new Prepare();
+                foreach ($entries as $entry) {
+                    $organisation = $filter->filter($entry->organisation);
+                    if (preg_match('/\bkreisstadt-/', $organisation)) {
+                        $orga = str_replace('kreisstadt-', '', $organisation);
+                    }
+                    if (preg_match('/\bstadt-/', $organisation)) {
+                        $orga = str_replace('stadt-', '', $organisation);
+                    }
+                    if (preg_match('/gemeinde-/', $organisation)) {
+                        $orga = str_replace('gemeinde-', '', $organisation);
+                    }
+                    
+                    if (strlen($entry->imgSource) == 0) {
+                        $entry->imgSource = '/accounts/' . $entry->fieldtypes->typescope . '/' . $organisation . '.jpg';
+                    }
+                    $result[$orga] = $entry->toArray();
+                }
+                ksort($result);
+                return $result;
         }
-        ksort($result);
-        return $result;
     }
 
     /**

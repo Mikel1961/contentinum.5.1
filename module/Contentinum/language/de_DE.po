@@ -901,7 +901,7 @@ msgid "Contributory group"
 msgstr "Beitragsgruppe"
 
 msgid "Dissolve"
-msgstr "Neitragsgruppe auflösen"
+msgstr "Beitragsgruppe auflösen"
 
 msgid "edit_Contentgroup"
 msgstr "Beitragsgruppe bearbeiten"

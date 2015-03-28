@@ -8,7 +8,7 @@ use ContentinumComponents\Entity\AbstractEntity;
 /**
  * IndexGroups
  *
- * @ORM\Table(name="index_groups", uniqueConstraints={@ORM\UniqueConstraint(name="scope", columns={"scope"})}, indexes={@ORM\Index(name="FIELDTYPIDENT", columns={"field_types_id"})})
+ * @ORM\Table(name="index_groups", uniqueConstraints={@ORM\UniqueConstraint(name="scope", columns={"scope"})}, indexes={@ORM\Index(name="FIELDTYPIDENT", columns={"account_id"})})
  * @ORM\Entity
  */
 class IndexGroups extends AbstractEntity
@@ -128,14 +128,14 @@ class IndexGroups extends AbstractEntity
     private $upDate;
     
     /**
-     * @var \Contentinum\Entity\FieldTypes
+     * @var \Contentinum\Entity\Accounts
      *
-     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\FieldTypes")
+     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\Accounts")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="field_types_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id")
      * })
      */
-    private $fieldTypes;    
+    private $accounts;
     
     /**
      * Construct
@@ -436,29 +436,19 @@ class IndexGroups extends AbstractEntity
         $this->upDate = $upDate;
     }
     
-    /**
-     * Set fieldTypes
-     *
-     * @param \Contentinum\Entity\FieldTypes $fieldTypes
-     * @return FieldTypeMetas
+	/**
+     * @return the $accounts
      */
-    public function setFieldTypes($fieldTypes = null)
+    public function getAccounts()
     {
-        $this->fieldTypes = $fieldTypes;
-    
-        return $this;
+        return $this->accounts;
     }
-    
-    /**
-     * Get fieldTypes
-     *
-     * @return \Contentinum\Entity\FieldTypes
+
+	/**
+     * @param \Contentinum\Entity\Accounts $accounts
      */
-    public function getFieldTypes()
+    public function setAccounts($accounts)
     {
-        return $this->fieldTypes;
+        $this->accounts = $accounts;
     }
-    
-
-
 }

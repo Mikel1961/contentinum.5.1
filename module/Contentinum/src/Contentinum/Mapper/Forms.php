@@ -169,7 +169,15 @@ class Forms extends AbstractModuls
             case 'Text':
                 $field['type'] = 'Text';
                 $field['options']['deco-row'] = $this->formFactory->getDecorators('deco-element-row');
-                break;   
+                break;  
+            case 'Tel':
+                $field['type'] = 'ContentinumComponents\Forms\Elements\Tel';
+                $field['options']['deco-row'] = $this->formFactory->getDecorators('deco-element-row');
+                break;                 
+            case 'Email':
+                $field['type'] = 'Email';
+                $field['options']['deco-row'] = $this->formFactory->getDecorators('deco-element-row');
+                break;                
             case 'Textarea':
                 $field['type'] = 'Textarea';
                 $field['options']['deco-row'] = $this->formFactory->getDecorators('deco-element-row');

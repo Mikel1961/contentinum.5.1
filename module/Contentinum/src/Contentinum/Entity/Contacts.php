@@ -41,14 +41,21 @@ class Contacts extends AbstractEntity
      *
      * @ORM\Column(name="first_name", type="string", length=100, nullable=false)
      */
-    private $firstName;
+    private $firstName = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=100, nullable=false)
      */
-    private $lastName;
+    private $lastName = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="object_name", type="string", length=250, nullable=false)
+     */
+    private $objectName = '';    
 
     /**
      * @var string
@@ -104,14 +111,21 @@ class Contacts extends AbstractEntity
      *
      * @ORM\Column(name="contact_email", type="string", length=100, nullable=false)
      */
-    private $contactEmail;
+    private $contactEmail = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="internet", type="text", length=65535, nullable=false)
+     */
+    private $internet = '';    
         
     /**
      * @var string
      *
      * @ORM\Column(name="alternate_email", type="string", length=100, nullable=false)
      */
-    private $alternateEmail;    
+    private $alternateEmail = '';    
 
     /**
      * @var string
@@ -161,6 +175,28 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="contact_img_large", type="string", length=250, nullable=false)
      */
     private $contactImgLarge = '';
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_address", type="string", length=250, nullable=false)
+     */
+    private $contactAddress = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_zipcode", type="string", length=25, nullable=false)
+     */
+    private $contactZipcode = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_city", type="string", length=250, nullable=false)
+     */
+    private $contactCity = ''; 
 
     /**
      * @var string
@@ -352,6 +388,22 @@ class Contacts extends AbstractEntity
     }
 
 	/**
+     * @return the $objectName
+     */
+    public function getObjectName()
+    {
+        return $this->objectName;
+    }
+
+	/**
+     * @param string $objectName
+     */
+    public function setObjectName($objectName)
+    {
+        $this->objectName = $objectName;
+    }
+
+	/**
      * @return the $businessTitle
      */
     public function getBusinessTitle()
@@ -480,6 +532,22 @@ class Contacts extends AbstractEntity
     }
 
 	/**
+     * @return the $internet
+     */
+    public function getInternet()
+    {
+        return $this->internet;
+    }
+
+	/**
+     * @param string $internet
+     */
+    public function setInternet($internet)
+    {
+        $this->internet = $internet;
+    }
+
+	/**
      * @return the $alternateEmail
      */
     public function getAlternateEmail()
@@ -605,6 +673,54 @@ class Contacts extends AbstractEntity
     public function setContactImgLarge($contactImgLarge)
     {
         $this->contactImgLarge = $contactImgLarge;
+    }
+
+	/**
+     * @return the $contactAddress
+     */
+    public function getContactAddress()
+    {
+        return $this->contactAddress;
+    }
+
+	/**
+     * @param string $contactAddress
+     */
+    public function setContactAddress($contactAddress)
+    {
+        $this->contactAddress = $contactAddress;
+    }
+
+	/**
+     * @return the $contactCity
+     */
+    public function getContactCity()
+    {
+        return $this->contactCity;
+    }
+
+	/**
+     * @param string $contactCity
+     */
+    public function setContactCity($contactCity)
+    {
+        $this->contactCity = $contactCity;
+    }
+
+	/**
+     * @return the $contactZipcode
+     */
+    public function getContactZipcode()
+    {
+        return $this->contactZipcode;
+    }
+
+	/**
+     * @param string $contactZipcode
+     */
+    public function setContactZipcode($contactZipcode)
+    {
+        $this->contactZipcode = $contactZipcode;
     }
 
 	/**

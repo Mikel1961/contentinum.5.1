@@ -1,0 +1,23 @@
+<?php 
+$html = '<div class="row"><div class="large-12 columns">';
+if ($this->success){
+    $html .= '<p>Die E-Mail wurde erfogreich versandt.</p>';
+} else {
+    if ($this->form){
+        $html .= $this->renderForm($this->form);        
+    }
+}
+echo '</div></div>';
+if (true === $this->xmlHttpRequest){
+    $html .= '<a class="close-reveal-modal" aria-label="Close">&#215;</a>';
+    echo $html;
+    exit();
+} else {
+    $layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
+    $groupstyles = $this->groupstyles[$layoutKey];
+    $htmlwidgets = $this->htmlwidgets[$layoutKey];
+    echo $html;
+    $this->layoutassets($this->htmllayouts,$this->templateKey);
+    $layout = $this->buildlayout($this->htmllayouts,$this->templateKey);
+}
+?>

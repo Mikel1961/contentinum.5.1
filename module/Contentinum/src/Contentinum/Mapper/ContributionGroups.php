@@ -56,7 +56,7 @@ class ContributionGroups extends AbstractModuls
     {
 
         $result = array();
-        $result = $this->page($this->configure['modulParams']);
+        //$result = $this->page($this->configure['modulParams']);
         if ($entries){
             $result['news'] = $entries;
         }
@@ -67,16 +67,41 @@ class ContributionGroups extends AbstractModuls
      * Contribution group query
      * @param int $id
      */
-    private function query($id)
+    private function xxquery($id)
     {
         $repository = $this->getStorage()->getRepository( self::ENTITY_NAME );
         if (null == $this->configure['modulDisplay']){
-            $limit = 10 + 1;
+            $limit = 10;
         } else {
-            $limit = (int) $this->configure['modulDisplay'] + 1;
+            $limit = (int) $this->configure['modulDisplay'];
         }
         return $repository->findBy(array('webContentgroup' => $id), array('itemRang' => 'ASC', 'publishDate' => 'DESC'),$limit);
     }
+    
+    
+    private function query($id)
+    {
+    
+        if (null == $this->configure['modulDisplay']){
+            $limit = 10;
+        } else {
+            $limit = (int) $this->configure['modulDisplay'];
+        }
+        
+        $sql = "SELECT mainContent.id, mainContent.web_medias_id, mainContent.htmlwidgets, mainContent.source, mainContent.headline, ";
+        $sql .= "mainContent.content_teaser, mainContent.content, mainContent.number_character_teaser, ";
+        $sql .= "mainContent.label_read_more, mainContent.publish_date, mainContent.publish_author, ";
+        $sql .= "mainContent.author_email, mainContent.overwrite, pageParams.url ";
+        $sql .= "FROM web_content_groups AS main ";
+        $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
+        $sql .= "LEFT JOIN web_pages_content AS pageContent ON pageContent.web_contentgroup_id = main.web_contentgroup_id ";
+        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = pageContent.web_pages_id ";
+        $sql .= "WHERE main.web_contentgroup_id = '" . $id . "' ";
+        $sql .= "ORDER BY main.publish_date DESC ";
+        $sql .= "LIMIT 0,{$limit} ";
+        return $this->fetchAll($sql);
+    }    
+
     
     /**
      * Page query

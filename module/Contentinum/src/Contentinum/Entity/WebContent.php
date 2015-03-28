@@ -8,7 +8,7 @@ use ContentinumComponents\Entity\AbstractEntity;
 /**
  * WebContent
  *
- * @ORM\Table(name="web_content", indexes={@ORM\Index(name="TITLEINTERNALUSE", columns={"title"}), @ORM\Index(name="HEADLINEPUBLICUSE", columns={"headline"})})
+ * @ORM\Table(name="web_content", indexes={@ORM\Index(name="TITLEINTERNALUSE", columns={"title"}), @ORM\Index(name="HEADLINEPUBLICUSE", columns={"headline"}),@ORM\Index(name="CONTENTPUBLICUSE", columns={"content"})})
  * @ORM\Entity
  */
 class WebContent extends AbstractEntity

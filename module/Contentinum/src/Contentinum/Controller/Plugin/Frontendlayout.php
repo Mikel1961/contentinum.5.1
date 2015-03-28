@@ -91,8 +91,10 @@ class Frontendlayout extends AbstractPlugin
      */
     public function __invoke($pageOptions, $role = null, $acl = null, $layout, $viewHelperManager = null)
     {
+        $this->setHeadLinks($pageOptions, $layout);
         $this->setHeadStyle($pageOptions, $viewHelperManager);
-        $this->setScripts($pageOptions, $viewHelperManager, 'inlineScript');
+        //$this->setScripts($pageOptions, $viewHelperManager, 'inlineScript');
+        $this->setInlineScript($pageOptions, $layout, 'inlineScript');
         $this->setScripts($pageOptions, $viewHelperManager, 'headScript');
         $this->setBodyAttribute($pageOptions, $layout);
         $this->setHeadMetas($pageOptions, $viewHelperManager);
@@ -101,6 +103,15 @@ class Frontendlayout extends AbstractPlugin
         $this->setAttribute($pageOptions, $viewHelperManager, $layout);
         $this->layoutFile($pageOptions, $layout);
         $this->setAppLocale($pageOptions, $viewHelperManager);
+    }
+    
+    
+    protected function setHeadLinks($pageOptions, $layout)
+    {
+        if (false !== ($values = $this->getPageAttribute($pageOptions, 'pageHeaders'))) {
+            $layout->pageHeaders = $values;
+        }
+        
     }
 
     /**
@@ -133,6 +144,13 @@ class Frontendlayout extends AbstractPlugin
             $script->appendScript($value);
         }
     }
+    
+    protected function setInlineScript($pageOptions, $layout, $type)
+    {
+        if (false !== ($value = $this->getPageAttribute($pageOptions, $type))) {
+            $layout->bodyInlineScript = $value;
+        }
+    }    
 
     /**
      * Set page meta values

@@ -118,10 +118,24 @@ class WebPagesParameter extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="changefreq", type="string", length=15, nullable=false)
+     */
+    private $changefreq = 'monthly';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="priority", type="string", length=5, nullable=false)
+     */
+    private $priority = '0.8';
+        
+    /**
+     * @var string
+     *
      * @ORM\Column(name="publish", type="string", length=10, nullable=false)
      */
     private $publish = 'no';
-
+    
     /**
      * @var string
      *
@@ -454,6 +468,38 @@ class WebPagesParameter extends AbstractEntity
     public function setRobots($robots)
     {
         $this->robots = $robots;
+    }
+
+	/**
+     * @return the $changefreq
+     */
+    public function getChangefreq()
+    {
+        return $this->changefreq;
+    }
+
+	/**
+     * @param string $changefreq
+     */
+    public function setChangefreq($changefreq)
+    {
+        $this->changefreq = $changefreq;
+    }
+
+	/**
+     * @return the $priority
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+	/**
+     * @param string $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
     }
 
 	/**

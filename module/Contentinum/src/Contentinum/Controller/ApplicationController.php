@@ -73,8 +73,12 @@ class ApplicationController extends AbstractFrontendController
         $variables['useragent'] = 'desktop';
         $variables['pageurl'] = $page['url'];
         $variables['article'] = $pageOptions->getArticle();
+        $variables['articlecontent'] = $this->worker->fetchArticle();
         $variables['category'] = $pageOptions->getCategory();
         $variables['templateKey'] = $pageOptions->htmlstructure;
+        $variables['host'] = $pageOptions->host;
+        $variables['protocol'] = $pageOptions->protocol;
+        $variables['pluginViewHelper'] = $this->getServiceLocator()->get('Contentinum\PluginViews');
         
         
         

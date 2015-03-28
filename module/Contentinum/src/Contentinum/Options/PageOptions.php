@@ -28,6 +28,7 @@ class PageOptions extends AbstractOptions
     );
 
     protected $properties = array(
+        'splitQuery',
         'standardDomain',
         'app',
         'id',
@@ -39,6 +40,7 @@ class PageOptions extends AbstractOptions
         'resource',
         'title',
         'label',
+        'headline',
         'charset',
         'favicon',
         'bodyId',
@@ -47,6 +49,7 @@ class PageOptions extends AbstractOptions
         'htmlClass',
         'headScript',
         'headStyle',
+        'bodyFooterScript',
         'inlineScript',
         'metaDocstart',        
         'metaTitle',
@@ -58,6 +61,7 @@ class PageOptions extends AbstractOptions
         'robots',
         'language',
         'languageParent',
+        'content',
     );
 
     /**
@@ -74,10 +78,22 @@ class PageOptions extends AbstractOptions
     protected $host;
     
     /**
+     * Host name
+     * @var string
+     */
+    protected $protocol;    
+    
+    /**
      * REQUEST_URI
      * @var string
      */
     protected $query;  
+    
+    /**
+     *
+     * @var unknown
+     */
+    protected $splitQuery = 1;    
     
     /**
      * Article, Contributions, Tag source string
@@ -97,6 +113,10 @@ class PageOptions extends AbstractOptions
      */
     protected $ident;
     
+    /**
+     * 
+     * @var string
+     */
     protected $sub;
     
     /**
@@ -153,6 +173,12 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     protected $resource;
+    
+    /**
+     * 
+     * @var array
+     */
+    protected $pageHeaders;
 
     /**
      * Website title
@@ -160,6 +186,12 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     private $title;
+    
+    /**
+     * 
+     * @var unknown
+     */
+    private $headline;
     
     /**
      * Page label
@@ -277,6 +309,12 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     private $languageParent;    
+    
+    /**
+     * 
+     * @var unknown
+     */
+    private $content;
 
     /**
      * 
@@ -366,6 +404,26 @@ class PageOptions extends AbstractOptions
         }
     
         return implode($seperator, array_slice(explode($seperator, $query), 0, $i, true));
+    } 
+
+    
+    /**
+     * @return the $splitQuery
+     */
+    public function getSplitQuery()
+    {
+        if (null === $this->splitQuery){
+            $this->splitQuery = self::URL_I;
+        }
+        return $this->splitQuery;
+    }
+    
+    /**
+     * @param \Mcwork\Options\unknown $splitQuery
+     */
+    public function setSplitQuery($splitQuery)
+    {
+        $this->splitQuery = $splitQuery;
     }    
 
     /**
@@ -400,6 +458,33 @@ class PageOptions extends AbstractOptions
     public function setHost($host)
     {
         $this->host = $host;
+    }
+
+	/**
+     * @return the $protocol
+     */
+    public function getProtocol()
+    {
+        return $this->protocol;
+    }
+
+	/**
+     * @param string $protocol
+     */
+    public function setProtocol($protocol = null)
+    {
+        
+        if (null === $protocol){
+            if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+            ) {
+                $protocol = 'https';
+            } else {
+                $protocol = 'http';
+            }            
+            
+        }
+        $this->protocol = $protocol;
     }
 
 	/**
@@ -663,6 +748,30 @@ class PageOptions extends AbstractOptions
     }
 
 	/**
+     * @return the $pageHeaders
+     */
+    public function getPageHeaders()
+    {
+        return $this->pageHeaders;
+    }
+    
+    /**
+     * @param multitype: $pageHeaders
+     */
+    public function addPageHeaders($pageHeaders)
+    {
+        $this->pageHeaders[] = $pageHeaders;
+    }    
+
+	/**
+     * @param multitype: $pageHeaders
+     */
+    public function setPageHeaders($pageHeaders)
+    {
+        $this->pageHeaders = $pageHeaders;
+    }
+
+	/**
      * @return the $label
      */
     public function getLabel()
@@ -697,6 +806,22 @@ class PageOptions extends AbstractOptions
     }
 
     /**
+     * @return the $headline
+     */
+    public function getHeadline()
+    {
+        return $this->headline;
+    }
+
+	/**
+     * @param \Contentinum\Options\unknown $headline
+     */
+    public function setHeadline($headline)
+    {
+        $this->headline = $headline;
+    }
+
+	/**
      * @return the $charset
      */
     public function getCharset()
@@ -1006,5 +1131,21 @@ class PageOptions extends AbstractOptions
     {
         $this->languageParent = $languageParent;
     }
+	/**
+     * @return the $content
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+	/**
+     * @param \Contentinum\Options\unknown $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
 
 }

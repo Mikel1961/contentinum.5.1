@@ -147,7 +147,6 @@ class Sendmail extends Message
      */
 	public function send()
     {
-        $this->setEncoding("UTF-8");
         $this->addFrom($this->configure['mailfrom'], $this->configure['mailfromname']);
         $this->addReplyTo($this->configure['mailfrom'], $this->configure['mailfromname']);
         $emailname = null;
@@ -155,7 +154,12 @@ class Sendmail extends Message
             $emailname = $this->formConfigure->emailname;
         }
         $this->addTo($this->formConfigure->email, $emailname);
-        $this->setSubject($this->formConfigure->emailsubject);
+        
+        if (strlen($this->formConfigure->emailcc) > 1){
+            $this->addCc( explode(';', $this->formConfigure->emailcc) );
+        }        
+        
+        $this->setSubject( utf8_decode($this->formConfigure->emailsubject) );
         
         $emailBody = "\n";
         $emailBody .= 'Serverzeit: ' . date('d.m.Y, H:i');
@@ -167,6 +171,39 @@ class Sendmail extends Message
             $emailBody .= $value . "\n";
         }
         $emailBody .= "\n\n" . $this->configure['signature'];
+        $this->setBody($emailBody);
+        $this->transport->send($this);
+        return true;
+    }
+    
+    /**
+     * 
+     * @param unknown $userData
+     * @param unknown $contribution
+     * @param unknown $host
+     * @return boolean
+     */
+    public function sendRecommendation($userData, $contribution, $host)
+    {
+        
+        $template = file_get_contents(CON_ROOT_PATH . '/data/files/emailtemplates/recommendation');
+        $this->addFrom($this->formDatas['sender'], $this->formDatas['name']);
+        $this->addReplyTo($this->formDatas['sender'], $this->formDatas['name']);
+        $emailname = null;
+        if (strlen($this->formDatas['namereceiver']) > 1){
+            $emailname = $this->formDatas['namereceiver'];
+        }
+        $this->addTo($this->formDatas['receiver'], $emailname);
+        $this->setSubject('Empfehlung von ' . $this->formDatas['name']);   
+        $emailBody = 'Serverzeit: ' . date('d.m.Y, H:i');
+        $emailBody .= "\n\n\n";             
+        $body = str_replace('{EMAIL}', $this->formDatas['sender'], $template);
+        $body = str_replace('{NAME}', $this->formDatas['name'], $body);
+        $body = str_replace('{NOTE}', $this->formDatas['note'], $body);
+        $body = str_replace('{HOST}', $host, $body);
+        $body = str_replace('{HAEDLINE}', $this->formDatas['headline'], $body);
+        $body = str_replace('{LINK}', 'http://' . $host . '/' . $contribution['source'], $body);     
+        $emailBody .= $body;   
         $this->setBody($emailBody);
         $this->transport->send($this);
         return true;

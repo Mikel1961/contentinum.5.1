@@ -1,0 +1,5 @@
+<?php 
+$container = new \Zend\Navigation\Navigation($this->sitemap);
+$this->navigation($container)->sitemap()->setFormatOutput(true);
+echo $this->navigation()->sitemap();
+exit;?>

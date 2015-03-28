@@ -1,0 +1,248 @@
+<?php
+use ContentinumComponents\Tools\HandleSerializeDatabase;
+use Contentinum\Options\PdfOptions;
+use ContentinumComponents\Filter\TextToHtml;
+$layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
+$groupstyles = $this->groupstyles[$layoutKey];
+
+$groupparams = array();
+$mcSerialize = new HandleSerializeDatabase();
+foreach ($this->entries as $entry) {
+    
+    if (strlen($entry->groupParams) > 1) {
+        $headername = $entry->name;
+        $groupparams = $mcSerialize->execUnserialize($entry->groupParams);
+    }
+}
+
+$options = new PdfOptions($groupparams);
+$options->headline = $headername;
+$keys = $options->getConfigureKeys();
+
+define('K_TCPDF_EXTERNAL_CONFIG', CON_ROOT_PATH . '/data/locale/etc/opt/tcpdf.php');
+define('K_PATH_IMAGES', DOCUMENT_ROOT . '/');
+
+foreach ($keys as $key) {
+    if (null != ($param = $options->getPdfConfiguration($key))) {
+        if ('PDF_HEADER_LOGO' == $key) {
+            foreach ($this->medias as $mediaRow) {
+                if ($mediaRow->id == $param) {
+                    $media = $mediaRow->toArray();
+                    define($key, $media['mediaLink']);
+                    break;
+                }
+            }
+        } else {
+            
+            define($key, $param);
+        }
+    }
+}
+
+/**
+ * Generic name for a blank image.
+ */
+define('K_BLANK_IMAGE', '_blank.png');
+
+/**
+ * Document creator.
+ */
+define('PDF_CREATOR', 'contentinum5 - TCPDF');
+
+/**
+ * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].
+ */
+define('PDF_UNIT', 'mm');
+
+/**
+ * Default monospaced font name.
+ */
+define('PDF_FONT_MONOSPACED', 'courier');
+
+/**
+ * Ratio used to adjust the conversion of pixels to user units.
+ */
+define('PDF_IMAGE_SCALE_RATIO', 1.25);
+
+/**
+ * Magnification factor for titles.
+ */
+define('HEAD_MAGNIFICATION', 1.1);
+
+/**
+ * Height of cell respect font height.
+ */
+define('K_CELL_HEIGHT_RATIO', 1.25);
+
+/**
+ * Title magnification respect main font size.
+ */
+define('K_TITLE_MAGNIFICATION', 1.3);
+
+/**
+ * Reduction factor for small font.
+ */
+define('K_SMALL_RATIO', 2 / 3);
+
+require_once (CON_ROOT_PATH . '/data/usr/tcpdf/tcpdf.php');
+
+
+
+
+class NEWSPDF extends TCPDF
+{
+
+    public function Header()
+    {
+        $headerfont = $this->getHeaderFont();
+        $headerdata = $this->getHeaderData();
+        $this->y = $this->header_margin;
+        $this->x = $this->original_lMargin;
+        
+        $this->Image(K_PATH_IMAGES . $headerdata['logo'], 10, 10, 15, '', 'JPG', '', 'T', false, 300, 'R', false, false, 0, false, false, false);
+        $imgy = $this->getImageRBY();
+        
+        $cell_height = $this->getCellHeight($headerfont[2] / $this->k);
+        $header_x = $this->original_lMargin + ($headerdata['logo_width'] * 1.1);
+        
+        $cw = $this->w - $this->original_lMargin - $this->original_rMargin - ($headerdata['logo_width'] * 1.1);
+        $this->SetTextColorArray($this->header_text_color);
+        
+        // header title
+        $this->SetFont($headerfont[0], 'B', $headerfont[2] + 1);
+        $this->SetX($header_x);
+        $this->Cell($cw, $cell_height, $headerdata['title'], 0, 1, '', 0, '', 0);
+        
+        // header string
+        $this->SetFont($headerfont[0], $headerfont[1], $headerfont[2]);
+        $this->SetX($header_x);
+        $this->MultiCell($cw, $cell_height, $headerdata['string'], 0, '', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+        
+        // print an ending header line
+        $this->SetLineStyle(array(
+            'width' => 0.85 / $this->k,
+            'cap' => 'butt',
+            'join' => 'miter',
+            'dash' => 0,
+            'color' => $headerdata['line_color']
+        ));
+        $this->SetY((2.835 / $this->k) + max($imgy, $this->y));
+        
+        $this->SetX($this->original_lMargin);
+        $this->Cell(($this->w - $this->original_lMargin - $this->original_rMargin), 0, '', 'T', 0, 'C');
+    }
+}
+
+// create new PDF document
+$pdf = new NEWSPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor(PDF_NEWS_AUTHOR);
+$pdf->SetTitle(PDF_HEADER_TITLE);
+
+// $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(
+    PDF_FONT_NAME_MAIN,
+    '',
+    PDF_FONT_SIZE_MAIN
+));
+$pdf->setFooterFont(Array(
+    PDF_FONT_NAME_DATA,
+    '',
+    PDF_FONT_SIZE_DATA
+));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', '', 10);
+
+// add a page
+$pdf->AddPage();
+$html = '';
+
+// create some HTML content
+foreach ($this->entries as $entry) {
+    if (1 !== $entry->webContent->id){
+    $author = '';
+    if (strlen($entry->webContent->publishAuthor) > 1) {
+        $author = $entry->webContent->publishAuthor;
+    }
+    
+    if (strlen($entry->webContent->publishDate) > 1) {
+        if (strlen($author) > 1) {
+            $author .= ', ';
+        }
+        $author .= $this->dateFormat(new \DateTime($entry->webContent->publishDate), \IntlDateFormatter::FULL);
+    }
+    
+    if (strlen($author) > 1) {
+        $html .= '<p>' . $author . '</p>';
+    }
+    
+    $headline = $entry->webContent->headline;
+    $html .= '<h1>' . $headline . '</h1>';
+    if (1 !== $entry->webContent->webMediasId->id) {
+        $media = null;
+        foreach ($this->medias as $mediaRow) {
+            if ($mediaRow->id === $entry->webContent->webMediasId->id) {
+                $media = $mediaRow->toArray();
+                break;
+            }
+        }
+        
+        if (null !== $media) {
+            $html .= '<p><figure>';
+            $html .= '<img src="' . $media['mediaLink'] . '">';
+            $html .= '</figure></p>';
+        }
+    }
+    
+    $html .= $entry->webContent->content;
+    }
+}
+
+if ( defined('PDF_NEWS_SIGNATUR') ){
+    $filter = new TextToHtml();
+    $html .= $filter->filter(PDF_NEWS_SIGNATUR);
+}
+
+// set thema
+$pdf->SetSubject($headline);
+
+// output the HTML content
+$pdf->writeHTML($html, true, 0, true, 0);
+
+// reset pointer to the last page
+$pdf->lastPage();
+
+// ---------------------------------------------------------
+
+// Close and output PDF document
+$pdf->Output('contentinum5.pdf', 'I');
+
+// ============================================================+
+// END OF FILE
+// ============================================================+
+
+exit();

@@ -61,7 +61,7 @@ class DefaultRoleServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-
+        
         $authService = $serviceLocator->get('Contentinum\AuthService');
         if (false !== $authService && $authService->hasIdentity()) {
             $identity = $authService->getIdentity();

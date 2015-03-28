@@ -6,8 +6,6 @@ $contentstyles = $this->contentstyles[$layoutKey];
 $content = '';
 $html = '';
 $it = 1;
-
-
 foreach ($this->entries as $row){
 
     switch ($row['groupStyle']){
@@ -34,32 +32,29 @@ foreach ($this->entries as $row){
             break;            
         default:
             if (isset($groupstyles[$row['groupStyle']]) && false !== strpos($row['groupStyle'], 'grid') ){
-                $content = $this->contentgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias,$contentstyles);
+                $content = $this->contentgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias, $contentstyles);
+            } elseif (isset($groupstyles[$row['groupStyle']]) && false !== strpos($row['groupStyle'], 'custblock') ){
+                $content = $this->contentblockgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias, $contentstyles);
             } else {
                 $content = $this->contribution($row,$this->medias,$contentstyles);
             }
             
     }
+    
     switch ($row['htmlwidgets']){
-        case 'navcontaingrid' :
-        case 'footergrid':
-        case 'headergrid':
-        case 'footergrid':
-        case 'headergrid':   
-        case 'contentgrid':         
-        case 'content':            
+        case 'none':
+            $html[$row['adjustments']][$row['url']][] = $content;
+            break;            
+        default:
             $html[$row['adjustments']][$row['url']][] = $this->contentrow( $row,$content,$htmlwidgets );
             break;
-        case 'none':
-            default:            
-            $html[$row['adjustments']][$row['url']][] = $content;
-            break;
-    }
+    }    
     
     
     $it++;
 
 }
+$mainnavigation = '';
 $aside = '';
 $contentheader = '';
 $contentfooter = '';
@@ -73,6 +68,10 @@ if ( isset($html['HEADER']['_default']) ){
 
 if ( isset($html['HEADER'][$this->pageurl]) ){
     $header .= implode ( ' ' , $html['HEADER'][$this->pageurl] );
+}
+
+if ( isset($html['MAINNAVIGATION']['_default']) ){
+    $mainnavigation = implode ( ' ' , $html['MAINNAVIGATION']['_default'] );
 }
 
 if ( isset($html['ASIDE']['_default']) ){
@@ -128,6 +127,8 @@ foreach ($layout as $row) {
 					foreach ($assign as $value) {
 						if ('header' == $value) {
 							echo "\n" . $header;
+						} elseif ('mainnavigation' == $value){
+						    echo "\n" . $mainnavigation;							
 						} elseif ('aside' == $value){
 							echo "\n" . $aside;		
 						} elseif ('contentheader' == $value){

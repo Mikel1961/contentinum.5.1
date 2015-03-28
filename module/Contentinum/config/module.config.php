@@ -13,15 +13,14 @@ return array(
                         'action' => 'index'
                     )
                 )
-            )
-            ,
+            ),
             'page_app' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
                     'route' => '/:pages[/:article][/:category]',
                     'constraints' => array(
                         'pages' => '[a-zA-Z0-9._-]+',
-                        'article' => '[a-zA-Z0-9_-]+',
+                        'article' => '[a-zA-Z0-9._-]+',
                         'category' => '[a-zA-Z0-9_-]+',
                     ),
                     'defaults' => array(
@@ -44,7 +43,8 @@ return array(
             'Contentinum\AuthService' => 'Contentinum\Service\Domains\AuthServiceFactory',
             'Contentinum\Customer' => 'Contentinum\Service\Opt\CustomerServiceFactory',
             'Contentinum\Configure' => 'Contentinum\Service\ConfigurationServiceFactory',     
-            'Contentinum\PluginKeys' => 'Contentinum\Service\Plugins\KeysServiceFactory',            
+            'Contentinum\PluginKeys' => 'Contentinum\Service\Plugins\KeysServiceFactory',    
+            'Contentinum\PluginViews' => 'Contentinum\Service\Plugins\ViewHelperServiceFactory',
             // entities
             'Entity\Tags' => 'Contentinum\Factory\Entities\TagsFactory',
             'Entity\Redirect' => 'Contentinum\Factory\Entities\RedirectFactory',
@@ -113,6 +113,7 @@ return array(
             'Contentinum\PageConfiguration' => 'Contentinum\Service\Pages\ConfigureServiceFactory',
             'Contentinum\PageOptions'  => 'Contentinum\Factory\PageOptionsFactory',
             'Contentinum\Preference' => 'Contentinum\Service\Domains\PreferenceServiceFactory',
+            'Contentinum\PageHeaders' => 'Contentinum\Service\Domains\PageHeadersServiceFactory',
             'Contentinum\PublicPages' => 'Contentinum\Service\Pages\PublicServiceFactory',
             'Contentinum\AttributePages' => 'Contentinum\Service\Pages\AttributeServiceFactory',
             
@@ -132,16 +133,22 @@ return array(
             'Contentinum\Newsarchive' => 'Contentinum\Factory\Mapper\NewsarchiveFactory',
             'Contentinum\NewsArchiveYear' => 'Contentinum\Factory\Mapper\NewsArchiveYearFactory',
             'Contentinum\News' => 'Contentinum\Factory\Mapper\NewsFactory',
+            'Contentinum\NewsGroup' => 'Contentinum\Factory\Mapper\NewsGroupFactory', 
             'Contentinum\Mediagroup' => 'Contentinum\Factory\Mapper\MediagroupFactory',   
             'Contentinum\Medias' => 'Contentinum\Factory\Mapper\MediasFactory',  
             'Contentinum\Filegroup' => 'Contentinum\Factory\Mapper\FilegroupFactory',   
             'Contentinum\AccountMembers' => 'Contentinum\Factory\Mapper\AccountMembersFactory',   
             'Contentinum\Maps' => 'Contentinum\Factory\Mapper\MapsFactory', 
             'Contentinum\Forms' => 'Contentinum\Factory\Mapper\FormsFactory', 
-            
+            'Contentinum\Wanted' => 'Contentinum\Factory\Mapper\WantedFactory',
+            'Contentinum\WantedGroup' => 'Contentinum\Factory\Mapper\WantedGroupFactory',
+            'Contentinum\SearchForms' => 'Contentinum\Factory\Mapper\SearchFormFactory',
+            'Contentinum\SearchNews' => 'Contentinum\Factory\Mapper\SearchNewsFactory',
             
             
             // factory
+            'Recommendation\Forms' => 'Contentinum\Factory\Form\RecommendationFormFactory',
+            'Search\Forms' => 'Contentinum\Factory\Form\SearchFormFactory',
             'Contentinum\FormFactory' => 'Contentinum\Factory\Form\CustomersFormFactory',
             'Contentinum\FormProcess' => 'Contentinum\Factory\Form\ProcessFormFactory',
             'Contentinum\FormDecorators' => 'Contentinum\Service\Form\DecoratorsServiceFactory',
@@ -165,7 +172,8 @@ return array(
     ),
     'controllers' => array(
         'factories' => array(
-             'Contentinum' => 'Contentinum\Factory\Controller\ApplicationControllerFactory',
+            'Contentinum' => 'Contentinum\Factory\Controller\ApplicationControllerFactory',
+            'Search' => 'Contentinum\Factory\Controller\SearchControllerFactory',
         ),        
     ),    
     'view_manager' => array(
@@ -235,7 +243,14 @@ return array(
                 'entitymanager' => 'doctrine.entitymanager.orm_default',
                 'entity' => 'Contentinum\Entity\WebPagesAttributes',
                 'savecache' => false,
-            ),                             
+            ), 
+            'contentinum_page_header' => array(
+                'cache' => 'contentinum_page_header',
+                'entitymanager' => 'doctrine.entitymanager.orm_default',
+                'entity' => 'Contentinum\Entity\WebPagesHeadlinks',
+                //'sortby' => 'host',
+                'savecache' => false,
+            ),                                        
         ),
         'log_configure' => array(
             'log_priority' => 6,
@@ -332,15 +347,290 @@ return array(
             'newsarchive' => 'Contentinum\Newsarchive',
             'newsyeararchive' => 'Contentinum\NewsArchiveYear',
             'news' => 'Contentinum\News',
+            'newsgroup' => 'Contentinum\NewsGroup',
             'navigation' => 'Contentinum\Navigation',
             'mediagroup' => 'Contentinum\Mediagroup',
             'filegroup' => 'Contentinum\Filegroup',
             'accountmembers' => 'Contentinum\AccountMembers',
             'maps' => 'Contentinum\Maps',
             'forms' => 'Contentinum\Forms',
-        ),        
+            'wanted' => 'Contentinum\Wanted',
+            'wantedgroup' => 'Contentinum\WantedGroup',   
+            'searchform' => 'Contentinum\SearchForms',
+            
+        ),    
+
+        'viewhelper_plugins' => array(
+            'topbar' => 'navigationtopbar',
+            'newsarchive' => 'newsarchivelist',
+            'newsyeararchive' => 'newsarchiveyearlist',
+            'news' => 'newsactual',
+            'newsgroup' => 'newsactual',
+            'navigation' => 'navigationbuild',
+            'mediagroup' => 'mediagroup',
+            'filegroup' => 'filegroup',
+            'accountmembers' => 'accountmembers',
+            'maps' => 'maps',
+            'forms' => 'forms',
+            'wanted' => 'wanted',
+            'wantedgroup' => 'wantedgroup',    
+            'searchform' => 'searchform',    
+        ),
         
         'default_plugins' => array(
+            
+
+            
+            'searchform' => array(
+                'resource' => 'intranet',
+                'name' => 'Nachrichten durchsuchen',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Suchformular anzeigen:',
+                                'empty_option' => 'Ergebnisseite',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/newsarchive',
+                                    'data' => array(
+                                        'worker' => 'Mcwork\Model\News',
+                                        'prepare' => 'select',
+                                        'result' => 'array',
+                                        'value' => 'web_contentgroup_id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
+            
+            'wantedgroup' => array(
+                'resource' => 'intranet',
+                'name' => 'Steckbriefgruppe',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Kontaktgruppe auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\IndexGroups',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            
+            ),            
+            
+            
+            
+            'wanted' => array(
+                'resource' => 'intranet',
+                'name' => 'Steckbrief',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Kontakt auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\Contacts',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'lastName'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            
+            ),            
             
             'navigation' => array(
                 'resource' => 'intranet',
@@ -351,7 +641,7 @@ return array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Navigation',
+                                'label' => 'Navigation auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -454,14 +744,14 @@ return array(
             
             'topbar' => array(
                 'resource' => 'intranet',
-                'name' => 'Topbar Navigation',
+                'name' => 'Navigation (Topbar)',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Navigation',
+                                'label' => 'Navigation auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -576,7 +866,7 @@ return array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Bildergalerien',
+                                'label' => 'Bildergalerien auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -669,7 +959,7 @@ return array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Dateigruppen',
+                                'label' => 'Dateigruppe auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -761,7 +1051,7 @@ return array(
             
             'forms' => array(
                 'resource' => 'intranet',
-                'name' => 'Forms',
+                'name' => 'Formulare',
             
                 'form' => array(
                     1 => array(
@@ -769,7 +1059,7 @@ return array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Formulare',
+                                'label' => 'Formular auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -844,14 +1134,14 @@ return array(
             ),
             'maps' => array(
                 'resource' => 'intranet',
-                'name' => 'Maps',
+                'name' => 'Karten (Google Maps)',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Maps',
+                                'label' => 'Karte auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -927,14 +1217,14 @@ return array(
             
             'newsarchive' => array(
                 'resource' => 'intranet',
-                'name' => 'News Archive',
+                'name' => 'Nachrichten Archiv monatlich',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'News',
+                                'label' => 'Nachrichten auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -1011,14 +1301,14 @@ return array(
             
             'newsyeararchive' => array(
                 'resource' => 'intranet',
-                'name' => 'News Archive only years',
+                'name' => 'Nachrichten Archiv jährlich',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'News',
+                                'label' => 'Nachrichten auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -1092,16 +1382,118 @@ return array(
                 )
             ),
             
-            'news' => array(
+            
+            'newsgroup' => array(
                 'resource' => 'intranet',
-                'name' => 'News',
+                'name' => 'Nachrichten Gruppe',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'News',
+                                'label' => 'Nachrichten Gruppe auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\WebContentNameGroup',
+                                        'prepare' => 'select',                                      
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Display items',
+                                'value_options' => array(
+                                    '1' => 'Display 1',
+                                    '2' => 'Display 2',
+                                    '3' => 'Display 3',
+                                    '4' => 'Display 4',
+                                    '5' => 'Display 5',
+                                    '6' => 'Display 6',
+                                    '7' => 'Display 7',
+                                    '8' => 'Display 8',
+                                    '9' => 'Display 9',
+                                    '10' => 'Display 10',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
+            
+            
+            
+            'news' => array(
+                'resource' => 'intranet',
+                'name' => 'Nachrichten',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Nachrichten auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
@@ -1217,7 +1609,6 @@ return array(
                             'type' => 'Select',
             
                             'attributes' => array(
-                                'required' => 'required',
                                 'id' => 'modulParams'
                             )
                         )
@@ -1231,6 +1622,7 @@ return array(
                                 'value_options' => array(
                                     'navsearch' => 'Search by letter',
                                     'shufflepictures' => 'Shuffle only images',
+                                    'listdatas' => 'Organisation Steckbriefe',
                                 ),
                                 'deco-row' => 'text'
                             ),
@@ -1268,13 +1660,13 @@ return array(
                                     '18' => 'Display 18',
                                     '19' => 'Display 19',
                                     '20' => 'Display 20',
+                                    '9999' => '&infin;'
                                 ),
                                 'deco-row' => 'text'
                             ),
                             'type' => 'Select',
             
                             'attributes' => array(
-                                'required' => 'required',
                                 'id' => 'modulFormat'
                             )
                         )
@@ -1319,115 +1711,9 @@ return array(
 
         
         'modules' => array(
-            'contentinum' => array(
-                'root_path' => __DIR__ . '/../assets',
-                
-                'collections' => array(
-                    'foundation' => array(
-                        'assets' => array(
-                            'foundation/css/font-awesome.css',
-                            'foundation/css/normalize.css',
-                            'foundation/css/foundation.min.css'
-                        ),
-                        'filters' => array(
-                            '?CssRewriteFilter' => array(
-                                'name' => 'Assetic\Filter\CssRewriteFilter'
-                            ),
-                            '?CssMinFilter' => array(
-                                'name' => 'Assetic\Filter\CssMinFilter'
-                            )
-                        )
-                    ),
-                    'login' => array(
-                        'assets' => array(
-                            'foundation/css/font-awesome.css',
-                            'foundation/css/normalize.css',
-                            'foundation/css/foundation.min.css',
-                            'login/css/login.css'
-                        ),
-                        'filters' => array(
-                            '?CssRewriteFilter' => array(
-                                'name' => 'Assetic\Filter\CssRewriteFilter'
-                            ),
-                            '?CssMinFilter' => array(
-                                'name' => 'Assetic\Filter\CssMinFilter'
-                            )
-                        )
-                    ),                    
-                    'head_foundation' => array(
-                        'assets' => array(
-                            'foundation/js/vendor/modernizr.js'
-                        ),
-                        'filters' => array(
-                            '?JSMinFilter' => array(
-                                'name' => 'Assetic\Filter\JSMinFilter'
-                            )
-                        )
-                    )
-                    ,
-                    'scriptsfoundation' => array(
-                        'assets' => array(
-                            'foundation/js/vendor/jquery.js',
-                            'foundation/js/foundation.min.js',
-                            'foundation/js/init.js'
-                        ),
-                        'filters' => array(
-                            '?JSMinFilter' => array(
-                                'name' => 'Assetic\Filter\JSMinFilter'
-                            )
-                        )
-                    ),
-                    'scriptslogin' => array(
-                        'assets' => array(
-                            'foundation/js/vendor/jquery.js',
-                            'foundation/js/foundation.min.js',
-                            'foundation/js/init.js',
-                            'login/js/login.js'
-                        ),
-                        'filters' => array(
-                            '?JSMinFilter' => array(
-                                'name' => 'Assetic\Filter\JSMinFilter'
-                            )
-                        )
-                    ),                    
-                    'core' => array(
-                        'assets' => array(
-                            'default/css/normalize.css',
-                            'default/css/main.css'
-                        ),
-                        'filters' => array(
-                            '?CssRewriteFilter' => array(
-                                'name' => 'Assetic\Filter\CssRewriteFilter'
-                            ),
-                            '?CssMinFilter' => array(
-                                'name' => 'Assetic\Filter\CssMinFilter'
-                            )
-                        )
-                    ),
-                    'head_modernizr' => array(
-                        'assets' => array(
-                            'default/js/vendor/modernizr-2.6.2.min.js'
-                        ),
-                        'filters' => array(
-                            '?JSMinFilter' => array(
-                                'name' => 'Assetic\Filter\JSMinFilter'
-                            )
-                        )
-                    )
-                    ,
-                    'scripts' => array(
-                        'assets' => array(
-                            'default/js/vendor/jquery-1.11.1.min.js',
-                            'default/js/plugins.js'
-                        ),
-                        'filters' => array(
-                            '?JSMinFilter' => array(
-                                'name' => 'Assetic\Filter\JSMinFilter'
-                            )
-                        )
-                    )
-                )
-            )
+            
+            
+
         )
     )
 );

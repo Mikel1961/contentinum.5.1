@@ -1,0 +1,60 @@
+<?php
+$feed = new Zend\Feed\Writer\Feed();
+$entries = $this->entries;
+$host = ($this->protocol) ? $this->protocol : 'http' ;
+$host .= '://' . $this->host;
+$configure = $entries['feed'];
+$feed->setTitle($configure['feed_title']);
+$feed->setLink($host);
+$feed->setFeedLink($host . '/' . $configure['feed_url'], 'rss');
+$feed->addAuthor(array(
+    'name' => $configure['feed_author'],
+    'email' => $configure['feed_authoremail'],
+    'uri' => $configure['feed_authorinternet']
+));
+$feed->setDescription($configure['feed_title']);
+$feed->setDateModified(time());
+$feed->setGenerator('contentinum5', '5.1', 'http://www.contentinum.de');
+foreach ($entries['feedentries'] as $entry) {
+    if (strlen($entry['headline']) > 1) {      
+        $feedEntry = $feed->createEntry();
+        $dateTime = new \DateTime($entry['up_date']);
+        $feedEntry->setDateModified($dateTime);
+        $dateTime = new \DateTime($entry['publish_date']);
+        $feedEntry->setDateCreated($dateTime);
+        $feedEntry->setTitle($entry['headline']);
+        $feedEntry->setLink($host . '/' . $entry['url'] . '/' . $entry['source']);
+        $feedEntry->addAuthor(array(
+            'name' => $entry['publish_author']
+        ));
+        $feedEntry->setDescription($entry['publish_author']);
+        $addMedia = '';
+        if (1 !== (int) $entry['web_medias_id']) {
+            $media = null;
+            foreach ($this->medias as $mediaRow) {
+                if ($mediaRow->id === (int) $entry['web_medias_id']) {
+                    $media = $mediaRow->toArray();
+                    break;
+                }
+            }          
+            if (null !== $media) {
+                $addMedia .= '<p><figure>';               
+                $size = explode('x', $media['mediaSizes']);
+                $width = '';
+                if ($size[0] > '400'){
+                    $width = ' width="400"';
+                }
+                $addMedia .= '<img src="'. $host . '/' . $media['mediaLink'] . '"'.$width.'>';
+                $addMedia .= '</figure></p>';
+            }            
+        }
+        $feedEntry->setContent($addMedia.$entry['content']);
+        $feed->addEntry($feedEntry);
+    }
+}
+$out = $feed->export('rss');
+header("Content-Type: text/xml, application/xml");
+while (ob_get_level()) {
+    ob_end_clean();
+}
+print $out;exit();

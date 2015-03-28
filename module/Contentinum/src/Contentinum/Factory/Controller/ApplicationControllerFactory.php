@@ -32,6 +32,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Contentinum\Controller\ApplicationController;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
+use Contentinum\Controller\SearchController;
 
 
 /**
@@ -57,9 +58,11 @@ class ApplicationControllerFactory implements FactoryInterface
          * @var Contentinum\Options\PageOptions $pageOptions Contentinum\Options\PageOptions
          */
         $pageOptions = $sl->get('Contentinum\PageOptions');
+        $defaultPages = $sl->get('Contentinum\PageConfiguration');  
         $request = new HttpRequest();
         $pageOptions->setHost($request->getUri()->getHost());
         $pageOptions->setQuery($request->getUri()->getPath());
+        $pageOptions->setProtocol(null);
         $preferences = $sl->get('Contentinum\Preference');
         $pageOptions->addPageOptions($preferences);
         $pageOptions->addPageOptions($preferences, $pageOptions->getHost());
@@ -69,27 +72,50 @@ class ApplicationControllerFactory implements FactoryInterface
         $attribute = $sl->get('Contentinum\AttributePages');
         $attribute = (is_array($attribute)) ? $attribute : $attribute->toArray();
         $url = $pageOptions->split($pageOptions->getQuery(),1);
+        $pageHeaders = $sl->get('Contentinum\PageHeaders');
+
         if (strlen($url) == 0){
             $url = 'index';
-        }     
-       
+        }    
+        
         if (isset($pages[$url])){
             $page = $pages[$url];
             ( isset( $attribute[$page['parentPage']] ) ) ? $pageOptions->addPageOptions($attribute, $page['parentPage']) : false;
-            ( isset( $attribute[$page['id']] ) ) ? $pageOptions->addPageOptions($attribute, $page['id']) : false;            
+            ( isset( $attribute[$page['id']] ) ) ? $pageOptions->addPageOptions($attribute, $page['id']) : false;   
+            ( isset( $pageHeaders[$page['parentPage']] ) ) ? $pageOptions->addPageHeaders($pageHeaders[$page['parentPage']]) : false;
+            ( isset( $pageHeaders[$page['id']] ) ) ? $pageOptions->addPageHeaders($pageHeaders[$page['id']]) : false;
             $pageOptions->addPageOptions($pages, $url);
             $em = $sl->get($pageOptions->getAppOption('entitymanager'));
             $workerName = $pageOptions->getAppOption('worker');
             $worker = new $workerName($em);
             $entityName = $pageOptions->getAppOption('entity');
             $worker->setEntity(new $entityName());
+            switch ($url){
+                case 'suche' :
+                    $controller = new SearchController($pageOptions, $page);
+                    break;
+                default:
+                    $controller = new ApplicationController($pageOptions, $page);
+                    break;
+            }
             
-            $controller = new ApplicationController($pageOptions, $page);
             $controller->setWorker($worker);
             return $controller;            
-            
+        } elseif ($defaultPages[$url]){
+            $page = $defaultPages[$url];
+            $page = $page->toArray();
+            $pageOptions->addPageOptions($attribute, $pages['index']['parentPage']);
+            $pageOptions->addPageOptions($defaultPages->toArray(), $url);
+            $em = $sl->get($pageOptions->getAppOption('entitymanager'));
+            $workerName = $pageOptions->getAppOption('worker');
+            $worker = new $workerName($em);
+            $entityName = $pageOptions->getAppOption('entity');
+            $worker->setEntity(new $entityName());            
+            $controllerName = $pageOptions->getAppOption('controller');
+            $controller = new $controllerName($pageOptions, $page);
+            $controller->setWorker($worker);
+            return $controller;                
         } else {
-
             $ctrl = new \Contentinum\Controller\ErrorController();
             $ctrl->setMessage('The desired page is not available!');
             return $ctrl;  

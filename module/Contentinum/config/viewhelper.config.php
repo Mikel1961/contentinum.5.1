@@ -8,36 +8,50 @@ return array(
         'formelement' => 'ContentinumComponents\Forms\View\Helper\FormElement',
         'formNote' => 'ContentinumComponents\Forms\View\Helper\FormNote',        
         
-        'navigationcontentinum' => 'ContentinumComponents\View\Helper\Navigation\Contentinum',
-        'navigationbuild' => 'ContentinumComponents\View\Helper\Content\Navigation\Build',
-        'navigationtopbar'  => 'ContentinumComponents\View\Helper\Content\Foundation\Topbar',
+        'navigationcontentinum' => 'Contentinum\View\Helper\Navigation\Contentinum',
+        'navigationbuild' => 'Contentinum\View\Helper\Navigation\Build',
+        'navigationtopbar'  => 'Contentinum\View\Helper\Navigation\Topbar',
         
-        'contribution' => 'ContentinumComponents\View\Helper\Content\Contribution',
-        'images' => 'ContentinumComponents\View\Helper\Content\Images',
-        'contentelement' => 'ContentinumComponents\View\Helper\Content\Element',
-        'contentrow' => 'ContentinumComponents\View\Helper\Content\Row',
-        'contentgrid' => 'ContentinumComponents\View\Helper\Content\Grid',     
-        'contentblockgrid' => 'ContentinumComponents\View\Helper\Content\Blockgrid',
-        'contenttabs' => 'ContentinumComponents\View\Helper\Content\Tabs',
-        'contentaccordion' => 'ContentinumComponents\View\Helper\Content\Accordion',
-        'contenttoolbar' => 'ContentinumComponents\View\Helper\Content\Toolbar',
-        'news' => 'ContentinumComponents\View\Helper\Content\News',
-        'newsactual' => 'ContentinumComponents\View\Helper\Content\NewsActual',
+        'contribution' => 'Contentinum\View\Helper\Contribution',
+        'images' => 'Contentinum\View\Helper\Medias\Images',
+        'contentelement' => 'Contentinum\View\Helper\Element',
+        
+        
+        'contentrow' => 'Contentinum\View\Helper\Styles\Row',
+        'contentgrid' => 'Contentinum\View\Helper\Styles\Grid',     
+        'contentblockgrid' => 'Contentinum\View\Helper\Styles\BlockGrid',
+        'contenttabs' => 'Contentinum\View\Helper\Styles\Tabs',
+        'contentaccordion' => 'Contentinum\View\Helper\Styles\Accordion',
+        'contenttoolbar' => 'Contentinum\View\Helper\Styles\Toolbar',
+        
+        
+        
+        'news' => 'Contentinum\View\Helper\News\App',
+        'newsactual' => 'Contentinum\View\Helper\News\Actual',
+        
+        'wanted' => 'Contentinum\View\Helper\Wanted\Single',
+        'wantedgroup' => 'Contentinum\View\Helper\Wanted\Group',        
 
         
-        'newsarchivelist' => 'ContentinumComponents\View\Helper\Content\Archivelist',
-        'newsarchiveyearlist' => 'ContentinumComponents\View\Helper\Content\ArchiveYearList',
-        'mediagroup' => 'ContentinumComponents\View\Helper\Content\Mediagroup',
-        'filegroup' => 'ContentinumComponents\View\Helper\Content\Filegroup',
-        'maps' => 'ContentinumComponents\View\Helper\Content\Maps',
-        'forms' => 'ContentinumComponents\View\Helper\Content\Forms',
+        'newsarchivelist' => 'Contentinum\View\Helper\News\Archive\Monthly',
+        'newsarchiveyearlist' => 'Contentinum\View\Helper\News\Archive\Annually',
+        'mediagroup' => 'Contentinum\View\Helper\Medias\Group',
+        'filegroup' => 'Contentinum\View\Helper\Medias\FilesGroup',
         
-        'filesize' => 'ContentinumComponents\View\Helper\Filesize',
         
-        'buildlayout' => 'ContentinumComponents\View\Helper\Buildlayout',
-        'layoutassets' => 'ContentinumComponents\View\Helper\Assets',
+        'maps' => 'Contentinum\View\Helper\Maps',
+        'forms' => 'Contentinum\View\Helper\Forms',
+        'searchform' => 'Contentinum\View\Helper\SearchForm',
         
-        'accountmembers' => 'ContentinumComponents\View\Helper\Content\Customer\AccountMembers',
+        'searchhighlight' => 'Contentinum\View\Helper\Search\HighlightPhrase',
+        
+        'filesize' => 'Contentinum\View\Helper\Filesize',
+        
+        'buildlayout' => 'Contentinum\View\Helper\Buildlayout',
+        'layoutassets' => 'Contentinum\View\Helper\Assets',
+        
+        'accountmembers' => 'Contentinum\View\Helper\Account\Members',
+        'accountgroup' => 'Contentinum\View\Helper\Account\Group',
         
 
 
