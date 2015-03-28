@@ -29,7 +29,7 @@ use ContentinumComponents\Html\HtmlTable;
 use ContentinumComponents\Html\Table\FactoryTable;
 // prepare content, create a table
 $tableFactory = new HtmlTable(new FactoryTable());
-$ctrlpath = 'eventdate';
+$ctrlpath = 'calendargroup';
 // set table tag attributes
 $tableFactory->setAttributes('class', 'table tblNoSort display compact');
 $tableFactory->setAttributes('id', 'mcworkTables');
@@ -37,8 +37,7 @@ $i = 0;
 $iClass = 0;
 $headlines = array(
     '#' => array(),
-    'Termine' => array(),
-    'Datum' => array(),
+    'Gruppe' => array(),
     'Edit' => array(
         'head' => array(
             'class' => 'hide-for-small text-right'
@@ -74,10 +73,8 @@ foreach ($this->entries as $entry) {
     if (true === $this->listIsAllowed($entry, $this->identity)){
     $i ++;
     $rowContent = array();
-    $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->summary . '" />';
-    $rowContent[] = $entry->summary;
-    $datetime = new \DateTime($entry->dateStart);
-    $rowContent[] = '<time>' . $this->dateFormat(new \DateTime($entry->dateStart), \IntlDateFormatter::FULL) . ', ' . $datetime->format("H:i") . '</time>';
+    $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->title . '" />';
+    $rowContent[] = '<a href="/mcevent/calgroups/category/'.$entry->id.'">' . $entry->title . '</a>';
     
     $props = array(
         'edit' => array(
@@ -90,7 +87,7 @@ foreach ($this->entries as $entry) {
         'delete' => array(
             'href' => '/mcevent/' . $ctrlpath . '/delete/' .  $entry->id,
             'attribs' => array(
-                'data-name' => $entry->summary,
+                'data-name' => $entry->title,
                 'data-ident' => 'row' . $i,
                 'title' => 'Delete item',
                 'class' => 'button tiny alert deleteitem'

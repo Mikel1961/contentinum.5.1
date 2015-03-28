@@ -27,43 +27,22 @@
  */
 namespace Mcevent\Mapper;
 
-use Contentinum\Mapper\AbstractModuls;
+use ContentinumComponents\Mapper\Worker;
 
-class ModulDates extends AbstractModuls
+/**
+ * Query contents for this request
+ *
+ * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
+ */
+class Group extends Worker
 {
-
-    const ENTITY_NAME = 'Mcevent\Entity\MceventDates';
-
-    const TABLE_NAME = 'web_maps_data';
-    
     /**
-     * (non-PHPdoc)
-     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
+     * Content query
+     * @param array $params query conditions
+     * @return multitype:
      */
     public function fetchContent(array $params = null)
     {
-        return $this->query($this->configure['modulParams']);
-    }
-
-    /**
-     *
-     * @param unknown $id            
-     */
-    private function query($id)
-    {
-        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
-        if (null == $this->configure['modulDisplay']) {
-            return $repository->findBy(array(
-                'calendar' => $id,
-            ), array(
-                'dateStart' => 'ASC'
-            ));
-        } else {
-            return $repository->findBy(array(
-                'calendar' => $id
-            ), array(
-                'dateStart' => 'ASC'
-            ), (int) $this->configure['modulDisplay']);
-        }
+        return $this->getStorage()->getRepository( $this->getEntityName() )->findAll();
     }
 }

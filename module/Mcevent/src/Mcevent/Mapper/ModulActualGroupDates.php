@@ -29,12 +29,11 @@ namespace Mcevent\Mapper;
 
 use Contentinum\Mapper\AbstractModuls;
 
-class ModulDates extends AbstractModuls
+class ModulActualGroupDates extends AbstractModuls
 {
 
     const ENTITY_NAME = 'Mcevent\Entity\MceventDates';
 
-    const TABLE_NAME = 'web_maps_data';
     
     /**
      * (non-PHPdoc)
@@ -51,19 +50,36 @@ class ModulDates extends AbstractModuls
      */
     private function query($id)
     {
-        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
-        if (null == $this->configure['modulDisplay']) {
-            return $repository->findBy(array(
-                'calendar' => $id,
-            ), array(
-                'dateStart' => 'ASC'
-            ));
-        } else {
-            return $repository->findBy(array(
-                'calendar' => $id
-            ), array(
-                'dateStart' => 'ASC'
-            ), (int) $this->configure['modulDisplay']);
+        $calenders = $this->groupQuery($id);
+        $orWhere = '';
+        foreach ($calenders as $calender){
+            if ( strlen($orWhere) > 1  ){
+                $orWhere .= ' OR ';
+            }
+            $orWhere .= "main.calendar = '{$calender['calendar_id']}'";
         }
+        
+        $em = $this->getStorage();
+        $builder = $em->createQueryBuilder();
+        $builder->select('main');
+        $builder->from(self::ENTITY_NAME , 'main');
+        $builder->where("main.dateStart >= '" . date('Y-m-d') . " 00:00:00'");
+        $builder->andWhere($orWhere);
+        $builder->add('orderBy', 'main.dateStart ASC');
+        
+        if (null != $this->configure['modulDisplay']) {
+            $builder->setMaxResults( $this->configure['modulDisplay'] );
+        }
+        //var_dump($builder->getQuery()->getSQL());exit;
+        return $builder->getQuery()->getResult();        
+    }
+    
+    /**
+     * 
+     * @param unknown $id
+     */
+    private function groupQuery($id)
+    {
+        return $this->fetchAll("SELECT calendar_id FROM mcevent_index WHERE groups_id = '{$id}'");
     }
 }

@@ -29,7 +29,7 @@ namespace Mcevent\Mapper;
 
 use Contentinum\Mapper\AbstractModuls;
 
-class ModulDates extends AbstractModuls
+class ModulActualDates extends AbstractModuls
 {
 
     const ENTITY_NAME = 'Mcevent\Entity\MceventDates';
@@ -51,19 +51,21 @@ class ModulDates extends AbstractModuls
      */
     private function query($id)
     {
-        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
-        if (null == $this->configure['modulDisplay']) {
-            return $repository->findBy(array(
-                'calendar' => $id,
-            ), array(
-                'dateStart' => 'ASC'
-            ));
-        } else {
-            return $repository->findBy(array(
-                'calendar' => $id
-            ), array(
-                'dateStart' => 'ASC'
-            ), (int) $this->configure['modulDisplay']);
+        
+        $em = $this->getStorage();
+        $builder = $em->createQueryBuilder();
+        $builder->select('main');
+        $builder->from(self::ENTITY_NAME , 'main');
+        $builder->where('main.calendar = :id');
+        $builder->andWhere('main.dateStart >= :id2');
+        $builder->setParameter('id', $id);
+        $builder->setParameter('id2', date('Y-m-d') . ' 00:00:00');
+        $builder->add('orderBy', 'main.dateStart ASC');
+        
+        if (null != $this->configure['modulDisplay']) {
+            $builder->setMaxResults( $this->configure['modulDisplay'] );
         }
+        
+        return $builder->getQuery()->getResult();        
     }
 }

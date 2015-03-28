@@ -27,18 +27,19 @@
  */
 use ContentinumComponents\Html\HtmlTable;
 use ContentinumComponents\Html\Table\FactoryTable;
+
 // prepare content, create a table
 $tableFactory = new HtmlTable(new FactoryTable());
-$ctrlpath = 'eventdate';
+$ctrlpath = 'calgroups';
 // set table tag attributes
 $tableFactory->setAttributes('class', 'table tblNoSort display compact');
 $tableFactory->setAttributes('id', 'mcworkTables');
 $i = 0;
-$iClass = 0;
+$iClass = 0;//sorting_disabled
 $headlines = array(
     '#' => array(),
-    'Termine' => array(),
-    'Datum' => array(),
+    'Kalender' => array(),
+    'Gruppe' => array(),
     'Edit' => array(
         'head' => array(
             'class' => 'hide-for-small text-right'
@@ -70,27 +71,26 @@ foreach ($headlines as $column => $attributes) {
 }
 $tableFactory->setHeadline($columns);
 $i = 0;
+
 foreach ($this->entries as $entry) {
     if (true === $this->listIsAllowed($entry, $this->identity)){
     $i ++;
     $rowContent = array();
-    $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->summary . '" />';
-    $rowContent[] = $entry->summary;
-    $datetime = new \DateTime($entry->dateStart);
-    $rowContent[] = '<time>' . $this->dateFormat(new \DateTime($entry->dateStart), \IntlDateFormatter::FULL) . ', ' . $datetime->format("H:i") . '</time>';
-    
+    $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]">';
+    $rowContent[] = $entry->calendar->name;    
+    $rowContent[] = $entry->groups->title;
     $props = array(
         'edit' => array(
-            'href' => '/mcevent/' . $ctrlpath . '/edit/' . $entry->id,
+            'href' => '/mcevent/' . $ctrlpath . '/edit/' . $entry->id . '/' . $this->category,
             'attribs' => array(
                 'title' => 'Edit item',
                 'class' => 'button tiny'
             )
         ),
         'delete' => array(
-            'href' => '/mcevent/' . $ctrlpath . '/delete/' .  $entry->id,
+            'href' => '/mcevent/' . $ctrlpath . '/delete/' . $entry->id . '/' . $this->category,
             'attribs' => array(
-                'data-name' => $entry->summary,
+                'data-name' => $entry->calendar->name,
                 'data-ident' => 'row' . $i,
                 'title' => 'Delete item',
                 'class' => 'button tiny alert deleteitem'
@@ -98,20 +98,19 @@ foreach ($this->entries as $entry) {
         ),
         'info' => array(
             'attribs' => array(
-                'data-service' => 'backend_client_app',
-                'data-appkey' => 'infoapp',                
-                'data-upDate' => $entry->upDate->format('d F Y, H:i:s'),
-                'data-registerDate' => $entry->registerDate->format('d F Y, H:i:s'),
-                'data-createBy' => $entry->createdBy,
-                'data-updateBy' => $entry->updateBy,
-                'data-username' => $this->identity->name,                
-                'data-role' => $this->role,
-                'title' => 'Item properties',
-                'class' => 'button tiny infotip'
+                    'data-service' => 'backend_client_app',
+                    'data-appkey' => 'infoapp',
+                    'data-upDate' => $entry->upDate->format('d F Y, H:i:s'),
+                    'data-registerDate' => $entry->registerDate->format('d F Y, H:i:s'),
+                    'data-createBy' => $entry->createdBy,
+                    'data-updateBy' => $entry->updateBy,
+                    'data-username' => $this->identity->name,
+                    'data-role' => $this->role,
+                    'title' => 'Item properties',
+                    'class' => 'button tiny infotip'
             )
-        )
+        )        
     );    
-    
     $rowContent[] = $this->mcworkToolbar($props, true, $this->tableeditcontent->toArray(), false );
     $tableFactory->setHtmlContent($rowContent);
     }
@@ -129,14 +128,21 @@ $toolbar = '';
 if (isset($this->toolbarcontent)) {
     $links = array(
         'add' => array(
-            'href' => '/mcevent/' . $ctrlpath . '/add'
+            'href' => '/mcevent/' . $ctrlpath . '/add/' . $this->category
         ),
         'edit' => array(
-            'href' => '/mcevent/' . $ctrlpath . '/edit'
+            'href' => '/mcevent/' . $ctrlpath . '/edit',
+            'attribs' => array(
+                'data-category' => $this->category
+            ),            
         ),
         'delete' => array(
             'href' => '/mcevent/' . $ctrlpath . '/delete'
-        )
+        ),
+        
+        'back' => array(
+            'href' => '/mcevent/calendargroup'
+        )       
     );
     $toolbar = $this->mcworkToolbar($links, true, $this->toolbarcontent->toArray());
 }

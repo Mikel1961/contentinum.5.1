@@ -40,8 +40,14 @@ class Dates extends Process
     public function save($datas, $entity = null, $stage = '', $id = null)
     {
         if (null === $entity->getPrimaryValue()) {
+            if (0 == $datas['account']){
+                $datas['account'] = 1;
+            }
             parent::save($datas, $entity, $stage, $id);
         } else {
+            if (0 == $datas['account']){
+                $datas['account'] = 1;
+            }            
             parent::save($datas, $entity, $stage, $id);
         }
     }    

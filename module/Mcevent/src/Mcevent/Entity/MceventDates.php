@@ -88,6 +88,27 @@ class MceventDates extends AbstractEntity
      * @ORM\Column(name="location", type="string", length=255, nullable=false)
      */
     private $location = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location_addresse", type="string", length=255, nullable=false)
+     */
+    private $locationAddresse = '';   
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location_zipcode", type="string", length=25, nullable=false)
+     */
+    private $locationZipcode = '';
+        
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location_city", type="string", length=255, nullable=false)
+     */
+    private $locationCity = '';    
 
     /**
      * @var string
@@ -409,6 +430,54 @@ class MceventDates extends AbstractEntity
     public function setLocation($location)
     {
         $this->location = $location;
+    }
+
+	/**
+     * @return the $locationAddresse
+     */
+    public function getLocationAddresse()
+    {
+        return $this->locationAddresse;
+    }
+
+	/**
+     * @param string $locationAddresse
+     */
+    public function setLocationAddresse($locationAddresse)
+    {
+        $this->locationAddresse = $locationAddresse;
+    }
+
+	/**
+     * @return the $locationZipcode
+     */
+    public function getLocationZipcode()
+    {
+        return $this->locationZipcode;
+    }
+
+	/**
+     * @param string $locationZipcode
+     */
+    public function setLocationZipcode($locationZipcode)
+    {
+        $this->locationZipcode = $locationZipcode;
+    }
+
+	/**
+     * @return the $locationCity
+     */
+    public function getLocationCity()
+    {
+        return $this->locationCity;
+    }
+
+	/**
+     * @param string $locationCity
+     */
+    public function setLocationCity($locationCity)
+    {
+        $this->locationCity = $locationCity;
     }
 
 	/**

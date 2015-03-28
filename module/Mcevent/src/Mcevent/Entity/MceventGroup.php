@@ -31,12 +31,12 @@ use Doctrine\ORM\Mapping as ORM;
 use ContentinumComponents\Entity\AbstractEntity;
 
 /**
- * MceventIndex
+ * MceventGroup
  *
- * @ORM\Table(name="mcevent_index", indexes={@ORM\Index(name="CALGROUPITEM", columns={"calendar_id"}), @ORM\Index(name="CALENDARGROUP", columns={"groups_id"})});
+ * @ORM\Table(name="mcevent_group")
  * @ORM\Entity
  */
-class MceventIndex extends AbstractEntity
+class MceventGroup extends AbstractEntity
 {
     /**
      * @var integer
@@ -46,6 +46,27 @@ class MceventIndex extends AbstractEntity
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="scope", type="string", length=100, nullable=false)
+     */
+    private $scope = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="params", type="string", length=250, nullable=false)
+     */
+    private $params = '';
 
     /**
      * @var integer
@@ -74,26 +95,6 @@ class MceventIndex extends AbstractEntity
      * @ORM\Column(name="up_date", type="datetime", nullable=false)
      */
     private $upDate;
-    
-    /**
-     * @var \Mcevent\Entity\MceventGroup
-     *
-     * @ORM\ManyToOne(targetEntity="Mcevent\Entity\MceventGroup")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="groups_id", referencedColumnName="id")
-     * })
-     */    
-    private $groups;    
-    
-    /**
-     * @var \Mcevent\Entity\MceventTypes
-     *
-     * @ORM\ManyToOne(targetEntity="Mcevent\Entity\MceventTypes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="calendar_id", referencedColumnName="id")
-     * })
-     */
-    private $calendar;    
 
     /**
      * Construct
@@ -151,6 +152,54 @@ class MceventIndex extends AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+	/**
+     * @return the $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+	/**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+	/**
+     * @return the $scope
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+	/**
+     * @param string $scope
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+    }
+
+	/**
+     * @return the $params
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+	/**
+     * @param string $params
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
     }
 
 	/**
@@ -216,40 +265,5 @@ class MceventIndex extends AbstractEntity
     {
         $this->upDate = $upDate;
     }
-	/**
-     * @return the $groups
-     */
-    public function getGroups()
-    {
-        return $this->groups;
-    }
 
-	/**
-     * @param \Mcevent\Entity\MceventGroup $groups
-     */
-    public function setGroups($groups)
-    {
-        $this->groups = $groups;
-    }
-
-	/**
-     * @return the $calendar
-     */
-    public function getCalendar()
-    {
-        return $this->calendar;
-    }
-
-	/**
-     * @param \Mcevent\Entity\MceventTypes $calendar
-     */
-    public function setCalendar($calendar)
-    {
-        $this->calendar = $calendar;
-    }
-
-
-    
-    
-    
 }

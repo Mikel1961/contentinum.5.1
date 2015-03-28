@@ -116,23 +116,85 @@ class Dates extends AbstractForms
                     )
                 )
             ),            
+            
+            array(
+                'spec' => array(
+                    'name' => 'location',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'location'
+                    )
+                )
+            ),  
 
+            array(
+                'spec' => array(
+                    'name' => 'locationAddresse',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Straße',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationAddresse'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'locationZipcode',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Postleitzahl',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationZipcode'
+                    )
+                )
+            ),            
+            
 
+            array(
+                'spec' => array(
+                    'name' => 'locationCity',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Stadt',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationCity'
+                    )
+                )
+            ),            
             
             array(
                 'spec' => array(
                     'name' => 'account',
                     'required' => false,
-                   //'Mcevent\Locations'
                     'options' => array(
-                        'label' => 'Veranstaltungsort',
+                        'label' => 'Veranstaltungsort auswählen',
                         'empty_option' => 'Please select',
                         'value_options' => $this->getOptions('Mcevent\Locations'),
-                        /*
-                        'value_options' => $this->getSelectOptions('account', array(
-                            'value' => 'id',
-                            'label' => 'organisation'
-                        )),*/
+                        'description' => 'Überschreibt Veranstaltungsort',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
             
@@ -186,6 +248,9 @@ class Dates extends AbstractForms
     public function filter()
     {
         return array(
+            'account' => array(
+                'required' => false,
+            ),
         );
     }
 

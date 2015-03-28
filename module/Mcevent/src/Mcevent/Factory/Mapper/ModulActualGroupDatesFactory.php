@@ -17,7 +17,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category Mcevent
- * @package Mapper
+ * @package Factory
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  * @copyright Copyright (c) 2009-2013 jochum-mediaservices, Katja Jochum (http://www.jochum-mediaservices.de)
  * @license http://www.opensource.org/licenses/bsd-license
@@ -25,45 +25,27 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Mcevent\Mapper;
+namespace Mcevent\Factory\Mapper;
 
-use Contentinum\Mapper\AbstractModuls;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Mcevent\Mapper\ModulActualGroupDates;
 
-class ModulDates extends AbstractModuls
+/**
+ * 
+ * @author mike
+ *
+ */
+class ModulActualGroupDatesFactory implements FactoryInterface
 {
-
-    const ENTITY_NAME = 'Mcevent\Entity\MceventDates';
-
-    const TABLE_NAME = 'web_maps_data';
-    
     /**
      * (non-PHPdoc)
-     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
-     */
-    public function fetchContent(array $params = null)
-    {
-        return $this->query($this->configure['modulParams']);
-    }
-
-    /**
      *
-     * @param unknown $id            
+     * @see \Zend\ServiceManager\FactoryInterface::createService()
      */
-    private function query($id)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
-        if (null == $this->configure['modulDisplay']) {
-            return $repository->findBy(array(
-                'calendar' => $id,
-            ), array(
-                'dateStart' => 'ASC'
-            ));
-        } else {
-            return $repository->findBy(array(
-                'calendar' => $id
-            ), array(
-                'dateStart' => 'ASC'
-            ), (int) $this->configure['modulDisplay']);
-        }
-    }
+        $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
+        return new ModulActualGroupDates($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+    }    
 }
