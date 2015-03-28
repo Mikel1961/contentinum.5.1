@@ -31,8 +31,11 @@ use Zend\View\Helper\AbstractHelper;
 
 class SearchForm extends AbstractHelper
 {
-
-    protected $bCase = FALSE;
+    /**
+     * Ignore case sensitive
+     * @var boolen
+     */
+    protected $bCase = true;
 
     /**
      *
@@ -52,7 +55,7 @@ class SearchForm extends AbstractHelper
             $form->populateValues(array('contentsearch' => $this->view->contentsearch));
             $contentsearch = htmlentities($this->view->contentsearch,ENT_COMPAT,'UTF-8');
             $strModifier = '';
-            if ($this->bCase) {
+            if (true === $this->bCase) {
                 $strModifier = 'i';
             }
             $strQuotedNeedle = preg_quote($contentsearch, '/');
