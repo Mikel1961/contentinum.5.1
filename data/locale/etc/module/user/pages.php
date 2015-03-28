@@ -14,7 +14,7 @@ return array(
         )
     ),    
     'login' => array(
-        'headline' => 'User Login',
+        'headline' => '<h2>Benutzer Login</h2>',
         'scope' => 'login',
         'resource' => 'index',
         'label' => 'Login',
@@ -23,7 +23,7 @@ return array(
         'metaDescription' => '',
         'robots' => 'index,follow',
         'language' => 'de',
-        'content' => '',
+        'content' => '<p>Loggen Sie sich Bitte mit Ihrem Benutzernamen und Passwort ein.</p>',
 
     ),
     'logout' => array(

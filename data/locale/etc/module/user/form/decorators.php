@@ -4,7 +4,7 @@ return array(
         'deco-form' => array(
             'form-attributtes' => array(
                 'id' => 'loginForm',
-                //'data-abide' => 'data-abide'
+                'accept-charset' => 'UTF-8'
             )
         ),
         'deco-row' => array(
