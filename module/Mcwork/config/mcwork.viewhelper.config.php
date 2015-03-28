@@ -1,12 +1,13 @@
 <?php
 return array(
     'invokables' => array(
-        'mcworkContent' => 'ContentinumComponents\View\Helper\Mcwork\Content',
-        'mcworkSelectRang' => 'ContentinumComponents\View\Helper\Mcwork\SelectRang',
-        'mcworkPublishItem' => 'ContentinumComponents\View\Helper\Mcwork\PublishItem',
-        'mcworkTableEdit' => 'ContentinumComponents\View\Helper\Mcwork\TableEdit',
-        'mcworkToolbar' => 'ContentinumComponents\View\Helper\Mcwork\Toolbar',
-        'mediasTableView' => 'ContentinumComponents\View\Helper\Mcwork\MediasTableView',
-        'listIsAllowed' => 'ContentinumComponents\View\Helper\Mcwork\IsAllowed',
+        'mcworkAlert' => 'Mcwork\View\Helper\Mcwork\Alert',
+        'mcworkContent' => 'Mcwork\View\Helper\Mcwork\Content',
+        'mcworkSelectRang' => 'Mcwork\View\Helper\Mcwork\SelectRang',
+        'mcworkPublishItem' => 'Mcwork\View\Helper\Mcwork\PublishItem',
+        'mcworkTableEdit' => 'Mcwork\View\Helper\Mcwork\TableEdit',
+        'mcworkToolbar' => 'Mcwork\View\Helper\Mcwork\Toolbar',
+        'mediasTableView' => 'Mcwork\View\Helper\Mcwork\MediasTableView',
+        'listIsAllowed' => 'Mcwork\View\Helper\Mcwork\IsAllowed',
     )
 );
