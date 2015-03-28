@@ -27,7 +27,7 @@
  */
 // display form
 $aside = '';
-$mcontent = '<h1>' . $this->translate('User Login') . '</h1>';
+$mcontent = $this->headline;
 $header = '';
 $footer = '';
 $this->layoutassets($this->htmllayouts,'login');
@@ -54,6 +54,7 @@ if ($this->messages){
 if (false === $locked){
     $mcontent .= $this->renderForm($this->form);
 } 
+$mcontent .= $this->content;
 $layout = $this->buildlayout($this->htmllayouts,'login');
 foreach ($layout as $row) {
     if (is_array($row)) {

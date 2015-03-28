@@ -85,6 +85,7 @@ class LoginFrom extends AbstractForms
                     'name' => 'send',
                     'type'  => 'Submit',
                     'attributes' => array(
+                        'id' => 'submitlogin',
                         'class' => 'button expand',
                         'value' => 'Login',
                     ),

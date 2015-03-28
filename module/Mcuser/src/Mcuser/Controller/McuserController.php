@@ -47,9 +47,7 @@ class McuserController extends AbstractFrontendController
      */
     public function application($pageOptions, $page, $defaultRole, $acl)
     {
-        
 
-        
         $this->frontendlayout($pageOptions, $defaultRole, $acl, $this->layout(), $this->getServiceLocator()
             ->get('viewHelperManager'));
         
@@ -57,6 +55,8 @@ class McuserController extends AbstractFrontendController
         
         return $this->buildView(array(
             'htmllayouts' => $this->getServiceLocator()->get('Contentinum\Htmllayouts'),
+            'headline' => $pageOptions->headline,
+            'content' => $pageOptions->content,
             'form' => $loginForm,
             'messages' => $this->flashMessenger()
                 ->setNamespace('contentinum-login')
