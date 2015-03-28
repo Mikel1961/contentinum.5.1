@@ -31,9 +31,10 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Mcwork\Model\Save\Upload;
 
-class SaveUploadFactory implements FactoryInterface
+class FsUploadDataSaveFactory implements FactoryInterface
 {
-    /* (non-PHPdoc)
+    /*
+     * (non-PHPdoc)
      * @see \Zend\ServiceManager\FactoryInterface::createService()
      */
     public function createService(ServiceLocatorInterface $sl)
@@ -41,5 +42,5 @@ class SaveUploadFactory implements FactoryInterface
         $model = new Upload($sl->get('doctrine.entitymanager.orm_default'));
         $model->setEntity($sl->get('Entity\Medias'));
         return $model;
-    }    
+    }
 }

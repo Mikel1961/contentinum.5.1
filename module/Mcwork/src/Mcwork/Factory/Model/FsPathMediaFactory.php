@@ -29,9 +29,8 @@ namespace Mcwork\Factory\Model;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Mcwork\Model\Files\FileTags;
 
-class FileAssignTagsFactory implements FactoryInterface
+class FsPathMediaFactory implements FactoryInterface
 {
     /* (non-PHPdoc)
      * @see \Zend\ServiceManager\FactoryInterface::createService()
@@ -42,7 +41,8 @@ class FileAssignTagsFactory implements FactoryInterface
          * @var $pageOptions \Mcwork\Options\PageOptions
          */
         $pageOptions = $sl->get('Mcwork\PageOptions');
-        $filetags = new FileTags($sl->get('doctrine.entitymanager.orm_default'));
-        return $filetags->sortAssignsToItem($filetags->getAssigns(true));//'filesdenied'
+        $entityName = $pageOptions->getAppOption('entity');
+        $entity = new $entityName();
+        return $entity->getCurrentPath();
     }    
 }

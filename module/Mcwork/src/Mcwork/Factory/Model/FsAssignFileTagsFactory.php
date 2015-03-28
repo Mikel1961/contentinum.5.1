@@ -31,7 +31,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Mcwork\Model\Files\FileTags;
 
-class FiletagsFactory implements FactoryInterface
+class FsAssignFileTagsFactory implements FactoryInterface
 {
     /* (non-PHPdoc)
      * @see \Zend\ServiceManager\FactoryInterface::createService()
@@ -42,6 +42,7 @@ class FiletagsFactory implements FactoryInterface
          * @var $pageOptions \Mcwork\Options\PageOptions
          */
         $pageOptions = $sl->get('Mcwork\PageOptions');
-        return new FileTags($sl->get($pageOptions->getAppOption('entitymanager')));
+        $filetags = new FileTags($sl->get('doctrine.entitymanager.orm_default'));
+        return $filetags->sortAssignsToItem($filetags->getAssigns(true));//'filesdenied'
     }    
 }

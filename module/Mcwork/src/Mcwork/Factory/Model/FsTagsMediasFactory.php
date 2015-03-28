@@ -31,7 +31,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Mcwork\Model\Medias\MediaTags;
 
-class MediatagsFactory implements FactoryInterface
+class FsTagsMediasFactory implements FactoryInterface
 {
     /* (non-PHPdoc)
      * @see \Zend\ServiceManager\FactoryInterface::createService()
