@@ -20,8 +20,373 @@
 
 		Mcwork.Locale = 'de_DE';
 		
-		var StandardModal = '#modal';
+		var DateTimePickerOptions = {
+			lang:'de',
+			format:'Y-m-d H:i',
+			step:30,
+			dayOfWeekStart:1,
+			allowBlank:true
+		};
 		
+		var TaggingOptions = {
+			
+			'case-sensitive' : true,
+			
+		}; 
+
+		var StandardModal = '#modal';
+
+		var StandardTemplate = {
+			header : {
+
+				row : {
+					element : 'header',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'modalcontent',
+					}
+				},
+				content : {
+					element : 'h4',
+					'attr' : {
+						'id' : 'modalhead',
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'heads',
+						'txt' : 'error'
+					},
+					'behind' : '<i class="fa fa-exclamation-triangle"> </i>'
+				}
+
+			},
+			body : {
+
+				row : {
+					element : 'section',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'modalcontent',
+					}
+				},
+				content : {
+					element : 'p',
+					'attr' : {
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'usr',
+						'txt' : 'unkown_app'
+					},
+
+				}
+
+			},
+			footer : {
+
+				row : {
+					element : 'footer',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'modalfooter',
+					}
+				},
+				content : {
+					row : {
+						element : 'ul',
+						'attr' : {
+							'class' : 'modal-buttons right'
+						}
+					},
+					'grids' : {
+						'1' : {
+							'element' : 'li'
+						}
+					},
+					'1' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'cancel-button',
+							'class' : 'button'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'close'
+						}
+					}
+
+				}
+
+			}
+		};
+		
+		var BasicTemplate = {
+			header : {
+
+				row : {
+					element : 'header',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'headcontent',
+					}
+				},
+
+			},
+			body : {
+
+				row : {
+					element : 'section',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'modalcontent',
+					}
+				},
+
+			},
+			footer : {
+
+				row : {
+					element : 'footer',
+					'attr' : {
+						'class' : 'row'
+					}
+				},
+
+				grid : {
+					element : 'div',
+					'attr' : {
+						'class' : 'large-12 columns',
+						'id' : 'footercontent',
+					}
+				}
+
+			}
+		};		
+		
+		var ErrorTemplate = {
+			header : {
+
+				content : {
+					element : 'h4',
+					'attr' : {
+						'id' : 'modalhead',
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'heads',
+						'txt' : 'error'
+					},
+					'behind' : '<span id="server-process"> <i class="fa fa-exclamation-triangle"> </i> </span>'
+				}
+
+			},
+			body : {
+
+
+				content : {
+					element : 'p',
+					'attr' : {
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'usr',
+						'txt' : 'unkown_app'
+					},
+
+				}
+
+			},
+			footer : {
+
+
+				content : {
+					row : {
+						element : 'ul',
+						'attr' : {
+							'class' : 'modal-buttons right'
+						}
+					},
+					'grids' : {
+						'1' : {
+							'element' : 'li'
+						}
+					},
+					'1' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'cancel-button',
+							'class' : 'button'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'close'
+						}
+					}
+
+				}
+
+			}
+		};	
+		
+		var ProcessTemplate = {
+			header : {
+
+				content : {
+					element : 'h4',
+					'attr' : {
+						'id' : 'modalhead',
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'heads',
+						'txt' : 'sendform'
+					},
+					'behind' : '<span id="server-process"> <i class="fa fa-gear fa-spin"> </i> </span>'
+				}
+
+			},
+			body : {
+
+
+				content : {
+					element : 'p',
+					'translate' : {
+						'key' : 'messages',
+						'txt' : 'serveraction'
+					},
+
+				}
+
+			},
+			footer : {
+
+
+				content : {
+					element : 'p',
+					'translate' : {
+						'key' : 'messages',
+						'txt' : '...'
+					},
+
+				}
+
+
+			}
+		};	
+		
+		var ConfirmTemplate = {
+			header : {
+
+				content : {
+					element : 'h4',
+					'attr' : {
+						'id' : 'modalhead',
+						'class' : 'alizarin-color'
+					},
+					'translate' : {
+						'key' : 'heads',
+						'txt' : 'confirm'
+					},
+					'behind' : '<span id="server-process"> <i class="fa fa-exclamation-triangle"> </i> </span>'
+				}
+
+			},
+			body : {
+
+
+				content : {
+					element : 'p',
+					'attr' : {
+						'class' : 'alizarin-color'
+					},
+					'txt' : 
+						'Please confirm action',
+					
+
+				}
+
+			},
+			footer : {
+
+
+				content : {
+					row : {
+						element : 'ul',
+						'attr' : {
+							'class' : 'modal-buttons right'
+						}
+					},
+					'grids' : {
+						'1' : {
+							'element' : 'li'
+						},
+						'2' : {
+							'element' : 'li'
+						}						
+					},
+					'1' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'confirm-button',
+							'class' : 'button alert'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'confirm'
+						}
+					},
+					'2' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'cancel-button',
+							'class' : 'button'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'cancel'
+						}
+					}					
+
+				}
+
+			}
+		};						
+
 		var font_color_warn = 'alizarin-color';
 		var font_color_success = 'emerald-color';
 		var font_color_confirm = 'belize-hole-color';
@@ -35,9 +400,19 @@
 		var icon_upload = 'fa-upload';
 		var icon_folder = 'fa-folder';
 		var icon_folder_open = 'fa-folder-open';
-		var icon_sizes = { s2 : 'fa-2x', s3 : 'fa-3x', s4 : 'fa-4x', s5 : 'fa-5x', lg : 'fa-lg',};		
+		var icon_unlock = 'fa-unlock';
+		var icon_lock = 'fa-lock';
+		var icon_sizes = {
+			s2 : 'fa-2x',
+			s3 : 'fa-3x',
+			s4 : 'fa-4x',
+			s5 : 'fa-5x',
+			lg : 'fa-lg',
+		};
 
 		var Translations;
+		
+		var DomElement;
 
 		// For Mcwork's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
 		// the `$` variable.
@@ -53,33 +428,59 @@
 					return true;
 				}
 			},
-			
-			
-			hasRemoveClass : function(elm,cssclass){
-				if ( $(elm).hasClass(cssclass) ){
+
+			hasRemoveClass : function(elm, cssclass) {
+				if ($(elm).hasClass(cssclass)) {
 					$(elm).removeClass(cssclass);
-				}		
-			},			
-			
+				}
+			},
+
 			set : function() {
 
 			},
+			setDomElement : function(elm){
+				DomElement = elm;
+			},
+			getDomElement : function(elm){
+				return DomElement;
+			},	
+			unsetDomElement : function(){
+				DomElement = null;
+			},	
+			getDatePicker : function(){
+				return DateTimePickerOptions;
+			},		
+			getTagging : function(){
+				return TaggingOptions;
+			},		
 			release : function() {
 				return MC.VERSION;
 			},
-			
-			
 		};
 		
+		var ArrayMerge = Mcwork.ArrayMerge = {
+			recursive : function(){
+				if(arguments.length < 2){
+					throw new Error("ArrayMergeRecursive: Please enter two or more objects to merge!");
+     			}	
+     			var arr1=arguments[0];
+			    for(var i=0; i<=arguments.length; i++ ){
+			        $.extend(true, arr1, arguments[i]);                 
+			    }
+
+    			return arr1;      			
+			}
+		};
+
 		var Colors = Mcwork.Colors = {
 			WARN : font_color_warn,
 			SUCCESS : font_color_success,
 			CONFIRM : font_color_confirm,
-			get : function(color){
+			get : function(color) {
 				return color;
-			},			
+			},
 		};
-		
+
 		var Icons = Mcwork.Icons = {
 			COG : icon_cog,
 			WARN : icon_warn,
@@ -91,30 +492,31 @@
 			UPLOAD : icon_upload,
 			FOLDER : icon_folder,
 			FOLDEROPEN : icon_folder_open,
-			get : function(icon){
+			USRLOCK : icon_lock,
+			USRUNLOCK : icon_unlock,
+			get : function(icon) {
 				return icon;
 			},
-			
+
 			geticon : function(set) {
 				return '<i class="fa ' + set + '"> </i>';
 			},
-			
-			getwarn : function(){
+
+			getwarn : function() {
 				return Icons.geticon(Icons.WARN + ' ' + font_color_warn);
 			},
-			
-			getsuccess : function(){
+
+			getsuccess : function() {
 				return Icons.geticon(Icons.SUCCESS + ' ' + font_color_success);
 			},
-			
-			getprocess : function(){
+
+			getprocess : function() {
 				return Icons.geticon(Icons.GEAR + ' fa-spin ' + font_color_warn);
 			},
-			
-			removethisicon : function(elm){
+
+			removethisicon : function(elm) {
 				$(elm).find('i').remove('i');
-			}		
-			
+			}
 		};
 
 		var Server = Mcwork.Server = {
@@ -146,15 +548,15 @@
 
 		var Attributes = Mcwork.Attributes = {
 			associative : false,
-			
-			setAssociative : function(){
+
+			setAssociative : function() {
 				Attributes.associative = true;
 			},
-			
-			unsetAssociative : function(){
+
+			unsetAssociative : function() {
 				Attributes.associative = false;
-			},			
-			
+			},
+
 			dom : function(elm, attrib, value) {
 				if (false === value) {
 					return $(elm).attr(attrib);
@@ -170,7 +572,7 @@
 			get : function(attribs, elm) {
 				var dataValues = {};
 				$.each(attribs, function(index, attrib) {
-					if (true === Attributes.associative){
+					if (true === Attributes.associative) {
 						index = attrib;
 					}
 					dataValues[index] = Attributes.dom(elm, attrib, false);
@@ -198,23 +600,23 @@
 				if ( typeof attribute === 'undefined') {
 					var attribute = {};
 				}
-				
+
 				var str = '';
-				
-				if (content.hasOwnProperty('prev')){
+
+				if (content.hasOwnProperty('prev')) {
 					str += content['prev'];
-				}				
-				
-				if (content.hasOwnProperty('translate')){
-					str += Language.translate(content['translate']['key'],content['translate']['txt']);
+				}
+
+				if (content.hasOwnProperty('translate')) {
+					str += Language.translate(content['translate']['key'], content['translate']['txt']);
 				} else {
 					str += content['txt'];
 				}
-				
-				if (content.hasOwnProperty('behind')){
+
+				if (content.hasOwnProperty('behind')) {
 					str += content['behind'];
 				}
-				
+
 				return '<' + tag + Attributes.string(attribute) + '>' + str + '</' + tag + '>';
 			},
 			inline : function(tag, attribute) {
@@ -223,172 +625,191 @@
 				}
 				return '<' + tag + Attributes.string(attribute) + ' />';
 			},
-			set : function(template){
-				if ( template.hasOwnProperty('section') ){
+			set : function(template) {
+				if (template.hasOwnProperty('section')) {
 					HTML.section = template['section'];
 				}
-				if ( template.hasOwnProperty('row') ){
+				if (template.hasOwnProperty('row')) {
 					HTML.row = template['row'];
-				}	
-				if ( template.hasOwnProperty('grid') ){
+				}
+				if (template.hasOwnProperty('grid')) {
 					HTML.grid = template['grid'];
 				}
-				if ( template.hasOwnProperty('grids') ){
+				if (template.hasOwnProperty('grids')) {
 					HTML.grids = template['grids'];
-				}				
-				if ( template.hasOwnProperty('content') ){
+				}
+				if (template.hasOwnProperty('content')) {
 					HTML.content = template['content'];
-				}								
+				}
 			},
-			empty : function(){
+			empty : function() {
 				HTML.section = {};
 				HTML.row = {};
 				HTML.grid = {};
 				HTML.grids = {};
 				HTML.content = {};
 			},
-			workoff : function(htmldata, content){
-				if (htmldata.hasOwnProperty('attr')){
+			workoff : function(htmldata, content) {
+				if (htmldata.hasOwnProperty('attr')) {
 					var attribute = htmldata['attr'];
 				} else {
 					var attribute = {};
 				}
-				return HTML.block(htmldata['element'],content, attribute);
+				return HTML.block(htmldata['element'], content, attribute);
 			},
-			workgrids : function(htmldata){
-				console.log(htmldata);
-
+			workgrids : function(htmldata) {
 				var htmlgrids = '';
 				$.each(htmldata['grids'], function(index, values) {
-					htmlgrids += HTML.workoff(values, {'txt' : HTML.workoff(htmldata[index], htmldata[index])});
+					htmlgrids += HTML.workoff(values, {
+						'txt' : HTML.workoff(htmldata[index], htmldata[index])
+					});
 				});
-				if (htmldata.hasOwnProperty('row')){
-				    htmlgrids = HTML.workoff(htmldata['row'], {'txt' : htmlgrids});
+				if (htmldata.hasOwnProperty('row')) {
+					htmlgrids = HTML.workoff(htmldata['row'], {
+						'txt' : htmlgrids
+					});
 				}
 				return htmlgrids;
 			},
-			viewscript : function(template){
+			viewscript : function(template) {
 				HTML.set(template);
 				var returnHtml = '';
-				
-				if (HTML.content.hasOwnProperty('options')){
+
+				if (HTML.content.hasOwnProperty('options')) {
 					var options = HTML.content['options'];
 				} else {
 					var options = {};
-				}				
-				
-				if (HTML.content.hasOwnProperty('element')){
-					if (HTML.content.hasOwnProperty('attr')){
+				}
+
+				if (HTML.content.hasOwnProperty('element')) {
+					if (HTML.content.hasOwnProperty('attr')) {
 						var attribute = HTML.content['attr'];
 					} else {
 						var attribute = {};
 					}
-					returnHtml += HTML.block(HTML.content['element'],HTML.content,attribute);
-				} else if (HTML.content.hasOwnProperty('grids')){
+					returnHtml += HTML.block(HTML.content['element'], HTML.content, attribute);
+				} else if (HTML.content.hasOwnProperty('grids')) {
 					returnHtml += HTML.workgrids(HTML.content);
-				} else if (HTML.content.hasOwnProperty('form')){
-					if (options.hasOwnProperty('form')){
-						var formAttribute = options['form'];
-					} else {
-						var formAttribute = {};
+				} else if (HTML.content.hasOwnProperty('form')) {
+					var formAttribute = {};
+					if (options.hasOwnProperty('form')) {
+						formAttribute = options['form'];
 					}
-					returnHtml += Forms.init(formAttribute,HTML.content['form']);
+					if (options.hasOwnProperty('getFieldValue')) {
+						formAttribute.populateValues = Attributes.get(options['getFieldValue'],DomElement);
+					}
+					if (options.hasOwnProperty('getFieldValSrv')) {
+						var getFieldValSrv = options['getFieldValSrv'];
+						var datas = options['getFieldValSrv']['data'];
+						datas.id = $(DomElement).attr(options['getFieldValSrv']['ident']);
+						formAttribute.populateValues = Server.get({url : options['getFieldValSrv']['url'], data : datas });
+					}
+					returnHtml += Forms.init(formAttribute, HTML.content['form']);
 				}
-				if (HTML.grid.hasOwnProperty('element')){
-					returnHtml = HTML.workoff(HTML.grid, {'txt' : returnHtml});
+				if (HTML.grid.hasOwnProperty('element')) {
+					returnHtml = HTML.workoff(HTML.grid, {
+						'txt' : returnHtml
+					});
 				}
-				if (HTML.row.hasOwnProperty('element')){
-					returnHtml = HTML.workoff(HTML.row, {'txt' : returnHtml});
-				}	
-				if (HTML.section.hasOwnProperty('element')){
-					returnHtml = HTML.workoff(HTML.section, {'txt' : returnHtml});
-				}							
+				if (HTML.row.hasOwnProperty('element')) {
+					returnHtml = HTML.workoff(HTML.row, {
+						'txt' : returnHtml
+					});
+				}
+				if (HTML.section.hasOwnProperty('element')) {
+					returnHtml = HTML.workoff(HTML.section, {
+						'txt' : returnHtml
+					});
+				}
 				HTML.empty();
 				return returnHtml;
 			},
 		};
-		
+
 		var Modals = Mcwork.Modals = {
-			build : function(template){
+			build : function(template) {
 				var modalContent = '';
-				if (template.hasOwnProperty('header')){
+				if (template.hasOwnProperty('header')) {
 					modalContent += HTML.viewscript(template['header']);
 				}
-				if (template.hasOwnProperty('body')){
+				if (template.hasOwnProperty('body')) {
 					modalContent += HTML.viewscript(template['body']);
 				}
-				if (template.hasOwnProperty('footer')){
+				if (template.hasOwnProperty('footer')) {
 					modalContent += HTML.viewscript(template['footer']);
-				}								
-				
-				$( StandardModal ).attr('role','dialog');
-				$( StandardModal ).attr('aria-labelledby','modal');
-				$( StandardModal ).html(modalContent);
-				$( StandardModal ).foundation('reveal', 'open');					
+				}
+
+				$(StandardModal).attr('role', 'dialog');
+				$(StandardModal).attr('aria-labelledby', 'modal');
+				$(StandardModal).html(modalContent);
+				$(StandardModal).foundation('reveal', 'open');
 			},
-			getStdModal : function(){
+
+			buildError : function(message) {
+				var errTemplate = ArrayMerge.recursive( BasicTemplate, ErrorTemplate );
+				
+				if (false !== message){
+					errTemplate.body.content.translate.txt = message;
+				}
+				Modals.build(errTemplate);
+			},
+			
+			buildProcess : function(message) {
+				var processTemplate = ArrayMerge.recursive( BasicTemplate, ProcessTemplate );
+				
+				if (false !== message){
+					processTemplate.body.content.translate.txt = message;
+				}
+				Modals.build(processTemplate);
+			},
+			
+			buildConfirm : function(message) {
+				var confirmTemplate = ArrayMerge.recursive( BasicTemplate, ConfirmTemplate );
+				
+				if (false !== message){
+					confirmTemplate.body.content.txt = message;
+				}
+				Modals.build(confirmTemplate);
+			},							
+
+			getStdModal : function() {
 				return StandardModal;
-			}
+			},
 			
+			getBasicModal : function(){
+				return BasicTemplate;
+			},			
 			
+			getErrModal : function(){
+				return ErrorTemplate;
+			},
 		};
-		
+
 		var Validation = Mcwork.Validation = {
-			
-			pattern : {},
-			required : {},
-			email : {},
-			formErrors : {},
-			formRules : {},
-			monitorErrors : false,
-			build : false,
-			urlPopulateValues : '/mcwork/medias/application/populatevalues',
-		    entity : false,
-		    configure : false,
-		    categories : false,	
-			
-			setFormRules : function(url, rules) {
-				if (typeof rules !== 'undefined'){
-					Validation.formRules = rules;
-				}
-			},	
-			
-			getFormRules : function(field, rule){
-				if ( Validation.formRules.hasOwnProperty(field) ){
-					if ( Validation.formRules[field].hasOwnProperty(rule) ){
-						return Validation.formRules[field][rule];
-					}
-					
-				}
-				return false;
-			},					
-					
-			labelicon : function(fieldname, icon){
+
+			labelicon : function(fieldname, icon) {
 				var text = $('#field' + fieldname + ' > label').text();
-				$('#field' + fieldname + ' > label').html(text + ' ' +   icon);		
+				$('#field' + fieldname + ' > label').html(text + ' ' + icon);
 			},
 
 			unmarkErrorFields : function(fieldname) {
 				Icons.removethisicon('#field' + fieldname + ' > label');
-				Parameter.hasRemoveClass($("#field" + fieldname),"error");
-				Parameter.hasRemoveClass($("#field" + fieldname),'valid');
+				Parameter.hasRemoveClass($("#field" + fieldname), "error");
+				Parameter.hasRemoveClass($("#field" + fieldname), 'valid');
 				$("#alert" + fieldname).remove();
 			},
-	
+
 			markValidEntry : function(fieldname, messages) {
-				Validation.labelicon(fieldname, Icons.geticon(Icons.SUCCESS) );
+				Validation.labelicon(fieldname, Icons.geticon(Icons.SUCCESS));
 				$('#field' + fieldname).addClass("valid");
 				$('#field' + fieldname).append('<span role="alert" id="alert' + fieldname + '" class="validation-valid">' + messages + '</span>');
 			},
-		
-		
+
 			markErrorField : function(fieldname, messages) {
-				Validation.labelicon(fieldname, Icons.geticon(Icons.WARN) ); 
+				Validation.labelicon(fieldname, Icons.geticon(Icons.WARN));
 				$('#field' + fieldname).addClass("error");
 				$('#field' + fieldname).append('<span role="alert" id="alert' + fieldname + '" class="validation-error">' + messages + '</span>');
-			},			
-			
-			
+			},				
 		};
 
 		var Forms = Mcwork.Forms = {
@@ -408,7 +829,7 @@
 				exclude_options : 'exclude_options',
 				desc : 'description'
 			},
-			defaultTypes : ['text', 'textarea', 'select', 'check', 'radio', 'hidden', 'button'],
+			defaultTypes : ['note', 'text', 'textarea', 'select', 'check', 'radio', 'hidden', 'button'],
 			decorators : {
 				'collapse' : {
 					'template' : 'collapseTemplatePostfix',
@@ -442,6 +863,13 @@
 						'class' : 'formElement'
 					}
 				},
+				
+				'dropzone' : {
+					'tag' : 'div',
+					'attribs' : {
+						'class' : 'fallback'
+					}					
+				}
 			},
 			elements : {},
 			populateValues : { },
@@ -527,7 +955,7 @@
 					field += Attributes.string(fieldAttribute);
 					field += ' />';
 					break;
-				case 'file':	
+				case 'file':
 				case 'text':
 					var field = Forms.createLabel(options, name);
 					field += '<input type="' + type + '" name="' + name + '" value="';
@@ -555,7 +983,7 @@
 					field += '</select>';
 					break;
 				case 'note':
-				    var field = fieldAttribute.value;
+					var field = fieldAttribute.value;
 					break;
 				case 'button':
 					var field = '';
@@ -666,9 +1094,9 @@
 				Forms.elements = {};
 				return html;
 			},
-			
-			init : function(formOptions, formElements){
-				
+
+			init : function(formOptions, formElements) {
+
 				var defaults = {
 					action : '#',
 					actionmethod : 'POST',
@@ -678,9 +1106,9 @@
 					formtag : true,
 					lng : false,
 				};
-		
-				var opts = $.extend({}, defaults, formOptions);				
-				return Forms.build(opts,formElements);
+
+				var opts = $.extend({}, defaults, formOptions);
+				return Forms.build(opts, formElements);
 			}
 		};
 
@@ -702,15 +1130,52 @@
 					}
 				});
 
-			}
+			},
+			isTableRowSelected : function(){
+				if ($('td input[type="checkbox"]:checked').is(":empty") == false){
+					Modals.buildError('checkboxselect');
+					return false;
+				} else {
+					return true;
+				}
+			},			
+		};
+		var Clock = Mcwork.Clock = {
+				show : function (obj, time) {
+					var parts   = time.split(":"),
+			        newTime = new Date(),
+			        timeDifference  = new Date().getTime() - newTime.getTime();
+				    newTime.setHours(parseInt(parts[0], 10));
+				    newTime.setMinutes(parseInt(parts[1], 10));
+				    newTime.setSeconds(parseInt(parts[2], 10));
+				    
+				    var methods = {
+				    		displayTime: function () {
+				    			var now = new Date(new Date().getTime() - timeDifference);		 
+					            obj.text([					 
+					                methods.leadZeros(now.getHours(), 2),
+					                methods.leadZeros(now.getMinutes(), 2),
+					                methods.leadZeros(now.getSeconds(), 2)					 
+					            ].join(":"));
+					            setTimeout(methods.displayTime, 500);
+					        },
+					        leadZeros: function (time, width) {
+					            while (String(time).length < width) {
+					                time = "0" + time;
+					            }
+					            return time;					 
+					        }
+					}
+				  methods.displayTime();
+			  },
 		};
 
 		var Language = Mcwork.Language = {
 			translate : function(key, str) {
 				return this.get(key, str);
 			},
-			
-			datatable : function(key){
+
+			datatable : function(key) {
 				Language.init();
 				if (Translations.hasOwnProperty(key)) {
 					return Translations[key];
@@ -752,15 +1217,15 @@
 				return translation;
 
 			},
-			
-			init : function(){
+
+			init : function() {
 				if (null == Translations) {
 					Translations = this.set({
 						translations : McworkTranslations
 					});
-				}				
+				}
 			},
-			
+
 			locale : function(lang) {
 
 				lang = lang.replace(/-/, '_').toLowerCase();
@@ -776,4 +1241,4 @@
 	})
 );
 
-$(document).foundation(); 
+$(document).foundation();
