@@ -50,6 +50,7 @@ class Media extends Worker
                 $builder->setParameter($conditions['param'][0], $conditions['param'][1]);
             }
         }
+        $builder->orderBy('main.mediaName', 'ASC');
         $query = $builder->getQuery();
         return $query->getResult();
     } 
