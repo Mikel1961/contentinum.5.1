@@ -84,6 +84,11 @@ foreach ($headlines as $column => $attributes) {
     $i ++;
 }
 
+$dbMediaInUse = array();
+if ($this->services && isset($this->services['inusemedias'])) {
+    $dbMediaInUse = $this->services['inusemedias'];
+}
+
 $dbMediaTable = array();
 if ($this->services && isset($this->services['medias'])) {
     $dbMediaTable = $this->services['medias'];
@@ -92,6 +97,7 @@ $dbAssignTagsTable = array();
 if ($this->services && isset($this->services['assigntags'])) {
     $dbAssignTagsTable = $this->services['assigntags'];
 }
+
 
 
 $upDate = $registerDate = $owner = $updater = '';
@@ -190,12 +196,16 @@ foreach ($entries as $entry) {
     if ('.' != $entry->filename && '..' != $entry->filename && 'file' == $entry->type && 'index.html' != $entry->filename && false === strpos($entry->filename, '-200-th') ) {
         $pathname = \ContentinumComponents\Path\Clean::get($entry->pathname);
         $pathname = str_replace($entry->docroot, '', $pathname);
-
+        $label = '';
+        $inUse = false;
         $thisItem = array();
         if (isset($dbMediaTable[$pathname])) {
             $thisItem = $dbMediaTable[$pathname];
         }
-        
+        if ( isset($thisItem['id']) && isset($dbMediaInUse[$thisItem['id']]) ) {
+            $label = ' <span class="label round alert">In use</span>';
+            $inUse = true;
+        }        
         switch ($entry->mimetype) {
             case 'application/zip':
                 $icon = '<i class="fa fa-archive"></i> ';
@@ -213,7 +223,7 @@ foreach ($entries as $entry) {
         $i ++;
         $rowContent = array();
         $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-name="' . $entry->filename . '" />';
-        $rowContent[] = $icon . $entry->filename;
+        $rowContent[] = $icon . $entry->filename . $label;
         $filesize = $this->filesize($entry->size);
         $rowContent[] = $filesize;
         $rowContent[] = date("d.m.Y H:i:s", $entry->time);  
@@ -298,6 +308,9 @@ foreach ($entries as $entry) {
         );
         if (false === $resizeapp){
             unset($props['copy']);
+        }
+        if (true === $inUse){
+            unset($props['delete']);
         }
         $rowContent[] = $this->mcworkToolbar($props, true, $this->tableeditcontent->toArray(), false );
         $tableFactory->setHtmlContent($rowContent);        

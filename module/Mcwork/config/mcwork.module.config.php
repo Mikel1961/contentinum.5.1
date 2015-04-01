@@ -613,39 +613,29 @@ return array(
             
             'Storage\Manager' => 'Mcwork\Factory\StorageManagerFactory',
             'Mcwork\FormDecorators' => 'Mcwork\Service\Form\DecoratorsServiceFactory',
-            'Mcwork\StandardForms' => 'Mcwork\Factory\Form\McworkFormFactory',
-            
+            'Mcwork\StandardForms' => 'Mcwork\Factory\Form\McworkFormFactory',           
             // plugins
-            'Mcwork\Plugins' => 'Mcwork\Service\Plugins\DefaultServiceFactory',
-            
+            'Mcwork\Plugins' => 'Mcwork\Service\Plugins\DefaultServiceFactory',          
             // datas
             'Mcwork\Media' => 'Mcwork\Service\Media\TableServiceFactory',
+            'Mcwork\MediaInUse' => 'Mcwork\Service\Media\InUseServiceFactory',
             'File\Tags\Assign' => 'Mcwork\Factory\Model\FsAssignFileTagsFactory',
             'Media\Tags\Assign' => 'Mcwork\Factory\Model\FsAssignMediaTagsFactory',
             'Media\Path' => 'Mcwork\Factory\Model\FsPathMediaFactory',
-            'Accounts' => 'Mcwork\Service\Directory\AccountServiceFactory',
-            
+            'Accounts' => 'Mcwork\Service\Directory\AccountServiceFactory',         
             'Mcwork\PublicMedia' => 'Mcwork\Factory\Service\PublicImagesFactory',
             'Mcwork\PublicPdf' => 'Mcwork\Factory\Service\PublicPdfFactory',
-            'Mcwork\NonPublicMedia' => 'Mcwork\Factory\Service\DeniedFileFactory',
-            
+            'Mcwork\NonPublicMedia' => 'Mcwork\Factory\Service\DeniedFileFactory',        
             'Mcwork\Cachekeys' => 'Mcwork\Service\Cache\RegisterServiceFactory',
-   
-            
-            
-            
             // backend elements
             'Mcwork\Buttons' => 'Mcwork\Service\Elements\ButtonsServiceFactory',
             'Mcwork\Tableedit' => 'Mcwork\Service\Elements\TableeditServiceFactory',
-            'Mcwork\Toolbar' => 'Mcwork\Service\Elements\ToolbarServiceFactory',
-            
+            'Mcwork\Toolbar' => 'Mcwork\Service\Elements\ToolbarServiceFactory',           
             // factory controller
             'Mcwork\PageOptions' => 'Mcwork\Factory\PageOptionsFactory',
-            'Mcwork\Pages' => 'Mcwork\Service\Pages\McworkServiceFactory',
-            
+            'Mcwork\Pages' => 'Mcwork\Service\Pages\McworkServiceFactory',            
             // controller
-            'Mcwork\Groups\User' => 'Mcwork\Service\User\GroupsServiceFactory',
-            
+            'Mcwork\Groups\User' => 'Mcwork\Service\User\GroupsServiceFactory',            
             // model
             'Mcwork\SaveUpload' => 'Mcwork\Factory\Model\FsUploadDataSaveFactory',
         )
@@ -715,6 +705,11 @@ return array(
                 'sortby' => 'media_source',
                 'savecache' => false,
             ),  
+            'mcwork_inuse_medias' => array(
+                'cache' =>  'mcwork_inuse_medias',
+                'entitymanager' => 'doctrine.entitymanager.orm_default',
+                'savecache' => false,
+            ),            
             'mcwork_user_groups' => array(
                 'cache' => 'mcwork_user_groups',
                 'entitymanager' => 'doctrine.entitymanager.orm_default',

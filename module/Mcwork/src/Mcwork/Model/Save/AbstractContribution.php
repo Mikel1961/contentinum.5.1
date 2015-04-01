@@ -81,7 +81,19 @@ abstract class AbstractContribution extends Process
      */
     protected function inUseMedia($mediaId, $inuseId, $name = self::INUSE_GROUP, $status = 'insert')
     {
-        return true;
+        $save = new \Mcwork\Model\Medias\InUse($this->getStorage());
+        $save->setSl($this->getSl());
+        if ('insert' == $status) {
+            if ($mediaId > '1') {
+                $save->insert($mediaId, $inuseId, $name);
+                $save->emptyCache();
+            }
+        } else {
+            if ($mediaId > '1') {
+                $save->remove($mediaId, $inuseId, $name);
+                $save->emptyCache();
+            }
+        }        
     }    
     
     

@@ -28,6 +28,7 @@
 namespace Mcwork\Model\Medias;
 
 use ContentinumComponents\Mapper\Worker;
+use Mcwork\Factory\Service\PublicImagesFactory;
 
 /**
  * Media in use model
@@ -49,17 +50,6 @@ class InUse extends Worker
     const COLUMN_GROUP = 'groupname';
 
     /**
-     * Database connection
-     *
-     * @return \Doctrine\DBAL\Connection
-     */
-    public function getConnection()
-    {
-        $em = $this->getStorage();
-        return $em->getConnection();
-    }
-
-    /**
      * Register media in table
      * 
      * @param int $mediaId media id
@@ -68,12 +58,13 @@ class InUse extends Worker
      */
     public function insert($mediaId, $inuseId, $name)
     {
-        $conn = $this->getConnection();
-        $conn->insert(self::TABLE_NAME, array(
+   
+        $this->insertQuery(self::TABLE_NAME, array(
             self::COLUMN_MEDIA => $mediaId,
             self::COLUMN_USEID => $inuseId,
             self::COLUMN_GROUP => $name
         ));
+
     }
 
     /**
@@ -88,10 +79,8 @@ class InUse extends Worker
         $sql = "DELETE FROM " . self::TABLE_NAME . " ";
         $sql .= "WHERE " . self::COLUMN_MEDIA . " = '" . $mediaId . "' ";
         $sql .= "AND " . self::COLUMN_USEID . " = '" . $inuseId . "' ";
-        $sql .= "AND " . self::COLUMN_GROUP . " = '" . $name . "' ";
-        $conn = $this->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        $sql .= "AND " . self::COLUMN_GROUP . " = '" . $name . "' ";       
+        $this->executeQuery($sql);
     }
 
     /**
@@ -102,9 +91,15 @@ class InUse extends Worker
     public function fetchContent()
     {
         $sql = "SELECT * " . self::TABLE_NAME;
-        $conn = $this->getConnection();
-        $statement = $conn->prepare($this->sql);
-        $statement->execute();
-        return $statement->fetchAll();
+        return $this->fetchAll($sql);
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function emptyCache()
+    {
+        return true;
     }
 }

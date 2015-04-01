@@ -1726,6 +1726,7 @@ return array(
             'entity' => 'Mcwork\Entity\FsPublic',
             'services' => array(
                 'medias' => 'Mcwork\Media',
+                'inusemedias' => 'Mcwork\MediaInUse',
                 'assigntags' => 'Media\Tags\Assign',
                 'mediapath' => 'Media\Path',
             )
