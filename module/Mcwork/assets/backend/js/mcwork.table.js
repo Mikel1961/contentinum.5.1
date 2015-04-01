@@ -517,8 +517,10 @@ $(document).ready(function() {
 		});
 	});	
 	
-	$('.editapp').click(function(ev){
+	//$('.editapp').click(function(ev){
+	$(document.body).on('click', '.editapp', function(ev) {		
 		ev.preventDefault();
+		ev.stopImmediatePropagation();		
 		$().McworkClientApplication({}, this, McworkAppEdit);		
 	});
 	

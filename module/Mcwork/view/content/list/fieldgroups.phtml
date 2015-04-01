@@ -76,8 +76,9 @@ foreach ($this->entries as $entry) {
         $i ++;
         $rowContent = array();
         $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' . $entry->name . '" />';
-        $ln = ' <a href="/mcwork/contactgroups/category/'.$entry->id.'"><i class="fa fa-user"> </i></a>';
-        $rowContent[] = '<a href="/mcwork/indexcategorie/category/' . $entry->id . '">' . $entry->name . '</a>'. $ln;
+        $ln = ' <a href="/mcwork/contactgroups/category/'.$entry->id.'" data-tooltip aria-haspopup="true" class="has-tip" title="Eine Kontaktgruppe zusammenstellen"><i class="fa fa-user"> </i></a>';
+        //$rowContent[] = '<a href="/mcwork/indexcategorie/category/' . $entry->id . '">' . $entry->name . '</a>'. $ln;
+        $rowContent[] = $entry->name . ' '. $ln;
         $rowContent[] = $entry->accounts->organisation;
         $props = array(
             'edit' => array(
