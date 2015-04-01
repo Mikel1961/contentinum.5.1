@@ -35,7 +35,98 @@ class IndexContacts extends AbstractEntity
      * @ORM\Column(name="publish", type="string", length=10, nullable=false)
      */
     private $publish = 'no';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="business_title", type="string", length=100, nullable=false)
+     */
+    private $businessTitle = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone_mobile", type="string", length=25, nullable=false)
+     */
+    private $phoneMobile = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone_work", type="string", length=25, nullable=false)
+     */
+    private $phoneWork = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone_fax", type="string", length=25, nullable=false)
+     */
+    private $phoneFax = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_email", type="string", length=100, nullable=false)
+     */
+    private $contactEmail = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="internet", type="text", length=65535, nullable=false)
+     */
+    private $internet = '';    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_chat", type="string", length=100, nullable=false)
+     */
+    private $contactChat = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook", type="string", length=150, nullable=false)
+     */
+    private $facebook = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter", type="string", length=150, nullable=false)
+     */
+    private $twitter = '';
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     */
+    private $description = '';  
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_address", type="string", length=250, nullable=false)
+     */
+    private $contactAddress = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_zipcode", type="string", length=25, nullable=false)
+     */
+    private $contactZipcode = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_city", type="string", length=250, nullable=false)
+     */
+    private $contactCity = ''; 
+    
     /**
      * @var integer
      *
@@ -174,6 +265,214 @@ class IndexContacts extends AbstractEntity
     public function setPublish($publish)
     {
         $this->publish = $publish;
+    }
+
+	/**
+     * @return the $businessTitle
+     */
+    public function getBusinessTitle()
+    {
+        return $this->businessTitle;
+    }
+
+	/**
+     * @param string $businessTitle
+     */
+    public function setBusinessTitle($businessTitle)
+    {
+        $this->businessTitle = $businessTitle;
+    }
+
+	/**
+     * @return the $phoneMobile
+     */
+    public function getPhoneMobile()
+    {
+        return $this->phoneMobile;
+    }
+
+	/**
+     * @param string $phoneMobile
+     */
+    public function setPhoneMobile($phoneMobile)
+    {
+        $this->phoneMobile = $phoneMobile;
+    }
+
+	/**
+     * @return the $phoneWork
+     */
+    public function getPhoneWork()
+    {
+        return $this->phoneWork;
+    }
+
+	/**
+     * @param string $phoneWork
+     */
+    public function setPhoneWork($phoneWork)
+    {
+        $this->phoneWork = $phoneWork;
+    }
+
+	/**
+     * @return the $phoneFax
+     */
+    public function getPhoneFax()
+    {
+        return $this->phoneFax;
+    }
+
+	/**
+     * @param string $phoneFax
+     */
+    public function setPhoneFax($phoneFax)
+    {
+        $this->phoneFax = $phoneFax;
+    }
+
+	/**
+     * @return the $contactEmail
+     */
+    public function getContactEmail()
+    {
+        return $this->contactEmail;
+    }
+
+	/**
+     * @param string $contactEmail
+     */
+    public function setContactEmail($contactEmail)
+    {
+        $this->contactEmail = $contactEmail;
+    }
+
+	/**
+     * @return the $internet
+     */
+    public function getInternet()
+    {
+        return $this->internet;
+    }
+
+	/**
+     * @param string $internet
+     */
+    public function setInternet($internet)
+    {
+        $this->internet = $internet;
+    }
+
+	/**
+     * @return the $contactChat
+     */
+    public function getContactChat()
+    {
+        return $this->contactChat;
+    }
+
+	/**
+     * @param string $contactChat
+     */
+    public function setContactChat($contactChat)
+    {
+        $this->contactChat = $contactChat;
+    }
+
+	/**
+     * @return the $facebook
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+	/**
+     * @param string $facebook
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+	/**
+     * @return the $twitter
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
+	/**
+     * @param string $twitter
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
+    }
+
+	/**
+     * @return the $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+	/**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+	/**
+     * @return the $contactAddress
+     */
+    public function getContactAddress()
+    {
+        return $this->contactAddress;
+    }
+
+	/**
+     * @param string $contactAddress
+     */
+    public function setContactAddress($contactAddress)
+    {
+        $this->contactAddress = $contactAddress;
+    }
+
+	/**
+     * @return the $contactZipcode
+     */
+    public function getContactZipcode()
+    {
+        return $this->contactZipcode;
+    }
+
+	/**
+     * @param string $contactZipcode
+     */
+    public function setContactZipcode($contactZipcode)
+    {
+        $this->contactZipcode = $contactZipcode;
+    }
+
+	/**
+     * @return the $contactCity
+     */
+    public function getContactCity()
+    {
+        return $this->contactCity;
+    }
+
+	/**
+     * @param string $contactCity
+     */
+    public function setContactCity($contactCity)
+    {
+        $this->contactCity = $contactCity;
     }
 
 	/**

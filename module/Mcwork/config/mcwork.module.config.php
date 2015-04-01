@@ -279,7 +279,20 @@ return array(
                                         'controller' => 'Mcwork\Metas'
                                     )
                                 )
-                            ),                            
+                            ), 
+                            'mcwork_app_fileswookmark' => array(
+                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                'options' => array(
+                                    'route' => '/wookmark[/][:callback][/][:page]',
+                                    'constraints' => array(
+                                        'callback' => '[a-zA-Z0-9._-]+',
+                                        'page' => '[a-zA-Z0-9._-]+'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Mcwork\Files'
+                                    )
+                                )
+                            ),                                                       
                             'mcwork_app_display' => array(
                                 'type' => 'Zend\Mvc\Router\Http\Segment',
                                 'options' => array(
@@ -416,6 +429,7 @@ return array(
                                     )
                                 )
                             ),
+                            
                             'mcwork_app_add' => array(
                                 'type' => 'Zend\Mvc\Router\Http\Segment',
                                 'options' => array(
@@ -960,11 +974,11 @@ return array(
                             'backend/js/vendor/jquery-ui-autocomplete.js',
                             'backend/js/vendor/tagging/tagging.min.js', 
                             'backend/js/vendor/wookmark/imagesloaded.pkgd.min.js',
-                            'backend/js/vendor/wookmark/wookmark.min.js',                                                      
+                            'backend/js/vendor/wookmark/wookmark.min.js',
                             'backend/js/mcwork.language.js',
                             'backend/js/foundation.min.js',
                             'backend/js/mcwork.js',
-                            'backend/js/mcwork.wookmark.js',
+                            'backend/js/mcwork.wookmarkserver.js',
                             'backend/js/mcwork.table.js'
                         ),
                         'filters' => array(

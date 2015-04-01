@@ -36,6 +36,22 @@ use ContentinumComponents\Forms\AbstractForms;
  */
 class ContactGroup extends AbstractForms
 {
+    
+    /**
+     * User friendly function for tab header
+     * @return string
+     */
+    protected function tabHeader()
+    {
+        $translation = $this->getServiceLocator()->get('translator');
+        $html = '<dl class="tabs" data-tab="data-tab">';// tab header start
+        $html .= '<dd class="active"><a href="#fieldsetName">Kontakt in Gruppe</a></dd>';// tab1
+        $html .= '<dd><a href="#fieldsetContact">' . $translation->translate('Contact data') . '</a></dd>';// tab2
+        $html .= '<dd><a href="#fieldsetDescription">' . $translation->translate('Description') . '</a></dd>';
+        $html .= '<dd><a href="#fieldsetAddress">' . $translation->translate('Adresse') . '</a></dd>';// tab3
+        $html .= '</dl><div class="tabs-content">';// finish and start tab content area
+        return $html;
+    }    
 
     /**
      * form field elements
@@ -45,6 +61,22 @@ class ContactGroup extends AbstractForms
     public function elements()
     {
         return array(
+            
+            array(
+                'spec' => array(
+                    'name' => 'formpreftab',
+                    'options' => array(
+                        'fieldset' => array(
+                            'nofieldset' => 1
+                        )
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formpreftab',
+                        'value' => $this->tabHeader(),
+                    )
+                )
+            ),            
             
             array(
                 'spec' => array(
@@ -87,7 +119,259 @@ class ContactGroup extends AbstractForms
                         'id' => 'contacts'
                     )
                 )
+            ), 
+
+            array(
+                'spec' => array(
+                    'name' => 'businessTitle',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Business title',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Kontakt zur Gruppe',
+                            'attributes' => array(
+                                'class' => 'content active',
+                                'id' => 'fieldsetName'// tab1
+                            )
+                        )                        
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'businessTitle'
+                    )
+                )
+            ), 
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'phoneWork',
+                    'required' => false,
+                    
+                    'options' => array(
+                        'label' => 'Phone (work)',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'tel',
+                        'id' => 'phoneWork'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'phoneMobile',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Phone (mobile)',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'tel',
+                        'id' => 'phoneMobile'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'phoneFax',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Fax',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'tel',
+                        'id' => 'phoneFax'
+                    )
+                )
             ),  
+
+            array(
+                'spec' => array(
+                    'name' => 'contactChat',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Chat',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'text',
+                        'id' => 'contactChat'
+                    )
+                )
+            ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'facebook',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Facebook',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'text',
+                        'id' => 'facebook',
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'twitter',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Twitter',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'attributes' => array(
+                        'type' => 'text',
+                        'id' => 'twitter'
+                    )
+                )
+            ),
+            array(
+                'spec' => array(
+                    'name' => 'internet',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Internet',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Kontaktdaten überschreiben',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetContact'// tab2
+                            )
+                        )
+                         
+                    ),
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '2',
+                        'id' => 'internet',
+                    )
+                )
+            ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'description',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Description',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Beschreibung überschreiben',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetDescription'// tab1
+                            )
+                        )
+                         
+                    ),
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '8',
+                        'id' => 'description',
+                        'class' => 'contactdescription',
+                    )
+                )
+            ),
+
+            array(
+                'spec' => array(
+                    'name' => 'contactAddress',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Street',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'contactAddress'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'contactZipcode',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Zipcode',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'contactZipcode'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'contactCity',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'City',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Adresse überschreiben',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetAddress'// tab1
+                            )
+                        )
+                         
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'contactCity'
+                    )
+                )
+            ),            
+            
+            array(
+                'spec' => array(
+                    'name' => 'formtabend',
+                    'options' => array(
+                        'fieldset' => array(
+                            'nofieldset' => 1
+                        )
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formtabend',
+                        'value' => '</div>'
+                    )
+                )
+            ),            
+            
         );
     }
 
