@@ -853,25 +853,7 @@ return array(
             'settoroute' => '/mcwork/contribution'
         )
     ),    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     '/mcwork/contributiongroup' => array(
         'resource' => 'publisherresource',
         'headTitle' => 'newsGroup',
@@ -1884,20 +1866,33 @@ return array(
             'entity' => 'Mcwork\Entity\FsPublic',
             'settoroute' => '/mcwork/medias/public',
         )
-    ),  
+    ), 
 
     
     '/mcwork/medias/metas' => array(
         'resource' => 'publisherresource',
         'headTitle' => 'Metas',
         'headline' => 'Metas',
-        'template' => 'content/list/mediametas',
+        //'template' => 'content/list/mediametas',
+        'template' => 'content/wookmark/medias',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
         'tableedit' => 1,
         'app' => array(
             'controller' => 'Mcwork\Controller\McworkController',
             'worker' => 'Mcwork\Mapper\MediaMetas',
+            'entity' => 'Contentinum\Entity\WebMedias'
+        )
+    ),    
+
+    
+    '/mcwork/medias/wookmark' => array(
+        'resource' => 'publisherresource',
+        'template' => 'content/wookmark/wookmark',
+        'layout' => 'mcwork/layout/admin',
+        'app' => array(
+            'controller' => 'Mcwork\Controller\WookmarkController',
+            'worker' => 'Mcwork\Mapper\Wookmark',
             'entity' => 'Contentinum\Entity\WebMedias'
         )
     ),
@@ -2583,8 +2578,8 @@ return array(
     
     '/mcwork/contactgroups/category' => array(
         'resource' => 'publisherresource',
-        'headTitle' => 'ContactGroup',
-        'headline' => 'ContactGroup',
+        'headTitle' => 'Kontaktgruppe',
+        'headline' => 'Kontaktgruppe',
         'template' => 'content/list/contactgroups',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
@@ -2600,12 +2595,18 @@ return array(
     
     '/mcwork/contactgroups/add' => array(
         'resource' => 'publisherresource',
-        'headTitle' => 'add_ContactGroup',
-        'headline' => 'add_ContactGroup',
-        'template' => 'forms/standard',
+        'headTitle' => 'Kontakt in Gruppe einfügen',
+        'headline' => 'Kontakt in Gruppe einfügen',
+        'template' => 'forms/maps',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
         'tableedit' => 1,
+        'bodyScriptFiles' => array(
+            'append' => array(
+                '/assets/app/tinymce/tinymce.min.js',
+                '/assets/app/tinymce/mcwork/contacts.js',
+            )
+        ),        
         'app' => array(
             'controller' => 'Mcwork\Controller\AddFormController',
             'worker' => 'Mcwork\Model\Save\ContactGroup',
@@ -2631,12 +2632,18 @@ return array(
     
     '/mcwork/contactgroups/edit' => array(
         'resource' => 'publisherresource',
-        'headTitle' => 'edit_ContactGroup',
-        'headline' => 'edit_ContactGroup',
-        'template' => 'forms/standard',
+        'headTitle' => 'Kontakt in Gruppe bearbeiten',
+        'headline' => 'Kontakt in Gruppe bearbeiten',
+        'template' => 'forms/maps',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
         'tableedit' => 1,
+        'bodyScriptFiles' => array(
+            'append' => array(
+                '/assets/app/tinymce/tinymce.min.js',
+                '/assets/app/tinymce/mcwork/contacts.js',
+            )
+        ),        
         'app' => array(
             'controller' => 'Mcwork\Controller\EditFormController',
             'worker' => 'Mcwork\Model\Save\ContactGroup',
@@ -2660,7 +2667,7 @@ return array(
         'resource' => 'publisherresource',
         'app' => array(
             'controller' => 'Mcwork\Controller\DeleteController',
-            'worker' => 'Mcwork\Model\Delete\NavigationMenue',
+            'worker' => 'Mcwork\Model\Delete\Entries',
             'entity' => 'Contentinum\Entity\IndexContacts',
             'settoroute' => '/mcwork/contactgroups/category',
         )
