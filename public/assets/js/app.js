@@ -14,6 +14,7 @@ requirejs.config({
     'jquery.mcworkmap' : 'jquery/jquery.mcworkmap',
     'jquery.customer' : 'jquery/jquery.customer',
     'jquery.highlight' : 'jquery/jquery.highlight',
+    'jquery.popup' : 'jquery/jquery.magnific-popup.min',
     'datatables' : 'jquery/jquery.dataTables.min',
     'datatable.foundation' : 'datatables/dataTables.foundation.min',
     'datatable.responsive' : 'datatables/dataTables.responsive.min',
@@ -50,6 +51,7 @@ requirejs.config({
     'jquery.validate' :  ['jquery'],
     'jquery.mcworkform' :  ['jquery'],
     'jquery.mcworkmap' :  ['jquery'],
+    'jquery.popup' : ['jquery'],
     'datatables' : ['jquery'],
     'foundation': ['jquery'],
     'foundation.abide': ['foundation'],
@@ -73,7 +75,7 @@ requirejs.config({
 });
 
 var datatablesStyles = {'1':'/assets/js/css/datatables/jquery.dataTables.min.css','2':'/assets/js/css/datatables/dataTables.foundation.css','3':'/assets/js/css/datatables/dataTables.searchHighlight.css'};
-
+var imagepopup = {'1': '/assets/js/css/popup/magnific-popup.css'};
 function loadCss(url) {
     var link = document.createElement("link");
     link.type = "text/css";
@@ -95,6 +97,34 @@ require(['modernizr', 'jquery', 'foundation', 'jquery.customer'], function(Moder
   			$(document).foundation('topbar');
   		});
   	}
+  	
+  	if ( $('.media-popup').length) {
+		$.each(imagepopup, function(i, url) {
+			loadCss(url);
+		});	  		
+  		require(["jquery", "jquery.popup"], function( $, foundation ) {
+  			$(document).on('click', '.media-popup', function(ev) {
+		    	ev.stopPropagation();
+		    	ev.preventDefault();
+		    	var imgTitle = $(this).children('figcaption').text();	
+		    	$.magnificPopup.open({
+		    		  items: {
+		    		    src: $(this).children().attr('src') ,
+		    		  },
+	    		     image: {
+	    		          titleSrc: function(item) {
+	    		        	 
+	    		            return imgTitle;
+	    		          },		    		  
+	    		     },
+		    		 type: 'image'
+		       });		    	
+		    	
+		    	
+  			});
+  		});
+  	}
+  	
 	if ($(".form-customer").length) {
   	  		require(["jquery", "jquery.validate", "jquery.mcworkform"], function( $ ) {
 			    $(".form-customer").validate({
