@@ -264,4 +264,19 @@ abstract class AbstractContentHelper extends AbstractHelper
         return $content;
     }
     
+    /**
+     * Check if a value is contained
+     * @param array $array
+     * @param string|number $index
+     * @return string|boolean
+     */
+    protected function hasValue($array, $index)
+    {
+        if (isset($array[$index]) && null != $array[$index]) {
+            return $array[$index];
+        } else {
+            return false;
+        }
+    }
+    
 }

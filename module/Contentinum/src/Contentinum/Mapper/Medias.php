@@ -36,13 +36,20 @@ use ContentinumComponents\Mapper\Worker;
  */
 class Medias extends Worker
 {
+
     /**
      * Get all medias
-     * @param array $params query conditions
+     *
+     * @param array $params
+     *            query conditions
      * @return multitype:
      */
-    public function fetchContent(array $params = null)
+    public function fetchContent()
     {
-        return $this->getStorage()->getRepository( $this->getEntityName() )->findAll();
+        $query = $this->getStorage()->createQuery('
+            SELECT medias FROM ' . $this->getEntityName() . ' medias
+            INDEX BY medias.id
+            WHERE medias.parentMedia = 0');
+        return $query->getResult();
     }
 }

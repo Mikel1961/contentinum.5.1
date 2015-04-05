@@ -27,52 +27,45 @@
  */
 namespace Contentinum\View\Helper\Medias;
 
-use Zend\View\Helper\AbstractHelper;
 use ContentinumComponents\Tools\HandleSerializeDatabase;
 use ContentinumComponents\Html\HtmlAttribute;
 use ContentinumComponents\Images\CalculateResize;
+use Contentinum\View\Helper\AbstractContentHelper;
 
-class Images extends AbstractHelper
+class Images extends AbstractContentHelper
 {
 
-    private $stdTemplate = array(
-        'row' => array(
-            'element' => 'figure',
-            'attr' => array(
-                'class' => 'imageitem'
-            )
-        ),
-        'grid' => array(
-            'element' => 'figcaption',
-            'attr' => array(
-                'class' => 'imagecaption'
-            )
-        )
-    );
+    const VIEW_TEMPLATE = '_defaultimages';
 
     /**
      *
      * @var unknown
      */
-    private $row;
+    protected $row;
 
     /**
      *
      * @var unknown
      */
-    private $grid;
+    protected $grid;
 
     /**
      *
      * @var unknown
      */
-    private $content;
+    protected $media;
 
     /**
      *
      * @var unknown
      */
-    private $properties = array(
+    protected $content;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $properties = array(
         'row',
         'grid',
         'media',
@@ -80,141 +73,103 @@ class Images extends AbstractHelper
     );
 
     /**
-     * 
-     * @param unknown $article
-     * @param unknown $medias
-     * @param string $template
-     * @param string $setSize
+     *
+     * @param unknown $article            
+     * @param unknown $medias            
+     * @param string $template            
+     * @param string $setSize            
      * @return string
      */
     public function __invoke($article, $medias, $template = null, $setSize = null)
     {
-        $this->setTemplate($template);
+        $viewTemplate = $this->view->contentstyles[$this->getLayoutKey()];
+        
+        if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
+            $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
+        }
         $size = $article['mediaStyle'];
         $id = $article['medias'];
-        $content = '';
-        // expensive loop !!
-        foreach ($medias as $mediaRow){
-            if ($mediaRow->id == $id ){
-                $medias = array();
-                $medias[$id] = $mediaRow->toArray();
-                break;
-            }
-        }        
-        
-        
-        $factory = false;
+                
         if (isset($medias[$id])) {
-            $medias = $medias[$id];
+            $medias = $medias[$id]->toArray();
             $src = $medias['mediaLink'];
             
+            $factory = false;
             $unserialize = new HandleSerializeDatabase();
-            $mediaAlternate = $unserialize->execUnserialize($medias['mediaAlternate']);
             $mediaMetas = $unserialize->execUnserialize($medias['mediaMetas']);
             
-            if (isset($mediaAlternate[$size])) {
-                $src = $mediaAlternate[$size]['mediaLink'];
-            }
             $styleAttr = '';
             $img = '<img src="' . $src . '"';
-            if (null !== $setSize){
-                if (is_array($setSize) && isset($setSize['landscape']) ){
+            if (null !== $setSize) {
+                if (is_array($setSize) && isset($setSize['landscape'])) {
                     $landscape = $setSize['landscape'];
-                    $styleAttr = ' landscape';
-                    if (isset($setSize['portrait'])){
+                    $article['mediaStyle'] = $article['mediaStyle'] . ' landscape';
+                    if (isset($setSize['portrait'])) {
                         $styleAttr = ' portrait';
+                        $article['mediaStyle'] = $article['mediaStyle'] . ' portrait';
                         $portrait = $setSize['portrait'];
                     } else {
-                        $styleAttr = ' portrait';
+                        $article['mediaStyle'] = $article['mediaStyle'] . ' portrait';
                         $portrait = $landscape;
                     }
                 } else {
                     $portrait = $landscape = $setSize;
                 }
                 $resize = new CalculateResize($landscape);
-                $resize->setFile( DOCUMENT_ROOT . DS . $src );
+                $resize->setFile(DOCUMENT_ROOT . DS . $src);
                 $resize->getNewSize();
-                if ('portrait' == $resize->getFormat() ){
+                if ('portrait' == $resize->getFormat()) {
                     $resize->setTarget($portrait);
                     $resize->getNewSize();
-                }              
+                }
                 $img .= ' ' . $resize->getHtmlString();
             }
-            if (isset($mediaMetas['alt']) && strlen($mediaMetas['alt']) > 1) {
+            if (isset($mediaMetas['alt'])) {
                 $img .= ' alt="' . $mediaMetas['alt'] . '"';
             }
-            if (isset($mediaMetas['title']) && strlen($mediaMetas['title']) > 1) {
-                $img .= ' title="' . $mediaMetas['title'] . '"';
+
+            if ( false !== ($title = $this->hasValue($mediaMetas, 'title')) ) {
+                $img .= ' title="' . $title . '"';
             }
             
             $img .= ' />';
             
-            if (isset($article['mediaLinkUrl']) && strlen($article['mediaLinkUrl']) > 0){
-                $img = '<a href="' . $article['mediaLinkUrl'] . '">' . $img . '</a>';
+            if ( false !== ($mediaLinkUrl = $this->hasValue($article, 'mediaLinkUrl')) ) {    
+                $img = '<a href="' . $mediaLinkUrl . '">' . $img . '</a>';
             }
             
-            $caption = $this->caption($mediaMetas);
-            $row = $this->getTemplateProperty('row', 'element');
-            $grid = $this->getTemplateProperty('grid', 'element');
-            
-            if (strlen($styleAttr) > 1){
-                $article['mediaStyle'] = $article['mediaStyle'] . $styleAttr;
-            }
-            
-            if ($row && $grid) {
-                $content = $this->format($row, $grid, $img, $caption, $article['mediaStyle']);
-            } else {
-                if (false !== $caption){
-                    $this->setTemplate($this->stdTemplate);
-                    $content = $this->format($this->getTemplateProperty('row', 'element'), $this->getTemplateProperty('grid', 'element'), $img, $caption, $article['mediaStyle']);
-                } else {
-                    $content = $img;
-                }
-            }
+            $content = $this->format($this->getTemplateProperty('row', 'element'), $this->getTemplateProperty('grid', 'element'), $img, $this->hasValue($mediaMetas, 'caption'), $article['mediaStyle']);
+            $this->unsetProperties();
+            return $content;
+        } else {
+            return '';
         }
-        $this->unsetProperties();
-        return $content;
     }
 
     /**
-     * 
-     * @param unknown $mediaMetas
-     * @return unknown|boolean
-     */
-    protected function caption($mediaMetas)
-    {
-        if (isset($mediaMetas['caption']) && strlen($mediaMetas['caption']) > 1) {
-            return $mediaMetas['caption'];
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     * 
-     * @param unknown $row
-     * @param unknown $grid
-     * @param unknown $img
-     * @param unknown $caption
-     * @param unknown $mediaStyle
+     *
+     * @param unknown $row            
+     * @param unknown $grid            
+     * @param unknown $img            
+     * @param unknown $caption            
+     * @param unknown $mediaStyle            
      * @return string
      */
-    protected function format($row, $grid, $img,$caption, $mediaStyle)
+    protected function format($row, $grid, $img, $caption, $mediaStyle)
     {
         $html = '<' . $row;
         $attr = $this->getTemplateProperty('row', 'attr');
-
-        if (strlen($mediaStyle) > 1){
-            if (is_object($attr)){
+        
+        if (strlen($mediaStyle) > 1) {
+            if (is_object($attr)) {
                 $attr = $attr->toArray();
             }
             $class = '';
-            if (isset($attr['class'])){
+            if (isset($attr['class'])) {
                 $class = $attr['class'] . ' ';
             }
-            $attr['class'] = $class . $mediaStyle;            
+            $attr['class'] = $class . $mediaStyle;
         }
-        
         
         if ($attr) {
             $html .= HtmlAttribute::attributeArray($attr);
@@ -227,7 +182,7 @@ class Images extends AbstractHelper
                 $html .= '<' . $grid;
                 $attr = $this->getTemplateProperty('grid', 'attr');
                 if ($attr) {
-                    if (is_object($attr)){
+                    if (is_object($attr)) {
                         $attr = $attr->toArray();
                     }
                     $html .= HtmlAttribute::attributeArray($attr);
@@ -237,45 +192,7 @@ class Images extends AbstractHelper
                 $html .= '</' . $grid . '>';
             }
         }
-        $html .= '</' . $row . '>';  
-        return $html;      
-    }
-
-    /**
-     *
-     * @param unknown $prop
-     * @param unknown $key
-     * @return boolean
-     */
-    protected function getTemplateProperty($prop, $key)
-    {
-        if (isset($this->{$prop}[$key])) {
-            return $this->{$prop}[$key];
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @param unknown $template
-     */
-    protected function setTemplate($template)
-    {
-        if (null !== $template) {
-            
-            foreach ($template as $key => $values) {
-                if (in_array($key, $this->properties)) {
-                    $this->{$key} = $values;
-                }
-            }
-        }
-    }
-
-    protected function unsetProperties()
-    {
-        foreach ($this->properties as $prop) {
-            $this->{$prop} = null;
-        }
+        $html .= '</' . $row . '>';
+        return $html;
     }
 }
