@@ -27,31 +27,13 @@
  */
 namespace Mcwork\Service\Templates;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Layout, template parameters for page contribution area
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class ContributionServiceFactory implements FactoryInterface
+class FileGroupServiceFactory extends ContributionServiceFactory
 {
-    const TEMPLATE_KEY = 'contribution';
-
-    /* (non-PHPdoc)
-     * @see \Zend\ServiceManager\FactoryInterface::createService()
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $styles = $serviceLocator->get('Contentinum\ContentStyles');
-        $options = array();
-        foreach ($styles->contribution as $key => $row){
-            if (isset($row['name']) && static::TEMPLATE_KEY  == $row['key'] ){
-                $options[$key] = $row['name'];
-            }
-        }
-        return $options;
-    }
-        
+    const TEMPLATE_KEY = 'filegroup';
 }

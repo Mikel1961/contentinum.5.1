@@ -536,6 +536,10 @@ return array(
             
             'mcwork_clientapp_publicmedia' => 'Mcwork\Factory\Service\PublicImagesFactory',
             
+            'mcwork_clientapp_mediagroup' => 'Mcwork\Service\Templates\MediaGroupServiceFactory',
+            'mcwork_clientapp_filegroup' => 'Mcwork\Service\Templates\FileGroupServiceFactory',
+            'mcwork_clientapp_navigation' => 'Mcwork\Service\Templates\NavigationServiceFactory',
+            
             'file_tags' => 'Mcwork\Factory\Model\FsTagsFilesFactory',
             'media_tags' => 'Mcwork\Factory\Model\FsTagsMediasFactory',
             
@@ -603,6 +607,7 @@ return array(
             
             'Templates\Htmlwidgets' => 'Mcwork\Service\Templates\HtmlwidgetsServiceFactory',
             'Templates\Contribution' => 'Mcwork\Service\Templates\ContributionServiceFactory',
+            'Templates\MediaGroup' => 'Mcwork\Service\Templates\MediaGroupServiceFactory',
             'Templates\PageContent' => 'Mcwork\Service\Templates\PagecontentServiceFactory',  
             'Templates\Styles' => 'Mcwork\Service\Templates\StylesServiceFactory',
             'Templates\Assign' => 'Mcwork\Service\Templates\AssignsServiceFactory',
