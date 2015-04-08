@@ -112,17 +112,19 @@ class Navigation extends AbstractModuls
             $page['uri'] = $uri;
             $page['resource'] = $entry['resource'];
             $page['listIdent'] = $entry['dom_id'];
-            $page['linkClass'] = $entry['style_class'];
+            $page['listClass'] = $entry['style_class'];
         
             if ($entry['parent_from'] > '0' && $this->currentlevel <= $this->level){
                 if (null !== ($pages = $this->build($this->query($entry['parent_from'])))) {
                     if ('topbar' === $this->key){
-                        $page['listClass'] = 'has-dropdown';
+                        $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
+                        $page['listClass'] = 'has-dropdown' . $listStyle;
                         $page['subUlClass'] = 'dropdown';
                         $page['pages'] = $pages;
                     } else {
                         if (! empty($pages)){
-                            $page['listClass'] = 'navigation-list-has-dropdown';
+                            $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
+                            $page['listClass'] = 'navigation-list-has-dropdown' . $listStyle;
                             $page['subUlClass'] = 'navigation-list-dropdown';                        
                             $page['pages'] = $pages;
                         }
