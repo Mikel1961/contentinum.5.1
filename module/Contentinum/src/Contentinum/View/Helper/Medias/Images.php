@@ -82,7 +82,7 @@ class Images extends AbstractContentHelper
      */
     public function __invoke($article, $medias, $template = null, $setSize = null)
     {
-        $viewTemplate = $this->view->contentstyles[$this->getLayoutKey()];
+        $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
         
         if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
             $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);

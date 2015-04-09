@@ -27,34 +27,30 @@
  */
 namespace Contentinum\View\Helper\Medias;
 
-use Zend\View\Helper\AbstractHelper;
+use Contentinum\View\Helper\AbstractContentHelper;
+use ContentinumComponents\Html\HtmlAttribute;
 
-class Group extends AbstractHelper
+class Group extends AbstractContentHelper
 {
-    /**
-     *
-     * @var unknown
-     */
-    private $row = array(
-        'element' => 'ul',
-        'attr' => array('class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list')
-        
-    );
+    const VIEW_TEMPLATE = 'mediablockgrid';
     
     /**
      *
      * @var unknown
      */
-    private $grid = array(
-        'element' => 'li',
-        
-    );
+    protected $row;
+    
+    /**
+     *
+     * @var unknown
+     */
+    protected $grid;    
 
     /**
      *
      * @var unknown
      */
-    private $properties = array(
+    protected $properties = array(
         'row',
         'grid',
     );  
@@ -68,10 +64,23 @@ class Group extends AbstractHelper
      */
     public function __invoke(array $entry, $medias, $template)
     {
+        switch ($entry['modulFormat']){
+            case 'lightboxgallery':
+                return $this->view->lightboxgallery($entry, $medias, $template);
+                break;
+            default:
+                break;
+        }
+        
+        $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+        
+        if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
+            $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
+        }   
         $grid = $this->getTemplateProperty('grid', 'element');
-        $list = '';
+        $attr = HtmlAttribute::attributeArray($this->getTemplateProperty('grid', 'attr'));
         foreach ($entry['modulContent'] as $media => $entryRow){
-            $list .= '<' . $grid . ' class="mediagroup-list-item"><figure class="mediagroup-list-item-figure">';
+            $list .= '<' . $grid . $attr . '><figure class="mediagroup-list-item-figure">';
             $img = '<img src="' . $media . '" alt="'.$entryRow['attr']['alt'].'" />';
             if (isset($entryRow['caption'])){
                 $list .= $img . '<figcaption class="mediagroup-list-item-figcaption">';
@@ -84,43 +93,5 @@ class Group extends AbstractHelper
         
         $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $this->getTemplateProperty('row', 'attr'));
         return $html;
-    }
-    
-    /**
-     *
-     * @param unknown $prop
-     * @param unknown $key
-     * @return boolean
-     */
-    protected function getTemplateProperty($prop, $key)
-    {
-        if (isset($this->{$prop}[$key])) {
-            return $this->{$prop}[$key];
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param unknown $template
-     */
-    protected function setTemplate($template)
-    {
-        if (null !== $template) {
-    
-            foreach ($template as $key => $values) {
-                if (in_array($key, $this->properties)) {
-                    $this->{$key} = $values;
-                }
-            }
-        }
-    }
-    
-    protected function unsetProperties()
-    {
-        foreach ($this->properties as $prop){
-            $this->{$prop} = null;
-        }
-    }    
+    }  
 }
