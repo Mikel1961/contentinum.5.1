@@ -109,8 +109,6 @@ return array(
                 return $cache;
             },  
 
-                      
-            
             // controller factory
             'Contentinum\PageConfiguration' => 'Contentinum\Service\Pages\ConfigureServiceFactory',
             'Contentinum\PageOptions'  => 'Contentinum\Factory\PageOptionsFactory',
@@ -121,37 +119,37 @@ return array(
             
             // controller abstract
             'Contentinum\Acl\DefaultRole' => 'Contentinum\Service\Acl\DefaultRoleServiceFactory',
-            
-            
+
             // controller
             'Contentinum\Modul' => 'Contentinum\Factory\Mapper\ModulFactory',
+                        
             'Contentinum\Htmllayouts' => 'Contentinum\Service\Templates\HtmllayoutsServiceFactory',
             'Contentinum\Widgets' => 'Contentinum\Service\Templates\WidgetsStylesServiceFactory',
             'Contentinum\GroupStyles' => 'Contentinum\Service\Templates\GroupStylesServiceFactory',
             'Contentinum\ContentStyles' => 'Contentinum\Service\Templates\ContentStylesServiceFactory',
 
+            'Contentinum\Medias' => 'Contentinum\Factory\Mapper\MediasFactory', 
             // mappers
-            'Contentinum\Navigation' => 'Contentinum\Factory\Mapper\NavigationFactory',
-            
-            
+            'Contentinum\Navigation' => 'Contentinum\Factory\Mapper\ModulNavigationFactory',
+
             'Contentinum\Blogs' => 'Contentinum\Factory\Mapper\ModulBlogFactory',
             'Contentinum\BlogsActual' => 'Contentinum\Factory\Mapper\ModulBlogActualFactory',
             'Contentinum\BlogGroups' => 'Contentinum\Factory\Mapper\ModulBlogGroupsFactory', 
             'Contentinum\BlogsMonthly' => 'Contentinum\Factory\Mapper\ModulBlogsMonthlyFactory',
             'Contentinum\BlogsAnnually' => 'Contentinum\Factory\Mapper\ModulBlogsAnnuallyFactory',
+            'Contentinum\SearchNews' => 'Contentinum\Factory\Mapper\ModulBlogSearchFactory',
             
-            'Contentinum\Mediagroup' => 'Contentinum\Factory\Mapper\MediagroupFactory',   
-            'Contentinum\Medias' => 'Contentinum\Factory\Mapper\MediasFactory',  
-            'Contentinum\Filegroup' => 'Contentinum\Factory\Mapper\FilegroupFactory',   
-            'Contentinum\AccountMembers' => 'Contentinum\Factory\Mapper\AccountMembersFactory',   
-            'Contentinum\Maps' => 'Contentinum\Factory\Mapper\MapsFactory', 
-            'Contentinum\Forms' => 'Contentinum\Factory\Mapper\FormsFactory', 
-            'Contentinum\Wanted' => 'Contentinum\Factory\Mapper\WantedFactory',
-            'Contentinum\WantedGroup' => 'Contentinum\Factory\Mapper\WantedGroupFactory',
-            'Contentinum\SearchForms' => 'Contentinum\Factory\Mapper\SearchFormFactory',
-            'Contentinum\SearchNews' => 'Contentinum\Factory\Mapper\SearchNewsFactory',
-            
-            
+            'Contentinum\MediaGroup' => 'Contentinum\Factory\Mapper\ModulMediaGroupFactory',   
+             
+            'Contentinum\FileGroup' => 'Contentinum\Factory\Mapper\ModulFileGroupFactory',   
+            'Contentinum\AccountMembers' => 'Contentinum\Factory\Mapper\ModulAccountMembersFactory',   
+            'Contentinum\Maps' => 'Contentinum\Factory\Mapper\ModulMapsFactory', 
+            'Contentinum\Forms' => 'Contentinum\Factory\Mapper\ModulFormsFactory', 
+            'Contentinum\Contact' => 'Contentinum\Factory\Mapper\ModulContactFactory',
+            'Contentinum\ContactGroup' => 'Contentinum\Factory\Mapper\ModulContactGroupFactory',
+
+            'Contentinum\SearchForms' => 'Contentinum\Factory\Mapper\ModulSearchFormFactory',
+
             // factory
             'Recommendation\Forms' => 'Contentinum\Factory\Form\RecommendationFormFactory',
             'Search\Forms' => 'Contentinum\Factory\Form\SearchFormFactory',
@@ -356,13 +354,13 @@ return array(
             'news' => 'Contentinum\BlogsActual',
             'newsgroup' => 'Contentinum\BlogGroups',
             'navigation' => 'Contentinum\Navigation',
-            'mediagroup' => 'Contentinum\Mediagroup',
-            'filegroup' => 'Contentinum\Filegroup',
+            'mediagroup' => 'Contentinum\MediaGroup',
+            'filegroup' => 'Contentinum\FileGroup',
             'accountmembers' => 'Contentinum\AccountMembers',
             'maps' => 'Contentinum\Maps',
             'forms' => 'Contentinum\Forms',
-            'wanted' => 'Contentinum\Wanted',
-            'wantedgroup' => 'Contentinum\WantedGroup',   
+            'wanted' => 'Contentinum\Contact',
+            'wantedgroup' => 'Contentinum\ContactGroup',   
             'searchform' => 'Contentinum\SearchForms',
             
         ),    

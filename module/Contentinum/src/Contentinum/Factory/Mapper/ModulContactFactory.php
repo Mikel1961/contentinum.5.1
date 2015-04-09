@@ -29,9 +29,9 @@ namespace Contentinum\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\Filegroup;
+use Contentinum\Mapper\ModulContact;
 
-class FilegroupFactory implements FactoryInterface
+class ModulContactFactory implements FactoryInterface
 {
     /**
      * (non-PHPdoc)
@@ -41,6 +41,6 @@ class FilegroupFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new Filegroup($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        return new ModulContact($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
     }
 }

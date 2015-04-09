@@ -29,9 +29,9 @@ namespace Contentinum\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\Queries\SearchNews;
+use Contentinum\Mapper\Queries\SearchBlog;
 
-class SearchNewsFactory implements FactoryInterface
+class ModulBlogSearchFactory implements FactoryInterface
 {
     /**
      * (non-PHPdoc)
@@ -41,6 +41,6 @@ class SearchNewsFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new SearchNews($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        return new SearchBlog($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
     }
 }

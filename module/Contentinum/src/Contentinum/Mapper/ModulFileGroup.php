@@ -27,46 +27,68 @@
  */
 namespace Contentinum\Mapper;
 
+use ContentinumComponents\Tools\HandleSerializeDatabase;
+
 /**
  * Mapper
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Wanted extends AbstractModuls
+class ModulFileGroup extends AbstractModuls
 {
-    const ENTITY_NAME = 'Contentinum\Entity\Contacts';
+    const ENTITY_NAME = 'Contentinum\Entity\WebMediaCategories';
     
-    const TABLE_NAME = 'contacts';
+    const TABLE_NAME = 'web_media_categories';
+    
+    /**
+     * ContentinumComponents\Tools\HandleSerializeDatabase
+     * @var ContentinumComponents\Tools\HandleSerializeDatabase
+     */
+    private $mcUnserialize;
 
     /**
      * (non-PHPdoc)
-     * 
      * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
      */
-    public function fetchContent(array $params = null)
+	public function fetchContent(array $params = null)
     {
+        $this->mcUnserialize = new HandleSerializeDatabase();
         return $this->build($this->query($this->configure['modulParams']));
     }
     
     /**
-     * Build content array from database query result
-     * @param array $entries query result
+     * Build content array from query result 
+     * @param array $entries database result
      * @return multitype:multitype:string unknown multitype:multitype:string unknown
      */
     private function build($entries)
     {
 
         $result = array();
-        $result = $entries;
+        foreach ($entries as $entry){
+            $metas = $this->mcUnserialize->execUnserialize($entry->webMediasId->mediaMetas);
+            if ('displayheadline' === $this->configure['modulConfig']) {
+                $result[$entry->webMediasId->id]['headline'] = $entry->webMediagroupId->groupName;
+            } else {
+                $result[$entry->webMediasId->id]['headline'] = '';
+            }
+            $result[$entry->webMediasId->id]['description'] = $entry->webMediagroupId->description;
+            $result[$entry->webMediasId->id]['attr'] = $metas;
+            $result[$entry->webMediasId->id]['mediaName'] = $entry->webMediasId->mediaName;
+            $result[$entry->webMediasId->id]['mediaSource'] = $entry->webMediasId->mediaSource;
+            $result[$entry->webMediasId->id]['mediaType'] = $entry->webMediasId->mediaType;
+            $result[$entry->webMediasId->id]['mediaDescription'] = $entry->webMediasId->mediaDescription;
+            $result[$entry->webMediasId->id]['resource'] = $entry->webMediasId->resource;
+        }
         return $result;
     }    
     
     /**
-     * Database query
-     * @param int $id integer
+     * File group query
+     * @param int $id file group ident
      */
     private function query($id)
     {
-        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('id' => $id));
+        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('webMediagroupId' => $id), array('itemRang' => 'ASC'));
     }
 }

@@ -32,7 +32,7 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Forms extends AbstractModuls
+class ModulForms extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebFormsField';
     

@@ -27,24 +27,32 @@
  */
 namespace Contentinum\Mapper;
 
+use ContentinumComponents\Tools\HandleSerializeDatabase;
+
 /**
  * Mapper
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Maps extends AbstractModuls
+class ModulMediaGroup extends AbstractModuls
 {
-    const ENTITY_NAME = 'Contentinum\Entity\WebMapsData';
+    const ENTITY_NAME = 'Contentinum\Entity\WebMediaCategories';
     
-    const TABLE_NAME = 'web_maps_data';
+    const TABLE_NAME = 'web_media_categories';
+    
+    /**
+     * ContentinumComponents\Tools\HandleSerializeDatabase
+     * @var ContentinumComponents\Tools\HandleSerializeDatabase
+     */
+    private $mcUnserialize;
 
     /**
      * (non-PHPdoc)
-     * 
      * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
      */
-    public function fetchContent(array $params = null)
+	public function fetchContent(array $params = null)
     {
+        $this->mcUnserialize = new HandleSerializeDatabase();
         return $this->build($this->query($this->configure['modulParams']));
     }
     
@@ -57,16 +65,25 @@ class Maps extends AbstractModuls
     {
 
         $result = array();
-        $result = $entries;
+        foreach ($entries as $entry){
+            $metas = $this->mcUnserialize->execUnserialize($entry->webMediasId->mediaMetas);
+            $result[$entry->webMediasId->mediaLink]['attr']['alt'] = $metas['alt'];
+            if (isset($metas['title'])){
+                $result[$entry->webMediasId->mediaLink]['attr']['title'] = $metas['title'];
+            }
+            if (isset($metas['caption'])){
+                $result[$entry->webMediasId->mediaLink]['caption'] = $metas['caption'];
+            }
+        }
         return $result;
     }    
     
     /**
      * Database query
-     * @param int $id integer
+     * @param unknown $id
      */
     private function query($id)
     {
-        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('webMaps' => $id));
+        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('webMediagroupId' => $id), array('itemRang' => 'ASC'));
     }
 }

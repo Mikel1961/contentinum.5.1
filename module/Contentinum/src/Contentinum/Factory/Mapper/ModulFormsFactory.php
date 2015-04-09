@@ -29,9 +29,9 @@ namespace Contentinum\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\Forms;
+use Contentinum\Mapper\ModulForms;
 
-class FormsFactory implements FactoryInterface
+class ModulFormsFactory implements FactoryInterface
 {
     /**
      * (non-PHPdoc)
@@ -41,7 +41,7 @@ class FormsFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        $mapper = new Forms($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $mapper = new ModulForms($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
         $mapper->setSl($serviceLocator);
         $mapper->setFormFactory($serviceLocator->get('Contentinum\FormFactory'));
         return $mapper;

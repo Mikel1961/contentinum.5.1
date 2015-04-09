@@ -75,15 +75,14 @@ class Contributions extends Worker
         $sql .= "mainContent.author_email, mainContent.overwrite, pageParams.url ";
         $sql .= "FROM web_content_groups AS main ";
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
-        $sql .= "LEFT JOIN web_pages_content AS pageContent ON pageContent.web_contentgroup_id = main.web_contentgroup_id ";
-        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = pageContent.web_pages_id ";
+        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
         $where = '';
         if (null !== $id){
             $where = "WHERE main.web_contentgroup_id = '" . $id . "' ";
         } elseif (null !== $contributionId){
             $where = "WHERE main.web_content_id = '" . $contributionId . "' ";
         } elseif (null !== $pageIdent){
-            $where = "WHERE pageContent.web_pages_id = '" . $pageIdent . "' ";
+            $where = "WHERE main.content_group_page = '" . $pageIdent . "' ";
         }
         $sql .= $where;
         $sql .= "ORDER BY main.publish_date DESC ";

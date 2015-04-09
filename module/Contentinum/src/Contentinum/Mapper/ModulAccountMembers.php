@@ -35,7 +35,7 @@ use ContentinumComponents\Filter\Url\Prepare;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class AccountMembers extends AbstractModuls
+class ModulAccountMembers extends AbstractModuls
 {
 
     const ENTITY_NAME = 'Contentinum\Entity\Accounts';

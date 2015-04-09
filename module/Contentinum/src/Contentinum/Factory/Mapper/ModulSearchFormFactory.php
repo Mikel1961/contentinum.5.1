@@ -17,7 +17,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category contentinum
- * @package Mapper
+ * @package Model
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  * @copyright Copyright (c) 2009-2013 jochum-mediaservices, Katja Jochum (http://www.jochum-mediaservices.de)
  * @license http://www.opensource.org/licenses/bsd-license
@@ -25,48 +25,24 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Contentinum\Mapper;
+namespace Contentinum\Factory\Mapper;
 
-/**
- * Mapper
- *
- * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
- */
-class WantedGroup extends AbstractModuls
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Contentinum\Mapper\ModulSearch;
+
+class ModulSearchFormFactory implements FactoryInterface
 {
-    const ENTITY_NAME = 'Contentinum\Entity\IndexContacts';
-    
-    const TABLE_NAME = 'contacts';
-
     /**
      * (non-PHPdoc)
      * 
-     * @see \Contentinum\Mapper\AbstractModuls::fetchContent()
+     * @see \Zend\ServiceManager\FactoryInterface::createService()
      */
-    public function fetchContent(array $params = null)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this->build($this->query($this->configure['modulParams']));
-    }
-    
-    /**
-     * Build content array from database query result
-     * @param array $entries query result
-     * @return multitype:multitype:string unknown multitype:multitype:string unknown
-     */
-    private function build($entries)
-    {
-
-        $result = array();
-        $result = $entries;
-        return $result;
-    }    
-    
-    /**
-     * Database query
-     * @param int $id integer
-     */
-    private function query($id)
-    {
-        return $this->getStorage()->getRepository( self::ENTITY_NAME )->findBy(array('indexGroup' => $id, 'publish' => 'yes'), array('itemRang' => 'ASC'));
+        $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
+        $mapper = new ModulSearch($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $mapper->setSl($serviceLocator);
+        return $mapper;
     }
 }

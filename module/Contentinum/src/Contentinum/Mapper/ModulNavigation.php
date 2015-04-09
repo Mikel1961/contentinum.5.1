@@ -32,7 +32,7 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Navigation extends AbstractModuls
+class ModulNavigation extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebNavigationTree';
     

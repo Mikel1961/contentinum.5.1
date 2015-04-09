@@ -30,7 +30,7 @@ namespace Contentinum\Mapper\Queries;
 use ContentinumComponents\Mapper\Worker;
 
 
-class SearchNews extends Worker
+class SearchBlog extends Worker
 {
   
      
@@ -54,8 +54,7 @@ class SearchNews extends Worker
         $sql .= "mainContent.author_email, mainContent.overwrite, pageParams.url ";
         $sql .= "FROM web_content_groups AS main ";
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
-        $sql .= "LEFT JOIN web_pages_content AS pageContent ON pageContent.web_contentgroup_id = main.web_contentgroup_id ";
-        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = pageContent.web_pages_id ";
+        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
         $sql .= "WHERE pageParams.url = '{$pageUrl}' ";
         $sql .= "ORDER BY main.publish_date DESC ";
         $sql .= "LIMIT 0,1000 ";

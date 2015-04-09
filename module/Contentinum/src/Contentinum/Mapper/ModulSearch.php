@@ -32,7 +32,7 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Search extends AbstractModuls
+class ModulSearch extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebContent';
     
