@@ -24,5 +24,20 @@ $(document).ready(function() {
 			$('#ico' + ident).removeClass('fa-minus');
 			$('#ico' + ident).addClass('fa-plus');
 		}
+	});
+	
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 80) {
+		$('.scrollicon').fadeIn();
+		} else {
+		$('.scrollicon').fadeOut();
+		}
+	});
+	
+	$('.scrollicon').click(function(){
+		$("html, body").animate({ scrollTop: 0 }, 1200);
+		return false;
 	});	
+	
+	
 });
