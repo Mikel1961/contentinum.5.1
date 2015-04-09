@@ -43,6 +43,13 @@ class WebContentGroups extends AbstractEntity
      * @ORM\Column(name="content_group_name", type="string", length=15, nullable=false)
      */    
     private $contentGroupName = 'content';  
+    
+    /**
+     * @var String
+     *
+     * @ORM\Column(name="content_group_page", type="integer", nullable=false)
+     */
+    private $contentGroupPage = 0;    
 
     /**
      * @var integer
@@ -242,6 +249,22 @@ class WebContentGroups extends AbstractEntity
     public function setContentGroupName($contentGroupName)
     {
         $this->contentGroupName = $contentGroupName;
+    }
+
+	/**
+     * @return the $contentGroupPage
+     */
+    public function getContentGroupPage()
+    {
+        return $this->contentGroupPage;
+    }
+
+	/**
+     * @param \Zend\XmlRpc\Value\String $contentGroupPage
+     */
+    public function setContentGroupPage($contentGroupPage)
+    {
+        $this->contentGroupPage = $contentGroupPage;
     }
 
 	/**

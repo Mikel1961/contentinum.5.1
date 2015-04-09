@@ -17,11 +17,13 @@ return array(
             'page_app' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/:pages[/:article][/:category]',
+                    'route' => '/:pages[/:article][/:category][/:month][/:day]',
                     'constraints' => array(
                         'pages' => '[a-zA-Z0-9._-]+',
                         'article' => '[a-zA-Z0-9._-]+',
-                        'category' => '[a-zA-Z0-9_-]+',
+                        'category' => '[a-zA-Z0-9,_-]+',
+                        'month' => '[a-zA-Z0-9,_-]+',
+                        'day' => '[a-zA-Z0-9,_-]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Contentinum',
@@ -130,10 +132,14 @@ return array(
 
             // mappers
             'Contentinum\Navigation' => 'Contentinum\Factory\Mapper\NavigationFactory',
-            'Contentinum\Newsarchive' => 'Contentinum\Factory\Mapper\NewsarchiveFactory',
-            'Contentinum\NewsArchiveYear' => 'Contentinum\Factory\Mapper\NewsArchiveYearFactory',
-            'Contentinum\News' => 'Contentinum\Factory\Mapper\NewsFactory',
-            'Contentinum\NewsGroup' => 'Contentinum\Factory\Mapper\NewsGroupFactory', 
+            
+            
+            'Contentinum\Blogs' => 'Contentinum\Factory\Mapper\ModulBlogFactory',
+            'Contentinum\BlogsActual' => 'Contentinum\Factory\Mapper\ModulBlogActualFactory',
+            'Contentinum\BlogGroups' => 'Contentinum\Factory\Mapper\ModulBlogGroupsFactory', 
+            'Contentinum\BlogsMonthly' => 'Contentinum\Factory\Mapper\ModulBlogsMonthlyFactory',
+            'Contentinum\BlogsAnnually' => 'Contentinum\Factory\Mapper\ModulBlogsAnnuallyFactory',
+            
             'Contentinum\Mediagroup' => 'Contentinum\Factory\Mapper\MediagroupFactory',   
             'Contentinum\Medias' => 'Contentinum\Factory\Mapper\MediasFactory',  
             'Contentinum\Filegroup' => 'Contentinum\Factory\Mapper\FilegroupFactory',   
@@ -344,10 +350,11 @@ return array(
         
         'key_plugins' => array(
             'topbar' => 'Contentinum\Navigation',
-            'newsarchive' => 'Contentinum\Newsarchive',
-            'newsyeararchive' => 'Contentinum\NewsArchiveYear',
-            'news' => 'Contentinum\News',
-            'newsgroup' => 'Contentinum\NewsGroup',
+            'newsarchive' => 'Contentinum\BlogsMonthly',
+            'newsyeararchive' => 'Contentinum\BlogsAnnually',
+            'blogs' => 'Contentinum\Blogs',
+            'news' => 'Contentinum\BlogsActual',
+            'newsgroup' => 'Contentinum\BlogGroups',
             'navigation' => 'Contentinum\Navigation',
             'mediagroup' => 'Contentinum\Mediagroup',
             'filegroup' => 'Contentinum\Filegroup',
@@ -366,6 +373,7 @@ return array(
             'newsyeararchive' => 'newsarchiveyearlist',
             'news' => 'newsactual',
             'newsgroup' => 'newsactual',
+            'blogs' => 'news',
             'navigation' => 'navigationbuild',
             'mediagroup' => 'mediagroup',
             'filegroup' => 'filegroup',
@@ -691,12 +699,16 @@ return array(
                             'options' => array(
                                 'label' => 'Format',
                                 'empty_option' => 'No style',
-                                'value_options' => array(
-                                    'navigation' => 'Standard List in nav container',
-                                    'navigationlist' => 'Standard List',
-                                    'navigationinline' => 'Inline List',
-                                    'topbarlist' => 'Topbar'
-                                ),
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_navigation',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ), 
                                 'deco-row' => 'text'
                             ),
                             'type' => 'Select',
@@ -855,7 +867,6 @@ return array(
                 )
             
             ),
-            
             'mediagroup' => array(
                 'resource' => 'intranet',
                 'name' => 'Bildergalerien',
@@ -895,10 +906,18 @@ return array(
                             'options' => array(
                                 'label' => 'Format',
                                 'empty_option' => 'No style',
-                                'value_options' => array(
-                                    'imageslider' => 'Slider',
-                                    'contentslider' => 'Contentslider'
-                                ),
+                                
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_mediagroup',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),                                
+                                
                                 'deco-row' => 'text'
                             ),
                             'type' => 'Select',
@@ -988,10 +1007,16 @@ return array(
                             'options' => array(
                                 'label' => 'Format',
                                 'empty_option' => 'No style',
-                                'value_options' => array(
-                                    'downloadlist' => 'Downloadliste',
-                                    'contentslider' => 'Contentslider'
-                                ),
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_filegroup',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ), 
                                 'deco-row' => 'text'
                             ),
                             'type' => 'Select',
@@ -1385,7 +1410,7 @@ return array(
             
             'newsgroup' => array(
                 'resource' => 'intranet',
-                'name' => 'Nachrichten Gruppe',
+                'name' => 'Nachrichten Gruppe Aktuell',
                 'form' => array(
                     1 => array(
                         'spec' => array(
@@ -1486,7 +1511,7 @@ return array(
             
             'news' => array(
                 'resource' => 'intranet',
-                'name' => 'Nachrichten',
+                'name' => 'Nachrichten Aktuell',
                 'form' => array(
                     1 => array(
                         'spec' => array(
@@ -1583,6 +1608,109 @@ return array(
                     )
                 )
             ),
+            
+            'blogs' => array(
+                'resource' => 'intranet',
+                'name' => 'Nachrichten',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Nachrichten auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/newsarchive',
+                                    'data' => array(
+                                        'worker' => 'Mcwork\Model\News',
+                                        'prepare' => 'select',
+                                        'result' => 'array',
+                                        'value' => 'web_contentgroup_id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Display items',
+                                'value_options' => array(
+                                    '1' => 'Display 1',
+                                    '2' => 'Display 2',
+                                    '3' => 'Display 3',
+                                    '4' => 'Display 4',
+                                    '5' => 'Display 5',
+                                    '6' => 'Display 6',
+                                    '7' => 'Display 7',
+                                    '8' => 'Display 8',
+                                    '9' => 'Display 9',
+                                    '10' => 'Display 10',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
+            
+            
+            
             'accountmembers' => array(
                 'resource' => 'intranet',
                 'name' => 'Memberlist',

@@ -29,9 +29,9 @@ namespace Contentinum\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Contentinum\Mapper\Newsarchive;
+use Contentinum\Mapper\ModulBlogsAnnually;
 
-class NewsarchiveFactory implements FactoryInterface
+class ModulBlogsAnnuallyFactory implements FactoryInterface
 {
     /**
      * (non-PHPdoc)
@@ -41,6 +41,6 @@ class NewsarchiveFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new Newsarchive($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        return new ModulBlogsAnnually($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
     }
 }

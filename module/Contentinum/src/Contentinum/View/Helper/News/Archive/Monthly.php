@@ -37,7 +37,7 @@ class Monthly extends AbstractHelper
      * 
      * @var array
      */
-    private $list = array('element' => 'ul', 'attr' => array('class' => 'news-archive-list'));
+    private $list = array('element' => 'ul', 'attr' => array('class' => 'news-archive-list pluginarchive'));
     
     /**
      *
@@ -130,7 +130,7 @@ class Monthly extends AbstractHelper
                 $html .= HtmlAttribute::attributeArray($attr);
             }            
             $html .= '><a';
-            $attr = array('class' => 'element-toogle', 'data-archive-year' => $year);
+            $attr = array('class' => 'element-toogle', 'data-ident' => $year);
             $html .= HtmlAttribute::attributeArray($attr);
             $html .= '>' . $this->view->translate('Year') . ' ' . $year . '</a>'; //
             $html .= $this->months($year, $month);
@@ -164,6 +164,7 @@ class Monthly extends AbstractHelper
             $html .= '><a';
             $attr = array();
             $attr['href'] = '/' . $url . '/archive/' . $year . '-' . $num; 
+            $attr['class'] = 'news-archive-list-link';           
             $html .= HtmlAttribute::attributeArray($attr);
             $html .= '>' . $this->monthsname[$num] . '</a>';
             $html .= '</' . $grid . '>';

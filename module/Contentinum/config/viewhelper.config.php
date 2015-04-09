@@ -26,9 +26,13 @@ return array(
         
         
         
+        
+        
         'news' => 'Contentinum\View\Helper\News\App',
         'newsactual' => 'Contentinum\View\Helper\News\Actual',
         
+        'overwriteprops' => 'Contentinum\View\Helper\Wanted\Properties',
+        'wantedname' => 'Contentinum\View\Helper\Wanted\Name',
         'wanted' => 'Contentinum\View\Helper\Wanted\Single',
         'wantedgroup' => 'Contentinum\View\Helper\Wanted\Group',        
 
@@ -36,7 +40,8 @@ return array(
         'newsarchivelist' => 'Contentinum\View\Helper\News\Archive\Monthly',
         'newsarchiveyearlist' => 'Contentinum\View\Helper\News\Archive\Annually',
         'mediagroup' => 'Contentinum\View\Helper\Medias\Group',
-        'filegroup' => 'Contentinum\View\Helper\Medias\FilesGroup',
+        'lightboxgallery' => 'Contentinum\View\Helper\Medias\LightboxGallery',
+        'filegroup' => 'Contentinum\View\Helper\Files\Group',
         
         
         'maps' => 'Contentinum\View\Helper\Maps',

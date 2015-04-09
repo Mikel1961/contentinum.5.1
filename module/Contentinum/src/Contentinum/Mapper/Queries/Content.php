@@ -218,7 +218,6 @@ class Content extends Worker
                     $grp = $entry['groupId'];
                     $content[$ic]['contentIdent'] = $entry['web_content_id'];
                     $content[$ic]['url'] = $entry['url'];
-                    $content[$ic]['groupName'] = $entry['groupName'];
                     $content[$ic]['adjustments'] = $entry['adjustments'];
                     $content[$ic]['htmlwidgets'] = $entry['htmlwidgets'];
                     $content[$ic]['groupStyle'] = $entry['group_style'];
@@ -256,8 +255,6 @@ class Content extends Worker
             $this->replace[] = $entry['replaceDefault'];
         }
         $contributions['id'] = $entry['contribId'];
-        $contributions['groupName'] = $entry['groupName'];
-        $contributions['groupParams'] = $entry['groupParams'];
         $contributions['medias'] = $entry['medias'];
         $contributions['htmlwidgets'] = $entry['contribHtmlwidgets'];
         $contributions['element'] = $entry['element'];
@@ -279,8 +276,6 @@ class Content extends Worker
         $contributions['headline'] = $entry['headline'];
         $contributions['contentTeaser'] = $entry['contentTeaser'];
         $contributions['content'] = $entry['content'];
-        $contributions['numberCharacterTeaser'] = $entry['numberCharacterTeaser'];        
-        $contributions['labelReadMore'] = $entry['labelReadMore'];
         $contributions['publishDate'] = $entry['publishDate'];
         $contributions['publishAuthor'] = $entry['publishAuthor'];
         $contributions['authorEmail'] = $entry['authorEmail'];
@@ -350,57 +345,33 @@ class Content extends Worker
         
         return $params;
     }   
-
+    
     /**
      * Default and current page conribution queries
      * @param int $pageId page ident
      * @param string $params
      * @return string
-     */
+     */    
     protected function queryStringContribution($pageId, $params = false)
     {
-        $sql = "SELECT main.id, main.adjustments, main.htmlwidgets, main.tpl_assign, main.medias, main.publish, ";
-        $sql .= "wpp.url, wcg.name AS groupName, wcg.group_style, wcg.group_element, wcg.group_element_attribute, wcg.web_contentgroup_id AS groupId, wcg.web_content_id, wcg.group_params AS groupParams, ";
+        $sql = "SELECT ";
+        $sql .= "main.id, main.adjustments, main.htmlwidgets, main.tpl_assign, main.medias, main.publish, ";
+        $sql .= "wpp.url, wcg.group_style, wcg.group_element, wcg.group_element_attribute, ";
+        $sql .= "wcg.web_contentgroup_id AS groupId, wcg.web_content_id, "; 
         $sql .= "wc.web_medias_id AS medias, wc.htmlwidgets AS contribHtmlwidgets, wc.element, wc.element_attribute AS elementAttribute, wc.resource, ";
         $sql .= "wc.id AS contribId, wc.modul AS modul, wc.modul_params AS modulParams, wc.modul_display AS modulDisplay, wc.modul_config AS modulConfig, wc.modul_link AS modulLink, wc.modul_format AS modulFormat, ";
         $sql .= "wc.media_link_page AS mediaLinkPage, wc.media_link_group AS mediaLinkGroup, wc.media_link_url AS mediaLinkUrl, wc.media_style AS mediaStyle, wc.source AS source, wc.lang AS lang, ";
         $sql .= "wc.title AS title, wc.headline AS headline, wc.content_teaser AS contentTeaser, wc.content AS content, ";
-        $sql .= "wc.number_character_teaser AS numberCharacterTeaser, wc.label_read_more AS labelReadMore, wc.publish_date AS publishDate, wc.publish_author AS publishAuthor, wc.author_email AS authorEmail, wc.overwrite, wc.replace_default AS replaceDefault ";
+        $sql .= "wc.publish_date AS publishDate, wc.publish_author AS publishAuthor, wc.author_email AS authorEmail, wc.overwrite, wc.replace_default AS replaceDefault ";
         $sql .= "FROM web_pages_content AS main ";
-        $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id ";
         $sql .= "LEFT JOIN web_content_groups AS wcg ON wcg.web_contentgroup_id = main.web_contentgroup_id ";
+        $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id ";
         $sql .= "LEFT JOIN web_content AS wc ON wc.id = wcg.web_content_id ";
-        $sql .= "WHERE (main.web_pages_id = '" . $pageId . "') ";
-    
-        if (true === $params){
-            if ('archive' === $this->article && strlen($this->category) > 1){
-                $sql .= "AND (wcg.publish_date LIKE '".$this->category."%' OR wcg.scope = 'content' OR wcg.scope = 'new' OR wcg.web_content_id = '1') ";
-            }
-        }
-    
-        $sql .= "AND wc.publish = 'yes' ";
-        $sql .= "ORDER BY main.content_rang, main.item_rang, wcg.item_rang, wcg.publish_date DESC ";
+        $sql .= "WHERE (main.web_pages_id = '" . $pageId . "') "; 
+        $sql .= "AND wcg.name = '_default' ";
+        $sql .= "AND wc.publish = 'yes' AND main.publish = 'yes' ";
+        $sql .= "ORDER BY main.content_rang, main.item_rang, wcg.item_rang ";
         $sql .= "LIMIT 0,40;";
-        return $sql;
-    }  
-
-    
-    public function fetchArticle()
-    {
-        if (null !== $this->article && 'archive' !== $this->article){
-            $em = $this->getStorage();
-            $builder = $em->createQueryBuilder();
-            $builder->select('main');
-            $builder->from('Contentinum\Entity\WebContentGroups', 'main');
-            $builder->innerJoin('Contentinum\Entity\WebContent', 'ref1', \Doctrine\ORM\Query\Expr\Join::WITH, 'ref1.id = main.webContent');
-            $builder->innerJoin('Contentinum\Entity\WebContentGroups', 'ref2', \Doctrine\ORM\Query\Expr\Join::WITH, 'ref2.id = main.webContentgroup');
-            $builder->where('ref1.source = :source');
-            $builder->setParameter('source', $this->article);
-            $result = $builder->getQuery()->getResult();
-        } else {
-            $result = array();
-        }
-        return $result;
-    }
-    
+        return $sql;        
+    }    
 }

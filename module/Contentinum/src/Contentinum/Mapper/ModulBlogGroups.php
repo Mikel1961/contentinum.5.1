@@ -32,11 +32,8 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class ContributionNewsGroups extends AbstractModuls
+class ModulBlogGroups extends AbstractModuls
 {
-    const ENTITY_NAME = 'Contentinum\Entity\WebContentGroups';
-    
-    const TABLE_NAME = 'web_content_groups';
 
     /**
      * (non-PHPdoc)
@@ -85,12 +82,11 @@ class ContributionNewsGroups extends AbstractModuls
         }
         $sql = "SELECT mainContent.id, mainContent.web_medias_id, mainContent.htmlwidgets, mainContent.source, mainContent.headline, ";
         $sql .= "mainContent.content_teaser, mainContent.content, mainContent.number_character_teaser, ";
-        $sql .= "mainContent.label_read_more, mainContent.publish_date, mainContent.publish_author, ";
+        $sql .= "mainContent.label_read_more, mainContent.publish_date, DATE_FORMAT(mainContent.publish_date,'%Y/%m/%d') AS lnPublishDate, mainContent.publish_author, ";
         $sql .= "mainContent.author_email, mainContent.overwrite, pageParams.url ";
         $sql .= "FROM web_content_groups AS main ";
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
-        $sql .= "LEFT JOIN web_pages_content AS pageContent ON pageContent.web_contentgroup_id = main.web_contentgroup_id ";
-        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = pageContent.web_pages_id ";
+        $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
         $sql .= "WHERE ({$orWhere}) ";
         $sql .= "ORDER BY main.publish_date DESC ";
         $sql .= "LIMIT 0,{$limit} ";
@@ -98,8 +94,8 @@ class ContributionNewsGroups extends AbstractModuls
     }  
     
     /**
-     *
-     * @param unknown $id
+     * Group query
+     * @param int $id
      */
     private function groupQuery($id)
     {

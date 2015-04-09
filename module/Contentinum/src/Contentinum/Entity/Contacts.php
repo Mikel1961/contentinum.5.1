@@ -60,7 +60,7 @@ class Contacts extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="business_title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="business_title", type="string", length=250, nullable=false)
      */
     private $businessTitle = '';
     

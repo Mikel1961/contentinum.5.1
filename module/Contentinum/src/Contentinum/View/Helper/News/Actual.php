@@ -43,26 +43,28 @@ class Actual extends AbstractNewsHelper
         
         $labelReadMore = $this->labelReadMore->toArray();
         $publishDate = $this->publishDate->toArray();
+        $filter = new \Zend\Filter\HtmlEntities();
         $html = '';
         foreach ($entries['modulContent']['news'] as $entry) {
             if (0 === (int) $entry['overwrite']) {
                 
                 $article = '';
                 $head = '';
-                 
+                $arr = preg_split('/[\s]+/', $entry['publish_date']);
+                $lnPublishDate = $arr[0];                 
                 $publishDate['grid']['attr']['datetime'] = $entry['publish_date'];
                 
                 $head .= $this->deployRow($publishDate, $entry['publish_date']);
                 if (isset($entry['publish_author'])) {
                     $head .= $this->deployRow($this->publishAuthor, $entry['publish_author']);
                 }
-                
+                $blogId = 'blog' . $entry['id'];
                 if (null !== $this->toolbar) {
                     $links['pdf'] = array(
                         'href' => '/' . $entry['id']
                     );
                     $links['facebook'] = array(
-                        'href' => '?u=' . urlencode($this->view->protocol . '://' . $this->view->host . '/' . $entry['url'] . '/' . $entry['source'])
+                        'href' => '?u=' . urlencode($this->view->protocol . '://' . $this->view->host . '/' . $entry['url'] . '/' . $entry['source'] . '/' . $entry['lnPublishDate'] . '#'.$blogId)
                     );
                     $links['sendmail'] = array(
                         'href' => '/' . $entry['id']
@@ -88,9 +90,8 @@ class Actual extends AbstractNewsHelper
                         'mediaStyle' => ''
                     ), $medias, $mediaTemplate, $setSizes);
                 }
-                
-                $labelReadMore["grid"]["attr"]['href'] = '/' . $entry['url'] . '/' . $entry['source'];
-                $labelReadMore["grid"]["attr"]['title'] = $entry['label_read_more'] . ' zu ' . htmlentities($entry['headline']);
+                $labelReadMore["grid"]["attr"]['href'] = '/' . $entry['url'] . '/' . $entry['source'] . '/' . $entry['lnPublishDate'] . '#'.$blogId;
+                $labelReadMore["grid"]["attr"]['title'] = $entry['label_read_more'] . ' zu ' . $filter->filter($entry['headline']); 
                 
                 if (strlen($entry['content_teaser']) > 1) {
                     $article .= $entry['content_teaser'];

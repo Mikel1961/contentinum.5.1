@@ -32,7 +32,7 @@ namespace Contentinum\Mapper;
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Newsarchive extends AbstractModuls
+class ModulBlogsAnnually extends AbstractModuls
 {
     const ENTITY_NAME = 'Contentinum\Entity\WebContentGroups';
     
@@ -59,7 +59,7 @@ class Newsarchive extends AbstractModuls
         $newsarchive = array();
         foreach ($entries as $entry){
             if ('0000' !== $entry['year']){
-                $newsarchive[$entry['year']][$entry['month']] = $entry['url'];
+                $newsarchive[$entry['year']] = $entry['url'];
             }
         }
         return $newsarchive;
@@ -82,10 +82,9 @@ class Newsarchive extends AbstractModuls
      */
     private function queryString($id)
     {
-        $sql = "SELECT DATE_FORMAT(main.publish_date, '%Y') as year, DATE_FORMAT(main.publish_date, '%m') as month, wpp.url ";
+        $sql = "SELECT DATE_FORMAT(main.publish_date, '%Y') as year, wpp.url ";
         $sql .= "FROM web_content_groups AS main ";
-        $sql .= "LEFT JOIN web_pages_content AS wpc ON wpc.web_contentgroup_id = main.web_contentgroup_id ";
-        $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = wpc.web_pages_id ";   
+        $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.content_group_page ";    
         $sql .= "LEFT JOIN web_content AS wc ON wc.id = main.web_content_id ";
         $sql .= "WHERE main.web_contentgroup_id = '".$id."' ";
         $sql .= "AND wc.publish = 'yes' ";

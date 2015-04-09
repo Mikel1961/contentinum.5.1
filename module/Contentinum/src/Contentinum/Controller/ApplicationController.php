@@ -59,7 +59,12 @@ class ApplicationController extends AbstractFrontendController
         $modul->setCategory($pageOptions->getCategory());
         $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
-                
+
+        $cookies = $this->getRequest()->getHeaders()->get('Cookie');
+        if (isset($cookies['PHPSESSID'])){
+            unset($cookies['PHPSESSID']);
+        }
+        
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
@@ -73,14 +78,12 @@ class ApplicationController extends AbstractFrontendController
         $variables['useragent'] = 'desktop';
         $variables['pageurl'] = $page['url'];
         $variables['article'] = $pageOptions->getArticle();
-        $variables['articlecontent'] = $this->worker->fetchArticle();
+        $variables['cookies'] = $cookies;
         $variables['category'] = $pageOptions->getCategory();
         $variables['templateKey'] = $pageOptions->htmlstructure;
         $variables['host'] = $pageOptions->host;
         $variables['protocol'] = $pageOptions->protocol;
         $variables['pluginViewHelper'] = $this->getServiceLocator()->get('Contentinum\PluginViews');
-        
-        
         
         return $this->buildView($variables,$pageOptions->template);
     }
