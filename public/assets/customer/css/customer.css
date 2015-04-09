@@ -106,3 +106,12 @@ h3.searchresult a {
 .searchresultmark {
 	background-color:#FDFD00;
 }
+.image300 {
+	max-width: 300px;
+}
+.media-popup {
+	cursor: pointer;
+}
+.news-archive-sublist {
+	display: none;
+}
