@@ -36,7 +36,7 @@ class Actual extends AbstractNewsHelper
 
     public function __invoke(array $entries, $medias, $template)
     {
-        $viewTemplate = $this->view->groupstyles[$this->getLayoutKey()];
+        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
             $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]);
         }

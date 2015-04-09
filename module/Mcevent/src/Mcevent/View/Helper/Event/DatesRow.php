@@ -31,7 +31,8 @@ use Contentinum\View\Helper\AbstractContentHelper;
 
 class DatesRow extends AbstractContentHelper
 {
-
+    const VIEW_LAYOUT_KEY = 'styles';
+    
     const VIEW_TEMPLATE = 'events';
 
     /**
@@ -138,7 +139,7 @@ class DatesRow extends AbstractContentHelper
      */
     public function __invoke(array $entries, $medias, $template)
     {
-        $viewTemplate = $this->view->groupstyles[$this->getLayoutKey()];
+        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[self::VIEW_TEMPLATE])) {
             $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
         }

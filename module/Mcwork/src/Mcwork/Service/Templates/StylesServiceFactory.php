@@ -45,7 +45,7 @@ class StylesServiceFactory implements FactoryInterface
     {
         $styles = $serviceLocator->get('Contentinum\GroupStyles');
         $options = array();
-        foreach ($styles->foundation as $key => $row){
+        foreach ($styles->styles as $key => $row){
             if (isset($row['name'])){
                 $options[$key] = $row['name'];
             }

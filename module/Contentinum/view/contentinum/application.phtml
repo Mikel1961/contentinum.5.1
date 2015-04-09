@@ -1,44 +1,16 @@
 <?php
 $layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
-$groupstyles = $this->groupstyles[$layoutKey];
+$groupstyles = $this->groupstyles['styles'];
 $htmlwidgets = $this->htmlwidgets[$layoutKey];
-$contentstyles = $this->contentstyles[$layoutKey];
+$contentstyles = $this->contentstyles['contribution'];
 $content = '';
 $html = '';
 $it = 1;
 foreach ($this->entries as $row){
-
-    switch ($row['groupStyle']){
-        case 'grid':
-            $content = $this->contentgrid($row,$groupstyles['grid']->toArray(), $this->medias,$contentstyles);
-            break;           
-        case 'blockgrid':
-            $content = $this->contentblockgrid($row,$groupstyles['blockgrid']->toArray(), $this->medias,$contentstyles);
-            break;            
-        case 'tabs':
-            $content = $this->contenttabs($row,$groupstyles['tabs']->toArray(), $this->medias,$contentstyles);
-            break;  
-        case 'tabsvertical':
-            $content = $this->contenttabs($row,$groupstyles['tabsvertical']->toArray(), $this->medias,$contentstyles);
-            break; 
-        case 'accordion':            
-            $content = $this->contentaccordion($row,$groupstyles['accordion']->toArray(), $this->medias,$contentstyles);
-            break;    
-        case 'news':
-            $content = $this->news($row, $this->medias, $groupstyles['news']->toArray());
-            break;                     
-        case 'none':
-            $content = $this->contribution($row,$this->medias,$contentstyles);
-            break;            
-        default:
-            if (isset($groupstyles[$row['groupStyle']]) && false !== strpos($row['groupStyle'], 'grid') ){
-                $content = $this->contentgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias, $contentstyles);
-            } elseif (isset($groupstyles[$row['groupStyle']]) && false !== strpos($row['groupStyle'], 'custblock') ){
-                $content = $this->contentblockgrid($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias, $contentstyles);
-            } else {
-                $content = $this->contribution($row,$this->medias,$contentstyles);
-            }
-            
+    if (isset($groupstyles[$row['groupStyle']]) && ($viewHelper = $groupstyles[$row['groupStyle']]->viewhelper) ) {
+        $content = $this->$viewHelper($row,$groupstyles[$row['groupStyle']]->toArray(), $this->medias,$contentstyles);
+    } else {
+        $content = $this->contribution($row,$this->medias,$contentstyles);
     }
     
     switch ($row['htmlwidgets']){
@@ -49,7 +21,6 @@ foreach ($this->entries as $row){
             $html[$row['adjustments']][$row['url']][] = $this->contentrow( $row,$content,$htmlwidgets );
             break;
     }    
-    
     
     $it++;
 
