@@ -31,6 +31,7 @@ use Zend\View\Helper\AbstractHelper;
 
 abstract class AbstractContentHelper extends AbstractHelper
 {
+    const VIEW_LAYOUT_KEY = 'contribution';
     /**
      * 
      * @var string

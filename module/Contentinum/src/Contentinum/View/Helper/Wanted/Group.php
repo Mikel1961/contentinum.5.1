@@ -31,7 +31,8 @@ use Contentinum\View\Helper\AbstractContentHelper;
 
 class Group extends AbstractContentHelper
 {
-
+    const VIEW_LAYOUT_KEY = 'styles';
+    
     const VIEW_TEMPLATE = 'person';
     
     /**
@@ -83,6 +84,12 @@ class Group extends AbstractContentHelper
     protected $businessTitle;
     
     /**
+     * 
+     * @var array
+     */
+    protected $phoneHome;
+    
+    /**
      *
      * @var array
      */
@@ -131,6 +138,7 @@ class Group extends AbstractContentHelper
         'internet',
         'contactImgSource',
         'businessTitle',
+        'phoneHome',
         'phoneWork',
         'phoneFax',
         'contactEmail',
@@ -148,7 +156,7 @@ class Group extends AbstractContentHelper
      */
     public function __invoke($entries, $medias, $template = null)
     {
-        $viewTemplate = $this->view->groupstyles[$this->getLayoutKey()];
+        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[self::VIEW_TEMPLATE])){
             $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
         }        
@@ -156,52 +164,66 @@ class Group extends AbstractContentHelper
         $html = '';
         foreach ($entries['modulContent'] as $entry) {
             $cardData = '';
-            $name = $this->salutation($entry->contacts->salutation) . $entry->contacts->firstName . ' ' . $entry->contacts->lastName;
-            if (1 != $entry->contacts->contactImgSource){
+            if ( 1 === $entry->enableImage  && 1 != $entry->contacts->contactImgSource){
                 $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->contactImgSource), $medias));
 
             }
-            $cardData .= $this->deployRow($this->name, $name);
-            $cardData .= $this->deployRow($this->businessTitle, $entry->contacts->businessTitle);
+            $cardData .= $this->deployRow($this->name, $this->view->wantedname($entry));
             
-            if (isset($this->address['grids'])){
-                $location = '';
-                $grids = $this->address['grids'];
-                if (strlen($entry->contacts->contactAddress) > 1){
-                    if (isset($grids['contactAddress'])){
-                        $location .= $this->deployRow($grids['contactAddress'], $entry->contacts->contactAddress);
-                    } else {
-                        $location .= $entry->contacts->contactAddress . ' ';
+
+            if (1 === $entry->enableBusinessTitle && null != ($businesTitle = $this->view->overwriteprops($entry,'contacts','businessTitle'))){
+                $cardData .= $this->deployRow($this->businessTitle, $businesTitle );
+            }
+            if (1 === $entry->enableAddress){
+                if (isset($this->address['grids'])){
+                    $location = null;
+                    $grids = $this->address['grids'];
+                    if (null != ($contactAdress = $this->view->overwriteprops($entry,'contacts','contactAddress')) ) {
+                        if (isset($grids['contactAddress'])){
+                            $location .= $this->deployRow($grids['contactAddress'], $contactAdress);
+                        } else {
+                            $location .= $contactAdress . ' ';
+                        }
                     }
-                }
-            
-                if (strlen($entry->contacts->contactZipcode) > 1){
-                    if (isset($grids['contactZipcode'])){
-                        $location .= $this->deployRow($grids['contactZipcode'], $entry->contacts->contactZipcode);
-                    } else {
-                        $location .= $entry->contacts->contactZipcode . ' ';
-                    }
-                }
-            
-                if (strlen($entry->contacts->contactCity) > 1){
-                    if (isset($grids['contactCity'])){
-                        $location .= $this->deployRow($grids['contactCity'], $entry->contacts->contactCity);
-                    } else {
-                        $location .= $entry->contacts->contactCity;
-                    }
-                }
-                $cardData .= $this->deployRow($this->address, $location);
                 
-            }        
-            if (strlen($entry->contacts->phoneWork) > 1){    
-                $cardData .= $this->deployRow($this->phoneWork, $entry->contacts->phoneWork);
+                    if (null != ($contactZipcode = $this->view->overwriteprops($entry,'contacts','contactZipcode')) ) {    
+                        if (isset($grids['contactZipcode'])){
+                            $location .= $this->deployRow($grids['contactZipcode'], $contactZipcode);
+                        } else {
+                            $location .= $contactZipcode . ' ';
+                        }
+                    }
+                
+                    if (null != ($contactCity = $this->view->overwriteprops($entry,'contacts','contactCity')) ) {
+                        if (isset($grids['contactCity'])){
+                            $location .= $this->deployRow($grids['contactCity'], $contactCity);
+                        } else {
+                            $location .= $contactCity;
+                        }
+                    }
+                    if (null !== $location){
+                        $cardData .= $this->deployRow($this->address, $location);
+                    }
+                } 
             }
-            if (strlen($entry->contacts->phoneFax) > 1){
-                $cardData .= $this->deployRow($this->phoneFax, $entry->contacts->phoneFax);
+            if (1=== $entry->enablePhoneHome && null != $entry->contacts->phoneHome){
+                $cardData .= $this->deployRow($this->phoneHome, $entry->contacts->phoneHome);
+            }                   
+            if (1 === $entry->enablePhoneWork && null != ($phoneWork = $this->view->overwriteprops($entry,'contacts','phoneWork'))){   
+                $cardData .= $this->deployRow($this->phoneWork, $phoneWork);
+            }
+            if (1 === $entry->enablePhoneFax && null != ($phoneFax = $this->view->overwriteprops($entry,'contacts','phoneFax'))){
+                $cardData .= $this->deployRow($this->phoneFax, $phoneFax);
             }            
-            if (strlen($entry->contacts->contactEmail) > 1){
-                $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->contactEmail);
-            }
+            if (1 === $entry->enableContactEmail && null != ($contactEmail = $this->view->overwriteprops($entry,'contacts','contactEmail'))){
+                $cardData .= $this->deployRow($this->contactEmail, $contactEmail);
+            }  
+            if (1 === $entry->enableAlternateEmail && null != $entry->contacts->alternateEmail){
+                $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->alternateEmail);
+            }                      
+            if (1 === $entry->enableInternet && null != ($internet = $this->view->overwriteprops($entry,'contacts','internet'))){    
+                $cardData .= $this->deployRow($this->internet, $internet);
+            }            
             $html .= $this->deployRow($this->schema, $cardData);
         }
         if (null !== $this->wrapper){

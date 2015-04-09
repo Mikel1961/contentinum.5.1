@@ -31,6 +31,7 @@ use Contentinum\View\Helper\AbstractContentHelper;
 
 class Single extends AbstractContentHelper
 {
+    const VIEW_LAYOUT_KEY = 'styles';
 
     const VIEW_TEMPLATE = 'person';
 
@@ -81,6 +82,12 @@ class Single extends AbstractContentHelper
      * @var array
      */
     protected $businessTitle;
+    
+    /**
+     *
+     * @var array
+     */
+    protected $phoneHome;    
 
     /**
      *
@@ -131,6 +138,7 @@ class Single extends AbstractContentHelper
         'internet',
         'contactImgSource',
         'businessTitle',
+        'phoneHome',
         'phoneWork',
         'phoneFax',
         'contactEmail',
@@ -148,7 +156,7 @@ class Single extends AbstractContentHelper
      */
     public function __invoke($entries, $medias, $template = null)
     {
-        $viewTemplate = $this->view->groupstyles[$this->getLayoutKey()];
+        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[self::VIEW_TEMPLATE])){
             $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
         }        
@@ -192,7 +200,10 @@ class Single extends AbstractContentHelper
                 }
                 $cardData .= $this->deployRow($this->address, $location);
                 
-            }        
+            }
+            if (strlen($entry->phoneHome) > 1){
+                $cardData .= $this->deployRow($this->phoneHome, $entry->phoneHome);
+            }                    
             if (strlen($entry->phoneWork) > 1){    
                 $cardData .= $this->deployRow($this->phoneWork, $entry->phoneWork);
             }

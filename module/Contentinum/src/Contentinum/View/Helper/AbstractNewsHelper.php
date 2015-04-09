@@ -30,6 +30,8 @@ namespace Contentinum\View\Helper;
 
 abstract class AbstractNewsHelper extends AbstractContentHelper
 {
+    const VIEW_LAYOUT_KEY = 'styles';
+    
     const VIEW_TEMPLATE = 'news';
 
     /**
