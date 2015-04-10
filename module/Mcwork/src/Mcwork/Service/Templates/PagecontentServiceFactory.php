@@ -45,7 +45,7 @@ class PagecontentServiceFactory implements FactoryInterface
     {
         $styles = $serviceLocator->get('Contentinum\Widgets');
         $options = array();
-        foreach ($styles->foundation as $key => $row){
+        foreach ($styles->widgets as $key => $row){
             if (isset($row['name'])){
                 $options[$key] = $row['name'];
             }
