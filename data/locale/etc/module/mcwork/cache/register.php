@@ -5,7 +5,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Recources access values list',
+        'label' => 'Zugriffsliste auf Ressourcen (ACL)',
         'metas' => null
     ),
     
@@ -13,7 +13,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Charset list',
+        'label' => 'Liste Zeichensätze',
         'metas' => null
     ),
     
@@ -21,7 +21,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'List of HTTP Status codes',
+        'label' => 'Liste HTTP Status Codes',
         'metas' => null
     ),
     
@@ -29,7 +29,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Link relationship attribute values',
+        'label' => 'Liste Link (rel) Attribute',
         'metas' => null
     ),
     
@@ -37,7 +37,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Link target attribute values',
+        'label' => 'Liste Link (target) Attribute',
         'metas' => null
     ),
     
@@ -45,7 +45,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Publish values list',
+        'label' => 'Liste (Publish) Attribute',
         'metas' => null
     ),
     
@@ -53,7 +53,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Robots values list',
+        'label' => 'Liste (Robots) Attribute',
         'metas' => null
     ),
     
@@ -62,7 +62,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Client app runtime datas',
+        'label' => 'Client Applikation-Konfigurationdaten',
         'metas' => null    
     ),
     
@@ -71,7 +71,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Backend form buttons',
+        'label' => 'Backend Formular Buttons',
         'metas' => null        
     ),
     
@@ -79,7 +79,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Backend table row toolbar',
+        'label' => 'Backend Toolbar Tabellenreihe',
         'metas' => null
     ), 
 
@@ -87,7 +87,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Backend table header toolbar',
+        'label' => 'Backend Toolbar Tabellenkopf',
         'metas' => null    
     ),
     
@@ -96,7 +96,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Backend form decorators',
+        'label' => 'Backend Formular Decorators',
         'metas' => null
     ),  
 
@@ -104,7 +104,7 @@ return array(
         'cache' => 'Mcwork\Cache\Data',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Backend form rules',
+        'label' => 'Backend Formular Regeln',
         'metas' => null
     ), 
 
@@ -112,7 +112,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Locale list',
+        'label' => 'Liste (Locale) Attribute',
         'metas' => null
     ),  
 
@@ -120,7 +120,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'configuration',
         'group' => 'Configuration',
-        'label' => 'Language list',
+        'label' => 'Liste Sprachen',
         'metas' => null
     ),    
     
@@ -130,7 +130,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'structures',
         'group' => 'Structure content data',
-        'label' => 'Client app runtime datas',
+        'label' => 'Daten Inhaltsgruppen',
         'metas' => null    
     ),
     
@@ -139,7 +139,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'structures',
         'group' => 'Structure content data',
-        'label' => 'List of pages and links',
+        'label' => 'Liste Seiten und Links',
         'metas' => null
     ),
     
@@ -147,14 +147,14 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'structures',
         'group' => 'Structure content data',
-        'label' => 'List of directory accounts',
+        'label' => 'Lists Directory Daten',
         'metas' => null    
     ),
     'mcwork_media' => array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'structures',
         'group' => 'Structure content data',
-        'label' => 'List of all medias',
+        'label' => 'Liste aller Medien',
         'metas' => null    
     
     ),
@@ -164,7 +164,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'backend',
         'group' => 'Configuration',
-        'label' => 'Backend pages configuration and content',
+        'label' => 'Backend Seiten Konfiguration und Inhalte',
         'metas' => null
     ),    
     
@@ -181,7 +181,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'backend',
         'group' => 'Configuration',
-        'label' => 'Template assigns',
+        'label' => 'Zuordnungen Templates',
         'metas' => null    
     ),
     
@@ -189,7 +189,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'backend',
         'group' => 'Layout',
-        'label' => 'Template Widgets',
+        'label' => 'HTML Widgets',
         'metas' => null
     ),
     
@@ -197,7 +197,7 @@ return array(
         'cache' => 'Mcwork\Cache\Structures',
         'groupkey' => 'backend',
         'group' => 'Layout',
-        'label' => 'Template types',
+        'label' => 'Template Typen',
         'metas' => null    
     
     ),
@@ -207,7 +207,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Public application configuration',
+        'label' => 'Frontend Konfiguration Applikation',
         'metas' => null
     ),    
     
@@ -215,7 +215,7 @@ return array(
         'cache' => 'Contentinum\Cache\PublicContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Domain configuration',
+        'label' => 'Domain Konfiguration',
         'metas' => null    
     ),
     
@@ -223,7 +223,7 @@ return array(
         'cache' => 'Contentinum\Cache\PublicContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Public page attributtes',
+        'label' => 'Frontend Seiten Attribute',
         'metas' => null    
     ),
     
@@ -231,7 +231,7 @@ return array(
         'cache' => 'Contentinum\Cache\PublicContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Public page datas',
+        'label' => 'Frontend Seiten',
         'metas' => null    
     ),
     
@@ -239,7 +239,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Template configuration',
-        'label' => 'Contribution template configuration',
+        'label' => 'Beitrags Templatekonfiguration',
         'metas' => null    
     ),  
 
@@ -247,7 +247,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Template configuration',
-        'label' => 'Contribution groups template configuration',
+        'label' => 'Beitragsgruppen Templatekonfiguration',
         'metas' => null
     ), 
     
@@ -255,7 +255,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Template configuration',
-        'label' => 'Page contribution template configuration',
+        'label' => 'Seitenbeiträge Templatekonfiguration',
         'metas' => null    
     ),
 
@@ -263,7 +263,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Template configuration',
-        'label' => 'Layout template configuration',
+        'label' => 'Layout Templatekonfiguration',
         'metas' => null        
     ),
     
@@ -271,7 +271,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Public form decorators',
+        'label' => 'Frontend Formular Decorators',
         'metas' => null    
     ),
     
@@ -279,7 +279,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Customer configurations',
+        'label' => 'Kundenkonfiguration',
         'metas' => null        
     ),
     
@@ -287,7 +287,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'Login form decorators',
+        'label' => 'Login Formular Decorators',
         'metas' => null
     ),  
 
@@ -295,7 +295,7 @@ return array(
         'cache' => 'Contentinum\Cache\StrutureContent',
         'groupkey' => 'frontend',
         'group' => 'Configuration',
-        'label' => 'User default pages configuration and content',
+        'label' => 'User Standardseiten Konfiguration und Inhalte',
         'metas' => null
     ),      
 
