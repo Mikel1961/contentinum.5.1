@@ -13,9 +13,8 @@ if (true === $this->xmlHttpRequest){
     echo $html;
     exit();
 } else {
-    $layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
-    $groupstyles = $this->groupstyles[$layoutKey];
-    $htmlwidgets = $this->htmlwidgets[$layoutKey];
+    $groupstyles = $this->groupstyles['styles'];
+    $htmlwidgets = $this->htmlwidgets['widgets'];
     echo $html;
     $this->layoutassets($this->htmllayouts,$this->templateKey);
     $layout = $this->buildlayout($this->htmllayouts,$this->templateKey);

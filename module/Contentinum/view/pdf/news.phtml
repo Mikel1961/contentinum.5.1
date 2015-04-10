@@ -2,13 +2,10 @@
 use ContentinumComponents\Tools\HandleSerializeDatabase;
 use Contentinum\Options\PdfOptions;
 use ContentinumComponents\Filter\TextToHtml;
-$layoutKey = $this->htmllayouts[$this->templateKey]->layoutkey;
-$groupstyles = $this->groupstyles[$layoutKey];
-
+$groupstyles = $this->groupstyles['styles'];
 $groupparams = array();
 $mcSerialize = new HandleSerializeDatabase();
-foreach ($this->entries as $entry) {
-    
+foreach ($this->entries as $entry) { 
     if (strlen($entry->groupParams) > 1) {
         $headername = $entry->name;
         $groupparams = $mcSerialize->execUnserialize($entry->groupParams);
