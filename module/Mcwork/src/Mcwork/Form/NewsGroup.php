@@ -81,7 +81,7 @@ class NewsGroup extends AbstractForms
             
             array(
                 'spec' => array(
-                    'name' => 'webPages',
+                    'name' => 'contentGroupPage',
                     'required' => true,                    
                     'options' => array(
                         'label' => 'Assign to a page',
@@ -99,7 +99,7 @@ class NewsGroup extends AbstractForms
                     'type' => 'Select',
                     'attributes' => array(
                         'required' => 'required',
-                        'id' => 'webPages',
+                        'id' => 'contentGroupPage',
                         //'class' => 'chosen-select'
                     )
                 )

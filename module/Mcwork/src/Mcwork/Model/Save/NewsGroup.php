@@ -96,9 +96,6 @@ class NewsGroup extends AbstractContentGroup
             }
             $datas['groupParams'] = $this->serializeGroupParams($groupParams);
             parent::save($datas, $entity);
-            $lastInsertId = $this->getLastInsertId();
-            $datas['webContentgroup'] = $this->find($lastInsertId, true);
-            $this->assignPageContent($datas, $lastInsertId);
         } else {
             foreach ($this->serializeParams as $fields) {
                 $groupParams[$fields] = $datas[$fields];
@@ -108,48 +105,5 @@ class NewsGroup extends AbstractContentGroup
             parent::save($datas, $entity, $stage, $id);
         }
         return true;
-    }
-
-    /**
-     * Assign contribution group to a page
-     *
-     * @param array $datas
-     *            insert group datas
-     * @param int $lastInsertId            
-     */
-    protected function assignPageContent($datas, $lastInsertId)
-    {
-        $this->unsetEntity();
-        if (! isset($datas['adjustments'])) {
-            $insert['adjustments'] = static::AREA_NEWSCONTENT;
-        }
-        $insert['contentRang'] = $this->getContentRang($insert['adjustments']);
-        $insert['itemRang'] = 1;
-        $insert['webPages'] = $datas['webPages'];
-        $insert['webContentgroup'] = $datas['webContentgroup'];
-        $insert['publish'] = 'yes';
-        $insert['htmlwidgets'] = $datas['htmlwidgets'];
-        $insert['tplAssign'] = $datas['tplAssign'];
-        parent::save($insert, $this->getSl()->get('Entity\PageContent'));
-    }
-
-    /**
-     * Update page content parameters
-     * 
-     * @param array $datas            
-     * @param integer $contentGroupId            
-     */
-    protected function updatePageContent($datas, $contentGroupId)
-    {
-        $row = $this->fetchRow("SELECT * FROM web_pages_content WHERE web_contentgroup_id = '{$contentGroupId}'");
-        if (isset($row['id'])) {
-            $this->unsetEntity();
-            $this->setEntity($this->getSl()
-                ->get('Entity\PageContent'));
-            $this->addTargetEntities('webContentgroup', $this->getSl()
-                ->get('Entity\Name\ContentGroups'));
-            $entity = $this->find($row['id']);
-            parent::save($datas, $this->find($row['id']), self::SAVE_UPDATE);
-        }
     }
 }

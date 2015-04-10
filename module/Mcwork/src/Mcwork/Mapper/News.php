@@ -43,6 +43,6 @@ class News extends Worker
      */
     public function fetchContent(array $params = null)
     {
-        return $this->getStorage()->getRepository( $this->getEntityName() )->findBy(array('contentGroupName' => 'news'));
+        return $this->getStorage()->getRepository( $this->getEntityName() )->findBy(array('contentGroupName' => 'news'),array('publishDate' => 'DESC'));
     }
 }
