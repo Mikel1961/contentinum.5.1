@@ -7,6 +7,11 @@ echo "\n<html" . $this->htmlTagAttribs . ">\n";
 echo "<meta charset=\"" . $this->charset . "\">\n";
 echo $this->headTitle()->setAutoEscape(false) . "\n";
 echo $this->headMeta() . "\n";
+if ($this->pageHeaders){
+    foreach ($this->pageHeaders[0] as $links){
+        echo '<link' . ContentinumComponents\Html\HtmlAttribute::attributeArray($links) . " />\n";
+    }  
+}
 echo $this->plugin('HeadLink') . "\n";
 echo $this->plugin('HeadStyle');
 echo $this->plugin('HeadScript') . "\n";
@@ -16,6 +21,7 @@ echo $this->plugin('HeadScript') . "\n";
 echo "<body" . $this->bodyTagAttribs . ">";
 echo $this->content;
 echo "\n" . $this->plugin('InlineScript');
+echo $this->bodyInlineScript;
 ?>
 </body>
 </html>

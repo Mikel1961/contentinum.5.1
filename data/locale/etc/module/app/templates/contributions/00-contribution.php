@@ -1,10 +1,11 @@
 <?php
 return array(
-    'foundation' => array(
+    'contribution' => array(
         'content' => array(
             'name' => 'Display content',
         ),
         '_defaultimages' => array(
+            'key' => 'defaults',
             'name' => false,
             'media' => array(
                 'row' => array(
@@ -19,7 +20,89 @@ return array(
                 )
             )
         ),
+        
+        'mediablockgrid' => array(
+            'key' => 'mediagroup',
+            'name' => 'Media Blockgrid (1-2-3)',
+            'row' => array(
+                'element' => 'ul',
+                'attr' => array(
+                    'class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list',
+                ),
+            ),
+            'grid' => array(
+                'element' => 'li',
+                'attr' => array(
+                    'class' => 'media-block-grid-element'
+                ),
+            ),
+        
+        
+        ), 
+        
+        'mediablocklightgallery' => array(
+            'key' => 'mediagroup',
+            'name' => 'Mediagallery Blockgrid (1-2-3)',
+            'row' => array(
+                'element' => 'ul',
+                'attr' => array(
+                    'class' => 'popup-gallery small-block-grid-1 medium-block-grid-2 large-block-grid-3',
+                ),
+            ),
+            'grid' => array(
+                'element' => 'li',
+                'attr' => array(
+                    'class' => 'gallery-block-grid-element'
+                ),
+            ),
+        
+        
+        ),        
+
+        'filegrouplist' => array(
+            'key' => 'filegroup',
+            'name' => 'Datei zum downlaod als Liste',
+            'row' => array(
+                'element' => 'ul',
+                'attr' => array(
+                    'class' => 'filegroup-list',
+                ),
+            ),
+            'grid' => array(
+                'element' => 'li',
+                'attr' => array(
+                    'class' => 'filegroup-list-element'
+                ),
+            ), 
+
+           'files' => array(
+           
+                'row' => array(
+                     
+                    'element' => 'p',
+                    'attr' => array(),
+                
+                    'content:before' => '<i class="fa fa-file"></i> '
+                    
+                ),
+                
+                'grid' => array(
+                     
+                    'element' => 'a',
+                    'attr' => array(
+                        'href' => '/mcwork/medias/download/',
+                        'class' => 'has-tip tip-top filegroup-list-element-link',
+                        'data-tooltip' => 'data-tooltip',
+                        'aria-haspopup' => 'true', 
+                        'role' => 'tooltip',
+                    ),
+                ),           
+           
+           ),
+        ),
+        
         'medialeft' => array(
+            'key' => 'contribution',
             'name' => 'Contribution with media left',
             'media' => array(
                 'row' => array(
@@ -38,6 +121,7 @@ return array(
         
         ),
         'mediaright' => array(
+            'key' => 'contribution',
             'name' => 'Contribution with media right',
             'media' => array(
                 'row' => array(
@@ -55,6 +139,7 @@ return array(
             )
         ),
         'mediacenter' => array(
+            'key' => 'contribution',
             'name' => 'Contribution with media center',
             'media' => array(
                 'row' => array(
@@ -72,6 +157,7 @@ return array(
             )
         ),
         'mediabanner' => array(
+            'key' => 'contribution',
             'name' => 'Media banner',
             'media' => array(
                 'row' => array(
@@ -89,6 +175,7 @@ return array(
             )
         ),        
         'contentblockmedialeft' => array(
+            'key' => 'contribution',
             'name' => 'Contribution block with media left',
             'row' => array(
                 'element' => 'div',
@@ -118,6 +205,7 @@ return array(
             )
         ),
         'contentblockmediaright' => array(
+            'key' => 'contribution',
             'name' => 'Contribution block with media right',
             'row' => array(
                 'element' => 'div',
@@ -142,6 +230,7 @@ return array(
             )
         ),
         'simplelist' => array(
+            'key' => false,
             'name' => false,
             'list' => array(
                 'element' => 'ul',
@@ -155,7 +244,8 @@ return array(
             )
         ),
         'topbar' => array(
-            'name' => false,
+            'key' => 'topbar',
+            'name' => 'Topbar right Foundation Framework',
             'brand' => '<h2><a href="#">%s1</a></h2>',
             'mobilemenue' => '<a href="#"><span>Menue</span></a>',
             'direction' => 'right',
@@ -195,7 +285,8 @@ return array(
             )   
         ),
         'topbarleft' => array(
-            'name' => false,
+            'key' => 'topbar',
+            'name' => 'Topbar left Foundation Framework',
             'brand' => '<h1><a href="#">%s1</a></h1>',
             'mobilemenue' => '<a href="#"><span>Menue</span></a>',
             'direction' => 'left',
@@ -235,7 +326,9 @@ return array(
             )       
         ),
         'navigation' => array(
-            'name' => false,
+            'key' => 'navigation',
+            'name' => 'Navigation Standard list',
+            'list' => array('attr' => array('class' =>  'navigation-list')),
             'row' => array(
                 'element' => 'nav',
                 'attr' => array(
@@ -245,7 +338,8 @@ return array(
             )
         ),
         'navigationinline' => array(
-            'name' => false,
+            'key' => 'navigation',
+            'name' => 'Navigation Standard Inlinelist',
             'list' => array('attr' => array('class' =>  'navigation-list-inline')),
             'row' => array(
                 'element' => 'nav',
@@ -255,5 +349,17 @@ return array(
                 )
             )
         ),
+        'navigationinlinefooter' => array(
+            'key' => 'navigation',
+            'name' => 'Navigation Standard Inlinelist',
+            'list' => array('attr' => array('class' =>  'navigation-list-inline-footer')),
+            'row' => array(
+                'element' => 'nav',
+                'attr' => array(
+                    'class' => 'navigation-list-footer',
+                    'role' => 'navigation'
+                )
+            )
+        ),        
     ),
 );
