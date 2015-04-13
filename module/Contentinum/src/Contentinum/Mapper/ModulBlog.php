@@ -36,8 +36,14 @@ class ModulBlog extends AbstractModuls
 {
 
     /**
+     *
+     * @var unknown
+     */
+    private $findModul = false;
+
+    /**
      * (non-PHPdoc)
-     * 
+     *
      * @see \Contentinum\Mapper\AbstractModul::fetchContent()
      */
     public function fetchContent(array $params = null)
@@ -47,7 +53,7 @@ class ModulBlog extends AbstractModuls
 
     /**
      * Build content array from query result
-     * 
+     *
      * @param array $entries
      *            database result
      * @return multitype:multitype:string unknown multitype:multitype:string unknown
@@ -61,17 +67,61 @@ class ModulBlog extends AbstractModuls
         if ($entries) {
             $result['news'] = $entries;
         }
-        if ($this->article && 'archive' !== $this->article){
+        if ($this->article && 'archive' !== $this->article) {
             $result['newsarticle'] = 1;
-        } elseif ($this->article && 'archive' === $this->article && $this->category){
+            $this->isModulContent($entries);
+            if (false !== $this->findModul){
+                $result['newsplugins'] = $this->fetchModulContent();
+            }          
+        } elseif ($this->article && 'archive' === $this->article && $this->category) {
             $result['archivbacklink'] = $this->article . '/' . $this->category;
         }
         return $result;
     }
 
     /**
-     * Build query string and execute this
+     *
+     * @param unknown $entries            
+     * @return unknown
+     */
+    private function isModulContent($entries)
+    {
+        foreach ($entries as $entry) {
+            if (1 !== (int) $entry['id']){
+                if (strlen($entry['modul']) > 1) {
+                    $modul[$entry['modul']][$entry['id']]['modulReferer'] = $entry['id'];
+                    $modul[$entry['modul']][$entry['id']]['modulParams'] = $entry['modul_params'];
+                    $modul[$entry['modul']][$entry['id']]['modulDisplay'] = $entry['modul_display'];
+                    $modul[$entry['modul']][$entry['id']]['modulConfig'] = $entry['modul_config'];
+                    $modul[$entry['modul']][$entry['id']]['modulLink'] = $entry['modul_link'];
+                    $modul[$entry['modul']][$entry['id']]['modulFormat'] = $entry['modul_format'];
+                    $this->findModul = $modul;
+                }
+                break;
+            }
+            
+        }
+        
+        return $entries;
+    }
+    
+    /**
      * 
+     */
+    private function fetchModulContent()
+    {
+        $modul = $this->getSl()->get('Contentinum\Modul');
+        $modul->setPlugins( $this->getSl()->get('Contentinum\PluginKeys') );
+        $modul->setUrl($this->getUrl());
+        $modul->setArticle( $this->getArticle() );
+        $modul->setCategory( $this->getCategory() );
+        $modul->setModul($this->findModul);
+        return $modul->fetchContent();
+    }
+
+    /**
+     * Build query string and execute this
+     *
      * @param int $id
      *            blog or news ident
      */
@@ -91,24 +141,24 @@ class ModulBlog extends AbstractModuls
         $sql .= "FROM web_content_groups AS main ";
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
         $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
-        if ($this->article && 'archive' !== $this->article){
-            $sql .= "WHERE mainContent.source = '" . $this->article . "' ";    
-        } elseif ($this->article && 'archive' === $this->article && $this->category){
+        if ($this->article && 'archive' !== $this->article) {
+            $sql .= "WHERE mainContent.source = '" . $this->article . "' ";
+        } elseif ($this->article && 'archive' === $this->article && $this->category) {
             $sql .= "WHERE main.web_contentgroup_id = '" . $id . "' ";
-            $sql .= "AND main.publish_date LIKE '".$this->category."%' ";
-            $sql .= "ORDER BY main.publish_date DESC ";                    
+            $sql .= "AND main.publish_date LIKE '" . $this->category . "%' ";
+            $sql .= "ORDER BY main.publish_date DESC ";
         } else {
             $sql .= "WHERE main.web_contentgroup_id = '" . $id . "' ";
             $sql .= "ORDER BY main.publish_date DESC ";
-            $sql .= "LIMIT 0,{$limit} ";            
+            $sql .= "LIMIT 0,{$limit} ";
         }
-
+        
         return $this->fetchAll($sql);
     }
 
     /**
      * Build query string and execute this
-     * 
+     *
      * @param int $id
      *            blog or news ident
      */
@@ -121,4 +171,7 @@ class ModulBlog extends AbstractModuls
         $sql .= "AND main.web_content_id = '1' ";
         return $this->fetchAll($sql);
     }
+
+    private function modulquery()
+    {}
 }

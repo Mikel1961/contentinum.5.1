@@ -198,6 +198,18 @@ class Content extends Worker
     }
     
     /**
+     * 
+     * @param unknown $id
+     * @return Ambigous <\Contentinum\Mapper\Queries\Ambigous, \Contentinum\Mapper\Queries\multitype:unknown, multitype:object Ambigous <multitype:, string> >
+     */
+    public function fetchErrorContent($id)
+    {
+        $this->setPagecontent( $this->fetchAll($this->queryStringContribution($id, true)));
+        $this->defaultcontent = array();
+        return $this->prepare(null);
+    }
+    
+    /**
      * Prepare defauöt and current page contributions
      * @param array $page
      * @return Ambigous <\Contentinum\Mapper\multitype:unknown, NULL, multitype:object Ambigous <multitype:, string> >

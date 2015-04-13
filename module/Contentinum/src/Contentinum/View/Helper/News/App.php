@@ -145,24 +145,17 @@ class App extends AbstractNewsHelper
                         ), $medias, $this->media->toArray());
                     }
                     $article .= $entry['content'];
-                    
-                    switch ($entry['modul']) {
-                        case 'mediagroup':
-                            if (isset($this->view->plugins['mediagroup'][$entry['id']])) {
-                                $plugin = array_merge($entry,$this->view->plugins['mediagroup'][$entry['id']]);
-                                $article .= $this->view->mediagroup($plugin, $medias, $template);
-                            }
-                            break;
-                        case 'filegroup':
-                            if (isset($this->view->plugins['filegroup'][$entry['id']])) {
-                                $plugin = array_merge($entry,$this->view->plugins['filegroup'][$entry['id']]);
-                                $article .= $this->view->filegroup($plugin, $medias, $template);
-                            }
-                            break;
-                        default:
-                            break;
-                    }                    
-                    
+                                        
+                    if (isset($entries['modulContent']['newsplugins'])) {
+                        $plugins = $entries['modulContent']['newsplugins'];
+                        if (isset($plugins[$entry['modul']][$entry['id']])) {
+                            $pluginViewHelper = $this->view->pluginViewHelper[$entry['modul']];
+                            $plugin = array_merge($entry, $plugins[$entry['modul']][$entry['id']]);
+                            $article .= $this->view->$pluginViewHelper($plugin, $medias, $template);
+                        }                        
+                        
+                    }
+
                     $backLink["grid"]["attr"]['href'] = '/' . $this->view->pageurl;
                     if ( isset($this->view->cookies['backlinkarchiv']) ) {
                         $backLink["grid"]["attr"]['class'] = $backLink["grid"]["attr"]['class'] . ' unsetBacklink';

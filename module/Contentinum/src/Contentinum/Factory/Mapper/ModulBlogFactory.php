@@ -42,6 +42,8 @@ class ModulBlogFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pageOptions = $serviceLocator->get('Contentinum\PageOptions');
-        return new ModulBlog($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $blog = new ModulBlog($serviceLocator->get($pageOptions->getAppOption('entitymanager')));
+        $blog->setSl($serviceLocator);
+        return $blog;
     }
 }

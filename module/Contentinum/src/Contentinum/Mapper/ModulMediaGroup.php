@@ -67,6 +67,7 @@ class ModulMediaGroup extends AbstractModuls
         $result = array();
         foreach ($entries as $entry){
             $metas = $this->mcUnserialize->execUnserialize($entry->webMediasId->mediaMetas);
+            $result[$entry->webMediasId->mediaLink]['name'] = $entry->webMediagroupId->groupName;
             $result[$entry->webMediasId->mediaLink]['attr']['alt'] = $metas['alt'];
             if (isset($metas['title'])){
                 $result[$entry->webMediasId->mediaLink]['attr']['title'] = $metas['title'];
