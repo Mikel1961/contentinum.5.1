@@ -29,28 +29,35 @@ namespace Contentinum\Controller;
 
 use ContentinumComponents\Controller\AbstractContentinumController;
 use Zend\View\Model\ViewModel;
+use Contentinum\Mapper\Error;
+use Contentinum\Entity\WebPagesParameter;
+use Contentinum\Mapper\Queries\Content;
 
 /**
  * Index controller
- * 
+ *
  * @todo draft status
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
 class ErrorController extends AbstractContentinumController
 {
+
     /**
      * Error message
+     * 
      * @var string
      */
     protected $message;
-    
+
     /**
      * HTTP status code
+     * 
      * @var int
      */
     protected $statusCode = 404;
 
     /**
+     *
      * @return the $message
      */
     public function getMessage()
@@ -58,15 +65,17 @@ class ErrorController extends AbstractContentinumController
         return $this->message;
     }
 
-	/**
-     * @param string $message
+    /**
+     *
+     * @param string $message            
      */
     public function setMessage($message)
     {
         $this->message = $message;
     }
 
-	/**
+    /**
+     *
      * @return the $statusCode
      */
     public function getStatusCode()
@@ -74,25 +83,64 @@ class ErrorController extends AbstractContentinumController
         return $this->statusCode;
     }
 
-	/**
-     * @param number $statusCode
+    /**
+     *
+     * @param number $statusCode            
      */
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
     }
 
-	public function indexAction()
+    /**
+     * (non-PHPdoc)
+     * @see \Zend\Mvc\Controller\AbstractActionController::indexAction()
+     */
+    public function indexAction()
     {
-        $this->getResponse()->setStatusCode($this->statusCode);
-        $view = new ViewModel();
-        if ($this->message){
-            $view->setVariable('message', $this->message);
+        $errModul = new Error($this->serviceLocator->get('doctrine.entitymanager.orm_default'));
+        $errModul->setEntity(new WebPagesParameter());
+        $entries = $errModul->fetchContent();
+        
+        $customError = false;
+        foreach ($entries as $entry) {
+            $viewHelperManager = $this->getServiceLocator()->get('viewHelperManager');
+            $headTitleHelper = $viewHelperManager->get('headTitle');
+            $headTitleHelper->setSeparator(' - ');
+            $headTitleHelper->prepend($entry->label);
+            $headTitleHelper->append($entry->webPreferences->title);           
+            $content = new Content($this->serviceLocator->get('doctrine.entitymanager.orm_default'));
+            $variables['entries'] = $content->fetchErrorContent($entry->id);
+            $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
+            $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
+            $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
+            $variables['contentstyles'] = $this->getServiceLocator()->get('Contentinum\ContentStyles');
+            $variables['templateKey'] = $entry->htmlstructure;
+            $variables['customError'] = true;
+            
+            $customError = true;
+            
+            break;
         }
-        if (404 == $this->statusCode){
+        
+        $this->getResponse()->setStatusCode($this->statusCode);
+        
+        if (true === $customError) {
+            $view = new ViewModel($variables);
             $view->setTemplate('error/404');
+            
+            //var_dump('?');exit;
+            
         } else {
-            $view->setTemplate('error/index');
+            $view = new ViewModel();
+            if ($this->message) {
+                $view->setVariable('message', $this->message);
+            }
+            if (404 == $this->statusCode) {
+                $view->setTemplate('error/404');
+            } else {
+                $view->setTemplate('error/index');
+            }
         }
         return $view;
     }
