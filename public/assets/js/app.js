@@ -15,14 +15,18 @@ requirejs.config({
     'jquery.customer' : 'jquery/jquery.customer',
     'jquery.highlight' : 'jquery/jquery.highlight',
     'jquery.popup' : 'jquery/jquery.magnific-popup.min',
+    'jquery.mmenue' : 'jquery/jquery.mmenu.umd.all',
     'datatables' : 'jquery/jquery.dataTables.min',
     'datatable.foundation' : 'datatables/dataTables.foundation.min',
     'datatable.responsive' : 'datatables/dataTables.responsive.min',
     'datatable.highlight' : 'datatables/dataTables.searchHighlight.min',
     'contentinum.archiv' : 'contentinum/contentinum.archiv',
+    'contentinum.events' : 'contentinum/contentinum.events',
     'contentinum.popup' : 'contentinum/contentinum.popup',
     'contentinum.gallery' : 'contentinum/contentinum.gallery',
+    'contentinum.navigation' : 'contentinum/contentinum.menu',
     'contentinum.datatables' : 'contentinum/contentinum.datatables',
+    'contentinum.mmenue' : 'contentinum/contentinum.mmenue',
     'foundation': 'foundation/foundation',
     'foundation.abide': 'foundation/foundation.abide',
     'foundation.accordion': 'foundation/foundation.accordion',
@@ -56,9 +60,13 @@ requirejs.config({
     'jquery.mcworkform' :  ['jquery'],
     'jquery.mcworkmap' :  ['jquery'],
     'jquery.popup' : ['jquery'],
+    'jquery.mmenue': ['jquery'],
+    'contentinum.navigation' : ['jquery','jquery.cookie'],
+    'contentinum.events' : ['jquery'],
     'contentinum.archiv' : ['jquery','jquery.cookie'],
     'contentinum.popup' : ['jquery.popup'],
     'contentinum.gallery' : ['jquery.popup'],
+    'contentinum.mmenue' : ['jquery.mmenue'],
     'datatables' : ['jquery'],
     'contentinum.datatables' : ['datatables'],
     'foundation': ['jquery'],
@@ -83,49 +91,52 @@ requirejs.config({
 });
 
 
-require(['modernizr', 'jquery', 'foundation', 'jquery.customer'], function(Modernizr, $, FastClick) {
+require(['modernizr', 'jquery', 'foundation','jquery.customer'], function(Modernizr, $, FastClick) {
   $(document).load(function() {
     $(this).foundation();
   });
   $(document).ready(function() {
-  	
   	if ($(".top-bar").length) {
   		require(["jquery", 'foundation', "foundation.topbar"], function( $, foundation ) {
   			$(document).foundation('topbar');
   		});
   	}
-  	  	
+  	if ($("#menu").length) {
+  		$('#menu').html( $(".sidemenu-list").clone().removeAttr('class') );
+  		require(["jquery", 'jquery.mmenue','contentinum.mmenue' ], function( $ ) { 
+			    $().ContentinumMmenue();			
+  		});
+  		if ($(".sidemenu-list").length) {
+	  		require(["jquery", 'contentinum.navigation' ], function( $ ) { 
+				    $().ContentinumNavigation();			
+	  		}); 
+  		}
+  	}
   	if ( $('.media-popup').length) {
   		require(["jquery", "jquery.popup","contentinum.popup"], function( $ ) {
   			$().ContentinumPopUp();
   		});
   	}
-  	
   	if ( $('.popup-gallery').length) {
   		require(["jquery", "jquery.popup","contentinum.gallery"], function( $ ) {			
   			$().ContentinumGallery();
-  			
   		});  		
   	}
-  	
   	if ( $('.pluginarchive').length) {
   		require(["jquery", "contentinum.archiv"], function( $ ) {
   			$('.news-archive-list').ContentinumArchiv();
   		});
-  	}  	
-  	
+  	}
 	if ($(".form-customer").length) {
   	  		require(["jquery", "jquery.validate", "jquery.mcworkform"], function( $ ) {
 			    $(".form-customer").validate({
 			    	submitHandler: function(form) {
 			    		$().setDefaults({formIdent : 'formident'});
 			    		$().FormHandler(form);
-			    	}
-			    	
+			    	}			 
 			    });
 			});		
 	} 
-	
 	if ($("#searchForm").length) {
 		require(["jquery", "jquery.mcworkform"], function( $ ) {
 		    $(document).on('click', '#searchbutton', function(ev) {
@@ -136,7 +147,6 @@ require(['modernizr', 'jquery', 'foundation', 'jquery.customer'], function(Moder
 		    });	
 		});			
 	}
-	
 	if ($('#loginForm').length){
 		require(["jquery", "jquery.mcworkform"], function( $ ) {
 			$('#username').focus().select();
@@ -182,6 +192,11 @@ require(['modernizr', 'jquery', 'foundation', 'jquery.customer'], function(Moder
   	  if ($('.getics').length){
   		require( ["ics.get"]);
   	  }
+	if ( $('.event-description').length) {
+  		require(["jquery", "contentinum.events"], function( $ ) {
+  			$().ContentinumEvent();
+  		});
+  	}    	  
   });
   if(typeof appmodul !== typeof undefined){
 		require(['datatables', 'datatable.foundation','jquery.highlight','datatable.highlight','contentinum.datatables'], function(){

@@ -30,7 +30,7 @@
 					image: {
 						tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
 						titleSrc: function(item) {
-							return item.el.attr('title') + '<small>by SPD Mainhausen</small>';
+							return item.el.attr('title') + '<small>' +  item.el.attr('data-groupname')  +'</small>';
 						}
 					}
 				});
