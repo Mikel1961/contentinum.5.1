@@ -165,6 +165,39 @@ class NavigationMenue extends AbstractForms
                     )
                 )
             ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'classLink',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Link class selectoren',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'classLink'
+                    )
+                )
+            ), 
+
+            array(
+                'spec' => array(
+                    'name' => 'dataLink',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Link data attribute',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'dataLink'
+                    )
+                )
+            ),            
+            
 
             array(
                 'spec' => array(

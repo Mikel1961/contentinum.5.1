@@ -108,23 +108,27 @@ class ModulNavigation extends AbstractModuls
             } else {
                 $uri = '/' . $entry['url'];
             }
-        
+            $page['aIdent'] = $this->currentlevel;
             $page['uri'] = $uri;
             $page['resource'] = $entry['resource'];
             $page['listIdent'] = $entry['dom_id'];
             $page['listClass'] = $entry['style_class'];
+            $page['aClass'] = $entry['class_link'];
+            $page['aData'] = $entry['data_link'];
         
             if ($entry['parent_from'] > '0' && $this->currentlevel <= $this->level){
                 if (null !== ($pages = $this->build($this->query($entry['parent_from'])))) {
                     if ('topbar' === $this->key){
                         $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
                         $page['listClass'] = 'has-dropdown' . $listStyle;
+                        $page['listSubIdent'] = $this->currentlevel;
                         $page['subUlClass'] = 'dropdown';
                         $page['pages'] = $pages;
                     } else {
                         if (! empty($pages)){
                             $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
                             $page['listClass'] = 'navigation-list-has-dropdown' . $listStyle;
+                            $page['listSubIdent'] = $this->currentlevel;
                             $page['subUlClass'] = 'navigation-list-dropdown';                        
                             $page['pages'] = $pages;
                         }
@@ -154,7 +158,8 @@ class ModulNavigation extends AbstractModuls
      */
     private function queryString($id)
     {
-        $sql = "SELECT main.rel_link, main.target_link, main.resource, main.parent_from, main.dom_id, main.style_class, ";
+        $sql = "SELECT main.id, main.rel_link, main.target_link, main.class_link, main.data_link, main.resource, main.parent_from, main.dom_id, ";
+        $sql .= "main.style_class, ";
         $sql .= "wpp.label, wpp.url ";
         $sql .= "FROM web_navigation_tree AS main ";
         $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id ";

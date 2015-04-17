@@ -106,8 +106,8 @@ class Contentinum extends Menu
                 if (!$accept) {
                     continue;
                 }
-            }
-
+            }  //print '<pre>';
+               //var_dump($page);exit;
             // make sure indentation is correct
             $depth -= $minDepth;
             $myIndent = $indent . str_repeat('        ', $depth);
@@ -116,10 +116,13 @@ class Contentinum extends Menu
                 // start new ul tag
                 if ($ulClass && $depth ==  0) {
                     $ulClass = ' class="' . $ulClass . '"';
+                    $ulIdent = '';
                 } else {
                     $ulClass = $this->subUlClass;
+                    $ulIdent = ' data-ident="subIdent' . $page->get('aIdent') . '"';
+                    
                 }
-                $html .= $myIndent . '<ul' . $ulClass . '>' . self::EOL;
+                $html .= $myIndent . '<ul'. $ulIdent . $ulClass . '>' . self::EOL;
             } elseif ($prevDepth > $depth) {
                 // close li/ul tags until we're at current depth
                 for ($i = $prevDepth; $i > $depth; $i--) {
@@ -140,10 +143,6 @@ class Contentinum extends Menu
             if ($isActive) {
                 $liClasses[] = 'active';
             }
-            // Add CSS class from page to <li>
-            //if ($addClassToListItem && $page->getClass()) {
-              //  $liClasses[] = $page->getClass();
-            //}
             
             if(true == ($subUlClass = $page->get('subUlClass'))){
             	$this->subUlClass = ' class="' . $subUlClass . '"';
@@ -218,11 +217,25 @@ class Contentinum extends Menu
             $element = 'a';
             $attribs['href'] = $href;
             $attribs['target'] = $page->getTarget();
+            if(true == ($aClass = $page->get('aClass'))){
+                $addClass = ( isset( $attribs['class']) ) ? ' ' .  $attribs['class'] : '';
+                $attribs['class'] = $aClass . $addClass;
+                $addClass = '';
+            }
+            if(true == ($subIdent = $page->get('listSubIdent'))){
+               $addClass = ( isset( $attribs['class']) ) ? ' ' .  $attribs['class'] : '';
+               $attribs['class'] = 'toogleSubMenu' . $addClass;
+               $attribs['data-ident'] = 'subIdent' . $subIdent;
+            }            
         } else {
             $element = 'span';
         }
+        $aData = '';
+        if(true == ($aData = $page->get('aData'))){
+            $aData = ' ' . $aData;
+        }
 
-        $html = '<' . $element . $this->htmlAttribs($attribs) . '>';
+        $html = '<' . $element . $this->htmlAttribs($attribs) . $aData . '>';
         if ($escapeLabel === true) {
             $escaper = $this->view->plugin('escapeHtml');
             $html .= $escaper($label);

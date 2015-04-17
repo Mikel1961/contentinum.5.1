@@ -53,6 +53,20 @@ class WebNavigationTree extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="class_link", type="string", length=100, nullable=false)
+     */
+    private $classLink = '';    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="data_link", type="string", length=250, nullable=false)
+     */
+    private $dataLink = '';    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="dom_id", type="string", length=50, nullable=false)
      */
     private $domId = '';    
@@ -281,6 +295,38 @@ class WebNavigationTree extends AbstractEntity
     public function setTargetLink($targetLink)
     {
         $this->targetLink = $targetLink;
+    }
+
+	/**
+     * @return the $classLink
+     */
+    public function getClassLink()
+    {
+        return $this->classLink;
+    }
+
+	/**
+     * @return the $dataLink
+     */
+    public function getDataLink()
+    {
+        return $this->dataLink;
+    }
+
+	/**
+     * @param string $classLink
+     */
+    public function setClassLink($classLink)
+    {
+        $this->classLink = $classLink;
+    }
+
+	/**
+     * @param string $dataLink
+     */
+    public function setDataLink($dataLink)
+    {
+        $this->dataLink = $dataLink;
     }
 
 	/**
