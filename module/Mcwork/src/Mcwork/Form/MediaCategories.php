@@ -162,6 +162,62 @@ class MediaCategories extends AbstractForms
             
             array(
                 'spec' => array(
+                    'name' => 'alternateDownload',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Alternativer download',
+                        'empty_option' => 'Keine Datei angegeben',
+                        'value_options' => $this->getSelectOptions('webMediasId', array(
+                            'value' => 'id',
+                            'label' => 'mediaName',
+                        ), array('main.id != :id' => array(':id', '1'),'andWhere' => 'main.parentMedia = \'0\''),
+                            null, false, array(), array('main.mediaName' => 'ASC')
+                        ),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'alternateDownload',
+                        'class' => 'chosen-select',
+                    )
+                )
+            ), 
+
+            array(
+                'spec' => array(
+                    'name' => 'alternateLinktitle',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Alternate link title',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'alternateLinktitle'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'alternateLabelname',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Alternate labe name',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'alternateLabelname'
+                    )
+                )
+            ),            
+
+            
+            
+            array(
+                'spec' => array(
                     'name' => 'formcolumnEnd',
                     'options' => array(
                         'fieldset' => array(
@@ -196,6 +252,9 @@ class MediaCategories extends AbstractForms
                         'name' => 'Zend\Filter\StringTrim'
                     )
                 )
+            ),
+            'alternateDownload' => array(
+                'required' => false,
             ),
         );
     }

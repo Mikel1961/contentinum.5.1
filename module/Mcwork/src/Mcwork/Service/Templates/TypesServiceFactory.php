@@ -27,21 +27,30 @@
  */
 namespace Mcwork\Service\Templates;
 
-use Contentinum\Service\TemplateServiceFactory;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Config template key html layout
  * 
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class TypesServiceFactory extends TemplateServiceFactory
+class TypesServiceFactory implements FactoryInterface
 {
 
-    const CONTENTINUM_TEMPLATE = 'template_types';
-    
-    /**
-     * Name cache factory
-     * @var string
+    /* (non-PHPdoc)
+     * @see \Zend\ServiceManager\FactoryInterface::createService()
      */
-    const CONTENTINUM_CACHE = 'Mcwork\Cache\Structures';    
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $styles = $serviceLocator->get('Contentinum\TemplateAssign');
+        $options = array();
+        foreach ($styles->assigns as $key => $row){
+                $options[$key] = $row->name;
+        }
+        if (!empty($options)){
+            ksort($options);
+        }
+        return $options;
+    } 
 }

@@ -57,6 +57,51 @@
 			</action>
 		</sequence>
 	</default>
+	<error name="Error page (Foundation based)">
+		<layoutkey>default</layoutkey>
+		<sequence>
+			<action row="10" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="20" set="div">
+				<param type="class">
+					<value>large-12 columns</value>
+				</param>
+			</action>
+			<action row="40" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+
+			<action row="60" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="70" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>			
+			
+			
+		</sequence>
+		<assets>
+			<header>
+				<styles>
+					<error>
+						<file>/assets/customer/css/error.css</file>
+						<media>screen</media>
+						<rel>stylesheet</rel>
+						<type>text/css</type>
+					</error>
+				</styles>
+			</header>		
+		</assets>		
+	</error>	
 	<foundation name="Layout Foundation based">
 		<layoutkey>foundation</layoutkey>
 		<sequence>

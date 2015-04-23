@@ -11,81 +11,26 @@ foreach ($this->entries as $row){
     } else {
         $content = $this->contribution($row,$this->medias,$contentstyles);
     }
-    
     switch ($row['htmlwidgets']){
         case 'none':
-            $html[$row['adjustments']][$row['url']][] = $content;
+            $html[$row['adjustments']][$row['url']][] = $content; 
             break;            
         default:
             $html[$row['adjustments']][$row['url']][] = $this->contentrow( $row,$content,$htmlwidgets );
             break;
-    }    
-    
+    } 
     $it++;
-
 }
-$mainnavigation = '';
-$aside = '';
-$contentheader = '';
-$contentfooter = '';
-$mcontent = '';
-$header = '';
-$footer = '';
-
-if ( isset($html['HEADER']['_default']) ){
-    $header = implode ( ' ' , $html['HEADER']['_default'] );
-} 
-
-if ( isset($html['HEADER'][$this->pageurl]) ){
-    $header .= implode ( ' ' , $html['HEADER'][$this->pageurl] );
+$assigns = $this->assigns['assigns'];
+$content = array();
+foreach ($assigns as $key => $assign){
+    if (isset($html[$key]['_default']) ){
+        $content[$assign->assign] = implode ( ' ' , $html[$key]['_default']);
+    }
+    if (isset($html[$key][$this->pageurl]) ){
+        $content[$assign->assign] .= implode ( ' ' , $html[$key][$this->pageurl] );
+    }    
 }
-
-if ( isset($html['MAINNAVIGATION']['_default']) ){
-    $mainnavigation = implode ( ' ' , $html['MAINNAVIGATION']['_default'] );
-}
-
-if ( isset($html['ASIDE']['_default']) ){
-    $aside .= implode ( ' ' , $html['ASIDE']['_default'] );
-}
-if ( isset($html['ASIDE'][$this->pageurl]) ){
-    $aside .= implode ( ' ' , $html['ASIDE'][$this->pageurl] );
-}
-
-if ( isset($html['CONTENTHEADER']['_default']) ){
-    $contentheader .= implode ( ' ' , $html['CONTENTHEADER']['_default'] );
-}
-if ( isset($html['CONTENTHEADER'][$this->pageurl]) ){
-    $contentheader .= implode ( ' ' , $html['CONTENTHEADER'][$this->pageurl] );
-}
-
-if ( isset($html['CONTENT']['_default']) ){
-    $mcontent .= implode ( ' ' , $html['CONTENT']['_default'] );
-}
-if ( isset($html['CONTENT'][$this->pageurl]) ){
-    $mcontent .= implode ( ' ' , $html['CONTENT'][$this->pageurl] );
-} elseif ( isset($html['NEWSCONTENT'][$this->pageurl]) ){
-    $mcontent .= implode ( ' ' , $html['NEWSCONTENT'][$this->pageurl] );
-}
-
-
-if ( isset($html['CONTENTFOOTER']['_default']) ){
-    $contentfooter .= implode ( ' ' , $html['CONTENTFOOTER']['_default'] );
-}
-if ( isset($html['CONTENTFOOTER'][$this->pageurl]) ){
-    $contentfooter .= implode ( ' ' , $html['CONTENTFOOTER'][$this->pageurl] );
-}
-
-
-$mcontent .= $this->content;
-if ( isset($html['FOOTER']['_default']) ){
-    $footer = implode ( ' ' , $html['FOOTER']['_default'] );
-}
-
-if ( isset($html['FOOTER'][$this->pageurl]) ){
-    $footer .= implode ( ' ' , $html['FOOTER'][$this->pageurl] );
-}
-
-
 $this->layoutassets($this->htmllayouts,$this->templateKey);
 $layout = $this->buildlayout($this->htmllayouts,$this->templateKey);
 foreach ($layout as $row) {
@@ -95,20 +40,8 @@ foreach ($layout as $row) {
 				case 'assign':
 					$assign = explode(';', $v);
 					foreach ($assign as $value) {
-						if ('header' == $value) {
-							echo "\n" . $header;
-						} elseif ('mainnavigation' == $value){
-						    echo "\n" . $mainnavigation;							
-						} elseif ('aside' == $value){
-							echo "\n" . $aside;		
-						} elseif ('contentheader' == $value){
-						    echo "\n" . $contentheader;												
-						} elseif ('allcontent' == $value){
-						    echo "\n" . $mcontent;
-					    } elseif ('contentfooter' == $value){
-					        echo "\n" . $contentfooter;						    
-						} elseif ('footer' == $value){
-						    echo "\n" . $footer;
+					    if ( isset($content[$value]) ){
+					        echo "\n" . $content[$value];
 						} else {
 							echo "\n" . $this->$value;
 						}

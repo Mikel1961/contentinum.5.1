@@ -96,7 +96,7 @@ class PageContent extends AbstractForms
                     'options' => array(
                         'label' => 'Content type',
                         'empty_option' => 'Select',
-                        'value_options' => $this->getOptions('Templates\Types'),
+                        'value_options' => $this->getServiceLocator()->get('Templates\Types'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
                     'type' => 'Select',
@@ -133,9 +133,7 @@ class PageContent extends AbstractForms
      */
     public function filter()
     {
-        return array()
-
-        ;
+        return array();
     }
 
     /**

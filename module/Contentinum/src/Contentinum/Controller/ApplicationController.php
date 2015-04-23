@@ -69,6 +69,7 @@ class ApplicationController extends AbstractFrontendController
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
         $variables['contentstyles'] = $this->getServiceLocator()->get('Contentinum\ContentStyles');
+        $variables['assigns'] = $this->getServiceLocator()->get('Contentinum\TemplateAssign');
         $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Medias');
         $variables['entries'] = $entries;
         $variables['plugins'] = $modul->fetchContent();

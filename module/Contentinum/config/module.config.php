@@ -127,6 +127,7 @@ return array(
             'Contentinum\Widgets' => 'Contentinum\Service\Templates\WidgetsStylesServiceFactory',
             'Contentinum\GroupStyles' => 'Contentinum\Service\Templates\GroupStylesServiceFactory',
             'Contentinum\ContentStyles' => 'Contentinum\Service\Templates\ContentStylesServiceFactory',
+            'Contentinum\TemplateAssign' => 'Contentinum\Service\Templates\TemplateAssignServiceFactory',
 
             'Contentinum\Medias' => 'Contentinum\Factory\Mapper\MediasFactory', 
             // mappers
@@ -221,6 +222,7 @@ return array(
         ),
         'etc_cfg_files' => array(
             'app_pages' => __DIR__ . '/../../../data/locale/etc/module/app/pages.php',
+            'content_template_assign' => __DIR__ . '/../../../data/locale/etc/module/app/templates/assigns',
             'content_widgets_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/widgets',
             'content_group_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/styles',
             'content_contribution_styles' => __DIR__ . '/../../../data/locale/etc/module/app/templates/contributions',
@@ -348,6 +350,7 @@ return array(
         
         'key_plugins' => array(
             'topbar' => 'Contentinum\Navigation',
+            'mmenu' => 'Contentinum\Navigation',
             'newsarchive' => 'Contentinum\BlogsMonthly',
             'newsyeararchive' => 'Contentinum\BlogsAnnually',
             'blogs' => 'Contentinum\Blogs',
@@ -367,6 +370,7 @@ return array(
 
         'viewhelper_plugins' => array(
             'topbar' => 'navigationtopbar',
+            'mmenu' => 'navigationmmenu',
             'newsarchive' => 'newsarchivelist',
             'newsyeararchive' => 'newsarchiveyearlist',
             'news' => 'newsactual',
@@ -384,9 +388,6 @@ return array(
         ),
         
         'default_plugins' => array(
-            
-
-            
             'searchform' => array(
                 'resource' => 'intranet',
                 'name' => 'Nachrichten durchsuchen',
@@ -468,8 +469,7 @@ return array(
                         )
                     )
                 )
-            ),            
-            
+            ),
             'wantedgroup' => array(
                 'resource' => 'intranet',
                 'name' => 'Steckbriefgruppe',
@@ -549,12 +549,8 @@ return array(
                             )
                         )
                     )
-                )
-            
-            ),            
-            
-            
-            
+                )            
+            ),
             'wanted' => array(
                 'resource' => 'intranet',
                 'name' => 'Steckbrief',
@@ -636,8 +632,104 @@ return array(
                     )
                 )
             
-            ),            
+            ), 
+            'mmenu' => array(
+                'resource' => 'intranet',
+                'name' => 'Navigation (mmenu)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Navigation auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\WebNavigations',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'title'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
             
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Branch depth',
+                                'empty_option' => 'Max depth',
+                                'value_options' => array(
+                                    '1' => 'Level 1',
+                                    '2' => 'Level 2',
+                                    '3' => 'Level 3'
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Set display headline',
+                                'empty_option' => 'No headline',
+                                'value_options' => array(
+                                    'displayheadline' => 'Display headline',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )            
+            ),
             'navigation' => array(
                 'resource' => 'intranet',
                 'name' => 'Navigation',
@@ -748,10 +840,8 @@ return array(
                             )
                         )
                     )
-                )
-            
-            ),
-            
+                )            
+            ),           
             'topbar' => array(
                 'resource' => 'intranet',
                 'name' => 'Navigation (Topbar)',
@@ -775,8 +865,7 @@ return array(
                                 ),
                                 'deco-row' => 'text'
                             ),
-                            'type' => 'Select',
-            
+                            'type' => 'Select',            
                             'attributes' => array(
                                 'required' => 'required',
                                 'id' => 'modulParams'
@@ -797,8 +886,7 @@ return array(
                                 'id' => 'modulDisplay'
                             )
                         )
-                    ),
-            
+                    ),           
                     3 => array(
                         'spec' => array(
                             'name' => 'modulLink',
@@ -1108,14 +1196,24 @@ return array(
                         'spec' => array(
                             'name' => 'modulFormat',
                             'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
-            
+                            'options' => array(
+                                'label' => 'Headline',
+                                'empty_option' => 'No headline',
+                                'value_options' => array(
+                                    'h1' => 'Level 1',
+                                    'h2' => 'Level 2',
+                                    'h3' => 'Level 3',
+                                    'h4' => 'Level 4',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                    
                             'attributes' => array(
-                                'id' => 'modulFormat'
+                                'id' => 'modulFormat',
                             )
                         )
-                    ),
+                    ),   
                     3 => array(
                         'spec' => array(
                             'name' => 'modulDisplay',
@@ -1190,14 +1288,26 @@ return array(
                         'spec' => array(
                             'name' => 'modulFormat',
                             'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
-            
+                            'options' => array(
+                                'label' => 'Headline',
+                                'empty_option' => 'No headline',
+                                'value_options' => array(
+                                    'h1' => 'Level 1',
+                                    'h2' => 'Level 2',
+                                    'h3' => 'Level 3',
+                                    'h4' => 'Level 4',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                    
                             'attributes' => array(
-                                'id' => 'modulFormat'
+                                'id' => 'modulFormat',
                             )
                         )
-                    ),
+                    ),                    
+                    
+                    
                     3 => array(
                         'spec' => array(
                             'name' => 'modulDisplay',
@@ -1555,7 +1665,7 @@ return array(
                                     '7' => 'Display 7',
                                     '8' => 'Display 8',
                                     '9' => 'Display 9',
-                                    '10' => 'Display 10',
+                                    '10' => 'Display 10',                                    
                                 ),
                                 'deco-row' => 'text'
                             ),
@@ -1656,6 +1766,7 @@ return array(
                                     '8' => 'Display 8',
                                     '9' => 'Display 9',
                                     '10' => 'Display 10',
+                                    '9999' => '&infin;'
                                 ),
                                 'deco-row' => 'text'
                             ),

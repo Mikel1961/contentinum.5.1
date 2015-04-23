@@ -71,6 +71,22 @@ class NavigationMenue extends AbstractForms
                         'class' => 'chosen-select',
                     )
                 )
+            ),  
+
+            array(
+                'spec' => array(
+                    'name' => 'alternateLabelname',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Seitenname überschreiben',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                   'type' => 'Textarea',
+                    'attributes' => array(
+                        'id' => 'alternateLabelname'
+                    )
+                )
             ),            
            
             array(

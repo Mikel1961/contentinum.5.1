@@ -100,6 +100,9 @@ class ModulNavigation extends AbstractModuls
         foreach ($entries as $entry){
             $page = array();
             $page['label'] = $entry['label'];
+            if (null != $entry['alternate_labelname']){
+                $page['label'] = $entry['alternate_labelname'];
+            }
         
             if ('#' == $entry['url']){
                 $uri = '#';
@@ -158,7 +161,7 @@ class ModulNavigation extends AbstractModuls
      */
     private function queryString($id)
     {
-        $sql = "SELECT main.id, main.rel_link, main.target_link, main.class_link, main.data_link, main.resource, main.parent_from, main.dom_id, ";
+        $sql = "SELECT main.id, main.rel_link, main.alternate_labelname, main.target_link, main.class_link, main.data_link, main.resource, main.parent_from, main.dom_id, ";
         $sql .= "main.style_class, ";
         $sql .= "wpp.label, wpp.url ";
         $sql .= "FROM web_navigation_tree AS main ";

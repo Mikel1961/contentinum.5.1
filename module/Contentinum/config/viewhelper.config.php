@@ -11,6 +11,7 @@ return array(
         'navigationcontentinum' => 'Contentinum\View\Helper\Navigation\Contentinum',
         'navigationbuild' => 'Contentinum\View\Helper\Navigation\Build',
         'navigationtopbar'  => 'Contentinum\View\Helper\Navigation\Topbar',
+        'navigationmmenu'  => 'Contentinum\View\Helper\Navigation\Mmenu',
         
         'contribution' => 'Contentinum\View\Helper\Contribution',
         'images' => 'Contentinum\View\Helper\Medias\Images',
@@ -34,6 +35,7 @@ return array(
         'overwriteprops' => 'Contentinum\View\Helper\Wanted\Properties',
         'wantedname' => 'Contentinum\View\Helper\Wanted\Name',
         'wanted' => 'Contentinum\View\Helper\Wanted\Single',
+        'wantedobject' => 'Contentinum\View\Helper\Wanted\ObjectName',
         'wantedgroup' => 'Contentinum\View\Helper\Wanted\Group',        
 
         

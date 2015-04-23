@@ -173,7 +173,7 @@ class Contribution extends AbstractForms
                     'options' => array(
                         'label' => 'Content type',
                         'empty_option' => 'Please select',
-                        'value_options' => $this->getOptions('Templates\Types'),
+                        'value_options' => $this->getServiceLocator()->get('Templates\Types'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
                     'type' => 'Select',

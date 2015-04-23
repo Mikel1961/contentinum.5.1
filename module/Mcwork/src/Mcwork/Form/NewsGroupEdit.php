@@ -281,7 +281,8 @@ class NewsGroupEdit extends AbstractForms
                     'type' => 'Select',
                     'attributes' => array(
                         'required' => 'required',
-                        'id' => 'htmlwidgets'
+                        'id' => 'htmlwidgets',
+                        'value' => 'content',
                     )
                 )
             ),
@@ -306,7 +307,8 @@ class NewsGroupEdit extends AbstractForms
                     'type' => 'Select',
                     'attributes' => array(
                         'required' => 'required',
-                        'id' => 'tplAssign'
+                        'id' => 'tplAssign',
+                        'value' => 'allcontent',
                     )
                 )
             ),

@@ -23,9 +23,11 @@
 				</foundation>
 				<dev>
 					<file>/assets/customer/css/customer.css</file>
-					<media>screen</media>
 					<rel>stylesheet</rel>
 					<type>text/css</type>
+					<attr>
+					<media>screen</media>
+					</attr>
 				</dev>				
 			</styles>
 		</header>
@@ -45,6 +47,24 @@
 	<standardtemplate name="Standard Kunden Template">
 		<layoutkey>foundation</layoutkey>
 		<sequence>
+			<action row="100" set="nav">
+				<param type="id">
+					<value>menu</value>
+				</param>
+			</action>	
+			
+			<action row="110" set="assign">
+				<param>
+					<value>mmenu</value>
+				</param>
+			</action>
+			<action row="120" set="boxend">
+				<param>
+					<value>nav</value>
+				</param>
+			</action>				
+		
+		
 			<action row="200" set="assign">
 				<param>
 					<value>header</value>
