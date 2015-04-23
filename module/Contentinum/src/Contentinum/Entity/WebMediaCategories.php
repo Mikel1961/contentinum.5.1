@@ -45,6 +45,30 @@ class WebMediaCategories extends AbstractEntity
      * @ORM\Column(name="resource", type="string", length=50, nullable=false)
      */
     private $resource = 'index';
+    
+    /**
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="alternate_download", type="integer", nullable=false)
+     */
+    private $alternateDownload = '0';    
+    
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="alternate_linktitle", type="string", length=250, nullable=false)
+     */
+    private $alternateLinktitle = '';    
+    
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="alternate_labelname", type="string", length=250, nullable=false)
+     */
+    private $alternateLabelname = '';    
 
     /**
      *
@@ -241,6 +265,54 @@ class WebMediaCategories extends AbstractEntity
     }
 
     /**
+     * @return the $alternateDownload
+     */
+    public function getAlternateDownload()
+    {
+        return $this->alternateDownload;
+    }
+
+	/**
+     * @param number $alternateDownload
+     */
+    public function setAlternateDownload($alternateDownload)
+    {
+        $this->alternateDownload = $alternateDownload;
+    }
+
+	/**
+     * @return the $alternateLinktitle
+     */
+    public function getAlternateLinktitle()
+    {
+        return $this->alternateLinktitle;
+    }
+
+	/**
+     * @param string $alternateLinktitle
+     */
+    public function setAlternateLinktitle($alternateLinktitle)
+    {
+        $this->alternateLinktitle = $alternateLinktitle;
+    }
+
+	/**
+     * @return the $alternateLabelname
+     */
+    public function getAlternateLabelname()
+    {
+        return $this->alternateLabelname;
+    }
+
+	/**
+     * @param string $alternateLabelname
+     */
+    public function setAlternateLabelname($alternateLabelname)
+    {
+        $this->alternateLabelname = $alternateLabelname;
+    }
+
+	/**
      * Set createdBy
      *
      * @param integer $createdBy

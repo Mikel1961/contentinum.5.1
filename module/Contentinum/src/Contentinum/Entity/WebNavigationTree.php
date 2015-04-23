@@ -35,6 +35,13 @@ class WebNavigationTree extends AbstractEntity
      * @ORM\Column(name="item_rang", type="integer", nullable=false)
      */
     private $itemRang = '0';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="alternate_labelname", type="text", length=65535, nullable=false)
+     */
+    private $alternateLabelname = '';    
 
     /**
      * @var string
@@ -259,6 +266,22 @@ class WebNavigationTree extends AbstractEntity
     }
 
     /**
+     * @return the $alternateLabelname
+     */
+    public function getAlternateLabelname()
+    {
+        return $this->alternateLabelname;
+    }
+
+	/**
+     * @param string $alternateLabelname
+     */
+    public function setAlternateLabelname($alternateLabelname)
+    {
+        $this->alternateLabelname = $alternateLabelname;
+    }
+
+	/**
      * Set relLink
      *
      * @param string $relLink
