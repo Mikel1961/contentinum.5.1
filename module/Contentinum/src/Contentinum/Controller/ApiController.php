@@ -51,5 +51,29 @@ class ApiController extends AbstractFrontendController
         $view = new ViewModel($variables);
         $view->setTemplate($pageOptions->template);
         return $view;
-    }    
+    } 
+
+    
+    public function process($pageOptions, $page, $defaultRole, $acl)
+    {
+        $datas = $this->getRequest()->getPost();
+        switch ($datas->content){
+            case 'contacts':
+                $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
+                $variables['result'] = $this->worker->fetchContacts(array('search' => $datas->name));
+                $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Medias');
+                $template = 'api/contacts';
+                break;
+            case 'ressource':
+                $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
+                $variables['result'] = $this->worker->fetchRessource(array('search' => $datas->name));
+                $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Medias');
+                $template = 'api/contacts';
+                break;                
+        }
+        
+        $view = new ViewModel($variables);
+        $view->setTemplate($template);
+        return $view;
+    }
 }

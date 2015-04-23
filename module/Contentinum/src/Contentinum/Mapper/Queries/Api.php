@@ -31,4 +31,33 @@ use ContentinumComponents\Mapper\Worker;
 
 
 class Api extends Worker
-{}
+{
+    
+    public function fetchContacts(array $params = null)
+    {
+        $search = preg_split('/[\s]+/', $params['search']);
+        $filter = new \Zend\I18n\Filter\Alnum();
+        foreach ($search as $value){        
+            $values[] = $filter->filter($value);
+        }
+        $row = $this->fetchRow( "SELECT id FROM contacts WHERE first_name LIKE '" .$values[0]. "%' AND last_name LIKE '".$values[1]."%';");  
+        if (is_array($row) && isset($row['id'])){
+            return $this->getStorage()->getRepository('Contentinum\Entity\Contacts')->findBy(array('id' => $row['id']));
+        } else {
+            return false;
+        }
+    }
+    
+    public function fetchRessource(array $params = null)
+    {
+        $filter = new \Zend\I18n\Filter\Alnum();
+        $search = $filter->filter($params['search']);
+        $row = $this->fetchRow( "SELECT id FROM contacts WHERE object_name LIKE '" .$search. "%';");
+        if (is_array($row) && isset($row['id'])){
+            return $this->getStorage()->getRepository('Contentinum\Entity\Contacts')->findBy(array('id' => $row['id']));
+        } else {
+            return false;
+        }
+    }    
+    
+}
