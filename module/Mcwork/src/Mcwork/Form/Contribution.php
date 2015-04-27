@@ -133,7 +133,7 @@ class Contribution extends AbstractForms
                         'value_options' => $this->getSelectOptions('webPages', array(
                             'value' => 'id',
                             'label' => 'label'
-                        ), array('main.onlylink != :onlylink' => array(':onlylink', '1'))
+                        ), array('main.onlylink != :onlylink' => array(':onlylink', '1')),null,false,array(),array('main.label'  => 'ASC')
                         ),                        
                         
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
