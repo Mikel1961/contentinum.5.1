@@ -58,14 +58,6 @@ h1 small,h2 small,h3 small,h4 small,h5 small,h6 small {
 	font-style: normal;	
 }
 
-/*
- 
-  color: #fff;
-    display: block;
-    font-weight: normal;
-    padding: 0 15px;
- * */
-
 .top-bar {
 	background: #646668;
 	height: 50px;
@@ -189,6 +181,9 @@ table thead tr th, table thead tr td {
 	font-style: normal;
     
 }
+table.cacheContentTable {
+	border: 0;
+}
 table.mcworkBackendTable {
 	width: 100%;
 }
@@ -256,6 +251,20 @@ ul.pagination li.unavailable button:focus {
     cursor: default;
 }
 
+.tabs {
+	border: 1px #DDDDDD solid;
+}
+
+.tabs-content {
+	border-color: #DDDDDD;
+	border-style: solid;
+	border-width: 0 1px 1px 1px;
+}
+
+.tabs-content.cacheContent > .content {
+    padding: 0;
+    width: 100%;
+}
 
 form#mcworkForm {
 	border: 1px solid #C6C9CA;
@@ -315,12 +324,9 @@ form#mcworkForm {
 .belize-hole-color {
 	color: #2980B9
 }
-
 .pumpkim-color {
 	color: #D35400
 }
-
-
 .turquoise {
 	background: #1ABC9C
 }
@@ -417,40 +423,24 @@ form#mcworkForm {
 .asbestos-color {
 	color: #7F8C8D
 }
-
 .pdf-color {
 	color:#BB0706;
 }
-
 .display-block {
 	display: block;
 }
-
 .row {
 	max-width: 100%;
 }
-
 form.custom .custom.dropdown {
 	background: #ECF0F1;
 }
-
 #filescrollarea {
-	/*height: 400px;
-	overflow-y: scroll;*/
 	margin-bottom: 1em;
 }
-
 #contentinumUpload {
 	height: 200px;
 }
-
-/*
-.prefix, .postfix {
-	height: 3em;
-	line-height: 3em;
-	
-}*/
-
 p.formElement {
 	padding: 0.8em 0;
 	margin-bottom: 0;

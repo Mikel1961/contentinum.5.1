@@ -46,16 +46,8 @@ abstract class AbstractContentGroup extends Process
     const AREA_MAINNAVIGATION = 'MAINNAVIGATION';
     const GROUP_SCOPE = 'group';
     
-    private $contentRang = array(
-        'MAINNAVIGATION' => '200',
-        'HEADER' => '200',
-        'FOOTER' => '600',
-        'CONTENT' => '400',
-        'ASIDE' => '400',
-        'CONTENTFOOTER' => '450',
-        'CONTENTHEADER' => '350',
-        'NEWSCONTENT' => '405',
-    );
+    private $contentRang = false;
+    
     
     /**
      * ContentinumComponents\Tools\HandleSerializeDatabase
@@ -78,10 +70,18 @@ abstract class AbstractContentGroup extends Process
      */
     public function getContentRang($key = null)
     {
+        if (false === $this->contentRang){
+            $assigns = $this->getSl()->get('Contentinum\TemplateAssign');
+            $itemRang = array();
+            foreach ($styles->assigns as $key => $row){
+                $itemRang[$key] = $row->rang;
+            }            
+            $this->setContentRang($itemRang);
+        }
         if (null !== $key && isset($this->contentRang[$key]) ){
             return $this->contentRang[$key];
         } else {
-            return $this->contentRang;
+            return '400';
         }
     }
 
@@ -93,6 +93,11 @@ abstract class AbstractContentGroup extends Process
         $this->contentRang = $contentRang;
     }
     
+    /**
+     * Serialize group params if params avaiable
+     * @param array $datas
+     * @return string
+     */
     public function serializeGroupParams($datas)
     {
         if (null === $this->mcSerialize){
@@ -101,6 +106,11 @@ abstract class AbstractContentGroup extends Process
         return $this->mcSerialize->execSerialize($datas);
     }
     
+    /**
+     * Unserialize group params if avaiable
+     * @param string $datas
+     * @return Ambigous <multitype:, mixed>
+     */
     public function unserializeGroupParams($datas)
     {
         if (null === $this->mcSerialize){

@@ -82,6 +82,18 @@ class DatesRow extends AbstractContentHelper
      * @var array
      */
     protected $organisation;
+    
+    /**
+     * 
+     * @var unknown
+     */
+    protected $descriptionhead;
+    
+    /**
+     * 
+     * @var unknown
+     */
+    protected $description;
 
     /**
      *
@@ -102,6 +114,8 @@ class DatesRow extends AbstractContentHelper
         'organizer',
         'dateStart',
         'organisation',
+        'descriptionhead',
+        'description',
         'location'
     );
 
@@ -245,6 +259,15 @@ class DatesRow extends AbstractContentHelper
                 $dateData .= $this->deployRow($this->location, $location, $locationName);
                 
                 $dataProp['data-location'] = $entry->location . ' ' . $entry->locationAddresse . ' ' . $entry->locationZipcode . ' ' . $entry->locationCity;
+            }
+            
+            if ( strlen($entry->description) > 4 ){
+                $descriptionHead = $this->descriptionhead->toArray();
+                $description = $this->description->toArray();
+                $descriptionHead['grid']['attr']['data-ident'] = 'event' . $entry->id;
+                $description['grid']['attr']['id'] = 'event' . $entry->id;
+                $dateData .= $this->deployRow($descriptionHead, 'Weitere Informationen');
+                $dateData .= $this->deployRow($description, $entry->description);
             }
             
             $toolbar = '';

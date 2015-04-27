@@ -52,8 +52,10 @@ class News extends AbstractContribution
             $this->assignGroup($datas, $lastInsertId);
         } else {
             $this->inUseMedia($entity->webMediasId->id, $entity->id, self::INUSE_GROUP, 'delete');
-            $datas['title'] = $datas['headline'];
-            $datas['source'] = $this->prepareLink($datas['headline']);
+            if ($datas['headline'] != $entity->headline){
+                $datas['title'] = $datas['headline'];
+                $datas['source'] = $this->prepareLink($datas['headline']);
+            }
             parent::save($datas, $entity, $stage, $id);
             $this->inUseMedia($datas['webMediasId'], $entity->id);
             $this->updateGroup($datas, $entity->id);
@@ -73,6 +75,7 @@ class News extends AbstractContribution
         $insert['name'] = $row['name'];
         $insert['scope'] = $row['scope'];
         $insert['contentGroupName'] = $row['content_group_name'];
+        $insert['contentGroupPage'] = $row['content_group_page'];
         $insert['groupStyle'] = $row['group_style'];
         $insert['itemRang'] = 1;
         $insert['webContent'] = $lastInsertId;

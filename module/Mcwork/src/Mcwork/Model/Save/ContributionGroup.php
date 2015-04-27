@@ -87,7 +87,7 @@ class ContributionGroup extends AbstractContentGroup
         $this->addTargetEntities('webContentgroup', $this->getSl()->get('Entity\Name\ContentGroups') );
         $this->addTargetEntities('webPages', $this->getSl()->get('Entity\Name\Page') );
         $datas['contentRang'] = $this->getContentRang($datas['adjustments']);
-        $datas['htmlwidgets'] = 'content';
+        $datas['htmlwidgets'] = 'none';
         $datas['publish'] = 'yes';
         $datas['itemRang'] = $this->sequence('webPages', $datas['webPages'], 'itemRang') + 1;
         parent::save($datas, $this->getSl()->get('Entity\PageContent'));
