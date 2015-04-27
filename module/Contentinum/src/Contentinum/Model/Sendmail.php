@@ -159,7 +159,7 @@ class Sendmail extends Message
             $this->addCc( explode(';', $this->formConfigure->emailcc) );
         }        
         
-        $this->setSubject( utf8_decode($this->formConfigure->emailsubject) );
+        $this->setSubject( $this->formConfigure->emailsubject );
         
         $emailBody = "\n";
         $emailBody .= 'Serverzeit: ' . date('d.m.Y, H:i');
