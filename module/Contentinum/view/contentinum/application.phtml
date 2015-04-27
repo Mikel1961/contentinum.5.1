@@ -23,12 +23,16 @@ foreach ($this->entries as $row){
 }
 $assigns = $this->assigns['assigns'];
 $content = array();
-foreach ($assigns as $key => $assign){
-    if (isset($html[$key]['_default']) ){
-        $content[$assign->assign] = implode ( ' ' , $html[$key]['_default']);
+foreach ($assigns as $templateKey => $templateAssign){
+    if (isset($html[$templateKey]['_default']) ){
+        $content[$templateAssign->assign] = implode ( ' ' , $html[$templateKey]['_default']);
     }
-    if (isset($html[$key][$this->pageurl]) ){
-        $content[$assign->assign] .= implode ( ' ' , $html[$key][$this->pageurl] );
+    if (isset($html[$templateKey][$this->pageurl]) ){
+        if ( isset($content[$templateAssign->assign]) ){
+            $content[$templateAssign->assign] .= implode ( ' ' , $html[$templateKey][$this->pageurl] );
+        } else {
+            $content[$templateAssign->assign] = implode ( ' ' , $html[$templateKey][$this->pageurl] );
+        }
     }    
 }
 $this->layoutassets($this->htmllayouts,$this->templateKey);
