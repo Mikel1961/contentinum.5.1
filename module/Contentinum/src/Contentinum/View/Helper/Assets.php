@@ -60,7 +60,11 @@ class Assets extends AbstractHelper
 	                foreach ($types as $typeKey => $type){
 	                    if ('styles' === $typeKey){
 	                        foreach ($type as $fileKey => $file){
-	                            $this->view->headLink()->appendStylesheet($file['file']);
+	                            $attr = array('media' => 'screen');
+	                            if ( isset($file['attr']) ){
+	                                $attr = $file['attr'];
+	                            }
+	                            $this->view->headLink()->appendStylesheet($file['file'], $attr);	                            
 	                        }
 	                    }
 	                    if ('scripts' === $typeKey){

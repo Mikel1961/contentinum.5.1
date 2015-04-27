@@ -80,13 +80,17 @@ class Images extends AbstractContentHelper
      * @param string $setSize            
      * @return string
      */
-    public function __invoke($article, $medias, $template = null, $setSize = null)
+    public function __invoke($article, $medias, $template = null, $setSize = null, $onlyImg = false)
     {
-        $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
-        
-        if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
-            $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
+        if (null == $template){
+            $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+            if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
+                $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
+            }
+        } else {
+            $this->setTemplate($template);
         }
+        
         $size = $article['mediaStyle'];
         $id = $article['medias'];
                 
@@ -101,15 +105,14 @@ class Images extends AbstractContentHelper
             $styleAttr = '';
             $img = '<img src="' . $src . '"';
             if (null !== $setSize) {
-                if (is_array($setSize) && isset($setSize['landscape'])) {
+                if (is_array($setSize) && isset($setSize['landscape']) ){
                     $landscape = $setSize['landscape'];
-                    $article['mediaStyle'] = $article['mediaStyle'] . ' landscape';
-                    if (isset($setSize['portrait'])) {
+                    $styleAttr = ' landscape';
+                    if (isset($setSize['portrait'])){
                         $styleAttr = ' portrait';
-                        $article['mediaStyle'] = $article['mediaStyle'] . ' portrait';
                         $portrait = $setSize['portrait'];
                     } else {
-                        $article['mediaStyle'] = $article['mediaStyle'] . ' portrait';
+                        $styleAttr = ' portrait';
                         $portrait = $landscape;
                     }
                 } else {
@@ -137,6 +140,14 @@ class Images extends AbstractContentHelper
             if ( false !== ($mediaLinkUrl = $this->hasValue($article, 'mediaLinkUrl')) ) {    
                 $img = '<a href="' . $mediaLinkUrl . '">' . $img . '</a>';
             }
+            
+            if (true === $onlyImg){
+                return $img;
+            }
+            
+            if (strlen($styleAttr) > 1){
+                $article['mediaStyle'] = $article['mediaStyle'] . $styleAttr;
+            }            
             
             $content = $this->format($this->getTemplateProperty('row', 'element'), $this->getTemplateProperty('grid', 'element'), $img, $this->hasValue($mediaMetas, 'caption'), $article['mediaStyle']);
             $this->unsetProperties();
@@ -171,7 +182,7 @@ class Images extends AbstractContentHelper
             $attr['class'] = $class . $mediaStyle;
         }
         
-        if ($attr) {
+        if ($attr && is_array($attr)) {
             $html .= HtmlAttribute::attributeArray($attr);
         }
         $attr = null;

@@ -184,7 +184,7 @@ class Contentinum extends Menu
      * Copy from Zend helper menu
      * @see \Zend\View\Helper\Navigation\Menu::htmlify()
      */
-    public function htmlify(AbstractPage $page, $escapeLabel = true, $addClassToListItem = false)
+    public function htmlify(AbstractPage $page, $escapeLabel = false, $addClassToListItem = false)
     {
         // get label and title for translating
         $label = $page->getLabel();
@@ -238,7 +238,8 @@ class Contentinum extends Menu
         $html = '<' . $element . $this->htmlAttribs($attribs) . $aData . '>';
         if ($escapeLabel === true) {
             $escaper = $this->view->plugin('escapeHtml');
-            $html .= $escaper($label);
+            //$html .= $escaper($label);
+            $html .= $label;
         } else {
             $html .= $label;
         }

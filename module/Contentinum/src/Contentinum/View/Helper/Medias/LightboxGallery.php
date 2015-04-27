@@ -65,20 +65,23 @@ class LightboxGallery extends AbstractContentHelper
     public function __invoke(array $entry, $medias, $template)
     {
         $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
-        
-        if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
-            $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
-        }   
+        if (isset($viewTemplate[$entry['modulFormat']])) {
+            $this->setTemplate($viewTemplate[$entry['modulFormat']]);
+        } elseif ( isset($viewTemplate[self::VIEW_TEMPLATE])) {
+            $this->setTemplate(self::VIEW_TEMPLATE);
+        } else {
+            return '<p style="font-weight:bold;color:red">Template configuration error</p>';
+        }  
         $grid = $this->getTemplateProperty('grid', 'element');
-        $attr = HtmlAttribute::attributeArray($this->getTemplateProperty('grid', 'attr'));
-        
+        $attr = $this->getTemplateProperty('grid', 'attr');
+        $attr = HtmlAttribute::attributeArray($attr->toArray());
         $list = '';
         $host = $this->view->protocol + '://' . $this->view->host; 
         foreach ($entry['modulContent'] as $media => $entryRow){
             $list .= '<' . $grid . $attr . '>';
             $list .= '<figure class="mediagroup-list-item-figure">';
             $img = '<img src="' . $media . '" alt="'.$entryRow['attr']['alt'].'" />';
-            $a = '<a href="' .  $media . '"';
+            $a = '<a href="' .  $media . '" data-groupname="'. $entryRow['name'] .'"';
             if (isset($entryRow['caption'])){
                 $a .= ' title="' . $entryRow['caption'] . '">';
                 $list .= $img . '</a><figcaption class="mediagroup-list-item-figcaption">';
@@ -88,8 +91,8 @@ class LightboxGallery extends AbstractContentHelper
             }           
             $list .= '</figure></' . $grid . '>';
         }
-        
-        $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $this->getTemplateProperty('row', 'attr'));
+        $attr = $this->getTemplateProperty('row', 'attr');
+        $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list,$attr->toArray() );
         return $html;
     }  
 }

@@ -65,8 +65,13 @@ class App extends AbstractNewsHelper
         $html = '';
         foreach ($entries['modulContent']['news'] as $entry) {
             if (1 === (int) $entry['id']) {
-                $this->convertParams($entry['group_params']);
-                $this->groupName = $entry['groupName'];
+                if (isset($entry['group_params'])){
+                    $this->convertParams($entry['group_params']);
+                    
+                }
+                if (null === $this->groupName && isset($entry['groupName'])){
+                    $this->groupName = $entry['groupName'];
+                }
             }
             
             if (1 !== (int) $entry['id'] && 0 === (int) $entry['overwrite']) {
@@ -190,12 +195,12 @@ class App extends AbstractNewsHelper
         }
         
         if (isset($this->groupParams['headlineGroup']) && strlen($this->groupParams['headlineGroup']) > 1) {
-            $html = '<h1>' . $this->groupParams['headlineGroup'] . '</h1>' . $html;
+            $html = '<h2>' . $this->groupParams['headlineGroup'] . '</h2>' . $html;
         } elseif (isset($this->groupParams['headline']) && strlen($this->groupParams['headline']) > 1) {
-            $html = '<h1>' . $this->groupParams['headline'] . '</h1>' . $html;
+            $html = '<h2>' . $this->groupParams['headline'] . '</h2>' . $html;
         } else {
             if (null !== $this->groupName) {
-                $html = '<h1>' . $this->groupName . '</h1>' . $html;
+                $html = '<h2>' . $this->groupName . '</h2>' . $html;
             }
         }
         

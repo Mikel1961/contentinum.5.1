@@ -32,19 +32,20 @@ use ContentinumComponents\Html\HtmlAttribute;
 
 class Group extends AbstractContentHelper
 {
+
     const VIEW_TEMPLATE = 'mediablockgrid';
-    
+
     /**
      *
      * @var unknown
      */
     protected $row;
-    
+
     /**
      *
      * @var unknown
      */
-    protected $grid;    
+    protected $grid;
 
     /**
      *
@@ -52,46 +53,49 @@ class Group extends AbstractContentHelper
      */
     protected $properties = array(
         'row',
-        'grid',
-    );  
+        'grid'
+    );
 
     /**
-     * 
-     * @param array $entry
-     * @param unknown $medias
-     * @param unknown $template
+     *
+     * @param array $entry            
+     * @param unknown $medias            
+     * @param unknown $template            
      * @return unknown
      */
     public function __invoke(array $entry, $medias, $template)
     {
-        switch ($entry['modulFormat']){
-            case 'lightboxgallery':
-                return $this->view->lightboxgallery($entry, $medias, $template);
-                break;
-            default:
-                break;
-        }
-        
-        $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
-        
-        if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
-            $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]->media);
-        }   
-        $grid = $this->getTemplateProperty('grid', 'element');
-        $attr = HtmlAttribute::attributeArray($this->getTemplateProperty('grid', 'attr'));
-        foreach ($entry['modulContent'] as $media => $entryRow){
-            $list .= '<' . $grid . $attr . '><figure class="mediagroup-list-item-figure">';
-            $img = '<img src="' . $media . '" alt="'.$entryRow['attr']['alt'].'" />';
-            if (isset($entryRow['caption'])){
-                $list .= $img . '<figcaption class="mediagroup-list-item-figcaption">';
-                $list .= $entryRow['caption'] . '</figcaption>';
+        if (strpos($entry['modulFormat'], 'mediablocklightgallery') !== false) {
+            return $this->view->lightboxgallery($entry, $medias, $template);
+        } else {
+            
+            $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+            if (isset($viewTemplate[$entry['modulFormat']])) {
+                $this->setTemplate($viewTemplate[$entry['modulFormat']]);
+            } elseif (isset($viewTemplate[static::VIEW_TEMPLATE])) {
+                $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]);
             } else {
-                $list .= $img;
-            }           
-            $list .= '</figure></' . $grid . '>';
+                return '<p style="font-weight:bold;color:red">Template configuration error</p>';
+            }
+            $grid = $this->getTemplateProperty('grid', 'element');
+            
+            $attr = $this->getTemplateProperty('grid', 'attr');
+            $attr = HtmlAttribute::attributeArray($attr->toArray());
+            $list = '';
+            foreach ($entry['modulContent'] as $media => $entryRow) {
+                $list .= '<' . $grid . $attr . '><figure class="mediagroup-list-item-figure">';
+                $img = '<img src="' . $media . '" alt="' . $entryRow['attr']['alt'] . '" />';
+                if (isset($entryRow['caption'])) {
+                    $list .= $img . '<figcaption class="mediagroup-list-item-figcaption">';
+                    $list .= $entryRow['caption'] . '</figcaption>';
+                } else {
+                    $list .= $img;
+                }
+                $list .= '</figure></' . $grid . '>';
+            }
+            $attr = $this->getTemplateProperty('row', 'attr');
+            $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $attr->toArray());
+            return $html;
         }
-        
-        $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $this->getTemplateProperty('row', 'attr'));
-        return $html;
-    }  
+    }
 }

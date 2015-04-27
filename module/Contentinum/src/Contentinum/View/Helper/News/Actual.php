@@ -104,6 +104,8 @@ class Actual extends AbstractNewsHelper
                         $content = $content . ' ...</p>';
                         $article .= $content;
                         $article .= $this->deployRow($labelReadMore, $entry['label_read_more']);
+                    } else {
+                        $article .= $content;
                     }
                 }
                 

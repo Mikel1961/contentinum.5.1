@@ -152,7 +152,7 @@ class Topbar extends AbstractHelper
             $mLabel = $this->getTemplateProperty('listelements', '1');
             $factory->setContentTag($mLabel['element']);
             if ($this->mobilemenue){
-                $mobilemenue = str_replace('%s1', 'Menue', $this->mobilemenue);
+                $mobilemenue = str_replace('%s1', 'Menu', $this->mobilemenue);
             } else {
                 $mobilemenue = '';
             }

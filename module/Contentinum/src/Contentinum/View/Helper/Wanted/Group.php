@@ -165,12 +165,12 @@ class Group extends AbstractContentHelper
         foreach ($entries['modulContent'] as $entry) {
             $cardData = '';
             if ( 1 === $entry->enableImage  && 1 != $entry->contacts->contactImgSource){
-                $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->contactImgSource), $medias));
+                $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->contactImgSource), $medias, null, null, true));
 
             }
+
             $cardData .= $this->deployRow($this->name, $this->view->wantedname($entry));
             
-
             if (1 === $entry->enableBusinessTitle && null != ($businesTitle = $this->view->overwriteprops($entry,'contacts','businessTitle'))){
                 $cardData .= $this->deployRow($this->businessTitle, $businesTitle );
             }
@@ -223,7 +223,10 @@ class Group extends AbstractContentHelper
             }                      
             if (1 === $entry->enableInternet && null != ($internet = $this->view->overwriteprops($entry,'contacts','internet'))){    
                 $cardData .= $this->deployRow($this->internet, $internet);
-            }            
+            } 
+            if (1=== $entry->enableDescription && null != $entry->contacts->description){
+                $cardData .= $this->deployRow($this->description, $entry->contacts->description);
+            }                       
             $html .= $this->deployRow($this->schema, $cardData);
         }
         if (null !== $this->wrapper){

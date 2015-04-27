@@ -45,8 +45,10 @@ class Forms extends AbstractHelper
     public function __invoke($entries, $medias, $template = null)
     {
         $html = '';
-        if (isset($entries['modulContent']['subheadline'])){
-            $html .= '<h4>' . $entries['modulContent']['subheadline'] . '<h4>';
+        if (isset($entries['modulFormat']) && null != $entries['modulFormat']) {
+            if (isset($entries['modulContent']['subheadline'])){
+                $html .= '<'.$entries['modulFormat'].'>' . $entries['modulContent']['subheadline'] . '</'.$entries['modulFormat'].'>';
+            }
         }
         if (isset($entries['modulContent']['description'])){
             $html .= $entries['modulContent']['description'];

@@ -66,7 +66,10 @@ class Maps extends AbstractHelper
         $script = 'var centerLatitude = '.$centerLatitude.'; var centerLongitude = '.$centerLongitude.'; var startZoom = '.$startzoom.';';
         $script .= 'var mapMarker = ['.$jsMarker.'];';
         $this->view->inlinescript()->appendScript($script);
-        $html = '<h2>' . $headline . '</h2>';
+        $html = '';
+        if (isset($entries['modulFormat']) && null != $entries['modulFormat']) {
+            $html .= '<'.$entries['modulFormat'].'>' . $headline . '</'.$entries['modulFormat'].'>';
+        }        
         $html .= '<div id="map_canvas"> </div>';
         return $html;        
     }    

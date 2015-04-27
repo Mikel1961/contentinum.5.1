@@ -154,23 +154,27 @@ class Single extends AbstractContentHelper
      * @param string $template
      * @return string
      */
-    public function __invoke($entries, $medias, $template = null)
+    public function __invoke($entries, $medias, $template = null, $objectName = false)
     {
         $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[self::VIEW_TEMPLATE])){
             $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
         }        
-        
         $html = '';
         foreach ($entries['modulContent'] as $entry) {
             $cardData = '';
-            $name = $this->salutation($entry->salutation) . $entry->firstName . ' ' . $entry->lastName;
+            if (false === $objectName){
+                $name = $this->salutation($entry->salutation) . $entry->firstName . ' ' . $entry->lastName;
+            } else {
+                $name = $entry->objectName;
+            }
             if (1 != $entry->contactImgSource){
-                $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contactImgSource), $medias));
-
+                $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contactImgSource), $medias, null, null, true));
             }
             $cardData .= $this->deployRow($this->name, $name);
-            $cardData .= $this->deployRow($this->businessTitle, $entry->businessTitle);
+            if ( strlen($entry->businessTitle) > 1 ){
+                $cardData .= $this->deployRow($this->businessTitle, $entry->businessTitle);
+            }
             
             if (isset($this->address['grids'])){
                 $location = '';
@@ -198,7 +202,9 @@ class Single extends AbstractContentHelper
                         $location .= $entry->contactCity;
                     }
                 }
-                $cardData .= $this->deployRow($this->address, $location);
+                if (strlen($location) > 1){
+                    $cardData .= $this->deployRow($this->address, $location);
+                }
                 
             }
             if (strlen($entry->phoneHome) > 1){
@@ -213,9 +219,14 @@ class Single extends AbstractContentHelper
             if (strlen($entry->contactEmail) > 1){
                 $cardData .= $this->deployRow($this->contactEmail, $entry->contactEmail);
             }
+            if (strlen($entry->internet) > 1){    
+                $cardData .= $this->deployRow($this->internet, $entry->internet);
+            }            
+            if (strlen($entry->description) > 1){
+                $cardData .= $this->deployRow($this->description, $entry->description);
+            }    
             $html .= $this->deployRow($this->schema, $cardData);
         }
-        
         return $html;
     }
 

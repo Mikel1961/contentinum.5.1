@@ -50,7 +50,9 @@ class Name extends AbstractHelper
 	    if (1 === $entry->enableSalutation){
 	        $result .= $this->salutation($entry->contacts->salutation) . ' ';
 	    }
-	    
+	    if (1 === $entry->enableTitle){
+	        $result .= $this->salutation($entry->contacts->title) . ' ';
+	    }	    
 	    if (1 === $entry->enableFirstName ){
 	        $result .= $entry->contacts->firstName . ' ';
 	    }
