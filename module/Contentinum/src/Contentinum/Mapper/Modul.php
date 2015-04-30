@@ -94,8 +94,10 @@ class Modul extends AbstractModuls
                     $modulContent = $this->getSl()->get($this->keys[$modulKey]);
                     $modulContent->setConfigure($modulValues)->setKey($modulKey);
                     $modulContent->setUrl($this->getUrl());
-                    $modulContent->setArticle( $this->getArticle() );
+                    $modulContent->setArticle( $this->getArticle());
                     $modulContent->setCategory($this->getCategory());
+                    $modulContent->setTag($this->getTag());
+                    $modulContent->setTagValue($this->getTagValue());
                     $result[$modulKey][$ident] = $modulValues;
                     $result[$modulKey][$ident]['modulContent'] = $modulContent->fetchContent();
                 }

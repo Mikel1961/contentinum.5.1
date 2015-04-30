@@ -54,6 +54,18 @@ abstract class AbstractModuls extends Worker
      */
     protected $category;
     
+    /**
+     * Url parameter tag
+     * @var string
+     */
+    protected $tag;
+    
+    /**
+     * Url parameter tagvalue
+     * @var string
+     */
+    protected $tagvalue;    
+    
     
     /**
      * Configuration datas
@@ -116,6 +128,38 @@ abstract class AbstractModuls extends Worker
     }
     
     /**
+     * @return the $tag
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+	/**
+     * @param string $tag
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+	/**
+     * @return the $tagvalue
+     */
+    public function getTagValue()
+    {
+        return $this->tagvalue;
+    }
+
+	/**
+     * @param string $tagvalue
+     */
+    public function setTagValue($tagvalue)
+    {
+        $this->tagvalue = $tagvalue;
+    }
+
+	/**
      * @return the $configure
      */
     public function getConfigure()

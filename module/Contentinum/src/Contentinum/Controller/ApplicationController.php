@@ -57,6 +57,8 @@ class ApplicationController extends AbstractFrontendController
         $modul->setPlugins($this->getServiceLocator()->get('Contentinum\PluginKeys'));
         $modul->setArticle($pageOptions->getArticle());
         $modul->setCategory($pageOptions->getCategory());
+        $modul->setTag($pageOptions->getTag());
+        $modul->setTagValue($pageOptions->getTagvalue());
         $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
 
@@ -99,36 +101,61 @@ class ApplicationController extends AbstractFrontendController
      */
     public function process($pageOptions, $page, $defaultRole, $acl)
     {
+        
         $datas = $this->getRequest()->getPost();
-        $formIdent = $datas['formident'];
-        $formFactory = $this->getServiceLocator()->get('Contentinum\Forms');
-        $formFactory->setConfigure(array('modulParams' => $formIdent));
-        unset($datas['formident']);
-        $result = $formFactory->fetchContent();
-        $form = $result['form'];
-        $form->setInputFilter($form->getInputFilter());
-        $form->setData($datas);
-        if ($form->isValid()) {
-            $configuration = $this->getConfiguration();
-            $process = $this->getServiceLocator()->get('Contentinum\FormProcess');
-            /**
-             * @var \Contentinum\Model\Sendmail $mail
-             */
-            $mail = $this->getServiceLocator()->get('Contentinum\Sendmail');
-            $mail->setFormConfigure($process->find($formIdent));
-            $mail->setFormFields($formFactory->getFormFields());
-            $mail->setFormDatas($form->getData());
-            $mail->setConfigure($configuration->default->support_mail);
-            $mail->send();
-            $response['success'] = $result['responsetext'];
+        if ('mapper' === $pageOptions->getArticle() && isset($datas['mapper']) && isset($datas['source'])){
+            $formFactory = $this->getServiceLocator()->get($datas->source);
+            $form = $formFactory->getForm();
+            $form->setInputFilter($form->getInputFilter());
+            $form->setData($datas); 
+            if ($form->isValid()) {
+                $params['host'] = $pageOptions->host;
+                $params['protocol'] = $pageOptions->protocol;
+                $params['pageurl'] = $page['url'];
+                $model = $this->getServiceLocator()->get($datas->mapper);
+                $model->setAppConfigure($this->getConfiguration());
+                $model->workoff($form->getData(),$params);
+                $response['success'] = array('responsetext' => 'OK');
+            } else {
+                $response['error'] = array('fields' => $form->getMessages());
+            }
+            $view = new ViewModel(array(
+                'data' => $response
+            ));
+            $view->setTemplate('contentinum/json');
+            return $view;
+      
         } else {
-            $response['error'] = array('fields' => $form->getMessages());
+            $formIdent = $datas['formident'];
+            $formFactory = $this->getServiceLocator()->get('Contentinum\Forms');
+            $formFactory->setConfigure(array('modulParams' => $formIdent));
+            unset($datas['formident']);
+            $result = $formFactory->fetchContent();
+            $form = $result['form'];
+            $form->setInputFilter($form->getInputFilter());
+            $form->setData($datas);
+            if ($form->isValid()) {
+                $configuration = $this->getConfiguration();
+                $process = $this->getServiceLocator()->get('Contentinum\FormProcess');
+                /**
+                 * @var \Contentinum\Model\Sendmail $mail
+                 */
+                $mail = $this->getServiceLocator()->get('Contentinum\Sendmail');
+                $mail->setFormConfigure($process->find($formIdent));
+                $mail->setFormFields($formFactory->getFormFields());
+                $mail->setFormDatas($form->getData());
+                $mail->setConfigure($configuration->default->support_mail);
+                $mail->send();
+                $response['success'] = $result['responsetext'];
+            } else {
+                $response['error'] = array('fields' => $form->getMessages());
+            }
+            $view = new ViewModel(array(
+                'data' => $response
+            ));
+            $view->setTemplate('contentinum/json');
+            return $view;
         }
-        $view = new ViewModel(array(
-            'data' => $response
-        ));
-        $view->setTemplate('contentinum/json');
-        return $view;
     }
 
     /**

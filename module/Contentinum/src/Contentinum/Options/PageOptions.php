@@ -45,6 +45,7 @@ class PageOptions extends AbstractOptions
         'favicon',
         'bodyId',
         'bodyClass',
+        'bodyDataAttribute',
         'htmlId',
         'htmlClass',
         'headScript',
@@ -96,16 +97,28 @@ class PageOptions extends AbstractOptions
     protected $splitQuery = 1;    
     
     /**
-     * Article, Contributions, Tag source string
+     * Url parameter article
      * @var string
      */
     protected $article;
     
     /**
-     * Tag category
+     * Url parameter category
      * @var string
      */
     protected $category;
+    
+    /**
+     * Url parameter tag
+     * @var string
+     */
+    protected $tag;
+    
+    /**
+     * Url parameter tagvalue
+     * @var string
+     */
+    protected $tagvalue;
     
     /**
      * Ident
@@ -219,6 +232,12 @@ class PageOptions extends AbstractOptions
      * @var string
      */
     private $bodyClass;
+    
+    /**
+     * 
+     * @var string
+     */
+    private $bodyDataAttribute;
     
     /**
      * 
@@ -533,6 +552,38 @@ class PageOptions extends AbstractOptions
     public function setCategory($category)
     {
         $this->category = $category;
+    }
+
+	/**
+     * @return the $tag
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+	/**
+     * @param string $tag
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+	/**
+     * @return the $tagvalue
+     */
+    public function getTagvalue()
+    {
+        return $this->tagvalue;
+    }
+
+	/**
+     * @param string $tagvalue
+     */
+    public function setTagvalue($tagvalue)
+    {
+        $this->tagvalue = $tagvalue;
     }
 
 	/**
@@ -883,6 +934,22 @@ class PageOptions extends AbstractOptions
     public function setBodyClass($bodyClass)
     {
         $this->bodyClass = $bodyClass;
+    }
+
+	/**
+     * @return the $bodyDataAttribute
+     */
+    public function getBodyDataAttribute()
+    {
+        return $this->bodyDataAttribute;
+    }
+
+	/**
+     * @param string $bodyDataAttribute
+     */
+    public function setBodyDataAttribute($bodyDataAttribute)
+    {
+        $this->bodyDataAttribute = $bodyDataAttribute;
     }
 
 	/**
