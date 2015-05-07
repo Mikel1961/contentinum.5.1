@@ -77,6 +77,13 @@ class Users5 extends AbstractEntity
      * @ORM\Column(name="login_homedir", type="string", length=250, nullable=false)
      */
     private $loginHomedir = '/mcwork/dashboard';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_home", type="string", length=150, nullable=false)
+     */    
+    private $userHome = '';
 
     /**
      * @var string
@@ -402,6 +409,22 @@ class Users5 extends AbstractEntity
     public function setLoginHomedir($loginHomedir)
     {
         $this->loginHomedir = $loginHomedir;
+    }
+
+	/**
+     * @return the $userHome
+     */
+    public function getUserHome()
+    {
+        return $this->userHome;
+    }
+
+	/**
+     * @param string $userHome
+     */
+    public function setUserHome($userHome)
+    {
+        $this->userHome = $userHome;
     }
 
 	/**

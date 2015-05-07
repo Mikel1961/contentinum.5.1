@@ -63,6 +63,13 @@ class WebPagesAttributes extends AbstractEntity
      * @ORM\Column(name="body_class", type="string", length=250, nullable=false)
      */
     private $bodyClass = '';
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="body_data_attribute", type="text", nullable=false)
+     */    
+    private $bodyDataAttribute = '';
 
     /**
      * @var string
@@ -314,6 +321,22 @@ class WebPagesAttributes extends AbstractEntity
     public function setBodyClass($bodyClass)
     {
         $this->bodyClass = $bodyClass;
+    }
+
+	/**
+     * @return the $bodyDataAttribute
+     */
+    public function getBodyDataAttribute()
+    {
+        return $this->bodyDataAttribute;
+    }
+
+	/**
+     * @param string $bodyDataAttribute
+     */
+    public function setBodyDataAttribute($bodyDataAttribute)
+    {
+        $this->bodyDataAttribute = $bodyDataAttribute;
     }
 
 	/**

@@ -137,6 +137,13 @@ class Contacts extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="skype", type="string", length=150, nullable=false)
+     */
+    private $skype = '';    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="facebook", type="string", length=150, nullable=false)
      */    
     private $facebook = '';
@@ -187,6 +194,13 @@ class Contacts extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="address_further", type="text", length=65535, nullable=false)
+     */
+    private $addressFurther = '';    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="contact_zipcode", type="string", length=25, nullable=false)
      */
     private $contactZipcode = '';
@@ -197,7 +211,21 @@ class Contacts extends AbstractEntity
      * @ORM\Column(name="contact_city", type="string", length=250, nullable=false)
      */
     private $contactCity = ''; 
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_country", type="string", length=250, nullable=false)
+     */
+    private $contactCountry = '';    
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_state", type="string", length=250, nullable=false)
+     */
+    private $contactState = '';    
+    
     /**
      * @var string
      *
@@ -580,6 +608,22 @@ class Contacts extends AbstractEntity
     }
 
 	/**
+     * @return the $skype
+     */
+    public function getSkype()
+    {
+        return $this->skype;
+    }
+
+	/**
+     * @param string $skype
+     */
+    public function setSkype($skype)
+    {
+        $this->skype = $skype;
+    }
+
+	/**
      * @return the $facebook
      */
     public function getFacebook()
@@ -692,6 +736,22 @@ class Contacts extends AbstractEntity
     }
 
 	/**
+     * @return the $addressFurther
+     */
+    public function getAddressFurther()
+    {
+        return $this->addressFurther;
+    }
+
+	/**
+     * @param string $addressFurther
+     */
+    public function setAddressFurther($addressFurther)
+    {
+        $this->addressFurther = $addressFurther;
+    }
+
+	/**
      * @return the $contactCity
      */
     public function getContactCity()
@@ -721,6 +781,38 @@ class Contacts extends AbstractEntity
     public function setContactZipcode($contactZipcode)
     {
         $this->contactZipcode = $contactZipcode;
+    }
+
+	/**
+     * @return the $contactCountry
+     */
+    public function getContactCountry()
+    {
+        return $this->contactCountry;
+    }
+
+	/**
+     * @param string $contactCountry
+     */
+    public function setContactCountry($contactCountry)
+    {
+        $this->contactCountry = $contactCountry;
+    }
+
+	/**
+     * @return the $contactState
+     */
+    public function getContactState()
+    {
+        return $this->contactState;
+    }
+
+	/**
+     * @param string $contactState
+     */
+    public function setContactState($contactState)
+    {
+        $this->contactState = $contactState;
     }
 
 	/**
