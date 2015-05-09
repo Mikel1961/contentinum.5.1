@@ -31,10 +31,10 @@ $(document).ready(function() {
 		                ],			    
 		    
 		    plugins: [
-		        "paste"
+		        "paste, code, lists"
 		    ],	    
 		    menubar: "file insert edit tools",  
-		    toolbar: "insertfile undo redo | styleselect | bold italic"
+		    toolbar: "insertfile undo redo | styleselect | bold italic | bullist numlist"
 		});
     }
 });
