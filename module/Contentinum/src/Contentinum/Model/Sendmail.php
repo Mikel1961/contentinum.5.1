@@ -29,6 +29,7 @@ namespace Contentinum\Model;
 
 use Zend\Mail\Message;
 
+
 class Sendmail extends Message
 {
     /**
@@ -207,6 +208,31 @@ class Sendmail extends Message
         $this->setBody($emailBody);
         $this->transport->send($this);
         return true;
+    }
+    
+    /**
+     * Send a text mail
+     * @param string $body email body text
+     * @param array $headers email headers
+     * @param string $subject email subject
+     * @return boolean
+     */
+    public function sendTextMail($body, $headers, $subject)
+    {
+        $this->addFrom($headers['sender'], $headers['name']);
+        $this->addReplyTo($headers['sender'], $headers['name']);
+        $emailname = null;
+        if (strlen($headers['namereceiver']) > 1){
+            $emailname = $headers['namereceiver'];
+        }
+        $this->addTo($headers['receiver'], $emailname);
+        $this->setSubject($subject);
+        $emailBody = 'Serverzeit: ' . date('d.m.Y, H:i');
+        $emailBody .= "\n\n\n";    
+        $emailBody .= $body;
+        $this->setBody($emailBody);
+        $this->transport->send($this);
+        return true;  
     }
     
 }
