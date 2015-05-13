@@ -11,11 +11,12 @@ requirejs.config({
     'jquery.cookie': 'jquery/jquery.cookie',
     'jquery.validate': 'jquery/jquery.validate',
     'jquery.mcworkform' : 'jquery/jquery.mcworkform',
-    'jquery.mcworkmap' : 'jquery/jquery.mcworkmap',
     'jquery.customer' : 'jquery/jquery.customer',
     'jquery.highlight' : 'jquery/jquery.highlight',
     'jquery.popup' : 'jquery/jquery.magnific-popup.min',
     'jquery.mmenue' : 'jquery/jquery.mmenu.umd.all',
+    'jquery.tooltip' : 'jquery/jquery.tooltipster.min',
+    'jquery.vegas' : 'jquery/vegas.min',
     'datatables' : 'jquery/jquery.dataTables.min',
     'datatable.foundation' : 'datatables/dataTables.foundation.min',
     'datatable.responsive' : 'datatables/dataTables.responsive.min',
@@ -23,10 +24,13 @@ requirejs.config({
     'contentinum.archiv' : 'contentinum/contentinum.archiv',
     'contentinum.events' : 'contentinum/contentinum.events',
     'contentinum.popup' : 'contentinum/contentinum.popup',
+    'contentinum.tooltip' : 'contentinum/contentinum.tooltipster',
     'contentinum.gallery' : 'contentinum/contentinum.gallery',
     'contentinum.navigation' : 'contentinum/contentinum.menu',
     'contentinum.datatables' : 'contentinum/contentinum.datatables',
+    'contentinum.media.popup' : 'contentinum/contentinum.media.popup',
     'contentinum.mmenue' : 'contentinum/contentinum.mmenue',
+    'contentinum.map' : 'contentinum/contentinum.map',
     'foundation': 'foundation/foundation',
     'foundation.abide': 'foundation/foundation.abide',
     'foundation.accordion': 'foundation/foundation.accordion',
@@ -58,15 +62,19 @@ requirejs.config({
     'jquery.cookie': ['jquery'],
     'jquery.validate' :  ['jquery'],
     'jquery.mcworkform' :  ['jquery'],
-    'jquery.mcworkmap' :  ['jquery'],
     'jquery.popup' : ['jquery'],
     'jquery.mmenue': ['jquery'],
+    'jquery.tooltip' : ['jquery'],
+    'jquery.vegas' : ['jquery'],
     'contentinum.navigation' : ['jquery','jquery.cookie'],
     'contentinum.events' : ['jquery'],
     'contentinum.archiv' : ['jquery','jquery.cookie'],
     'contentinum.popup' : ['jquery.popup'],
     'contentinum.gallery' : ['jquery.popup'],
     'contentinum.mmenue' : ['jquery.mmenue'],
+    'contentinum.tooltip' : ['jquery.tooltip'],
+    'contentinum.media.popup' : ['jquery.popup'],
+    'contentinum.map' : ['jquery'],
     'datatables' : ['jquery'],
     'contentinum.datatables' : ['datatables'],
     'foundation': ['jquery'],
@@ -102,20 +110,48 @@ require(['modernizr', 'jquery', 'foundation','jquery.customer'], function(Modern
   		});
   	}
   	if ($("#menu").length) {
-  		$('#menu').html( $(".sidemenu-list").clone().removeAttr('class') );
   		require(["jquery", 'jquery.mmenue','contentinum.mmenue' ], function( $ ) { 
 			    $().ContentinumMmenue();			
   		});
-  		if ($(".sidemenu-list").length) {
-	  		require(["jquery", 'contentinum.navigation' ], function( $ ) { 
-				    $().ContentinumNavigation();			
-	  		}); 
-  		}
+
   	}
+	if ($(".sidemenu-list").length) {
+  		require(["jquery", 'contentinum.navigation' ], function( $ ) { 
+			    $().ContentinumNavigation();			
+  		}); 
+	}  	
+  	if ($(".vegasbackground").length) {
+  		var bodyIdent = $(".vegasbackground").attr('id');
+  		var bodyBackgroundPath = $(".vegasbackground").data('imagepath');
+  		var bodyBackground = $(".vegasbackground").data('image');
+  		require(["jquery",'jquery.vegas' ], function( $ ) { 
+			var link = document.createElement("link");
+			link.type = "text/css";
+			link.rel = "stylesheet";
+			link.href = '/assets/js/css/vegas/vegas.min.css';
+			document.getElementsByTagName("head")[0].appendChild(link);  	
+			$('#'+ bodyIdent +  ', body').vegas({
+				slides: [		
+				{src : bodyBackgroundPath + '/' + bodyBackground}
+				]
+			});				
+  		});   		
+  	}
+  	
   	if ( $('.media-popup').length) {
   		require(["jquery", "jquery.popup","contentinum.popup"], function( $ ) {
   			$().ContentinumPopUp();
   		});
+  	}
+  	if ( $('.popup-youtube').length) {
+  		require(["jquery", "jquery.popup","contentinum.media.popup"], function( $ ) {
+  			$().ContentinumVideoPopUp();
+  		});
+  	}  	
+  	if ( $('.tooltipster').length){
+  		require(["jquery", 'jquery.tooltip','contentinum.tooltip' ], function( $ ) {
+  			$().ContentinumTooltip();
+  		});  		
   	}
   	if ( $('.popup-gallery').length) {
   		require(["jquery", "jquery.popup","contentinum.gallery"], function( $ ) {			
@@ -159,8 +195,8 @@ require(['modernizr', 'jquery', 'foundation','jquery.customer'], function(Modern
 		});
 	}
 	if ($("#map_canvas").length) {
-		require(['async!http://maps.google.com/maps/api/js?sensor=false!callback', 'jquery.mcworkmap'], function(){
-			$().InitializeMap(centerLatitude, centerLongitude, startZoom, mapMarker);
+		require(['async!http://maps.google.com/maps/api/js?sensor=false!callback', 'jquery', 'contentinum.map'], function(){
+			$().InitializeMap(centerLatitude, centerLongitude, startZoom, mapMarkers);
 		});
 	}
 	if ($('.accordion').length){
