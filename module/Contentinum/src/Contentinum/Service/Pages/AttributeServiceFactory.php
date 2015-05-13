@@ -60,6 +60,7 @@ class AttributeServiceFactory extends WebsiteServiceFactory
         'favicon',
         'bodyId',
         'bodyClass',
+        'bodyDataAttribute',
         'headScript',
         'headStyle',
         'inlineScript',
