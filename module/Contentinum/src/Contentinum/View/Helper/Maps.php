@@ -29,48 +29,57 @@ namespace Contentinum\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-
-
 class Maps extends AbstractHelper
 {
 
     /**
-     * 
-     * @param unknown $entries
-     * @param unknown $medias
-     * @param string $template
+     *
+     * @param unknown $entries            
+     * @param unknown $medias            
+     * @param string $template            
      * @return string
      */
     public function __invoke($entries, $medias, $template = null)
     {
-
         $jsMarker = '';
+        $jsMarkerData = array();
         $i = 0;
-        foreach ($entries['modulContent'] as $marker => $entry){
+        foreach ($entries['modulContent'] as $marker => $entry) {
             $headline = $entry->webMaps->headline;
             $centerLatitude = (float) $entry->webMaps->centerlatitude;
             $centerLongitude = (float) $entry->webMaps->centerlongitude;
             $startzoom = (int) $entry->webMaps->startzoom;
-            $js = '"' . $entry->name . '",';
-            $js .= '"' . (float) $entry->latitude . '",';
-            $js .= '"' . (float)  $entry->longitude . '",';
-            $js .= '1,';
-            $js .= '"",';
-            $js .= '"' . $entry->street . '",';
-            $js .= '"' . $entry->city . '",';
-            $js .= '"","","",""';
-            $jsMarker .= '[[' . $js . ']],';
-            $i++;
+            
+            $jsMarkerData[$i]['name'] = $entry->name;
+            $jsMarkerData[$i]['latitude'] = (float) $entry->latitude;
+            $jsMarkerData[$i]['longitude'] = (float) $entry->longitude;
+            $jsMarkerData[$i]['zindex'] = 1;
+            if ($entry->webMedias->id > 1) {
+                $jsMarkerData[$i]['image'] = $this->view->getmedialink($entry->webMedias->id, $medias);
+            } else {
+                $jsMarkerData[$i]['image'] = "";
+            }
+            $jsMarkerData[$i]['street'] = $entry->street;
+            $jsMarkerData[$i]['city'] = $entry->city;
+            $jsMarkerData[$i]['description'] = $entry->description;
+            
+            if ($entry->mapMarker > 0) {
+                $jsMarkerData[$i]['mapmarker'] = $this->view->getmedialink($entry->mapMarker, $medias);
+            } else {
+                $jsMarkerData[$i]['mapmarker'] = "";
+            }
+            
+            $i ++;
         }
-
-        $script = 'var centerLatitude = '.$centerLatitude.'; var centerLongitude = '.$centerLongitude.'; var startZoom = '.$startzoom.';';
-        $script .= 'var mapMarker = ['.$jsMarker.'];';
+        
+        $script = 'var centerLatitude = ' . $centerLatitude . '; var centerLongitude = ' . $centerLongitude . '; var startZoom = ' . $startzoom . ';';
+        $script .= 'var mapMarkers = ' . json_encode($jsMarkerData) . ';';
         $this->view->inlinescript()->appendScript($script);
         $html = '';
         if (isset($entries['modulFormat']) && null != $entries['modulFormat']) {
-            $html .= '<'.$entries['modulFormat'].'>' . $headline . '</'.$entries['modulFormat'].'>';
-        }        
+            $html .= '<' . $entries['modulFormat'] . '>' . $headline . '</' . $entries['modulFormat'] . '>';
+        }
         $html .= '<div id="map_canvas"> </div>';
-        return $html;        
-    }    
+        return $html;
+    }
 }

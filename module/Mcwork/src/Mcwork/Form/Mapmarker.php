@@ -140,7 +140,27 @@ class Mapmarker extends AbstractForms
                         'id' => 'longitude'
                     )
                 )
-            ),   
+            ), 
+
+            array(
+                'spec' => array(
+                    'name' => 'mapMarker',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Map marker icon',
+                        'empty_option' => 'Please select',
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'mapMarker',
+                        'class' => 'chosen-select',
+                    )
+                )
+            ),            
+            
 
             array(
                 'spec' => array(
@@ -149,12 +169,7 @@ class Mapmarker extends AbstractForms
                     'options' => array(
                         'label' => 'Media item',
                         'empty_option' => 'Please select a media',
-                        'value_options' => $this->getSelectOptions('webMedias', array(
-                            'value' => 'id',
-                            'label' => 'mediaName',
-                        ), array(),
-                            null, false, array(), array('main.mediaName' => 'ASC')
-                        ),
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
             
@@ -169,7 +184,7 @@ class Mapmarker extends AbstractForms
             
             array(
                 'spec' => array(
-                    'name' => 'Name',
+                    'name' => 'name',
                     'required' => true,
             
                     'options' => array(

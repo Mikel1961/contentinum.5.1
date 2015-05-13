@@ -35,6 +35,14 @@ class WebMapsData extends AbstractEntity
      * @ORM\Column(name="longitude", type="string", length=50, nullable=false)
      */
     private $longitude = '';
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="map_marker", type="integer", nullable=false)
+     */    
+    private $mapMarker = 0;
 
     /**
      * @var string
@@ -214,6 +222,22 @@ class WebMapsData extends AbstractEntity
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+    }
+
+	/**
+     * @return the $mapMarker
+     */
+    public function getMapMarker()
+    {
+        return $this->mapMarker;
+    }
+
+	/**
+     * @param number $mapMarker
+     */
+    public function setMapMarker($mapMarker)
+    {
+        $this->mapMarker = $mapMarker;
     }
 
 	/**
