@@ -31,6 +31,7 @@ use Zend\View\Helper\Navigation\Menu;
 use RecursiveIteratorIterator;
 use Zend\Navigation\AbstractContainer;
 use Zend\Navigation\Page\AbstractPage;
+use ContentinumComponents\Html\HtmlAttribute;
 
 /**
  * Copy method renderNormalMenu() and htmlify()
@@ -43,6 +44,12 @@ class Contentinum extends Menu
 	 * @var string
 	 */
 	protected $subUlClass = '';
+	
+	/**
+	 * Submenue attribute
+	 * @var null|array
+	 */
+	protected $subUlAttribute = '';
 
 
     /**
@@ -118,7 +125,7 @@ class Contentinum extends Menu
                     $ulClass = ' class="' . $ulClass . '"';
                     $ulIdent = '';
                 } else {
-                    $ulClass = $this->subUlClass;
+                    $ulClass = $this->subUlClass . $this->subUlAttribute;
                     $ulIdent = ' data-ident="subIdent' . $page->get('aIdent') . '"';
                     
                 }
@@ -141,18 +148,24 @@ class Contentinum extends Menu
             $liClasses = array();
             // Is page active?
             if ($isActive) {
-                $liClasses[] = 'active';
+                $liClasses[1] = 'active';
             }
             
             if(true == ($subUlClass = $page->get('subUlClass'))){
             	$this->subUlClass = ' class="' . $subUlClass . '"';
             } else {
             	$this->subUlClass = '';
+            }
+
+            if(true == ($subUlAttribute = $page->get('subUlAttribute'))){
+                $this->subUlAttribute = HtmlAttribute::attributeArray($subUlAttribute);
+            } else {
+                $this->subUlAttribute = '';
             }            
             
             
             if(true == ($listClass = $page->get('listClass'))){
-            	$liClasses[] = $listClass;
+            	$liClasses[2] = $listClass;
             }  
             $liIdent = '';
             if(true == ($listIdent = $page->get('listIdent'))){
@@ -226,7 +239,11 @@ class Contentinum extends Menu
                $addClass = ( isset( $attribs['class']) ) ? ' ' .  $attribs['class'] : '';
                $attribs['class'] = 'toogleSubMenu' . $addClass;
                $attribs['data-ident'] = 'subIdent' . $subIdent;
-            }            
+            }
+            if(true == ($aAttribute = $page->get('aAttribute'))){
+                $attribs = array_merge($attribs, $aAttribute);
+            }
+                        
         } else {
             $element = 'span';
         }
@@ -243,6 +260,11 @@ class Contentinum extends Menu
         } else {
             $html .= $label;
         }
+        
+        if(true == ($aLabelExt = $page->get('aLabelExt'))){
+            $html .= $aLabelExt;
+        }        
+        
         $html .= '</' . $element . '>';
 
         return $html;

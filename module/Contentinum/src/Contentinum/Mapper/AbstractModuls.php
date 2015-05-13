@@ -64,7 +64,25 @@ abstract class AbstractModuls extends Worker
      * Url parameter tagvalue
      * @var string
      */
-    protected $tagvalue;    
+    protected $tagvalue;   
+
+    /**
+     * User identity
+     * @var unknown
+     */
+    protected $identity;
+
+    /**
+     * Users acl list
+     * @var unknown
+     */
+    protected $acl;
+    
+    /**
+     * Default role
+     * @var unknown
+     */
+    protected $defaultRole;
     
     
     /**
@@ -157,6 +175,54 @@ abstract class AbstractModuls extends Worker
     public function setTagValue($tagvalue)
     {
         $this->tagvalue = $tagvalue;
+    }
+
+	/**
+     * @return the $identity
+     */
+    public function getIdentity()
+    {
+        return $this->identity;
+    }
+
+	/**
+     * @param Ambigous <object, \Contentinum\Mapper\unknown> $identity
+     */
+    public function setIdentity($identity)
+    {
+        $this->identity = $identity;
+    }
+
+	/**
+     * @return the $acl
+     */
+    public function getAcl()
+    {
+        return $this->acl;
+    }
+
+	/**
+     * @param \Contentinum\Mapper\unknown $acl
+     */
+    public function setAcl($acl)
+    {
+        $this->acl = $acl;
+    }
+
+	/**
+     * @return the $defaultRole
+     */
+    public function getDefaultRole()
+    {
+        return $this->defaultRole;
+    }
+
+	/**
+     * @param \Contentinum\Mapper\unknown $defaultRole
+     */
+    public function setDefaultRole($defaultRole)
+    {
+        $this->defaultRole = $defaultRole;
     }
 
 	/**

@@ -98,6 +98,9 @@ class Modul extends AbstractModuls
                     $modulContent->setCategory($this->getCategory());
                     $modulContent->setTag($this->getTag());
                     $modulContent->setTagValue($this->getTagValue());
+                    $modulContent->setIdentity($this->getIdentity());
+                    $modulContent->setAcl($this->getAcl());
+                    $modulContent->setDefaultRole($this->getDefaultRole());               
                     $result[$modulKey][$ident] = $modulValues;
                     $result[$modulKey][$ident]['modulContent'] = $modulContent->fetchContent();
                 }

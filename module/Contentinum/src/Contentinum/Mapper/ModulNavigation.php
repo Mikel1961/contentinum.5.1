@@ -76,6 +76,10 @@ class ModulNavigation extends AbstractModuls
         $this->setLevel();
         if ('topbar' === $this->key){
             return $this->build($this->query($this->configure['modulParams']));
+        } elseif ('topnav' === $this->key){    
+            return $this->build($this->query($this->configure['modulParams']));
+        } elseif ('multilevel' === $this->key){
+            return $this->multilevel($this->query($this->configure['modulParams']));
         } else {
             $nav = $this->build($this->query($this->configure['modulParams']));
             if ('displayheadline' === $this->configure['modulConfig']) {
@@ -111,6 +115,11 @@ class ModulNavigation extends AbstractModuls
             } else {
                 $uri = '/' . $entry['url'];
             }
+            
+            if ($entry['url'] == $this->getUrl()){
+                $page['active'] = 1;
+            }            
+            
             $page['aIdent'] = $this->currentlevel;
             $page['uri'] = $uri;
             $page['resource'] = $entry['resource'];
@@ -124,9 +133,17 @@ class ModulNavigation extends AbstractModuls
                     if ('topbar' === $this->key){
                         $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
                         $page['listClass'] = 'has-dropdown' . $listStyle;
-                        $page['listSubIdent'] = $this->currentlevel;
                         $page['subUlClass'] = 'dropdown';
                         $page['pages'] = $pages;
+                    } elseif ('topnav' === $this->key){   
+                        $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
+                        $page['aClass'] = 'dropdown-toggle';
+                        $page['aAttribute'] = array('data-toggle' => 'dropdown', 'role' =>'button', 'aria-expanded' =>'false');
+                        $page['aLabelExt'] = ' <span class="caret"></span>';
+                        $page['listClass'] = 'dropdown' . $listStyle;
+                        $page['subUlClass'] = 'dropdown-menu';
+                        $page['subUlAttribute'] = array('role' => 'menu');
+                        $page['pages'] = $pages;                        
                     } else {
                         if (! empty($pages)){
                             $listStyle = (null != $entry['style_class']) ? ' ' .  $entry['style_class'] : '';
@@ -143,6 +160,52 @@ class ModulNavigation extends AbstractModuls
   
         return $nav;        
         
+    }   
+
+    
+    private function multilevel($entries)
+    {
+        $this->currentlevel = $this->currentlevel + 1;
+        $nav = array();
+        foreach ($entries as $entry){
+            $page = array();
+            $page['label'] = $entry['label'];
+            if (null != $entry['alternate_labelname']){
+                $page['label'] = $entry['alternate_labelname'];
+            }
+    
+            if ('#' == $entry['url']){
+                $uri = '#';
+            } elseif ('index' == $entry['url']){
+                $uri = '/';
+            } else {
+                $uri = '/' . $entry['url'];
+            }
+       
+            if ($entry['url'] == $this->getUrl()){
+                $page['active'] = 1;
+            }
+            
+            $page['aIdent'] = $this->currentlevel;
+            $page['uri'] = $uri;
+            $page['resource'] = $entry['resource'];
+            $page['listIdent'] = $entry['dom_id'];
+            $page['listClass'] = $entry['style_class'];
+            $page['aData'] = $entry['data_link'];
+    
+            if ($entry['parent_from'] > '0' && $this->currentlevel <= $this->level){
+                if (null !== ($pages = $this->build($this->query($entry['parent_from'])))) {
+                        if (! empty($pages)){
+                            $page['listSubIdent'] = $this->currentlevel;
+                            $page['pages'] = $pages;
+                        }
+                }
+            }
+            $nav[] = $page;
+        }
+    
+        return $nav;
+    
     }    
     
     /**
