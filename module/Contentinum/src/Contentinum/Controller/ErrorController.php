@@ -111,6 +111,7 @@ class ErrorController extends AbstractContentinumController
             $headTitleHelper->append($entry->webPreferences->title);           
             $content = new Content($this->serviceLocator->get('doctrine.entitymanager.orm_default'));
             $variables['entries'] = $content->fetchErrorContent($entry->id);
+            $variables['htmlassets'] = $this->getServiceLocator()->get('Contentinum\Htmlassets');
             $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
             $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
             $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');

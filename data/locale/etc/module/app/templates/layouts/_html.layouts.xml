@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<error name="Error page (Foundation based)">
+		<assetkey>assets</assetkey>
+		<sequence>
+			<action row="10" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="20" set="div">
+				<param type="class">
+					<value>large-12 columns</value>
+				</param>
+			</action>
+			<action row="40" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+
+			<action row="60" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="70" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+		</sequence>
+		<assets>
+			<header>
+				<styles>
+					<error>
+						<file>/assets/customer/css/error.css</file>
+						<media>screen</media>
+						<rel>stylesheet</rel>
+						<type>text/css</type>
+					</error>
+				</styles>
+			</header>		
+		</assets>		
+	</error>	
+	<login name="Loginpage layout">
+		<assetkey>assets</assetkey>
+		<sequence>
+			<action row="400" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="500" set="div">
+				<param type="class">
+					<value>small-6 large-centered columns userlogin</value>
+				</param>
+			</action>
+			<action row="600" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="700" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="800" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>			
+		</sequence>
+		<assets>
+			<header>
+				<styles>
+					<login>
+						<file>/assets/customer/css/login.css</file>
+						<media>screen</media>
+						<rel>stylesheet</rel>
+						<type>text/css</type>
+					</login>
+				</styles>
+			</header>		
+		</assets>
+	</login>
+	<standardtemplate name="Standard Kunden Template">
+		<assetkey>assets</assetkey>
+		<sequence>			
+			<action row="200" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>
+			<action row="950" set="div">
+				<param type="class">
+					<value>row</value>
+				</param>
+			</action>
+			<action row="960" set="div">
+				<param type="class">
+					<value>large-12 columns warpper</value>
+				</param>
+			</action>
+			<action row="1000" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="1050" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="1060" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="1150" set="footer">
+				<param type="id">
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="1200" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="1250" set="boxend">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+		</sequence>
+	</standardtemplate>
+	<bootstraptemplate name="Standard Kunden Template (Bootstrap)">
+		<assetkey>bootstrapassets</assetkey>
+		<sequence>
+			<action row="200" set="assign">
+				<param>
+					<value>header</value>
+				</param>
+			</action>		
+			<action row="1000" set="div">
+				<param type="class">
+					<value>container</value>
+				</param>
+			</action>
+			<action row="1200" set="assign">
+				<param>
+					<value>allcontent</value>
+				</param>
+			</action>
+			<action row="1400" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>
+			<action row="2000" set="footer">
+				<param type="id">
+					<value>footer</value>
+				</param>
+				<param type="class">
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="2100" set="div">
+				<param type="class">
+					<value>container</value>
+				</param>
+			</action>			
+			<action row="2200" set="assign">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>
+			<action row="2300" set="boxend">
+				<param>
+					<value>div</value>
+				</param>
+			</action>			
+			<action row="2400" set="boxend">
+				<param>
+					<value>footer</value>
+				</param>
+			</action>			
+		</sequence>
+		<assets>
+			<header>
+				<styles>
+				<dev>
+					<file>/assets/customer/css/customer-bootstrap.css</file>
+					<rel>stylesheet</rel>
+					<type>text/css</type>
+					<attr>
+					<media>screen</media>
+					</attr>
+				</dev>		
+				</styles>
+			</header>		
+		</assets>		
+	</bootstraptemplate>	
+</layout>

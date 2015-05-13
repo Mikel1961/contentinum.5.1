@@ -35,7 +35,7 @@ foreach ($assigns as $templateKey => $templateAssign){
         }
     }    
 }
-$this->layoutassets($this->htmllayouts,$this->templateKey);
+$this->layoutassets($this->htmllayouts,$this->templateKey,$this->htmlassets);
 $layout = $this->buildlayout($this->htmllayouts,$this->templateKey);
 foreach ($layout as $row) {
 	if (is_array($row)) {

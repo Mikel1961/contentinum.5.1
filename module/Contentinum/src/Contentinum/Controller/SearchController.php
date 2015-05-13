@@ -56,7 +56,8 @@ class SearchController extends AbstractFrontendController
         $modul->setCategory($pageOptions->getCategory());
         $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
-                
+        
+        $variables['htmlassets'] = $this->getServiceLocator()->get('Contentinum\Htmlassets');
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');

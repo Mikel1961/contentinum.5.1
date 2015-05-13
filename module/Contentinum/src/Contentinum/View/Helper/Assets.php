@@ -42,14 +42,14 @@ class Assets extends AbstractHelper
 	 * @param \Zend\Config $template
 	 * @param string $key
 	 */
-	public function __invoke($htmllayouts,$templateKey)
+	public function __invoke($htmllayouts, $templateKey, $htmlassets)
 	{
 	    
-	    if (! isset($htmllayouts->assets)){
+	    if (! isset($htmllayouts->$templateKey->assetkey)){
 	        return false;
 	    }
-	    
-	    $assets = $htmllayouts->assets->toArray();
+	    $htmlLayoutAssetKey = $htmllayouts->$templateKey->assetkey;
+	    $assets = $htmlassets->$htmlLayoutAssetKey->toArray();
 	    if (isset($htmllayouts->$templateKey->assets)){
 	        $assets = ArrayMergeRecursiveDistinct::merge($assets,$htmllayouts->$templateKey->assets->toArray());
 	    }

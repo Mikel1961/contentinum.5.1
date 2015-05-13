@@ -70,7 +70,7 @@ class Frontendlayout extends AbstractPlugin
     protected $bodyAttributes = array(
         'bodyId' => 'id',
         'bodyClass' => 'class',
-        //'dataAttribute' => 'data'
+        'bodyDataAttribute' => 'string',
     );
 
     /**
@@ -204,7 +204,11 @@ class Frontendlayout extends AbstractPlugin
         foreach ($this->bodyAttributes as $column => $attr) {
             $value = $this->getPageAttribute($pageOptions, $column);
             if (false !== $value) {
-                $attribute .= HtmlAttribute::attributeString($attr, $value, true);
+                if ('string' == $attr){
+                    $attribute .= ' ' . $value;
+                } else {
+                    $attribute .= HtmlAttribute::attributeString($attr, $value, true);
+                }
             }
         }
         if (strlen($attribute) > 0) {
@@ -225,7 +229,7 @@ class Frontendlayout extends AbstractPlugin
         foreach ($this->htmlAttributes as $column => $attr) {
             $value = $this->getPageAttribute($pageOptions, $column);
             if (false !== $value) {
-                $attribute .= HtmlAttribute::attributeString($attr, $value, true);
+                  $attribute .= HtmlAttribute::attributeString($attr, $value, true);
             }
         }
         if (strlen($attribute) > 0) {

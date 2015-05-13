@@ -9,12 +9,17 @@ return array(
         'formNote' => 'ContentinumComponents\Forms\View\Helper\FormNote',        
         
         'navigationcontentinum' => 'Contentinum\View\Helper\Navigation\Contentinum',
+        'buildsmultilevel' => 'Contentinum\View\Helper\Navigation\Builds\Multilevel',
+        
         'navigationbuild' => 'Contentinum\View\Helper\Navigation\Build',
         'navigationtopbar'  => 'Contentinum\View\Helper\Navigation\Topbar',
+        'navigationtopnav'  => 'Contentinum\View\Helper\Navigation\Topnav',
         'navigationmmenu'  => 'Contentinum\View\Helper\Navigation\Mmenu',
+        'navigationmultilevel'  => 'Contentinum\View\Helper\Navigation\Multilevel',
         
         'contribution' => 'Contentinum\View\Helper\Contribution',
         'images' => 'Contentinum\View\Helper\Medias\Images',
+        'getmedialink' => 'Contentinum\View\Helper\Medias\ImageLink',
         'contentelement' => 'Contentinum\View\Helper\Element',
         
         
@@ -24,6 +29,7 @@ return array(
         'contenttabs' => 'Contentinum\View\Helper\Styles\Tabs',
         'contentaccordion' => 'Contentinum\View\Helper\Styles\Accordion',
         'contenttoolbar' => 'Contentinum\View\Helper\Styles\Toolbar',
+        'contentpanel' => 'Contentinum\View\Helper\Styles\Panel',
         
         
         

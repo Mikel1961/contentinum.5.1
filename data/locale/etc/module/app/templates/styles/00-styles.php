@@ -24,6 +24,26 @@ return array(
             'content' => array()
         ),
         
+        'gridbootstrap' => array(
+            'viewhelper' => 'contentgrid',
+            'name' => 'Grid Bootstrap (split in equally large columns)',
+            'grids' => 12,
+            'auto' => true,
+            'row' => 'div',
+            'attribute' => array(
+                'class' => 'row'
+            ),
+            'grid' => array(
+                0 => 'div'
+            ),
+            'gridAttribute' => array(
+                0 => array(
+                    'class' => 'col-lg-12 col-md-12 col-sm-12'
+                )
+            ),
+            'content' => array()
+        ),        
+        
         'blockgrid' => array(
               'viewhelper' => 'contentblockgrid',
               'name' => 'Blockgrid',
@@ -811,8 +831,37 @@ return array(
                     ),
                     'content:after' => ' Uhr'
                 ),
-            ),
+            ), 
+            
+            'descriptionhead' => array(
+                'row' => array(
+                    'element' => 'h4',
+                    'attr' => array(
+                        'class' => 'event-description',
+                    ),
+                    
+                ),
+                'grid' => array(
+                    'element' => 'a',
+                    'attr' => array(
+                        'class' => 'toogleEventElement',
+                        'data-ident' => '',
+                    ),
+                    'content:before' => '<i class="fa fa-plus"></i> ',
+                ),
+            
+            ),            
              
+            'description' => array(               
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'event-description-element',
+                        'itemprop' => 'description',
+                    )
+                ),
+            
+            ),            
         
         
             'organisation' => array(
@@ -1208,7 +1257,29 @@ return array(
             )            
             
 
-        ), // end news actual
+        ),
+        'panel' => array(
+            'panel' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'panel'
+                    )
+                ),
+            ),
+            'headline' => array(
+                'grid' => array(
+                    'element' => 'h2',
+                    'attr' => array()
+                )
+            ),
+            'content' => array(
+                'grid' => array(
+                    'element' => 'p',
+                    'attr' => array()
+                )
+            )
+        ), // last styles
         
     )  ,
     

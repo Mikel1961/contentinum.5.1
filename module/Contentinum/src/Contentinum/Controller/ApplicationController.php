@@ -59,6 +59,9 @@ class ApplicationController extends AbstractFrontendController
         $modul->setCategory($pageOptions->getCategory());
         $modul->setTag($pageOptions->getTag());
         $modul->setTagValue($pageOptions->getTagvalue());
+        $modul->setIdentity($this->getIdentity());
+        $modul->setAcl($acl);
+        $modul->setDefaultRole($defaultRole);
         $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
 
@@ -67,6 +70,7 @@ class ApplicationController extends AbstractFrontendController
             unset($cookies['PHPSESSID']);
         }
         
+        $variables['htmlassets'] = $this->getServiceLocator()->get('Contentinum\Htmlassets');
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
@@ -113,9 +117,9 @@ class ApplicationController extends AbstractFrontendController
                 $params['protocol'] = $pageOptions->protocol;
                 $params['pageurl'] = $page['url'];
                 $model = $this->getServiceLocator()->get($datas->mapper);
-                $model->setAppConfigure($this->getConfiguration());
-                $model->workoff($form->getData(),$params);
-                $response['success'] = array('responsetext' => 'OK');
+                $model->setConfiguration($this->getConfiguration());
+                $message = $model->workoff($form->getData(),$params);
+                $response['success'] = $message;
             } else {
                 $response['error'] = array('fields' => $form->getMessages());
             }

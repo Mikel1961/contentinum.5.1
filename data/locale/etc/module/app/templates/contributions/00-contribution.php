@@ -2,7 +2,7 @@
 return array(
     'contribution' => array(
         'content' => array(
-            'name' => 'Display content',
+            'name' => 'Display content'
         ),
         '_defaultimages' => array(
             'key' => 'defaults',
@@ -10,7 +10,9 @@ return array(
             'media' => array(
                 'row' => array(
                     'element' => 'figure',
-                    'attr' => array('class' => 'imageitem')
+                    'attr' => array(
+                        'class' => 'imageitem'
+                    )
                 ),
                 'grid' => array(
                     'element' => 'figcaption',
@@ -27,18 +29,17 @@ return array(
             'row' => array(
                 'element' => 'ul',
                 'attr' => array(
-                    'class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list',
-                ),
+                    'class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list'
+                )
             ),
             'grid' => array(
                 'element' => 'li',
                 'attr' => array(
-                    'class' => 'media-block-grid-element'
-                ),
-            ),
-        
-        
-        ), 
+                    'class' => 'mediagroup-list-item'
+                )
+            )
+        )
+        ,
         
         'mediablocklightgallery' => array(
             'key' => 'mediagroup',
@@ -46,59 +47,58 @@ return array(
             'row' => array(
                 'element' => 'ul',
                 'attr' => array(
-                    'class' => 'popup-gallery small-block-grid-1 medium-block-grid-2 large-block-grid-3',
-                ),
+                    'class' => 'popup-gallery small-block-grid-1 medium-block-grid-2 large-block-grid-3'
+                )
             ),
             'grid' => array(
                 'element' => 'li',
                 'attr' => array(
-                    'class' => 'gallery-block-grid-element'
-                ),
-            ),
+                    'class' => 'mediagroup-list-item'
+                )
+            )
+        )
+        ,
         
-        
-        ),        
-
         'filegrouplist' => array(
             'key' => 'filegroup',
             'name' => 'Datei zum downlaod als Liste',
             'row' => array(
                 'element' => 'ul',
                 'attr' => array(
-                    'class' => 'filegroup-list',
-                ),
+                    'class' => 'filegroup-list'
+                )
             ),
             'grid' => array(
                 'element' => 'li',
                 'attr' => array(
                     'class' => 'filegroup-list-element'
-                ),
-            ), 
-
-           'files' => array(
-           
+                )
+            ),
+            
+            'files' => array(
+                
                 'row' => array(
-                     
+                    
                     'element' => 'p',
                     'attr' => array(),
-                
-                    'content:before' => '<i class="fa fa-file"></i> '
                     
-                ),
+                    'content:before' => '<i class="fa fa-file"></i> '
+                )
+                ,
                 
                 'grid' => array(
-                     
+                    
                     'element' => 'a',
                     'attr' => array(
                         'href' => '/mcwork/medias/download/',
                         'class' => 'has-tip tip-top filegroup-list-element-link',
                         'data-tooltip' => 'data-tooltip',
-                        'aria-haspopup' => 'true', 
-                        'role' => 'tooltip',
-                    ),
-                ),           
-           
-           ),
+                        'aria-haspopup' => 'true',
+                        'role' => 'tooltip'
+                    )
+                )
+            )
+            
         ),
         
         'medialeft' => array(
@@ -118,8 +118,8 @@ return array(
                     )
                 )
             )
-        
-        ),
+        )
+        ,
         'mediaright' => array(
             'key' => 'contribution',
             'name' => 'Contribution with media right',
@@ -173,7 +173,7 @@ return array(
                     )
                 )
             )
-        ),        
+        ),
         'contentblockmedialeft' => array(
             'key' => 'contribution',
             'name' => 'Contribution block with media left',
@@ -243,6 +243,96 @@ return array(
                 )
             )
         ),
+        
+        'multilevel' => array(
+            'key' => 'multilevel',
+            'ulclass' => 'sidemenu-list',
+            'menuattribute' => array(
+                'subUlClass' => 'navigation-list-dropdown',
+                'listHasDropdown' => 'navigation-list-has-dropdown',
+                'linkClassDefault' => 'contentinum-menu-link',
+                'linkClassDropdown' => 'toogleSubMenu',
+                ),
+            'wrapper' => array(
+                'grid' => array(
+                    'element' => 'nav',
+                    'attr' => array(
+                        'class' => 'container',
+                        'role' => 'navigation'
+                    )
+            
+                )
+            )            
+            
+        ),
+        
+        'topnav' => array(
+            'key' => 'topnav',
+            'brand' => array(
+                'grid' => array(
+                    'element' => 'a',
+                    'attr' => array(
+                        'class' => 'navbar-brand',
+                        'href' => '#'
+                    )
+                )
+            )
+            ,
+            'navbarheader' => array(
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'navbar-header'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'button',
+                    'attr' => array(
+                        'type' => 'button',
+                        'class' => 'navbar-toggle collapsed',
+                        'data-toggle' => 'collapse',
+                        'data-target' => '#navbar',
+                        'aria-expanded' => 'false',
+                        'aria-controls' => 'navbar'
+                    ),
+                    'content:before' => '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
+                )
+                
+            ),
+            'ulclass' => 'nav navbar-nav',
+            'navbar' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'id' => 'navbar',
+                        'class' => 'navbar-collapse collapse'
+                    )
+                )
+            ),
+            
+            'wrapper' => array(
+                
+                'row' => array(
+                    'element' => 'nav',
+                    'attr' => array(
+                        'class' => 'navbar navbar-default navbar-fixed-top',
+                        'role' => 'navigation'
+                    )                    
+
+                ),
+                
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'container'
+                    )                    
+
+                )
+            )
+            
+        )
+        ,
+        
         'topbar' => array(
             'key' => 'topbar',
             'name' => 'Topbar right Foundation Framework',
@@ -282,7 +372,7 @@ return array(
                         'class' => 'toggle-topbar menu-icon'
                     )
                 )
-            )   
+            )
         ),
         'topbarleft' => array(
             'key' => 'topbar',
@@ -299,7 +389,7 @@ return array(
                 )
             ),
             'grid' => array(
-                'element' => 'section',
+                'element' => 'div',
                 'attr' => array(
                     'class' => 'top-bar-section'
                 )
@@ -323,12 +413,39 @@ return array(
                         'class' => 'toggle-topbar menu-icon'
                     )
                 )
-            )       
+            )
         ),
+        
+        'mmenu' => array(
+            'key' => 'navigation',
+            'name' => 'Navigation seitlich (mmenu)',
+            'list' => array(
+                'attr' => array(
+                    'class' => 'mmenu-list'
+                )
+            ),
+            'row' => array()
+        ),
+        
+        'mmenuplus' => array(
+            'key' => 'navigation',
+            'name' => 'Navigation seitlich (mmenu)',
+            'list' => array(
+                'attr' => array(
+                    'class' => 'sidemenu-list'
+                )
+            ),
+            'row' => array()
+        ),
+        
         'navigation' => array(
             'key' => 'navigation',
             'name' => 'Navigation Standard list',
-            'list' => array('attr' => array('class' =>  'navigation-list')),
+            'list' => array(
+                'attr' => array(
+                    'class' => 'navigation-list'
+                )
+            ),
             'row' => array(
                 'element' => 'nav',
                 'attr' => array(
@@ -340,7 +457,11 @@ return array(
         'navigationinline' => array(
             'key' => 'navigation',
             'name' => 'Navigation Standard Inlinelist',
-            'list' => array('attr' => array('class' =>  'navigation-list-inline')),
+            'list' => array(
+                'attr' => array(
+                    'class' => 'navigation-list-inline'
+                )
+            ),
             'row' => array(
                 'element' => 'nav',
                 'attr' => array(
@@ -351,8 +472,12 @@ return array(
         ),
         'navigationinlinefooter' => array(
             'key' => 'navigation',
-            'name' => 'Navigation Standard Inlinelist',
-            'list' => array('attr' => array('class' =>  'navigation-list-inline-footer')),
+            'name' => 'Navigation Footer Inlinelist',
+            'list' => array(
+                'attr' => array(
+                    'class' => 'navigation-list-inline-footer'
+                )
+            ),
             'row' => array(
                 'element' => 'nav',
                 'attr' => array(
@@ -360,6 +485,6 @@ return array(
                     'role' => 'navigation'
                 )
             )
-        ),        
-    ),
+        )
+    )
 );

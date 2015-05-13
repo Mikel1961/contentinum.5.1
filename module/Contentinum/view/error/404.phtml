@@ -24,7 +24,7 @@ if ($this->customError) {
     }
     $mcontent = implode(' ', $html['CONTENT']['error']);
     $this->layoutassets($this->htmllayouts, $this->templateKey);
-    $layout = $this->buildlayout($this->htmllayouts, $this->templateKey);
+    $layout = $this->buildlayout($this->htmllayouts, $this->templateKey,$this->htmlassets);
     foreach ($layout as $row) {
         if (is_array($row)) {
             foreach ($row as $k => $v) {

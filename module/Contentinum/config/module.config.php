@@ -17,13 +17,13 @@ return array(
             'page_app' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/:pages[/:article][/:category][/:month][/:day]',
+                    'route' => '/:pages[/:article][/:category][/:tag][/:tagvalue]',
                     'constraints' => array(
                         'pages' => '[a-zA-Z0-9._-]+',
                         'article' => '[a-zA-Z0-9._-]+',
                         'category' => '[a-zA-Z0-9,_-]+',
-                        'month' => '[a-zA-Z0-9,_-]+',
-                        'day' => '[a-zA-Z0-9,_-]+',
+                        'tag' => '[a-zA-Z0-9,_-]+',
+                        'tagvalue' => '[a-zA-Z0-9,_-]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Contentinum',
@@ -108,6 +108,8 @@ return array(
                 ));
                 return $cache;
             },  
+            
+            'Contentinum\Storage\Manager' => 'Contentinum\Factory\Storage\ManagerFactory',
 
             // controller factory
             'Contentinum\PageConfiguration' => 'Contentinum\Service\Pages\ConfigureServiceFactory',
@@ -122,7 +124,8 @@ return array(
 
             // controller
             'Contentinum\Modul' => 'Contentinum\Factory\Mapper\ModulFactory',
-                        
+
+            'Contentinum\Htmlassets' => 'Contentinum\Service\Templates\HtmlassetsServiceFactory',
             'Contentinum\Htmllayouts' => 'Contentinum\Service\Templates\HtmllayoutsServiceFactory',
             'Contentinum\Widgets' => 'Contentinum\Service\Templates\WidgetsStylesServiceFactory',
             'Contentinum\GroupStyles' => 'Contentinum\Service\Templates\GroupStylesServiceFactory',
@@ -217,7 +220,8 @@ return array(
     ),
     'contentinum_config' => array(
         'templates_files' => array(
-            'templates_htmllayouts' => __DIR__ . '/../../../data/locale/etc/templates/layouts',
+            'templates_htmlassets' =>  __DIR__ . '/../../../data/locale/etc/module/app/templates/assets',
+            'templates_htmllayouts' => __DIR__ . '/../../../data/locale/etc/module/app/templates/layouts',
 
         ),
         'etc_cfg_files' => array(
@@ -350,7 +354,9 @@ return array(
         
         'key_plugins' => array(
             'topbar' => 'Contentinum\Navigation',
+            'topnav' => 'Contentinum\Navigation',
             'mmenu' => 'Contentinum\Navigation',
+            'multilevel' => 'Contentinum\Navigation',
             'newsarchive' => 'Contentinum\BlogsMonthly',
             'newsyeararchive' => 'Contentinum\BlogsAnnually',
             'blogs' => 'Contentinum\Blogs',
@@ -370,7 +376,9 @@ return array(
 
         'viewhelper_plugins' => array(
             'topbar' => 'navigationtopbar',
+            'topnav' => 'navigationtopnav',
             'mmenu' => 'navigationmmenu',
+            'multilevel' => 'navigationmultilevel',
             'newsarchive' => 'newsarchivelist',
             'newsyeararchive' => 'newsarchiveyearlist',
             'news' => 'newsactual',
@@ -841,7 +849,209 @@ return array(
                         )
                     )
                 )            
-            ),           
+            ),
+
+            'multilevel' => array(
+                'resource' => 'intranet',
+                'name' => 'Navigation (Multilevel)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Navigation auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\WebNavigations',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'title'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+            
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Format',
+                                'value_options' => array(
+                                    'multilevel' => 'Multilevel Navigation',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    )
+                )
+            
+            ),            
+            
+            'topnav' => array(
+                'resource' => 'intranet',
+                'name' => 'Navigation (Bootstrap Topnav)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Navigation auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\WebNavigations',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'title'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Brand name',
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Text',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Brand name link',
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Text',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Bild als Brandname',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_publicmedia',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+            
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Format',
+                                'value_options' => array(
+                                    'topnav' => 'Responsive Topnav',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    )
+                )
+            
+            ),                      
             'topbar' => array(
                 'resource' => 'intranet',
                 'name' => 'Navigation (Topbar)',

@@ -62,6 +62,7 @@ class RecommendationController extends AbstractFrontendController
     
         $variables['host'] = $pageOptions->getHost();
         $variables['templateKey'] = $pageOptions->htmlstructure;
+        $variables['htmlassets'] = $this->getServiceLocator()->get('Contentinum\Htmlassets');
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
         $variables['xmlHttpRequest'] = $this->getXmlHttpRequest();
