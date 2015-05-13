@@ -224,8 +224,9 @@ class Group extends AbstractContentHelper
             if (1 === $entry->enableInternet && null != ($internet = $this->view->overwriteprops($entry,'contacts','internet'))){    
                 $cardData .= $this->deployRow($this->internet, $internet);
             } 
-            if (1=== $entry->enableDescription && null != $entry->contacts->description){
-                $cardData .= $this->deployRow($this->description, $entry->contacts->description);
+            //if (1=== $entry->enableDescription && null != $entry->contacts->description){
+            if (1=== $entry->enableDescription && null != ($description = $this->view->overwriteprops($entry,'contacts','description'))){      
+                $cardData .= $this->deployRow($this->description, $description);
             }                       
             $html .= $this->deployRow($this->schema, $cardData);
         }
