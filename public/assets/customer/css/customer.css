@@ -112,6 +112,8 @@ h3.searchresult a {
 .media-popup {
 	cursor: pointer;
 }
+#menu,
+.event-description-element,
 .news-archive-sublist {
 	display: none;
 }
