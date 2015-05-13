@@ -11,6 +11,8 @@ $(document).ready(function() {
 		    link_list: "/mcwork/services/application/linklist",
 		    link_class_list: [
 		                      {title: 'None', value: ''},
+		                      {title: 'Button Video Youtube (Foundation)', value: 'button popup-youtube'},
+		                      {title: 'Button Video Youtube (Bootstrap)', value: 'btn btn-default popup-youtube'},
 		                      {title: 'Button mini (Foundation)', value: 'button tiny'},
 		                      {title: 'Button small (Foundation)', value: 'button small'},
 		                      {title: 'Button standard (Foundation)', value: 'button'},
