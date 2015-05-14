@@ -137,6 +137,7 @@ return array(
             'Contentinum\Navigation' => 'Contentinum\Factory\Mapper\ModulNavigationFactory',
 
             'Contentinum\Blogs' => 'Contentinum\Factory\Mapper\ModulBlogFactory',
+            'Contentinum\BlogReversed' => 'Contentinum\Factory\Mapper\ModulBlogReversedFactory',
             'Contentinum\BlogsActual' => 'Contentinum\Factory\Mapper\ModulBlogActualFactory',
             'Contentinum\BlogGroups' => 'Contentinum\Factory\Mapper\ModulBlogGroupsFactory', 
             'Contentinum\BlogsMonthly' => 'Contentinum\Factory\Mapper\ModulBlogsMonthlyFactory',
@@ -360,6 +361,7 @@ return array(
             'newsarchive' => 'Contentinum\BlogsMonthly',
             'newsyeararchive' => 'Contentinum\BlogsAnnually',
             'blogs' => 'Contentinum\Blogs',
+            'blogreversed' => 'Contentinum\BlogReversed',
             'news' => 'Contentinum\BlogsActual',
             'newsgroup' => 'Contentinum\BlogGroups',
             'navigation' => 'Contentinum\Navigation',
@@ -384,6 +386,7 @@ return array(
             'news' => 'newsactual',
             'newsgroup' => 'newsactual',
             'blogs' => 'news',
+            'blogreversed' => 'news',
             'navigation' => 'navigationbuild',
             'mediagroup' => 'mediagroup',
             'filegroup' => 'filegroup',
@@ -2028,7 +2031,123 @@ return array(
                 )
             ),            
             
+            'blogreversed' => array(
+                'resource' => 'intranet',
+                'name' => 'Nachrichten (Reversed)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Nachrichten auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/newsarchive',
+                                    'data' => array(
+                                        'worker' => 'Mcwork\Model\News',
+                                        'prepare' => 'select',
+                                        'result' => 'array',
+                                        'value' => 'web_contentgroup_id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
             
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Display items',
+                                'value_options' => array(
+                                    '1' => 'Display 1',
+                                    '2' => 'Display 2',
+                                    '3' => 'Display 3',
+                                    '4' => 'Display 4',
+                                    '5' => 'Display 5',
+                                    '6' => 'Display 6',
+                                    '7' => 'Display 7',
+                                    '8' => 'Display 8',
+                                    '9' => 'Display 9',
+                                    '10' => 'Display 10',
+                                    '11' => 'Display 11',
+                                    '12' => 'Display 12',
+                                    '13' => 'Display 13',
+                                    '14' => 'Display 14',
+                                    '15' => 'Display 15',
+                                    '16' => 'Display 16',
+                                    '17' => 'Display 17',
+                                    '18' => 'Display 18',
+                                    '19' => 'Display 19',
+                                    '20' => 'Display 20',                                    
+                                    '9999' => '&infin;'
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Abgelaufene Nachrichten',
+                                'value_options' => array(
+                                    'todate' => 'Am Tag ausblenden',
+                                    'totime' => 'Zur Uhrzeit ausblenden',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+            
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
             
             'accountmembers' => array(
                 'resource' => 'intranet',
