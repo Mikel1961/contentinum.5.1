@@ -3046,5 +3046,21 @@ return array(
         )
     ),
     
+    '/mcwork/logs' => array(
+        'splitQuery' => 4,
+        'resource' => 'publisherresource',
+        'headTitle' => 'Logs',
+        'headline' => 'Logs',
+        'template' => 'content/list/logfiles',
+        'toolbar' => 1,
+        'tableedit' => 1,
+        'app' => array(
+            'controller' => 'Mcwork\Controller\McworkController',
+            'worker' => 'Mcwork\Mapper\Files',
+            'entitymanager' => 'Storage\Manager',
+            'entity' => 'Mcwork\Entity\LogFiles',
+        )
+    ),    
+    
 )
 ;

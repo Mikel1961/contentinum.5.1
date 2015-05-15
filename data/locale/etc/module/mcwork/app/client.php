@@ -618,6 +618,38 @@ return array(
                                 )
                             )
                         ),
+                        4 => array(
+                            'spec' => array(
+                                'name' => 'description',
+                                'required' => false,
+                                'options' => array(
+                                    'label' => 'description',
+                                    'deco-row' => 'text'
+                                ),
+                                'type' => 'Textarea',
+                        
+                                'attributes' => array(
+                                    'id' => 'description',
+                                    'row' => '2'
+                                )
+                            )
+                        ),  
+                        5 => array(
+                            'spec' => array(
+                                'name' => 'longdescription',
+                                'required' => false,
+                                'options' => array(
+                                    'label' => 'description',
+                                    'deco-row' => 'text'
+                                ),
+                                'type' => 'Textarea',
+                        
+                                'attributes' => array(
+                                    'id' => 'longdescription',
+                                    'row' => '3'
+                                )
+                            )
+                        ),                                              
 
                     )
                 )

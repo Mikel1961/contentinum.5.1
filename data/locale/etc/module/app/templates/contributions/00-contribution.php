@@ -56,8 +56,71 @@ return array(
                     'class' => 'mediagroup-list-item'
                 )
             )
-        )
-        ,
+        ),
+        
+        'cameragallery' => array(
+            'key' => 'mediagroup',
+            'name' => 'Camera slideshow (Copyright (c) 2012 by Manuel Masia)', 
+            'wrapper' => array(
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'slider'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'camera_wrap'
+                    )
+                )                
+            ), 
+
+            'imageitem' => array(
+            
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'data-src' => '#'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'camera-caption fadeIn'
+                    )
+                )            
+            
+            ),
+
+            'title' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'title'
+                    )
+                )            
+            ),
+            
+            'shortdescription' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'description'
+                    )
+                )            
+            ),
+            
+            'description' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'dsp'
+                    )
+                )            
+            ),
+        
+        ),
         
         'filegrouplist' => array(
             'key' => 'filegroup',
@@ -257,7 +320,6 @@ return array(
                 'grid' => array(
                     'element' => 'nav',
                     'attr' => array(
-                        'class' => 'container',
                         'role' => 'navigation'
                     )
             
