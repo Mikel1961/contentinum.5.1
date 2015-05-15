@@ -49,6 +49,7 @@ return array(
         'newsarchiveyearlist' => 'Contentinum\View\Helper\News\Archive\Annually',
         'mediagroup' => 'Contentinum\View\Helper\Medias\Group',
         'lightboxgallery' => 'Contentinum\View\Helper\Medias\LightboxGallery',
+        'cameragallery' => 'Contentinum\View\Helper\Medias\CameraGallery',
         'filegroup' => 'Contentinum\View\Helper\Files\Group',
         
         
