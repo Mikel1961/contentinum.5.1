@@ -67,6 +67,8 @@ class Group extends AbstractContentHelper
     {
         if (strpos($entry['modulFormat'], 'mediablocklightgallery') !== false) {
             return $this->view->lightboxgallery($entry, $medias, $template);
+        } elseif (strpos($entry['modulFormat'], 'cameragallery') !== false) {
+            return $this->view->cameragallery($entry, $medias, $template);
         } else {
             
             $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
