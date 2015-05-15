@@ -17,6 +17,7 @@ requirejs.config({
     'jquery.mmenue' : 'jquery/jquery.mmenu.umd.all',
     'jquery.tooltip' : 'jquery/jquery.tooltipster.min',
     'jquery.vegas' : 'jquery/vegas.min',
+    'jquery.responsivetables': 'jquery/jquery.responsive-tables',
     'datatables' : 'jquery/jquery.dataTables.min',
     'datatable.foundation' : 'datatables/dataTables.foundation.min',
     'datatable.responsive' : 'datatables/dataTables.responsive.min',
@@ -66,6 +67,7 @@ requirejs.config({
     'jquery.mmenue': ['jquery'],
     'jquery.tooltip' : ['jquery'],
     'jquery.vegas' : ['jquery'],
+    'jquery.responsivetables' : ['jquery'],
     'contentinum.navigation' : ['jquery','jquery.cookie'],
     'contentinum.events' : ['jquery'],
     'contentinum.archiv' : ['jquery','jquery.cookie'],
@@ -119,7 +121,8 @@ require(['modernizr', 'jquery', 'foundation','jquery.customer'], function(Modern
   		require(["jquery", 'contentinum.navigation' ], function( $ ) { 
 			    $().ContentinumNavigation();			
   		}); 
-	}  	
+	} 
+	 	
   	if ($(".vegasbackground").length) {
   		var bodyIdent = $(".vegasbackground").attr('id');
   		var bodyBackgroundPath = $(".vegasbackground").data('imagepath');

@@ -11,6 +11,18 @@
 				if(typeof navigation !== typeof undefined){
 					$("ul[data-ident='" +navigation+ "']").slideToggle("fast");
 				}
+				
+				$(document).on('click', '.contentinum-menu-link', function(ev) {
+					ev.stopPropagation();
+					ev.preventDefault();					
+					var page = $(this).attr('href'); 
+					var navigation = $.cookie("navigation");
+					if(typeof navigation !== typeof undefined){
+						$("ul[data-ident='" +navigation+ "']").hide();	
+						$.removeCookie("navigation", { path: '/' });
+					} 
+					window.location.href = page;					
+				});
 				$(document).on('click', '.toogleSubMenu', function(ev) {
 					ev.stopPropagation();
 					ev.preventDefault();
