@@ -25,58 +25,33 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Mcwork\Model\Save;
+namespace Mcwork\Model\Medias;
 
-use ContentinumComponents\Mapper\Process;
-use ContentinumComponents\Tools\HandleSerializeDatabase;
+
+use ContentinumComponents\Mapper\Worker;
 
 /**
- * Save model provides method to prepae insert and update datas
+ * Mapper
  *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
-class Media extends Process
+class Administration extends Worker
 {
     
-    private $mediaAttributeFields = array(
-
-            'alt',
-            'title',
-            'caption',
-            'description',
-            'longdescription',
-            'linkname',
-            'headline'
-        
-    );   
 
     /**
-     * Prepare datas before save
+     * Get all medias
      *
-     * @see \ContentinumComponents\Mapper\Process::save()
+     * @param array $params
+     *            query conditions
+     * @return multitype:
      */
-    public function save($datas, $entity = null, $stage = '', $id = null)
+    public function fetchContent()
     {
-        $entity = $this->handleEntity($entity);
-        if (null === $entity->getPrimaryValue()) {
-            parent::save($datas, $entity, $stage, $id);
-        } else {
-            parent::save($datas, $entity, $stage, $id);
-        }
-    }
-    
-    
-    public function saveMetas($app, $datas)
-    {
-        $metas = array();
-        foreach ($this->mediaAttributeFields as $field){
-            if (isset($datas[$field])){
-                $metas[$field] = $datas[$field];
-            }
-        }
-        $mcSerialize = new HandleSerializeDatabase();
-        $update['mediaMetas'] = $mcSerialize->execSerialize($metas);
-        parent::save($update, $this->find($datas['ident']));
-        return true;
+        $query = $this->getStorage()->createQuery('
+            SELECT medias FROM ' . $this->getEntityName() . ' medias
+            INDEX BY medias.mediaSource
+            WHERE medias.parentMedia = 0');
+        return $query->getResult();
     }
 }

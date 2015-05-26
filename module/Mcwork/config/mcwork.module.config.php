@@ -643,6 +643,7 @@ return array(
             'Mcwork\Groups\User' => 'Mcwork\Service\User\GroupsServiceFactory',            
             // model
             'Mcwork\SaveUpload' => 'Mcwork\Factory\Model\FsUploadDataSaveFactory',
+            'Mcwork\Media\Administration' => 'Mcwork\Factory\Model\MediaAdministrateFactory',
         )
         
     ),
@@ -931,7 +932,6 @@ return array(
                             'backend/js/vendor/chosen/chosen.jquery.js',
                             'backend/js/vendor/jquery.datetimepicker.js',                            
                             'backend/js/mcwork.js',
-                            'backend/js/mcwork.form.js'
                         ),
                         'filters' => array(
                             '?JSMinFilter' => array(

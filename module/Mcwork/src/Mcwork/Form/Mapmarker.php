@@ -160,27 +160,25 @@ class Mapmarker extends AbstractForms
                     )
                 )
             ),            
-            
-
+             
             array(
                 'spec' => array(
-                    'name' => 'webMedias',
-                    'required' => true,
+                    'name' => 'mapMarker',
+                    'required' => false,
                     'options' => array(
-                        'label' => 'Media item',
-                        'empty_option' => 'Please select a media',
+                        'label' => 'Map marker icon',
+                        'empty_option' => 'Please select',
                         'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
             
                     'type' => 'Select',
                     'attributes' => array(
-                        'required' => 'required',
-                        'id' => 'webMedias',
+                        'id' => 'mapMarker',
                         'class' => 'chosen-select',
                     )
                 )
-            ),            
+            ),                      
             
             array(
                 'spec' => array(

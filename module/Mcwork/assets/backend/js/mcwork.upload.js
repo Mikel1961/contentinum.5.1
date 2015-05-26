@@ -71,7 +71,41 @@ McworkUploadLight = (function(options){
 	
 			}
 	
-		},			
+		},	
+		5 : {
+			'spec' : {
+				'name' : 'description',
+				'required' : false,
+				'options' : {
+					'label' : 'description',
+					'deco-row' : 'text',
+				},
+				'type' : 'Textarea',
+				'attributes' : {
+					'id' : 'description',
+					'row' : '2',
+				}
+	
+			}
+	
+		},
+		6 : {
+			'spec' : {
+				'name' : 'longdescription',
+				'required' : false,
+				'options' : {
+					'label' : 'longdescription',
+					'deco-row' : 'text',
+				},
+				'type' : 'Textarea',
+				'attributes' : {
+					'id' : 'longdescription',
+					'row' : '3',
+				}
+	
+			}
+	
+		},								
 		
 	};
 	

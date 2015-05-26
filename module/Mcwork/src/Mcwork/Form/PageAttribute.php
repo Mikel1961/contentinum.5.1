@@ -202,7 +202,24 @@ class PageAttribute extends AbstractForms
                         'id' => 'headStyle'
                     )
                 )
-            ),          
+            ),  
+
+            array(
+                'spec' => array(
+                    'name' => 'bodyDataAttribute',
+                    'options' => array(
+                        'label' => 'Page data attribute',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                         
+                    ),
+            
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '2',
+                        'id' => 'bodyDataAttribute'
+                    )
+                )
+            ),            
             
             array(
                 'spec' => array(
@@ -240,6 +257,9 @@ class PageAttribute extends AbstractForms
                     )
                 )
             ),
+            
+            
+          
 
             
             

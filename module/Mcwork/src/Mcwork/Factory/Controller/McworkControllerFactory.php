@@ -86,7 +86,7 @@ class McworkControllerFactory implements FactoryInterface
             if (false !== ($formfactory = $pageOptions->getAppOption('formfactory'))){
                 $controller->setFormfactory($formfactory);
             } 
-            
+          
             if (false != ($populateSerializeFields = $pageOptions->getAppOption('populateSerializeFields'))) {
                 $controller->setUnserialize($populateSerializeFields);
             }

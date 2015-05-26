@@ -217,6 +217,10 @@ class EditFormController extends AbstractMcworkController
             $view->setVariable('abortation', $toRoute);
         }
         
+        if (false !== ($formbuttons = $pageOptions->getAppOption('formbuttons'))){
+            $view->setVariable('btnconfiguration', $formbuttons);
+        }        
+        
         $view->setVariable('formbuttons', $this->getServiceLocator()
             ->get('Mcwork\Buttons'));
         

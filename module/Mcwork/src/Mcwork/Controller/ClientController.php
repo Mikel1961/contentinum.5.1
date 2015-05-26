@@ -210,9 +210,12 @@ class ClientController extends AbstractMcworkController
                 $worker = new \ContentinumComponents\Storage\StorageDirectory();
                 $worker->setStorage( $this->getServiceLocator()->get('Storage\Manager') );
                 $worker->setEntity(new \Mcwork\Entity\FsPublic());
-                return $this->responseJsonDatas($worker->getStorage()->getDirectoryTree($this->getEntity()
+                return $this->responseJsonDatas($worker->getStorage()->getDirectoryTree($worker->getEntity()
                 ->getCurrentPath(), true));
                 
+                break;
+            case 'explorer':
+                return $this->explorer($params);
                 break;
             case 'linklist':
                 
@@ -229,6 +232,27 @@ class ClientController extends AbstractMcworkController
                 return $this->incorrectParameter();
         }
     }
+    
+    /**
+     * File explorer for the javascript client
+     *
+     * @param array $params parameters to do this
+     * @return Ambigous <string, mixed>
+     */
+    protected function explorer($params)
+    {
+        $entity = new \Mcwork\Entity\FsPublic();
+        $dir = '';
+        if (isset($params['dir']) && $entity->getCurrentPath() != $params['dir'] . '/') {
+            $dir = str_replace($entity->getCurrentPath(), '', $params['dir']);
+        }
+        $fs = new \Mcwork\Model\FileSystem\Explorer($this->getServiceLocator()->get('Storage\Manager'));
+        $fs->setEntity($entity);
+        $fs->setMediaAdministration($this->getServiceLocator()
+            ->get('Mcwork\Media\Administration'));
+
+        return $this->responseJsonDatas($fs->ls($dir));
+    }    
     
     /**
      * 

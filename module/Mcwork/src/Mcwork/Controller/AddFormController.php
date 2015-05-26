@@ -124,7 +124,11 @@ class AddFormController extends AbstractMcworkController
         
         if (false !== ($toRoute = $pageOptions->getAppOption('settoroute'))) {
             $view->setVariable('abortation', $toRoute);
-        }
+        }        
+        
+        if (false !== ($formbuttons = $pageOptions->getAppOption('formbuttons'))){
+            $view->setVariable('btnconfiguration', $formbuttons);
+        }  
         
         $view->setVariable('formbuttons', $this->getServiceLocator()
             ->get('Mcwork\Buttons'));

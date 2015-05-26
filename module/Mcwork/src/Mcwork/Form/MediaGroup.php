@@ -95,25 +95,7 @@ class MediaGroup extends AbstractForms
             						'id' => 'resource'
             				)
             		)
-            ),
-
-            array(
-            		'spec' => array(
-            				'name' => 'htmlwidgets',
-            				'required' => true,
-            				'options' => array(
-            						'label' => 'Choose a content widget',
-            						'empty_option' => 'Please select',
-            						'value_options' => $this->getOptions('Templates\Htmlwidgets'),
-            						'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-            				),
-            				'type' => 'Select',
-            				'attributes' => array(
-            						'required' => 'required',
-            						'id' => 'htmlwidgets'
-            				)
-            		)
-            ),            
+            ),          
         );
     }
 

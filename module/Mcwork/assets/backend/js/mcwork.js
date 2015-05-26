@@ -1,51 +1,31 @@
 ( function(root, factory) {
 		root.Mcwork = factory(root, {}, (root.jQuery || root.Zepto || root.ender || root.$));
 	}(this, function(root, Mcwork, $) {
-
-		// Initial Setup
-		// -------------
-
-		// Save the previous value of the `Mcwork` variable, so that it can be
-		// restored later on, if `noConflict` is used.
-		//var previousMcwork = root.Mcwork;
-
-		// Create local references to array methods we'll want to use later.
 		var array = [];
 		var push = array.push;
 		var slice = array.slice;
 		var splice = array.splice;
-
-		// Current version of the library. Keep in sync with `package.json`.
-		Mcwork.VERSION = '0.0.1';
-
+		Mcwork.VERSION = '1.0.0';
 		Mcwork.Locale = 'de_DE';
-		
 		var DateTimePickerOptions = {
-			lang:'de',
-			format:'Y-m-d H:i',
-			step:30,
-			dayOfWeekStart:1,
-			allowBlank:true
+			lang : 'de',
+			format : 'Y-m-d H:i',
+			step : 30,
+			dayOfWeekStart : 1,
+			allowBlank : true
 		};
-		
 		var TaggingOptions = {
-			
 			'case-sensitive' : true,
-			
-		}; 
-
+		};
 		var StandardModal = '#modal';
-
 		var StandardTemplate = {
 			header : {
-
 				row : {
 					element : 'header',
 					'attr' : {
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -65,17 +45,14 @@
 					},
 					'behind' : '<i class="fa fa-exclamation-triangle"> </i>'
 				}
-
 			},
 			body : {
-
 				row : {
 					element : 'section',
 					'attr' : {
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -92,19 +69,15 @@
 						'key' : 'usr',
 						'txt' : 'unkown_app'
 					},
-
 				}
-
 			},
 			footer : {
-
 				row : {
 					element : 'footer',
 					'attr' : {
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -135,22 +108,17 @@
 							'txt' : 'close'
 						}
 					}
-
 				}
-
 			}
 		};
-		
 		var BasicTemplate = {
 			header : {
-
 				row : {
 					element : 'header',
 					'attr' : {
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -158,17 +126,14 @@
 						'id' : 'headcontent',
 					}
 				},
-
 			},
 			body : {
-
 				row : {
 					element : 'section',
 					'attr' : {
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -176,7 +141,6 @@
 						'id' : 'modalcontent',
 					}
 				},
-
 			},
 			footer : {
 
@@ -186,7 +150,6 @@
 						'class' : 'row'
 					}
 				},
-
 				grid : {
 					element : 'div',
 					'attr' : {
@@ -194,13 +157,10 @@
 						'id' : 'footercontent',
 					}
 				}
-
 			}
-		};		
-		
+		};
 		var ErrorTemplate = {
 			header : {
-
 				content : {
 					element : 'h4',
 					'attr' : {
@@ -213,11 +173,8 @@
 					},
 					'behind' : '<span id="server-process"> <i class="fa fa-exclamation-triangle"> </i> </span>'
 				}
-
 			},
 			body : {
-
-
 				content : {
 					element : 'p',
 					'attr' : {
@@ -227,13 +184,9 @@
 						'key' : 'usr',
 						'txt' : 'unkown_app'
 					},
-
 				}
-
 			},
 			footer : {
-
-
 				content : {
 					row : {
 						element : 'ul',
@@ -257,15 +210,11 @@
 							'txt' : 'close'
 						}
 					}
-
 				}
-
 			}
-		};	
-		
+		};
 		var ProcessTemplate = {
 			header : {
-
 				content : {
 					element : 'h4',
 					'attr' : {
@@ -278,40 +227,28 @@
 					},
 					'behind' : '<span id="server-process"> <i class="fa fa-gear fa-spin"> </i> </span>'
 				}
-
 			},
 			body : {
-
-
 				content : {
 					element : 'p',
 					'translate' : {
 						'key' : 'messages',
 						'txt' : 'serveraction'
 					},
-
 				}
-
 			},
 			footer : {
-
-
 				content : {
 					element : 'p',
 					'translate' : {
 						'key' : 'messages',
 						'txt' : '...'
 					},
-
 				}
-
-
 			}
-		};	
-		
+		};
 		var ConfirmTemplate = {
 			header : {
-
 				content : {
 					element : 'h4',
 					'attr' : {
@@ -324,26 +261,17 @@
 					},
 					'behind' : '<span id="server-process"> <i class="fa fa-exclamation-triangle"> </i> </span>'
 				}
-
 			},
 			body : {
-
-
 				content : {
 					element : 'p',
 					'attr' : {
 						'class' : 'alizarin-color'
 					},
-					'txt' : 
-						'Please confirm action',
-					
-
+					'txt' : 'Please confirm action',
 				}
-
 			},
 			footer : {
-
-
 				content : {
 					row : {
 						element : 'ul',
@@ -357,7 +285,7 @@
 						},
 						'2' : {
 							'element' : 'li'
-						}						
+						}
 					},
 					'1' : {
 						'element' : 'button',
@@ -380,13 +308,10 @@
 							'key' : 'btn',
 							'txt' : 'cancel'
 						}
-					}					
-
+					}
 				}
-
 			}
-		};						
-
+		};
 		var font_color_warn = 'alizarin-color';
 		var font_color_success = 'emerald-color';
 		var font_color_confirm = 'belize-hole-color';
@@ -409,15 +334,9 @@
 			s5 : 'fa-5x',
 			lg : 'fa-lg',
 		};
-
 		var Translations;
-		
 		var DomElement;
-
-		// For Mcwork's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
-		// the `$` variable.
 		Mcwork.$ = $;
-
 		var Parameter = Mcwork.Parameter = {
 			isset : function(variable) {
 				if ( typeof variable === 'undefined') {
@@ -428,50 +347,43 @@
 					return true;
 				}
 			},
-
 			hasRemoveClass : function(elm, cssclass) {
 				if ($(elm).hasClass(cssclass)) {
 					$(elm).removeClass(cssclass);
 				}
 			},
-
-			set : function() {
-
-			},
-			setDomElement : function(elm){
+			set : function() {},
+			setDomElement : function(elm) {
 				DomElement = elm;
 			},
-			getDomElement : function(elm){
+			getDomElement : function(elm) {
 				return DomElement;
-			},	
-			unsetDomElement : function(){
+			},
+			unsetDomElement : function() {
 				DomElement = null;
-			},	
-			getDatePicker : function(){
+			},
+			getDatePicker : function() {
 				return DateTimePickerOptions;
-			},		
-			getTagging : function(){
+			},
+			getTagging : function() {
 				return TaggingOptions;
-			},		
+			},
 			release : function() {
 				return MC.VERSION;
 			},
 		};
-		
 		var ArrayMerge = Mcwork.ArrayMerge = {
-			recursive : function(){
-				if(arguments.length < 2){
+			recursive : function() {
+				if (arguments.length < 2) {
 					throw new Error("ArrayMergeRecursive: Please enter two or more objects to merge!");
-     			}	
-     			var arr1=arguments[0];
-			    for(var i=0; i<=arguments.length; i++ ){
-			        $.extend(true, arr1, arguments[i]);                 
-			    }
-
-    			return arr1;      			
+				}
+				var arr1 = arguments[0];
+				for (var i = 0; i <= arguments.length; i++) {
+					$.extend(true, arr1, arguments[i]);
+				}
+				return arr1;
 			}
 		};
-
 		var Colors = Mcwork.Colors = {
 			WARN : font_color_warn,
 			SUCCESS : font_color_success,
@@ -480,7 +392,6 @@
 				return color;
 			},
 		};
-
 		var Icons = Mcwork.Icons = {
 			COG : icon_cog,
 			WARN : icon_warn,
@@ -497,28 +408,22 @@
 			get : function(icon) {
 				return icon;
 			},
-
 			geticon : function(set) {
 				return '<i class="fa ' + set + '"> </i>';
 			},
-
 			getwarn : function() {
 				return Icons.geticon(Icons.WARN + ' ' + font_color_warn);
 			},
-
 			getsuccess : function() {
 				return Icons.geticon(Icons.SUCCESS + ' ' + font_color_success);
 			},
-
 			getprocess : function() {
 				return Icons.geticon(Icons.GEAR + ' fa-spin ' + font_color_warn);
 			},
-
 			removethisicon : function(elm) {
 				$(elm).find('i').remove('i');
 			}
 		};
-
 		var Server = Mcwork.Server = {
 			request : function(options) {
 				var defaults = {
@@ -528,7 +433,6 @@
 				var opts = $.extend({}, defaults, options);
 				return this.get(opts);
 			},
-
 			get : function(opts) {
 				var returndatas = {};
 				$.ajax({
@@ -545,18 +449,14 @@
 				return returndatas;
 			},
 		};
-
 		var Attributes = Mcwork.Attributes = {
 			associative : false,
-
 			setAssociative : function() {
 				Attributes.associative = true;
 			},
-
 			unsetAssociative : function() {
 				Attributes.associative = false;
 			},
-
 			dom : function(elm, attrib, value) {
 				if (false === value) {
 					return $(elm).attr(attrib);
@@ -589,7 +489,6 @@
 				return attribs;
 			},
 		};
-
 		var HTML = Mcwork.HTML = {
 			section : {},
 			row : {},
@@ -600,23 +499,18 @@
 				if ( typeof attribute === 'undefined') {
 					var attribute = {};
 				}
-
 				var str = '';
-
 				if (content.hasOwnProperty('prev')) {
 					str += content['prev'];
 				}
-
 				if (content.hasOwnProperty('translate')) {
 					str += Language.translate(content['translate']['key'], content['translate']['txt']);
 				} else {
 					str += content['txt'];
 				}
-
 				if (content.hasOwnProperty('behind')) {
 					str += content['behind'];
 				}
-
 				return '<' + tag + Attributes.string(attribute) + '>' + str + '</' + tag + '>';
 			},
 			inline : function(tag, attribute) {
@@ -674,13 +568,11 @@
 			viewscript : function(template) {
 				HTML.set(template);
 				var returnHtml = '';
-
 				if (HTML.content.hasOwnProperty('options')) {
 					var options = HTML.content['options'];
 				} else {
 					var options = {};
 				}
-
 				if (HTML.content.hasOwnProperty('element')) {
 					if (HTML.content.hasOwnProperty('attr')) {
 						var attribute = HTML.content['attr'];
@@ -696,13 +588,16 @@
 						formAttribute = options['form'];
 					}
 					if (options.hasOwnProperty('getFieldValue')) {
-						formAttribute.populateValues = Attributes.get(options['getFieldValue'],DomElement);
+						formAttribute.populateValues = Attributes.get(options['getFieldValue'], DomElement);
 					}
 					if (options.hasOwnProperty('getFieldValSrv')) {
 						var getFieldValSrv = options['getFieldValSrv'];
 						var datas = options['getFieldValSrv']['data'];
 						datas.id = $(DomElement).attr(options['getFieldValSrv']['ident']);
-						formAttribute.populateValues = Server.get({url : options['getFieldValSrv']['url'], data : datas });
+						formAttribute.populateValues = Server.get({
+							url : options['getFieldValSrv']['url'],
+							data : datas
+						});
 					}
 					returnHtml += Forms.init(formAttribute, HTML.content['form']);
 				}
@@ -725,7 +620,6 @@
 				return returnHtml;
 			},
 		};
-
 		var Modals = Mcwork.Modals = {
 			build : function(template) {
 				var modalContent = '';
@@ -738,80 +632,186 @@
 				if (template.hasOwnProperty('footer')) {
 					modalContent += HTML.viewscript(template['footer']);
 				}
-
 				$(StandardModal).attr('role', 'dialog');
 				$(StandardModal).attr('aria-labelledby', 'modal');
 				$(StandardModal).html(modalContent);
 				$(StandardModal).foundation('reveal', 'open');
 			},
-
 			buildError : function(message) {
-				var errTemplate = ArrayMerge.recursive( BasicTemplate, ErrorTemplate );
-				
-				if (false !== message){
+				var errTemplate = ArrayMerge.recursive(BasicTemplate, ErrorTemplate);
+				if (false !== message) {
 					errTemplate.body.content.translate.txt = message;
 				}
 				Modals.build(errTemplate);
 			},
-			
 			buildProcess : function(message) {
-				var processTemplate = ArrayMerge.recursive( BasicTemplate, ProcessTemplate );
-				
-				if (false !== message){
+				var processTemplate = ArrayMerge.recursive(BasicTemplate, ProcessTemplate);
+				if (false !== message) {
 					processTemplate.body.content.translate.txt = message;
 				}
 				Modals.build(processTemplate);
 			},
-			
 			buildConfirm : function(message) {
-				var confirmTemplate = ArrayMerge.recursive( BasicTemplate, ConfirmTemplate );
-				
-				if (false !== message){
+				var confirmTemplate = ArrayMerge.recursive(BasicTemplate, ConfirmTemplate);
+				if (false !== message) {
 					confirmTemplate.body.content.txt = message;
 				}
 				Modals.build(confirmTemplate);
-			},							
-
+			},
 			getStdModal : function() {
 				return StandardModal;
 			},
-			
-			getBasicModal : function(){
+			getBasicModal : function() {
 				return BasicTemplate;
-			},			
-			
-			getErrModal : function(){
+			},
+			getErrModal : function() {
 				return ErrorTemplate;
 			},
 		};
-
+		var Explorer = Mcwork.Explorer = {
+			Template : {
+				header : {
+					content : {
+						element : 'h4',
+						'attr' : {
+							'id' : 'modalhead',
+						},
+						'translate' : {
+							'key' : 'heads',
+							'txt' : 'fileexplorer'
+						},
+						'behind' : ' <span id="server-process"> </span>'
+					}
+				},
+				body : {
+					content : {
+						element : 'div',
+						'attr' : {
+							'class' : 'row explorer'
+						},
+						'txt' : '<div id="dir-links" class="large-3 columns"> </div> <div id="explorerview" class="large-9 columns">  </div>'
+					}
+				},
+				footer : {
+					content : {
+						row : {
+							element : 'ul',
+							'attr' : {
+								'class' : 'modal-buttons right'
+							}
+						},
+						'grids' : {
+							'1' : {
+								'element' : 'li'
+							},
+						},
+						'1' : {
+							'element' : 'button',
+							'attr' : {
+								'id' : 'cancel-button',
+								'class' : 'button'
+							},
+							'translate' : {
+								'key' : 'btn',
+								'txt' : 'close'
+							}
+						}
+					}
+				}
+			},
+			directory : {
+				dir : ''
+			},
+			application : '',
+			view : function() {
+				return Mcwork.Modals.build(Mcwork.ArrayMerge.recursive(Mcwork.Modals.getBasicModal(), Mcwork.Explorer.Template));
+				$(document.body).on('click', '#cancel-button', function(ev) {
+					$(Mcwork.Modals.getStdModal()).foundation('reveal', 'close');
+				});
+			},
+			ls : function() {
+				$.ajax({
+					url : Explorer.application,
+					type : 'POST',
+					data : Explorer.directory,
+					beforeSend : function() {
+						$('#server-process').html(Mcwork.Icons.getprocess());
+					},
+					success : function(data) {
+						var jsonData = jQuery.parseJSON(data);
+						$('#server-process').html(Mcwork.Icons.getsuccess());
+						$('#explorerview').html(Mcwork.Explorer.buildDirectoryContent(jsonData));
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
+						Mcwork.modalError(Mcwork.translate('errors', 'server'), Mcwork.translate('text', 'message'), Mcwork.translate('server', msg));
+					}
+				});
+			},
+			buildDirectoryContent : function(elements) {
+				var content = '';
+				$.each(elements, function(filename, element) {
+					var str = '';
+					if (element.hasOwnProperty('src')) {
+						str += '<span class="explorer-item">' + Mcwork.HTML.inline('img', {
+							'src' : element.src,
+							'alt' : filename,
+							'title' : filename,
+							'width' : 200
+						}) + '</span>';
+					} else {
+						str += '<span class="explorer-item">' + Mcwork.Icons.geticon(element.icon + ' fa-5x') + '</span>';
+					}
+					str += Mcwork.HTML.block('figcaption', {
+						'txt' : filename
+					}, {
+						'class' : 'element-desc'
+					});
+					str = Mcwork.HTML.block('a', {
+						'txt' : str
+					}, {
+						'href' : '#',
+						'class' : 'thisMediaElement',
+						'data-ident' : element.mediaIdent,
+						'title' : filename,
+					});
+					content += Mcwork.HTML.block('figure', {
+						'txt' : str
+					}, {
+						'class' : 'exlporer-element'
+					});
+				});
+				return content;
+			},
+			setDirectory : function(path) {
+				Explorer.directory.dir = path;
+			},
+			setApplication : function(url) {
+				Explorer.application = url;
+			},
+		};
 		var Validation = Mcwork.Validation = {
-
 			labelicon : function(fieldname, icon) {
 				var text = $('#field' + fieldname + ' > label').text();
 				$('#field' + fieldname + ' > label').html(text + ' ' + icon);
 			},
-
 			unmarkErrorFields : function(fieldname) {
 				Icons.removethisicon('#field' + fieldname + ' > label');
 				Parameter.hasRemoveClass($("#field" + fieldname), "error");
 				Parameter.hasRemoveClass($("#field" + fieldname), 'valid');
 				$("#alert" + fieldname).remove();
 			},
-
 			markValidEntry : function(fieldname, messages) {
 				Validation.labelicon(fieldname, Icons.geticon(Icons.SUCCESS));
 				$('#field' + fieldname).addClass("valid");
 				$('#field' + fieldname).append('<span role="alert" id="alert' + fieldname + '" class="validation-valid">' + messages + '</span>');
 			},
-
 			markErrorField : function(fieldname, messages) {
 				Validation.labelicon(fieldname, Icons.geticon(Icons.WARN));
 				$('#field' + fieldname).addClass("error");
 				$('#field' + fieldname).append('<span role="alert" id="alert' + fieldname + '" class="validation-error">' + messages + '</span>');
-			},				
+			},
 		};
-
 		var Forms = Mcwork.Forms = {
 			specKeys : {
 				name : 'name',
@@ -838,7 +838,6 @@
 						'class' : 'postfix'
 					}
 				},
-
 				'button' : {
 					'row' : {
 						'tag' : 'ul',
@@ -850,7 +849,6 @@
 						'tag' : 'li'
 					}
 				},
-
 				'description' : {
 					'tag' : 'span',
 					'attribs' : {
@@ -863,19 +861,17 @@
 						'class' : 'formElement'
 					}
 				},
-				
 				'dropzone' : {
 					'tag' : 'div',
 					'attribs' : {
 						'class' : 'fallback'
-					}					
+					}
 				}
 			},
 			elements : {},
 			populateValues : { },
 			collapseContent : { },
 			buttons : {},
-
 			buildSelectOptions : function(name, options) {
 				var selectOptions = '';
 				if (options.hasOwnProperty(Forms.optionKeys.empty_option)) {
@@ -900,7 +896,6 @@
 						break;
 					}
 				}
-
 				if (options.hasOwnProperty(Forms.optionKeys.value_option)) {
 					var selectedValue = ( Forms.populateValues.hasOwnProperty(name) ) ? Forms.populateValues[name] : '';
 
@@ -914,14 +909,10 @@
 					});
 				}
 				return selectOptions;
-
 			},
-
 			createDecorators : function(content, deco, name) {
-
 				if (Forms.decorators.hasOwnProperty(deco)) {
 					var decorator = Forms.decorators[deco];
-					//
 					if (decorator.hasOwnProperty('template')) {
 						if (Mcwork.hasOwnProperty(decorator['template'])) {
 							var template = Mcwork[decorator['template']];
@@ -942,7 +933,6 @@
 				}
 				return content;
 			},
-
 			createElement : function(type, name, options, fieldAttribute) {
 				var field = '';
 				type = type.toLowerCase();
@@ -1002,7 +992,6 @@
 				}
 				return field;
 			},
-
 			createLabel : function(options, name) {
 				if (options.hasOwnProperty(Forms.optionKeys.label) && options[Forms.optionKeys.label].length > 0) {
 					return '<label for="' + name + '">' + Language.translate('labels', options[Forms.optionKeys.label]) + '</label>';
@@ -1010,7 +999,6 @@
 					return '';
 				}
 			},
-
 			createDescription : function(options, name) {
 				if (options.hasOwnProperty(Forms.optionKeys.desc) && options[Forms.optionKeys.desc].length > 0) {
 					return Forms.createDecorators(options[Forms.optionKeys.desc], Forms.optionKeys.desc);
@@ -1018,65 +1006,49 @@
 					return '';
 				}
 			},
-
 			createButtonLine : function() {
 				var html = '';
-
 				var btn = '';
 				var row = Forms.decorators.button.row;
 				var grid = Forms.decorators.button.grid;
-
 				$.each(Forms.buttons, function(index, button) {
 					btn += '<' + grid.tag;
 					btn += '>';
 					btn += button;
 					btn += '</' + grid.tag + '>';
 				});
-
 				if (btn.length > 1) {
 					html += '<' + row.tag;
 					html += Attributes.string(row.attr);
 					html += '>' + btn;
 					html += '</' + row.tag + '>';
 				}
-
 				return html;
 			},
-
 			addElement : function(type, name, options, fieldAttribute) {
-
 				if (options.hasOwnProperty(Forms.optionKeys.decorow)) {
 					Forms.elements[name] = Forms.createDecorators(Forms.createElement(type, name, options, fieldAttribute), options[Forms.optionKeys.decorow], name);
 				} else {
 					Forms.elements[name] = Forms.createElement(type, name, options, fieldAttribute);
 				}
-
 			},
-
 			getElement : function(type, name, options, fieldAttribute) {
-
 				if (Forms.elements.hasOwnProperty(name)) {
 					return Forms.elements[name];
 				} else {
 					return Forms.createElement(type, name, options, fieldAttribute);
 				}
-
 			},
-
 			setElements : function(elements) {
 				$.each(elements, function(index, element) {
 					Forms.addElement(element.spec.type, element.spec.name, element.spec.options, element.spec.attributes);
 				});
 			},
-
 			build : function(form, elements) {
-
 				Forms.populateValues = form.populateValues;
 				Forms.collapseContent = form.collapseContent;
 				Forms.lng = form.lng;
-
 				Forms.setElements(elements);
-
 				var html = '';
 				if (true === form.formtag) {
 					html += '<form action="' + form.action + '" method="' + form.actionmethod + '"';
@@ -1094,9 +1066,7 @@
 				Forms.elements = {};
 				return html;
 			},
-
 			init : function(formOptions, formElements) {
-
 				var defaults = {
 					action : '#',
 					actionmethod : 'POST',
@@ -1106,12 +1076,10 @@
 					formtag : true,
 					lng : false,
 				};
-
 				var opts = $.extend({}, defaults, formOptions);
 				return Forms.build(opts, formElements);
 			}
 		};
-
 		var Tables = Mcwork.Tables = {
 			init : function(options, elm) {
 				var defaults = {
@@ -1129,52 +1097,44 @@
 						$('#' + ident).dataTable(opts);
 					}
 				});
-
 			},
-			isTableRowSelected : function(){
-				if ($('td input[type="checkbox"]:checked').is(":empty") == false){
+			isTableRowSelected : function() {
+				if ($('td input[type="checkbox"]:checked').is(":empty") == false) {
 					Modals.buildError('checkboxselect');
 					return false;
 				} else {
 					return true;
 				}
-			},			
+			},
 		};
 		var Clock = Mcwork.Clock = {
-				show : function (obj, time) {
-					var parts   = time.split(":"),
-			        newTime = new Date(),
-			        timeDifference  = new Date().getTime() - newTime.getTime();
-				    newTime.setHours(parseInt(parts[0], 10));
-				    newTime.setMinutes(parseInt(parts[1], 10));
-				    newTime.setSeconds(parseInt(parts[2], 10));
-				    
-				    var methods = {
-				    		displayTime: function () {
-				    			var now = new Date(new Date().getTime() - timeDifference);		 
-					            obj.text([					 
-					                methods.leadZeros(now.getHours(), 2),
-					                methods.leadZeros(now.getMinutes(), 2),
-					                methods.leadZeros(now.getSeconds(), 2)					 
-					            ].join(":"));
-					            setTimeout(methods.displayTime, 500);
-					        },
-					        leadZeros: function (time, width) {
-					            while (String(time).length < width) {
-					                time = "0" + time;
-					            }
-					            return time;					 
-					        }
+			show : function(obj, time) {
+				var parts = time.split(":"),
+				    newTime = new Date(),
+				    timeDifference = new Date().getTime() - newTime.getTime();
+				newTime.setHours(parseInt(parts[0], 10));
+				newTime.setMinutes(parseInt(parts[1], 10));
+				newTime.setSeconds(parseInt(parts[2], 10));
+				var methods = {
+					displayTime : function() {
+						var now = new Date(new Date().getTime() - timeDifference);
+						obj.text([methods.leadZeros(now.getHours(), 2), methods.leadZeros(now.getMinutes(), 2), methods.leadZeros(now.getSeconds(), 2)].join(":"));
+						setTimeout(methods.displayTime, 500);
+					},
+					leadZeros : function(time, width) {
+						while (String(time).length < width) {
+							time = "0" + time;
+						}
+						return time;
 					}
-				  methods.displayTime();
-			  },
+				};
+				methods.displayTime();
+			},
 		};
-
 		var Language = Mcwork.Language = {
 			translate : function(key, str) {
 				return this.get(key, str);
 			},
-
 			datatable : function(key) {
 				Language.init();
 				if (Translations.hasOwnProperty(key)) {
@@ -1183,7 +1143,6 @@
 					return null;
 				}
 			},
-
 			get : function(key, str) {
 				Language.init();
 				if (Translations.hasOwnProperty(key)) {
@@ -1196,9 +1155,7 @@
 					}
 				}
 				return str;
-
 			},
-
 			set : function(options) {
 				var defaults = {
 					language : false,
@@ -1213,11 +1170,8 @@
 				} else {
 					translation = opts.translations['de_DE'];
 				}
-
 				return translation;
-
 			},
-
 			init : function() {
 				if (null == Translations) {
 					Translations = this.set({
@@ -1225,9 +1179,7 @@
 					});
 				}
 			},
-
 			locale : function(lang) {
-
 				lang = lang.replace(/-/, '_').toLowerCase();
 				if (lang.length > 3) {
 					lang = lang.substring(0, 3) + lang.substring(3).toUpperCase();
@@ -1235,10 +1187,7 @@
 				return lang;
 			},
 		};
-
 		return Mcwork;
-
 	})
 );
-
 $(document).foundation();

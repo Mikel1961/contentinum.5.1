@@ -1,47 +1,32 @@
-
-
-
 (function ($){
 	$.fn.McworkViewAndSelectFiles = function(options, app) {
-		
-		app.configuration('/mcwork/medias/configuration', 'options');
-		
-		$( Mcwork.std_modal ).attr('role','dialog'); //role="dialog" aria-labelledby="myDialog"
-		$( Mcwork.std_modal ).attr('aria-labelledby','modal');
-		$( Mcwork.std_modal ).html(app.view());
-		$( Mcwork.std_modal ).foundation('reveal', 'open');		
-		
-		$.get('/mcwork/services/application/dirlist', function(data) {
-			$('#dir-links').html(data);
-		});	
-		
-		app.ls('', {});
-		
+		app.view();
+		var opts = {};
+		opts.url = '/mcwork/services/application/dirlist';	
+		var dirlist = Mcwork.Server.request(opts);
+		$('#dir-links').html(dirlist);
+		app.setApplication('/mcwork/services/application/explorer');
+		app.ls();
 		$(document.body).on('click', ".setlink", function(ev) {
 			ev.preventDefault();
 			ev.stopImmediatePropagation();
-			app.ls($(this).attr('data-link'), {} );
+			app.setDirectory($(this).attr('data-link'));
+			app.ls();
 		});	
-		
 		$(document.body).on('click', ".thisMediaElement", function(ev) {
 			ev.preventDefault();
 			ev.stopImmediatePropagation();
 			$('#webMediasId').val($(this).attr('data-ident'));
 			$('#webMediasId').trigger("chosen:updated");
 			delete app;
-			$(Mcwork.std_modal).foundation('reveal', 'close');			
-		});			
-		
+			$(Mcwork.Modals.getStdModal()).foundation('reveal', 'close');		
+		});	
 		$(document.body).on('click', '#cancel-button', function(ev) {
 			delete app;
-			$(Mcwork.std_modal).foundation('reveal', 'close');
+			$(Mcwork.Modals.getStdModal()).foundation('reveal', 'close');
 		});					
-		
 	};
-	
-})(jQuery);	
-
-
+})(jQuery);
 var McworkFormValidators = {
 	
 	messages : {},
@@ -788,7 +773,10 @@ $(document).ready(function() {
 		});
 	}
 	
-	
+	$('#viewSelectFile').click(function(ev){
+		ev.preventDefault();
+		$().McworkViewAndSelectFiles({},Mcwork.Explorer);
+	});	
 
 	var app = McworkFormValidation;
 	$('#mcworkForm').Mcworkhtml5FormValidate({build : true }, app);	

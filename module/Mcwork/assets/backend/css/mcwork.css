@@ -277,6 +277,14 @@ form#mcworkForm {
 	margin: 0 0.5em 0.5em 0;
 }
 
+.exlporer-element span.explorer-item {
+	display: block;
+	height: 150px;
+	width:200px;
+	overflow: hidden;
+	text-align: center;
+}
+
 .exlporer-element a {
 	display: block;
 }

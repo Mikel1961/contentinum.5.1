@@ -273,6 +273,25 @@ abstract class AbstractFileSystem extends StorageDirectory
             $this->setEntity($entity);
         }
     
+    }  
+
+    /**
+     * Check is this file icon avaibale and return
+     * or check if a standard is available and return this
+     * otherwise return false
+     *
+     * @param string $key
+     * @return multitype:|boolean
+     */
+    public function isFileIcon($key)
+    {
+        if (! empty($this->fileIcons) && isset($this->fileIcons[$key])) {
+            return $this->fileIcons[$key];
+        } elseif (! empty($this->fileIcons) && isset($this->fileIcons['file'])) {
+            return $this->fileIcons['file'];
+        } else {
+            return false;
+        }
     }    
     
 }
