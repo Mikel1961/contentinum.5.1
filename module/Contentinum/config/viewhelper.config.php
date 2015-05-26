@@ -10,6 +10,7 @@ return array(
         
         'navigationcontentinum' => 'Contentinum\View\Helper\Navigation\Contentinum',
         'buildsmultilevel' => 'Contentinum\View\Helper\Navigation\Builds\Multilevel',
+        'buildsmmenu' => 'Contentinum\View\Helper\Navigation\Builds\Mmenu',
         
         'navigationbuild' => 'Contentinum\View\Helper\Navigation\Build',
         'navigationtopbar'  => 'Contentinum\View\Helper\Navigation\Topbar',
@@ -50,6 +51,7 @@ return array(
         'mediagroup' => 'Contentinum\View\Helper\Medias\Group',
         'lightboxgallery' => 'Contentinum\View\Helper\Medias\LightboxGallery',
         'cameragallery' => 'Contentinum\View\Helper\Medias\CameraGallery',
+        'caroufredsel' => 'Contentinum\View\Helper\Medias\CarouFredSelGallery',
         'filegroup' => 'Contentinum\View\Helper\Files\Group',
         
         

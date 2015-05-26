@@ -27,49 +27,98 @@
  */
 namespace Contentinum\View\Helper\Styles;
 
-use Zend\View\Helper\AbstractHelper;
+
 use ContentinumComponents\Html\HtmlElements;
 use ContentinumComponents\Html\Element\FactoryElement;
+use Contentinum\View\Helper\AbstractContentHelper;
 
-class Grid extends AbstractHelper
+class Grid extends AbstractContentHelper
 {
 
-    private $grids;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $grids;
 
-    private $auto;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $auto;
 
-    private $row;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $row;
 
-    private $attribute;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $attribute;
 
-    private $grid;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $grid;
 
-    private $gridAttribute;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $gridAttribute;
 
-    private $content;
+    /**
+     * 
+     * @var unknown
+     */
+    protected $content;
+    
+    /**
+     * 
+     * @var unknown
+     */
+    protected $inner;
 
-    private $properties = array(
+    /**
+     * 
+     * @var unknown
+     */
+    protected $properties = array(
         'grids',
         'auto',
         'row',
         'attribute',
         'grid',
         'gridAttribute',
-        'content'
+        'content',
+        'inner',
     );
 
+    /**
+     * 
+     * @param array $content
+     * @param array $template
+     * @param unknown $medias
+     * @param unknown $widgets
+     * @param array $specified
+     * @return Ambigous <string, multitype:>
+     */
     public function __invoke(array $content, array $template, $medias, $widgets, array $specified = null)
     {
         $this->setTemplate($template);
-        if (null !== $specified) {
-            $this->setSpecified($specified);
-        }
+
         $number = ($this->grids / count($content['entries']));
         $i = 0;
         
         $factory = new HtmlElements(new FactoryElement());
         $factory->setEncloseTag($this->row);
         $factory->setAttributes(false, $this->attribute);
+        
+        
         foreach ($content['entries'] as $row) {
             if (isset($row['groupElement']) && strlen($row['groupElement']) > 0) {
                 $element = $row['groupElement'];
@@ -90,13 +139,25 @@ class Grid extends AbstractHelper
             
             $factory->setContentTag($element);
             $factory->setTagAttributtes(false, $attribute, $i);
-            $factory->setHtmlContent($this->view->contribution(array('entries' => array($row)),$medias,$widgets));
+            
+            $contribution = $this->view->contribution(array('entries' => array($row)),$medias,$widgets);
+            if (!empty($this->inner)){
+                $contribution = $this->deployRow($this->inner, $contribution);
+            }
+            
+            $factory->setHtmlContent($contribution);
             $i ++;
         }
         $this->unsetProperties();
         return $factory->display();
     }
 
+    /**
+     * 
+     * @param unknown $i
+     * @param unknown $number
+     * @return mixed
+     */
     protected function getReplaceStdAttribute($i, $number)
     {
         if (isset($this->gridAttribute[$i])) {
@@ -111,33 +172,4 @@ class Grid extends AbstractHelper
         
         return $attribute;
     }
-
-    protected function setSpecified($specified)
-    {
-        foreach ($specified as $key => $values) {
-            if (in_array($key, $this->properties)) {
-                if (is_array($this->{$key})) {
-                    $this->{$key} = array_merge($this->{$key}, $values);
-                } else {
-                    $this->{$key} = $values;
-                }
-            }
-        }
-    }
-
-    protected function setTemplate($template)
-    {
-        foreach ($template as $key => $values) {
-            if (in_array($key, $this->properties)) {
-                $this->{$key} = $values;
-            }
-        }
-    }
-    
-    protected function unsetProperties()
-    {
-        foreach ($this->properties as $prop) {
-            $this->{$prop} = null;
-        }
-    }    
 }

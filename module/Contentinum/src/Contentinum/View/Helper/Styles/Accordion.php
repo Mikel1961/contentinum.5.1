@@ -27,33 +27,67 @@
  */
 namespace Contentinum\View\Helper\Styles;
 
-use Zend\View\Helper\AbstractHelper;
-use ContentinumComponents\Html\HtmlElements;
-use ContentinumComponents\Html\Element\FactoryElement;
 use ContentinumComponents\Filter\Url\Prepare;
-use ContentinumComponents\Html\HtmlAttribute;
+use Contentinum\View\Helper\AbstractContentHelper;
 
-class Accordion extends AbstractHelper
+class Accordion extends AbstractContentHelper
 {
-    /**
-     * 
-     * @var array
-     */
-    private $body;
-    
-    /**
-     * 
-     * @var array
-     */
-    private $content;
+    const VIEW_TEMPLATE = 'accordion';
     
     /**
      *
      * @var array
      */
-    private $properties = array(
+    protected $wrapper;    
+    
+    /**
+     * 
+     * @var array
+     */
+    protected $body;
+    
+    /**
+     * 
+     * @var unknown
+     */
+    protected $header;
+    
+    /**
+     * 
+     * @var array
+     */
+    protected $content;
+    
+    /**
+     * 
+     * @var array
+     */
+    protected $contenttab;
+    
+    /**
+     * 
+     * @var string
+     */
+    protected $framework;
+        
+    /**
+     * 
+     * @var string
+     */
+    protected $active;
+    
+    /**
+     *
+     * @var array
+     */
+    protected $properties = array(
+        'wrapper',
         'body',
-        'content'
+        'header',
+        'content',
+        'contenttab',
+        'framework',
+        'active'
     );
 
     /**
@@ -65,121 +99,78 @@ class Accordion extends AbstractHelper
      * @param array $specified
      * @return Ambigous <string, multitype:>
      */
-    public function __invoke(array $content, array $template, $medias, $widgets, array $specified = null)
+    public function __invoke(array $entries, array $template, $medias, $widgets, array $specified = null)
     {
-        $this->setTemplate($template);
-        if (null !== $specified) {
-            $this->setSpecified($specified);
+        if (is_array($template) && !empty($template)){
+             $this->setTemplate($template);
+        } else {
+            $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
+            if (isset($viewTemplate[self::VIEW_TEMPLATE])) {
+                $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
+            }
         }
-        $str = '';
         $i = 0;
         $filter = new Prepare();
-        $grid = $this->getTemplateProperty('body', 'grid', 'element');
-        
-        $bodyContent = $this->getTemplateProperty('body', 'content', 'element');
-        foreach ($content['entries'] as $entry) {
-            $attr = $this->getTemplateProperty('body', 'grid', 'attr');
-            $panelId = $filter->filter($entry['title']);
-            $str .= '<' . $grid;
-            if (0 === $i) {
-                $attr['class'] = $attr['class'] . ' active';
-                $attr['aria-hidden'] = 'false';
-            } else {
-                $attr['aria-hidden'] = 'true';
-            }            
-            $str .= HtmlAttribute::attributeArray($attr) . '>';
-                       
-            if (0 === $i) {
-                $str .= '<a href="#' . $panelId . '" role="tab" tabindex="0" aria-selected="true" controls="' . $panelId . '">' . $entry['title'] . '</a>';
-            } else {
-                $str .= '<a href="#' . $panelId . '" role="tab" tabindex="0" aria-selected="false" controls="' . $panelId . '">' . $entry['title'] . '</a>';
+        $accordion = '';
+        foreach ($entries['entries'] as $entry) {
+            $ident = $filter->filter($entry['title']);
+            $content = $this->content;
+            if ( 'bootstrap' === $this->framework ) {
+         
+                $content['row']['attr']['id'] .= $ident;
+                $content['row']['attr']['aria-labelledby'] = $ident;
+                if (0 === $i){
+                    $content['row']['attr']['class'] .= ' in';
+                }
+             } else {
+                $content['grid']['attr']['id'] = $ident; 
+                if (false !== $this->active && 0 === $i){
+                    $content['grid']['attr']['class'] = $content['grid']['attr']['class'] . ' ' . $this->active;
+                }
             }
             
-            $str .= '<' . $bodyContent;
-            $attr = false;
-            $attr = $this->getTemplateProperty('body', 'content', 'attr');
-            
-            if (0 === $i) {
-                $attr['class'] = $attr['class'] . ' active';
-            }            
-            
-            $attr['id'] = $panelId;
-            $str .= HtmlAttribute::attributeArray($attr) . '>';
-            $str .= $this->view->contribution(array(
+            $str = $this->deployRow($content, $this->view->contribution(array(
                 'entries' => array(
                     $entry
                 )
-            ), $medias, $widgets);
-            $str .= '</'.$bodyContent.'></' . $grid . '>';
-            $attr = false;
-            $i ++;
-        }
-        $attr = false;
-        
-        $factory = new HtmlElements(new FactoryElement());
-        $row = $this->getTemplateProperty('body', 'row', 'element');
-        
-        if ($row) {
-            $factory->setContentTag($row);
-            $attr = $this->getTemplateProperty('body', 'row', 'attr');
-            if (false !== $attr) {
-                $factory->setTagAttributtes(false, $attr, 0);
-                $attr = false;
-            }
-        }
-        
-        $factory->setHtmlContent($str);
-        $str = '';
-        $accordion = $factory->display();
-       
-        return $accordion;
-    }
+            ), $medias, $widgets));
+            $content = array();
 
-    /**
-     * Merge own format datas with template data
-     * @param unknown $specified
-     */
-    protected function setSpecified($specified)
-    {
-        foreach ($specified as $key => $values) {
-            if (in_array($key, $this->properties)) {
-                if (is_array($this->{$key})) {
-                    $this->{$key} = array_merge($this->{$key}, $values);
-                } else {
-                    $this->{$key} = $values;
+            if ( 'bootstrap' === $this->framework ) {
+                
+        
+                $contenttab = $this->contenttab;
+                if (0 === $i){
+                    $contenttab['grid']['attr']['data-toggle'] = 'collapse';
+                    $contenttab['grid']['attr']['aria-expanded'] = 'true';
                 }
-            }
-        }
-    }
+                $contenttab['grid']['attr']['href'] .= $ident;
+                $contenttab['grid']['attr']['aria-controls'] .= $ident;
+                $header = $this->header;
+                $header['grid']['attr']['id'] = $ident;
+                $panelHeader = $this->deployRow($header, $this->deployRow($contenttab, $entry['title']));
+                $panelContent = $str;
+                $accordion .= $this->deployRow($this->body, $panelHeader . $panelContent);
+                $contenttab = array();
+                $body = array();
+            } else {
 
-    /**
-     * Get template properties
-     * @param unknown $prop
-     * @param unknown $key
-     * @return boolean
-     */
-    protected function getTemplateProperty($prop, $key, $element)
-    {
-        if (isset($this->{$prop}[$key])) {
-            $part = $this->{$prop}[$key];
-            if (isset($part[$element])) {
-                return $part[$element];
+                $body = $this->body;
+                $body['grid']['content:after:outside'] = $str;
+                $body['grid']['attr']['controls'] = $ident;
+                $body['grid']['attr']['href'] = '#' . $ident;            
+                if (0 === $i){
+                    $body['grid']['attr']['aria-selected'] = 'true';                             
+                    $body['row']['attr']['aria-hidden'] = 'false';
+                }
+                $accordion .= $this->deployRow($body, $entry['title']);
+            
             }
-        } else {
-            return false;
+            var_dump($i);
+            $i++;
         }
-    }
+        
+        return $this->deployRow($this->wrapper, $accordion);
 
-    /**
-     * Set and assig teplate to different properties
-     * @param unknown $template
-     */
-    protected function setTemplate($template)
-    {
-        foreach ($template as $key => $values) {
-            if (in_array($key, $this->properties)) {
-                $this->{$key} = $values;
-            }
-        }
     }
 }

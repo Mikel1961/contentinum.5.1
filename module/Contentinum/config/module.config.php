@@ -1183,6 +1183,7 @@ return array(
                                     'url' => '/mcwork/services/application/valueoptions',
                                     'data' => array(
                                         'entity' => 'Contentinum\Entity\WebMediaGroup',
+                                        'sortby' => array('groupName' => 'ASC'),
                                         'prepare' => 'select',
                                         'value' => 'id',
                                         'label' => 'groupName'

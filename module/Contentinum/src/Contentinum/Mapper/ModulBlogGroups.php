@@ -88,6 +88,7 @@ class ModulBlogGroups extends AbstractModuls
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
         $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
         $sql .= "WHERE ({$orWhere}) ";
+        $sql .= "AND mainContent.publish = 'yes' ";
         $sql .= "ORDER BY main.publish_date DESC ";
         $sql .= "LIMIT 0,{$limit} ";
         return $this->fetchAll($sql);

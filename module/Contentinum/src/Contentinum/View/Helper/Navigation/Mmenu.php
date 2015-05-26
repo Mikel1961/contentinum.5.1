@@ -43,7 +43,7 @@ class Mmenu extends AbstractContentHelper
     {
         $navlist = $entry['modulContent']['nav'];
         $container = new \Zend\Navigation\Navigation($navlist);
-        $html = $this->view->navigation($container)->setAcl($this->view->acl)->setRole($this->view->role);
+        $html = $this->view->buildsmmenu($container)->setAcl($this->view->acl)->setRole($this->view->role);        
         return $html;
     }
 }

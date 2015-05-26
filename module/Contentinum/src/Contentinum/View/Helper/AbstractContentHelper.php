@@ -199,6 +199,10 @@ abstract class AbstractContentHelper extends AbstractHelper
                     $before = $pattern['grid']['content:before'];
                 }                              
                 $html .= $this->view->contentelement($pattern['grid']['element'],$before . $content . $after ,$attr);
+                if (isset($pattern['grid']['content:after:outside'])){
+                    $html .= $pattern['grid']['content:after:outside'];
+                }
+                
             }
             
             if (isset($pattern['row'])){

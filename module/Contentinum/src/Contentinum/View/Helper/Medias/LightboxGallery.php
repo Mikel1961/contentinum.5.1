@@ -32,34 +32,49 @@ use ContentinumComponents\Html\HtmlAttribute;
 
 class LightboxGallery extends AbstractContentHelper
 {
+
     const VIEW_TEMPLATE = 'mediablocklightgallery';
 
     /**
      *
      * @var unknown
      */
-    protected $row;
+    protected $wrapper;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $elements;
     
     /**
      *
      * @var unknown
      */
-    protected $grid;
-    
+    protected $link;    
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $caption;
+
     /**
      *
      * @var unknown
      */
     protected $properties = array(
-        'row',
-        'grid',
+        'wrapper',
+        'elements',
+        'link',
+        'caption'
     );
 
     /**
-     * 
-     * @param array $entry
-     * @param unknown $medias
-     * @param unknown $template
+     *
+     * @param array $entry            
+     * @param unknown $medias            
+     * @param unknown $template            
      * @return unknown
      */
     public function __invoke(array $entry, $medias, $template)
@@ -67,32 +82,30 @@ class LightboxGallery extends AbstractContentHelper
         $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
         if (isset($viewTemplate[$entry['modulFormat']])) {
             $this->setTemplate($viewTemplate[$entry['modulFormat']]);
-        } elseif ( isset($viewTemplate[self::VIEW_TEMPLATE])) {
+        } elseif (isset($viewTemplate[self::VIEW_TEMPLATE])) {
             $this->setTemplate(self::VIEW_TEMPLATE);
         } else {
             return '<p style="font-weight:bold;color:red">Template configuration error</p>';
-        }  
-        $grid = $this->getTemplateProperty('grid', 'element');
-        $attr = $this->getTemplateProperty('grid', 'attr');
-        $attr = HtmlAttribute::attributeArray($attr->toArray());
-        $list = '';
-        $host = $this->view->protocol + '://' . $this->view->host; 
-        foreach ($entry['modulContent'] as $media => $entryRow){
-            $list .= '<' . $grid . $attr . '>';
-            $list .= '<figure class="mediagroup-list-item-figure">';
-            $img = '<img src="' . $media . '" alt="'.$entryRow['attr']['alt'].'" />';
-            $a = '<a href="' .  $media . '" data-groupname="'. $entryRow['name'] .'"';
-            if (isset($entryRow['caption'])){
-                $a .= ' title="' . $entryRow['caption'] . '">';
-                $list .= $img . '</a><figcaption class="mediagroup-list-item-figcaption">';
-                $list .= $entryRow['caption'] . '</figcaption>';
-            } else {
-                $list .= $a . '>' . $img . '</a>';
-            }           
-            $list .= '</figure></' . $grid . '>';
         }
-        $attr = $this->getTemplateProperty('row', 'attr');
-        $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list,$attr->toArray() );
-        return $html;
-    }  
+        $list = '';
+        $host = $this->view->protocol + '://' . $this->view->host;
+        foreach ($entry['modulContent'] as $media => $entryRow) {
+            
+            $img = '<img src="' . $media . '" alt="' . $entryRow['attr']['alt'] . '" />';
+            $title = $entryRow['attr']['alt'];
+            if (isset($entryRow['caption'])) {
+                $title = $entryRow['caption'];
+                if (is_array($this->caption) && ! empty($this->caption)) {
+                    $img .= $this->deployRow($this->caption, $entryRow['caption']);
+                }
+            }
+            $link = $this->link->toArray();
+            $link['grid']['attr']['title'] = $title;
+            $link['grid']['attr']['data-groupname'] = $entryRow['name'];
+            $link['grid']['attr']['href'] = $media;
+
+            $list .= $this->deployRow($this->elements, $this->deployRow($link, $img) );
+        }
+        return $this->deployRow($this->wrapper, $list);
+    }
 }

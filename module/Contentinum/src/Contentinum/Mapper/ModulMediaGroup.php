@@ -75,6 +75,12 @@ class ModulMediaGroup extends AbstractModuls
             if (isset($metas['caption'])){
                 $result[$entry->webMediasId->mediaLink]['caption'] = $metas['caption'];
             }
+            if (isset($metas['description'])){
+                $result[$entry->webMediasId->mediaLink]['description'] = $metas['description'];
+            }
+            if (isset($metas['longdescription'])){
+                $result[$entry->webMediasId->mediaLink]['longdescription'] = $metas['longdescription'];
+            }                        
         }
         return $result;
     }    

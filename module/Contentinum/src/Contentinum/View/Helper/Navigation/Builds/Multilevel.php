@@ -32,7 +32,6 @@ use Zend\View\Helper\Navigation\Menu;
 use RecursiveIteratorIterator;
 use Zend\Navigation\AbstractContainer;
 use Zend\Navigation\Page\AbstractPage;
-use ContentinumComponents\Html\HtmlAttribute;
 
 /**
  * Copy method renderNormalMenu() and htmlify()
@@ -139,8 +138,8 @@ class Multilevel extends Menu
                     $ulClass = ' class="' . $ulClass . '"';
                     $ulIdent = '';
                 } else {
-                    $ulClass = ( isset($this->attr['listHasDropdown']) ) ? ' class="' . $this->attr['listHasDropdown'] . '"' : '';
-                    $ulIdent = ' id="subIdent' . $page->get('aIdent') . '"';
+                    $ulClass = ( isset($this->attr['subUlClass']) ) ? ' class="' . $this->attr['subUlClass'] . '"' : '';
+                    $ulIdent = ' data-ident="subIdent' . $page->get('aIdent') . '"';
 
                 }
                 $html .= $myIndent . '<ul'. $ulIdent . $ulClass . '>' . self::EOL;

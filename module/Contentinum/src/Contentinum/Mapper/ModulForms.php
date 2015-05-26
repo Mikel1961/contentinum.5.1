@@ -149,6 +149,7 @@ class ModulForms extends AbstractModuls
         $field['attributes'] = array();        
         $field['options'] = array();        
         $field['name'] = $entry->fieldName;
+        $field['attributes'] = $this->formFactory->getDecorators('deco-attr-elements');
         if ('yes' === $entry->fieldRequired){
             $field['required'] = true;
             $field['attributes']['required'] = 'required';
@@ -199,9 +200,12 @@ class ModulForms extends AbstractModuls
         }
         
         if ( strlen($entry->fieldclass) > 1 ){
-            $field['attributes']['class'] = $entry->fieldclass;
+            if ( isset($field['attributes']['class']) ){
+                $field['attributes']['class'] = $field['attributes']['class'] . ' ' . $entry->fieldclass;
+            } else {
+                $field['attributes']['class'] = $entry->fieldclass;
+            }
         }        
-        
         return array('spec' => $field);
     }
     
@@ -234,6 +238,12 @@ class ModulForms extends AbstractModuls
      */
     private function createButton()
     {
+        
+        $btn = $this->formFactory->getDecorators('deco-row-button');
+        if ( isset($btn['spec']) ){
+            return $btn;
+        } else {
+        
         return array(
             'spec' => array(
                 'name' => 'send',
@@ -244,5 +254,7 @@ class ModulForms extends AbstractModuls
                 )
             )
         );
+        
+        }
     }
 }

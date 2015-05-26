@@ -55,7 +55,7 @@ class Group extends AbstractContentHelper
         'row',
         'grid'
     );
-
+    
     /**
      *
      * @param array $entry            
@@ -69,6 +69,8 @@ class Group extends AbstractContentHelper
             return $this->view->lightboxgallery($entry, $medias, $template);
         } elseif (strpos($entry['modulFormat'], 'cameragallery') !== false) {
             return $this->view->cameragallery($entry, $medias, $template);
+        } elseif (strpos($entry['modulFormat'], 'caroufredsel') !== false) {
+            return $this->view->caroufredsel($entry, $medias, $template);
         } else {
             
             $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];

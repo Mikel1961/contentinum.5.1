@@ -141,14 +141,15 @@ class ModulBlog extends AbstractModuls
         $sql .= "FROM web_content_groups AS main ";
         $sql .= "LEFT JOIN web_content AS mainContent ON mainContent.id = main.web_content_id ";
         $sql .= "LEFT JOIN web_pages_parameter AS pageParams ON pageParams.id = main.content_group_page ";
+        $sql .= "WHERE mainContent.publish = 'yes' ";
         if ($this->article && 'archive' !== $this->article) {
-            $sql .= "WHERE mainContent.source = '" . $this->article . "' ";
+            $sql .= "AND mainContent.source = '" . $this->article . "' ";
         } elseif ($this->article && 'archive' === $this->article && $this->category) {
-            $sql .= "WHERE main.web_contentgroup_id = '" . $id . "' ";
+            $sql .= "AND main.web_contentgroup_id = '" . $id . "' ";
             $sql .= "AND main.publish_date LIKE '" . $this->category . "%' ";
             $sql .= "ORDER BY main.publish_date DESC ";
         } else {
-            $sql .= "WHERE main.web_contentgroup_id = '" . $id . "' ";
+            $sql .= "AND main.web_contentgroup_id = '" . $id . "' ";
             $sql .= "ORDER BY main.publish_date DESC ";
             $sql .= "LIMIT 0,{$limit} ";
         }
