@@ -32,6 +32,18 @@ use ContentinumComponents\Mapper\Process;
 
 class Dates extends Process
 {
+    const ENTITY_MODEL = 'Mcevent\Entity\MceventDates';    
+
+    /**
+     * Get entity name to have access of the publish property
+     *
+     * @return string
+     */
+    public function getPublishEntity()
+    {
+        return self::ENTITY_MODEL;
+    }    
+    
     /**
      * Prepare datas before save
      *

@@ -114,10 +114,16 @@ return array(
         'resource' => 'publisherresource',
         'headTitle' => 'Termin erstellen',
         'headline' => 'Termin erstellen',
-        'template' => 'forms/maps',
+        'template' => 'forms/dates',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
-        'tableedit' => 1,     
+        'tableedit' => 1,  
+        'bodyScriptFiles' => array(
+            'append' => array(
+                '/assets/app/tinymce/tinymce.min.js',
+                '/assets/app/tinymce/mcwork/event.js',
+            )
+        ),           
         'app' => array(
             'controller' => 'Mcwork\Controller\AddFormController',
             'worker' => 'Mcevent\Model\Save\Dates',
@@ -141,10 +147,16 @@ return array(
         'resource' => 'publisherresource',
         'headTitle' => 'Termin bearbeiten',
         'headline' => 'Termin bearbeiten',
-        'template' => 'forms/maps',
+        'template' => 'forms/dates',
         'layout' => 'mcwork/layout/admin',
         'toolbar' => 1,
-        'tableedit' => 1,       
+        'tableedit' => 1,  
+        'bodyScriptFiles' => array(
+            'append' => array(
+                '/assets/app/tinymce/tinymce.min.js',
+                '/assets/app/tinymce/mcwork/event.js',
+            )
+        ),       
         'app' => array(
             'controller' => 'Mcwork\Controller\EditFormController',
             'worker' => 'Mcevent\Model\Save\Dates',
@@ -164,9 +176,9 @@ return array(
         'resource' => 'publisherresource',
         'app' => array(
             'controller' => 'Mcwork\Controller\DeleteController',
-            'worker' => 'Mcwork\Model\Delete\Pending',
+            'worker' => 'Mcwork\Model\Delete\EntriesPublish',
             'entity' => 'Mcevent\Entity\MceventDates',
-            'settoroute' => '/mcwork/eventdate'
+            'settoroute' => '/mcevent/eventdate'
         )
     ), 
 

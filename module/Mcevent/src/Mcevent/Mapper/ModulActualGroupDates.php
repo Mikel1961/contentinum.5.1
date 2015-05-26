@@ -65,12 +65,12 @@ class ModulActualGroupDates extends AbstractModuls
         $builder->from(self::ENTITY_NAME , 'main');
         $builder->where("main.dateStart >= '" . date('Y-m-d') . " 00:00:00'");
         $builder->andWhere($orWhere);
+        $builder->andWhere("main.publish = 'yes'");
         $builder->add('orderBy', 'main.dateStart ASC');
         
         if (null != $this->configure['modulDisplay']) {
             $builder->setMaxResults( $this->configure['modulDisplay'] );
         }
-        //var_dump($builder->getQuery()->getSQL());exit;
         return $builder->getQuery()->getResult();        
     }
     

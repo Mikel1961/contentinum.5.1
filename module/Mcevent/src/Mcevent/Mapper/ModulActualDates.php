@@ -58,8 +58,10 @@ class ModulActualDates extends AbstractModuls
         $builder->from(self::ENTITY_NAME , 'main');
         $builder->where('main.calendar = :id');
         $builder->andWhere('main.dateStart >= :id2');
+        $builder->andWhere('main.publish = :id3');
         $builder->setParameter('id', $id);
         $builder->setParameter('id2', date('Y-m-d') . ' 00:00:00');
+        $builder->setParameter('id3', 'yes');
         $builder->add('orderBy', 'main.dateStart ASC');
         
         if (null != $this->configure['modulDisplay']) {

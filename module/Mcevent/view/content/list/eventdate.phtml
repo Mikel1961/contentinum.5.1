@@ -39,6 +39,14 @@ $headlines = array(
     '#' => array(),
     'Termine' => array(),
     'Datum' => array(),
+    'Publish' => array(
+        'head' => array(
+            'class' => 'text-center'
+        ),
+        'body' => array(
+            'class' => 'text-center'
+        )
+    ),    
     'Edit' => array(
         'head' => array(
             'class' => 'hide-for-small text-right'
@@ -78,7 +86,7 @@ foreach ($this->entries as $entry) {
     $rowContent[] = $entry->summary;
     $datetime = new \DateTime($entry->dateStart);
     $rowContent[] = '<time>' . $this->dateFormat(new \DateTime($entry->dateStart), \IntlDateFormatter::FULL) . ', ' . $datetime->format("H:i") . '</time>';
-    
+    $rowContent[] = $this->mcworkPublishItem($entry->publish,$entry->id,'Mcevent\Model\Save\Dates');
     $props = array(
         'edit' => array(
             'href' => '/mcevent/' . $ctrlpath . '/edit/' . $entry->id,

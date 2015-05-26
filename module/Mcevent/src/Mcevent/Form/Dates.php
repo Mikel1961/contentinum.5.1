@@ -36,6 +36,23 @@ use ContentinumComponents\Forms\AbstractForms;
  */
 class Dates extends AbstractForms
 {
+    
+    /**
+     * User friendly function for tab header
+     * @return string
+     */
+    protected function tabHeader()
+    {
+        $translation = $this->getServiceLocator()->get('translator');
+        $html = '<dl class="tabs" data-tab="data-tab">';// tab header start
+        $html .= '<dd class="active"><a href="#fieldsetEvent">' . $translation->translate('Event') . '</a></dd>';// tab1
+        $html .= '<dd><a href="#fieldsetDescription">' . $translation->translate('Description and Files') . '</a></dd>';
+        $html .= '<dd><a href="#fieldsetAddress">' . $translation->translate('Event address') . '</a></dd>';// tab2        
+        $html .= '</dl><div class="tabs-content">';// finish and start tab content area
+        return $html;
+    }    
+    
+
 
     /**
      * form field elements
@@ -44,7 +61,24 @@ class Dates extends AbstractForms
      */
     public function elements()
     {
-        return array(           
+        return array( 
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'formpreftab',
+                    'options' => array(
+                        'fieldset' => array(
+                            'nofieldset' => 1
+                        )
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formpreftab',
+                        'value' => $this->tabHeader(),
+                    )
+                )
+            ),            
             
             array(
                 'spec' => array(
@@ -83,22 +117,7 @@ class Dates extends AbstractForms
                 )
             ), 
             
-            array(
-                'spec' => array(
-                    'name' => 'description',
-                    'required' => false,
-                    'options' => array(
-                        'label' => 'Description',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
-                    ),
-                    'type' => 'Textarea',
-                    'attributes' => array(
-                        'rows' => '4',
-                        'id' => 'description',
-                        'class' => 'datedescription',
-                    )
-                )
-            ),            
+          
             
             array(
                 'spec' => array(
@@ -134,57 +153,7 @@ class Dates extends AbstractForms
                 )
             ),  
 
-            array(
-                'spec' => array(
-                    'name' => 'locationAddresse',
-                    'required' => false,
-            
-                    'options' => array(
-                        'label' => 'Veranstaltungsort Straße',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                    ),
-            
-                    'type' => 'Text',
-                    'attributes' => array(
-                        'id' => 'locationAddresse'
-                    )
-                )
-            ),
-            
-            array(
-                'spec' => array(
-                    'name' => 'locationZipcode',
-                    'required' => false,
-            
-                    'options' => array(
-                        'label' => 'Veranstaltungsort Postleitzahl',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                    ),
-            
-                    'type' => 'Text',
-                    'attributes' => array(
-                        'id' => 'locationZipcode'
-                    )
-                )
-            ),            
-            
-
-            array(
-                'spec' => array(
-                    'name' => 'locationCity',
-                    'required' => false,
-            
-                    'options' => array(
-                        'label' => 'Veranstaltungsort Stadt',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                    ),
-            
-                    'type' => 'Text',
-                    'attributes' => array(
-                        'id' => 'locationCity'
-                    )
-                )
-            ),            
+                    
             
             array(
                 'spec' => array(
@@ -228,7 +197,14 @@ class Dates extends AbstractForms
                     'required' => false,
                     'options' => array(
                         'label' => 'Ende Veranstaltung',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),                       
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),  
+                        'fieldset' => array(
+                            'legend' => 'Event',
+                            'attributes' => array(
+                                'class' => 'content active',
+                                'id' => 'fieldsetEvent'// tab1
+                            )
+                        )                                             
                     ),
                     'type' => 'Text',
                     'attributes' => array(
@@ -236,6 +212,147 @@ class Dates extends AbstractForms
                     )
                 )
             ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'webMediasId',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Add images',
+                        'empty_option' => 'Please select',
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'webMediasId',
+                        'class' => 'chosen-select',
+                    )
+                )
+            ),
+            
+
+            array(
+                'spec' => array(
+                    'name' => 'webFilesId',
+                    'required' => true,
+                    'options' => array(
+                        'label' => 'Add a file attachment',
+                        'empty_option' => 'Please select',
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicPdf'),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'required' => 'required',
+                        'id' => 'webFilesId',
+                        'class' => 'chosen-select',
+                    )
+                )
+            ),                      
+            
+            array(
+                'spec' => array(
+                    'name' => 'description',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Description',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Description and Files',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetDescription'// tab1
+                            )
+                        )                        
+                    ),
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '4',
+                        'id' => 'description',
+                        'class' => 'datedescription',
+                    )
+                )
+            ),
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'locationAddresse',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Straße',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationAddresse'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'locationZipcode',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Postleitzahl',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationZipcode'
+                    )
+                )
+            ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'locationCity',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Veranstaltungsort Stadt',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Event address',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetAddress'// tab1
+                            )
+                        )                        
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'locationCity'
+                    )
+                )
+            ),            
+            
+            array(
+                'spec' => array(
+                    'name' => 'formtabend',
+                    'options' => array(
+                        'fieldset' => array(
+                            'nofieldset' => 1
+                        )
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formtabend',
+                        'value' => '</div>'
+                    )
+                )
+            ),            
 
         );
     }
