@@ -16,10 +16,11 @@ requirejs.config({
 	    'jquery.mmenue' : 'jquery/jquery.mmenu.umd.all',
 	    'jquery.tooltip' : 'jquery/jquery.tooltipster.min',
 	    'jquery.vegas' : 'jquery/vegas.min',
+	    'jquery.stellar' : 'jquery/jquery.stellar.min',
 	    'datatables' : 'jquery/jquery.dataTables.min',
 	    'datatable.responsive' : 'datatables/dataTables.responsive.min',
 	    'datatable.highlight' : 'datatables/dataTables.searchHighlight.min',
-	    'contentinum.archiv' : 'contentinum/contentinum.archiv',
+	    'contentinum.archiv' : 'contentinum/contentinum.archiv.r2',
 	    'contentinum.events' : 'contentinum/contentinum.events',
 	    'contentinum.popup' : 'contentinum/contentinum.popup',
 	    'contentinum.tooltip' : 'contentinum/contentinum.tooltipster',
@@ -32,11 +33,16 @@ requirejs.config({
 	    'camera.migrate' : 'jquery/jquery-migrate-1.2.1.min',
 	    'camera.easing' : 'camera/jquery.easing.1.3',
 	    'camera.camera' : 'camera/camera.min',
-	    'camera.ini' : 'camera/init',
+	    'camera.ini' : 'camera/camera.init',
 	    'caroufredsel' : 'caroufredsel/jquery.carouFredSel-6.2.1-packed',
-	    'caroufredsel.plugin.touchswipe' : 'caroufredsel/plugin/jquery.touchSwipe.min',
+	    'caroufredsel.init' : 'caroufredsel/carousel.init',
+	    'caroufredsel.plugin.touchswipe' : 'caroufredsel/plugins/jquery.touchSwipe.min',
 	    'ie10viewport' : 'ie/ie10-viewport-bug-workaround',
 	    'bootstrap' : 'bootstrap/bootstrap.min',
+	    'bootstrap.collapse' : 'bootstrap/collapse',	    
+	    'wow' : 'wow/wow.min',
+	    'wow.init' : 'wow/wow.init',
+	    'device' : 'device/device.min',
 	    'ics.libs': 'ics/ics-libs',
 	    'ics.get': 'ics/getics',		
 	},
@@ -49,6 +55,7 @@ requirejs.config({
 	    'jquery.mmenue': ['jquery'],
 	    'jquery.tooltip' : ['jquery'],
 	    'jquery.vegas' : ['jquery'],
+	    'jquery.stellar' : ['jquery'],
 	    'contentinum.navigation' : ['jquery','jquery.cookie'],
 	    'contentinum.events' : ['jquery'],
 	    'contentinum.archiv' : ['jquery','jquery.cookie'],
@@ -59,16 +66,23 @@ requirejs.config({
 	    'contentinum.tooltip' : ['jquery.tooltip'],
 	    'contentinum.stellar' : ['jquery'],
 	    'camera.ini' : ['jquery','camera.migrate','camera.easing','camera.camera'],
-	    'caroufredsel' : ['jquery','caroufredsel.plugin.touchswipe'],
+	    'caroufredsel' : ['jquery', 'caroufredsel.plugin.touchswipe', 'caroufredsel.init'],
 	    'datatables' : ['jquery'],
 	    'contentinum.datatables' : ['datatables'],
 	    'bootstrap' : ['jquery'], 
+	    'bootstrap.collapse' : ['bootstrap'], 
 	    'ie10viewport' : ['jquery'],
+	    'ics.get': ['jquery','ics.libs'],
+	    'wow' : ['jquery'],
 	}
 	
 });
 
 require(['jquery', 'bootstrap', 'ie10viewport'], function($){
+	
+	if ($('#accordion').length){
+  		require(["jquery", 'bootstrap','bootstrap.collapse'], function( $ ) {});		
+	}
 	
   	if ($("#menu").length) {
   		require(["jquery", 'jquery.mmenue','contentinum.mmenue' ], function( $ ) { 
@@ -76,30 +90,31 @@ require(['jquery', 'bootstrap', 'ie10viewport'], function($){
   		});
 
   	}
+  	if ($(".wow").length) {
+  		require(['jquery', 'wow', 'wow.init'], function( $ ) { 
+			    $().WowInit();			
+  		});   		
+  	}
 	if ($(".sidemenu-list").length) {
   		require(["jquery", 'contentinum.navigation' ], function( $ ) { 
 			    $().ContentinumNavigation();			
   		}); 
 	} 
-	
-	if ($(".carousel").length){
-  		require(['jquery', 'caroufredsel', 'caroufredsel.plugin.touchswipe'], function( $ ) { 
+	if ($("#carousel-list").length){
+  		require(['jquery', 'caroufredsel', 'caroufredsel.plugin.touchswipe', 'caroufredsel.init'], function( $ ) { 
 			    $().CarouselInit();			
   		}); 		
 	}
-	
-	if ($(".camera_wrap").lenght){
+	if ($(".camera_wrap").length){
   		require(['jquery','camera.migrate','camera.easing','camera.camera','camera.ini'], function( $ ) { 
 			    $(".camera_wrap").CameraInit();			
   		}); 		
 	}	
-	
 	if ($(".stellar-section").length) {
-  		require(["jquery", 'contentinum.stellar' ], function( $ ) { 
+  		require(['jquery', 'jquery.stellar', 'contentinum.stellar' ], function( $ ) { 
 			    $().ContentinumStellar();			
   		}); 
-	} 		
-	
+	} 
   	if ( $('.media-popup').length) {
   		require(["jquery", "jquery.popup","contentinum.popup"], function( $ ) {
   			$().ContentinumPopUp();
@@ -117,14 +132,14 @@ require(['jquery', 'bootstrap', 'ie10viewport'], function($){
   	}
   	if ( $('.pluginarchive').length) {
   		require(["jquery", "contentinum.archiv"], function( $ ) {
-  			$('.news-archive-list').ContentinumArchiv();
+  			$().ContentinumArchiv();//'.news-archive-list'
   		});
   	}
 	if ($(".form-customer").length) {
   	  		require(["jquery", "jquery.validate", "jquery.mcworkform"], function( $ ) {
 			    $(".form-customer").validate({
 			    	submitHandler: function(form) {
-			    		$().setDefaults({formIdent : 'formident'});
+			    		$().setDefaults({formIdent : 'formident', panel : 'panel panel-default', panelWarn : 'panel panel-warning', panelSucess : 'panel panel-success', panelBootstrap : true });
 			    		$().FormHandler(form);
 			    	}			 
 			    });

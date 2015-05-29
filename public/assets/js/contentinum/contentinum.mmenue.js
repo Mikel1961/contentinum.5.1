@@ -8,7 +8,7 @@
 		$.extend($.fn, {
 			ContentinumMmenue : function() {				
 				$('#menu').mmenu({
-					extensions: ["theme-dark"]
+					extensions: ["theme-dark"],
 				});
 
 			},
