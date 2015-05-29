@@ -539,6 +539,7 @@ return array(
             'mcwork_clientapp_mediagroup' => 'Mcwork\Service\Templates\MediaGroupServiceFactory',
             'mcwork_clientapp_filegroup' => 'Mcwork\Service\Templates\FileGroupServiceFactory',
             'mcwork_clientapp_navigation' => 'Mcwork\Service\Templates\NavigationServiceFactory',
+            'mcwork_clientapp_newsarchive' => 'Mcwork\Service\Templates\NewsArchiveServiceFactory',
             
             'file_tags' => 'Mcwork\Factory\Model\FsTagsFilesFactory',
             'media_tags' => 'Mcwork\Factory\Model\FsTagsMediasFactory',
@@ -932,6 +933,7 @@ return array(
                             'backend/js/vendor/chosen/chosen.jquery.js',
                             'backend/js/vendor/jquery.datetimepicker.js',                            
                             'backend/js/mcwork.js',
+                            'backend/js/mcwork.form.js',
                         ),
                         'filters' => array(
                             '?JSMinFilter' => array(

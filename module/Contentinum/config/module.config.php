@@ -1598,8 +1598,24 @@ return array(
                         'spec' => array(
                             'name' => 'modulFormat',
                             'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
+                            'options' => array(
+                                'label' => 'Format',
+                                'empty_option' => 'No style',
+                                
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_newsarchive',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),                                
+                                
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
             
                             'attributes' => array(
                                 'id' => 'modulFormat'

@@ -27,52 +27,73 @@
  */
 namespace Contentinum\View\Helper\News\Archive;
 
-use Zend\View\Helper\AbstractHelper;
-use ContentinumComponents\Html\HtmlAttribute;
+use Contentinum\View\Helper\AbstractContentHelper;
 
-
-class Monthly extends AbstractHelper
+class Monthly extends AbstractContentHelper
 {
-    /**
-     * 
-     * @var array
-     */
-    private $list = array('element' => 'ul', 'attr' => array('class' => 'news-archive-list pluginarchive'));
-    
+
+    const VIEW_TEMPLATE = 'newsarchiv';
+
     /**
      *
      * @var unknown
      */
-    private $row = array('element' => 'ul', 'attr' => array('class' => 'news-archive-sublist'));
-    
+    protected $wrapper;
+
     /**
      *
      * @var unknown
      */
-    private $grid = array('element' => 'li', 'attr' => array('class' => 'news-archive-list-item'));
-    
+    protected $elements;
+
     /**
      *
      * @var unknown
      */
-    private $media;
-    
+    protected $format;
+
     /**
      *
      * @var unknown
      */
-    private $content;
-    
+    protected $hassub;
+
     /**
      *
      * @var unknown
      */
-    private $properties = array(
-        'list',
-        'row',
-        'grid',
-        'media',
-        'content'
+    protected $sublistswrapper;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $subwrapper;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $subelements;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $sublists;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $properties = array(
+        'wrapper',
+        'elements',
+        'hassub',
+        'format',
+        'sublistswrapper',
+        'subwrapper',
+        'subelements'
     );
 
     private $monthsname = array(
@@ -92,141 +113,89 @@ class Monthly extends AbstractHelper
 
     /**
      * Build archive list
-     * @param array $content
-     * @param unknown $medias
-     * @param array $template
+     *
+     * @param array $content            
+     * @param unknown $medias            
+     * @param array $template            
      * @return Ambigous <string, multitype:>
      */
     public function __invoke($entries, $medias, $template = null)
     {
-        $row = $this->getTemplateProperty('list', 'element');
-        $html = '';
-        $html .= '<' . $row;
-        if (false !== ($attr = $this->getTemplateProperty('list', 'attr')) ){
-            $html .= HtmlAttribute::attributeArray($attr);
-            $attr = false;
+        $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+        if (isset($viewTemplate[$entries['modulFormat']])) {
+            $this->setTemplate($viewTemplate[$entries['modulFormat']]);
+        } elseif (isset($viewTemplate[self::VIEW_TEMPLATE])) {
+            $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
+        } else {
+            return '<p style="font-weight:bold;color:red">Template configuration error</p>';
         }
-        $html .= '>';
-	 $html .= $this->listitems($entries['modulContent']);
-        $html .= '</' . $row . '>';
+        $html = $this->deployRow($this->wrapper, $this->listitems($entries['modulContent']));
+        switch ($this->format) {
+            case 'block':
+                $html .= $this->deployRow($this->sublistswrapper, $this->sublists);
+                break;
+            default:
+                break;
+        }
         return $html;
-        
     }
-    
+
     /**
      * List years
-     * @param array $entries
+     *
+     * @param array $entries            
      * @return string html
      */
     protected function listitems($entries)
     {
-        $grid = $this->getTemplateProperty('grid', 'element');
-        $row = $this->getTemplateProperty('row', 'element');
-        $html = '';
-        foreach ($entries as $year => $month){
-            $html .= '<' . $grid;
-            $attr = array();
-            if (false !== ($attr = $this->getTemplateProperty('grid', 'attr')) ){
-                $html .= HtmlAttribute::attributeArray($attr);
-            }            
-            $html .= '><a';
-            $attr = array('class' => 'element-toogle', 'data-ident' => $year);
-            $html .= HtmlAttribute::attributeArray($attr);
-            $html .= '>' . $this->view->translate('Year') . ' ' . $year . '</a>'; //
-            $html .= $this->months($year, $month);
-            $html .= '</' . $grid . '>'; 
+        $list = '';
+        foreach ($entries as $year => $month) {
+            $sublist = '';
+            $elements = $this->elements->toArray();
+            $elements['grid']['attr']['href'] = '#';
+            if (false !== ($sublist = $this->months($year, $month))) {
+                $hassub = $this->hassub;
+                if ($hassub) {
+                    $elements['grid']['attr']['class'] = $hassub['attr']['class'] . ' ' . $elements['grid']['attr']['class'];
+                    $elements['grid']['attr']['data-ident'] = $year;
+                }
+            }
+            switch ($this->format) {
+                case 'block':
+                    $this->sublists = $this->sublists . $sublist;
+                    break;
+                case 'standard':
+                default:
+                    $elements['grid']['content:after:outside'] = $sublist;
+                    break;
+            }
+            $list .= $this->deployRow($elements, $this->view->translate('Year') . ' ' . $year);
         }
-        return $html;
+        return $list;
     }
-    
+
     /**
-     * List mounth 
-     * @param interger $year
-     * @param array $month
+     * List mounth
+     *
+     * @param interger $year            
+     * @param array $month            
      * @return string html
      */
     protected function months($year, $month)
     {
-        $grid = $this->getTemplateProperty('grid', 'element');
-        $row = $this->getTemplateProperty('row', 'element');
-        $html = '';
-        $html .= '<' . $row;
-        if (false !== ($attr = $this->getTemplateProperty('row', 'attr')) ){
-            $attr = array_merge($attr, array('id' => $year));
-            $html .= HtmlAttribute::attributeArray($attr);
-            $attr = false;
+        $list = '';
+        foreach ($month as $num => $url) {
+            $subelements = $this->subelements->toArray();
+            $subelements['grid']['attr']['href'] = '/' . $url . '/archive/' . $year . '-' . $num;
+            $list .= $this->deployRow($subelements, $this->monthsname[$num]);
         }
-        $html .= '>';        
-        foreach ($month as $num => $url){
-            $html .= '<' . $grid;
-            $attr = $this->getTemplateProperty('grid', 'attr');
-            $html .= HtmlAttribute::attributeArray($attr);
-            $html .= '><a';
-            $attr = array();
-            $attr['href'] = '/' . $url . '/archive/' . $year . '-' . $num; 
-            $attr['class'] = 'news-archive-list-link';           
-            $html .= HtmlAttribute::attributeArray($attr);
-            $html .= '>' . $this->monthsname[$num] . '</a>';
-            $html .= '</' . $grid . '>';
-        }        
-        $html .= '</' . $row . '>';
-        return $html;
-    }
-    
-    /**
-     * Assign a template
-     * @param unknown $row
-     * @param unknown $template
-     */
-    protected function assignTemplate($row, $template)
-    {
-        if (isset($row['htmlwidgets'])) {
-            if (isset($template[$row['htmlwidgets']])) {
-                $this->setTemplate($template[$row['htmlwidgets']]->toArray());
-            } else {
-                $this->unsetProperties();
-            }
-        }
-    }
-    
-    /**
-     * Get a template property
-     * @param string $prop
-     * @param string $key
-     * @return boolean|array
-     */
-    protected function getTemplateProperty($prop, $key)
-    {
-        if (isset($this->{$prop}[$key])) {
-            return $this->{$prop}[$key];
+        
+        if (strlen($list) > 2) {
+            $subwrapper = $this->subwrapper->toArray();
+            $subwrapper['grid']['attr']['id'] = $year;
+            return $this->deployRow($subwrapper, $list);
         } else {
             return false;
         }
     }
-    
-    /**
-     * Set template properties
-     * @param unknown $template
-     */
-    protected function setTemplate($template)
-    {
-        if (null !== $template) {
-    
-            foreach ($template as $key => $values) {
-                if (in_array($key, $this->properties)) {
-                    $this->{$key} = $values;
-                }
-            }
-        }
-    }
-    
-    /**
-     * unset properties
-     */
-    protected function unsetProperties()
-    {
-        foreach ($this->properties as $prop) {
-            $this->{$prop} = null;
-        }
-    }    
 }

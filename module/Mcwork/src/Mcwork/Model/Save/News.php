@@ -72,6 +72,7 @@ class News extends AbstractContribution
     public function assignGroup($datas, $lastInsertId)
     {
         $row = $this->fetchRow("SELECT * FROM web_content_groups WHERE web_contentgroup_id = '{$datas['webContentgroup']}' AND web_content_id = '1'");
+        
         $insert['name'] = $row['name'];
         $insert['scope'] = $row['scope'];
         $insert['contentGroupName'] = $row['content_group_name'];
@@ -83,8 +84,7 @@ class News extends AbstractContribution
         $insert['publishDate'] = $datas['publishDate'];
         $this->unsetTargetEntities();
         $this->setTargetEntities(array('webContent' => $this->getEntityName()));
-        $this->unsetEntity();
-        parent::save($insert, $this->getSl()->get('Entity\ContentGroups'));
+        parent::save($insert, new \Contentinum\Entity\WebContentGroups());
         
     }
     

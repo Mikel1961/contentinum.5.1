@@ -26,41 +26,219 @@ return array(
         'mediablockgrid' => array(
             'key' => 'mediagroup',
             'name' => 'Media Blockgrid (1-2-3)',
-            'row' => array(
-                'element' => 'ul',
-                'attr' => array(
-                    'class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list'
+            'wrapper' => array(
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'small-block-grid-1 medium-block-grid-2 large-block-grid-3 mediagroup-list'
+                    )
                 )
             ),
-            'grid' => array(
-                'element' => 'li',
-                'attr' => array(
-                    'class' => 'mediagroup-list-item'
+            'elements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'mediagroup-list-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figure',
+                    'attr' => array(
+                        'class' => 'mediagroup-list-item-figure'
+                    )
                 )
-            )
-        )
-        ,
+            ),
+            'caption' => array(
+                'element' => 'figcaption',
+                'attr' => array(
+                    'class' => 'mediagroup-list-item-figcaption'
+                )            
+            ),
+        ),
+        
+        'newsarchiv' => array(
+            'key' => 'newsarchiv',
+            'name' => 'News archiv list',  
+            'format' => 'standard',  
+            'wrapper' => array(
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'news-archive-list pluginarchive'
+                    )
+                ),            
+            ),
+            'elements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'news-archive-list-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'a',
+                    'label' => 'content',
+                    'attr' => array(
+                        'href' => '',
+                        'class' => 'news-archive-list-link'
+                    )
+                )
+            ), 
+            
+            'hassub' => array(
+                 'attr' => array(
+                      'class' => 'element-toogle',
+                      'data-ident' => '',
+                 ),
+            ),
+
+            'subwrapper' => array(
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'news-archive-sublist'
+                    )
+                ),
+            ),
+            'subelements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'news-archive-list-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'a',
+                    'label' => 'content',
+                    'attr' => array(
+                        'href' => '',
+                        'class' => 'news-archive-sublist-link'
+                    )
+                )
+            ),            
+        
+        ), 
+        
+        'newsarchivblock' => array(
+            'key' => 'newsarchiv',
+            'name' => 'News archiv block',
+            'format' => 'block',
+            'wrapper' => array(
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'news-archive-block-container'
+                    )
+                ),                
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'news-archive-block pluginarchive'
+                    )
+                ),
+            ),
+            'elements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'news-archive-list-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'a',
+                    'label' => 'content',
+                    'attr' => array(
+                        'href' => '',
+                        'class' => 'news-archive-list-link'
+                    )
+                )
+            ),
+        
+            'hassub' => array(
+                'attr' => array(
+                    'class' => 'element-toogle',
+                    'data-ident' => '',
+                ),
+            ),
+            
+            'sublistswrapper' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'news-archive-sublistsblock'
+                    )
+                ),
+            ),            
+        
+            'subwrapper' => array(
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'news-archive-sublist'
+                    )
+                ),
+            ),
+            'subelements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'news-archive-block-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'a',
+                    'label' => 'content',
+                    'attr' => array(
+                        'href' => '',
+                        'class' => 'news-archive-sublist-link'
+                    )
+                )
+            ),
+        
+        ),        
         
         'mediablocklightgallery' => array(
             'key' => 'mediagroup',
             'name' => 'Mediagallery Blockgrid (1-2-3)',
-            'row' => array(
-                'element' => 'ul',
-                'attr' => array(
-                    'class' => 'popup-gallery small-block-grid-1 medium-block-grid-2 large-block-grid-3'
+            'wrapper' => array(
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'class' => 'popup-gallery small-block-grid-1 medium-block-grid-2 large-block-grid-3'
+                    )
                 )
             ),
-            'grid' => array(
-                'element' => 'li',
-                'attr' => array(
-                    'class' => 'mediagroup-list-item'
+            'elements' => array(
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array(
+                        'class' => 'mediagroup-list-item'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figure',
+                    'attr' => array(
+                        'class' => 'mediagroup-list-item-figure'
+                    )
+                )
+            ),
+            
+            'link' => array(
+                
+                'grid' => array(
+                    'element' => 'a',
+                    'label' => 'content',
+                    'attr' => array()
                 )
             )
+            ,
+            
+            'caption' => array()
         ),
         
         'cameragallery' => array(
             'key' => 'mediagroup',
-            'name' => 'Camera slideshow (Copyright (c) 2012 by Manuel Masia)', 
+            'name' => 'Camera slideshow (Copyright (c) 2012 by Manuel Masia)',
             'wrapper' => array(
                 'row' => array(
                     'element' => 'div',
@@ -73,11 +251,11 @@ return array(
                     'attr' => array(
                         'class' => 'camera_wrap'
                     )
-                )                
-            ), 
-
-            'imageitem' => array(
+                )
+            ),
             
+            'imageitem' => array(
+                
                 'row' => array(
                     'element' => 'div',
                     'attr' => array(
@@ -89,17 +267,17 @@ return array(
                     'attr' => array(
                         'class' => 'camera-caption fadeIn'
                     )
-                )            
+                )
+            )
+            ,
             
-            ),
-
             'title' => array(
                 'grid' => array(
                     'element' => 'div',
                     'attr' => array(
                         'class' => 'title'
                     )
-                )            
+                )
             ),
             
             'shortdescription' => array(
@@ -108,7 +286,7 @@ return array(
                     'attr' => array(
                         'class' => 'description'
                     )
-                )            
+                )
             ),
             
             'description' => array(
@@ -117,10 +295,100 @@ return array(
                     'attr' => array(
                         'class' => 'dsp'
                     )
-                )            
+                )
+            )
+        )
+        ,
+        'caroufredsel' => array(
+            'key' => 'mediagroup',
+            'name' => 'Carousel Slider (Copyright (c) 2013 Fred Heusschen)',
+            'wrapper' => array(
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'carousel-list-container responsive wow fadeInUp'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'ul',
+                    'attr' => array(
+                        'id' => 'carousel-list'
+                    )
+                )
             ),
-        
-        ),
+            
+            'listitem' => array(
+                
+                'row' => array(
+                    'element' => 'li',
+                    'attr' => array()
+                ),
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'carousel-list-thumbnail'
+                    )
+                )
+            )
+            ,
+            
+            'imageitem' => array(
+                
+                'row' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'thumbnail'
+                    )
+                ),
+                'grid' => array(
+                    'element' => 'figure',
+                    'attr' => array(),
+                    'content:after:outside' => '<img src="/medias/layout/quote.png" alt="">'
+                )
+            )
+            ,
+            
+            'title' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'caption'
+                    )
+                )
+            ),
+            
+            'caption' => array(
+                'grid' => array(
+                    'element' => 'h4',
+                    'attr' => array()
+                )
+            ),
+            
+            'description' => array(
+                'grid' => array(
+                    'element' => 'p',
+                    'attr' => array()
+                )
+            ),
+            
+            'longdescription' => array(
+                'grid' => array(
+                    'element' => 'p',
+                    'attr' => array()
+                )
+            ),
+            
+            'btnrow' => array(
+                'grid' => array(
+                    'element' => 'div',
+                    'attr' => array(
+                        'class' => 'carousel-btn-row'
+                    ),
+                    'content:before' => '<a id="prev2" class="prev2" href="#"></a><a id="next2" class="next2" href="#"></a>'
+                )
+            )
+        )
+        ,
         
         'filegrouplist' => array(
             'key' => 'filegroup',
@@ -146,8 +414,7 @@ return array(
                     'attr' => array(),
                     
                     'content:before' => '<i class="fa fa-file"></i> '
-                )
-                ,
+                ),
                 
                 'grid' => array(
                     
@@ -161,8 +428,8 @@ return array(
                     )
                 )
             )
-            
-        ),
+        )
+        ,
         
         'medialeft' => array(
             'key' => 'contribution',
@@ -181,8 +448,7 @@ return array(
                     )
                 )
             )
-        )
-        ,
+        ),
         'mediaright' => array(
             'key' => 'contribution',
             'name' => 'Contribution with media right',
@@ -314,19 +580,19 @@ return array(
                 'subUlClass' => 'navigation-list-dropdown',
                 'listHasDropdown' => 'navigation-list-has-dropdown',
                 'linkClassDefault' => 'contentinum-menu-link',
-                'linkClassDropdown' => 'toogleSubMenu',
-                ),
+                'linkClassDropdown' => 'toogleSubMenu'
+            ),
             'wrapper' => array(
                 'grid' => array(
                     'element' => 'nav',
                     'attr' => array(
                         'role' => 'navigation'
                     )
-            
                 )
-            )            
-            
-        ),
+                
+            )
+        )
+        ,
         
         'topnav' => array(
             'key' => 'topnav',
@@ -338,8 +604,7 @@ return array(
                         'href' => '#'
                     )
                 )
-            )
-            ,
+            ),
             'navbarheader' => array(
                 'row' => array(
                     'element' => 'div',
@@ -359,8 +624,8 @@ return array(
                     ),
                     'content:before' => '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
                 )
-                
-            ),
+            )
+            ,
             'ulclass' => 'nav navbar-nav',
             'navbar' => array(
                 'grid' => array(
@@ -379,19 +644,18 @@ return array(
                     'attr' => array(
                         'class' => 'navbar navbar-default navbar-fixed-top',
                         'role' => 'navigation'
-                    )                    
-
-                ),
+                    )
+                )
+                ,
                 
                 'grid' => array(
                     'element' => 'div',
                     'attr' => array(
                         'class' => 'container'
-                    )                    
-
+                    )
                 )
+                
             )
-            
         )
         ,
         
