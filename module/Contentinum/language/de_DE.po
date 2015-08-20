@@ -1145,3 +1145,9 @@ msgstr "Jahr"
 
 msgid "Back"
 msgstr "Zurück"
+
+msgid "mr"
+msgstr "Herr"
+
+msgid "ms"
+msgstr "Frau"

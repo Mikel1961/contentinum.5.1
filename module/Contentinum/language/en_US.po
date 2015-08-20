@@ -142,3 +142,10 @@ msgstr "Apps"
 
 msgid "Mcwork_Controller_User"
 msgstr "User"
+
+
+msgid "mr"
+msgstr "Mr."
+
+msgid "ms"
+msgstr "Ms."
