@@ -110,6 +110,8 @@ class ModulNavigation extends AbstractModuls
         
             if ('#' == $entry['url']){
                 $uri = '#';
+            } elseif ('_link' == $entry['scope']){
+                $uri = $entry['url'];
             } elseif ('index' == $entry['url']){
                 $uri = '/';
             } else {
@@ -176,6 +178,8 @@ class ModulNavigation extends AbstractModuls
     
             if ('#' == $entry['url']){
                 $uri = '#';
+            } elseif ('_link' == $entry['scope']){
+                $uri = $entry['url'];
             } elseif ('index' == $entry['url']){
                 $uri = '/';
             } else {
@@ -226,7 +230,7 @@ class ModulNavigation extends AbstractModuls
     {
         $sql = "SELECT main.id, main.rel_link, main.alternate_labelname, main.target_link, main.class_link, main.data_link, main.resource, main.parent_from, main.dom_id, ";
         $sql .= "main.style_class, ";
-        $sql .= "wpp.label, wpp.url ";
+        $sql .= "wpp.label, wpp.url, wpp.scope ";
         $sql .= "FROM web_navigation_tree AS main ";
         $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = main.web_pages_id ";
         $sql .= "WHERE main.publish = 'yes' ";

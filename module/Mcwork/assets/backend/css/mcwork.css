@@ -266,6 +266,16 @@ ul.pagination li.unavailable button:focus {
     width: 100%;
 }
 
+ul.breadcrumbs.publicmedias {
+	background-color: #FFFFFF;
+	margin-bottom: 0;
+}
+
+.breadcrumbs.publicmedias > * {
+    font-size: 0.875rem;
+    text-transform: none;
+}
+
 form#mcworkForm {
 	border: 1px solid #C6C9CA;
 	background: #F9F9F9;
@@ -514,6 +524,9 @@ div.dataTables_filter input {
 	border: 1px #F6F6F6 solid;
 
 }
+#fieldimgLogo,
+#fieldimgSource,
+#fieldcontactImgSource,
 #fieldsetnonpublic,
 #fieldsetpublicpdf,
 #fieldmediaLinkPage,

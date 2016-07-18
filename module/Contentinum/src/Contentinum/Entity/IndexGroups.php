@@ -8,7 +8,7 @@ use ContentinumComponents\Entity\AbstractEntity;
 /**
  * IndexGroups
  *
- * @ORM\Table(name="index_groups", uniqueConstraints={@ORM\UniqueConstraint(name="scope", columns={"scope"})}, indexes={@ORM\Index(name="FIELDTYPIDENT", columns={"account_id"})})
+ * @ORM\Table(name="index_contact_groups", uniqueConstraints={@ORM\UniqueConstraint(name="scope", columns={"scope"})})
  * @ORM\Entity
  */
 class IndexGroups extends AbstractEntity
@@ -74,30 +74,9 @@ class IndexGroups extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="publish", type="string", length=4, nullable=false)
-     */
-    private $publish = 'yes';
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="item_rang", type="integer", nullable=false)
-     */
-    private $itemRang = 0;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="params", type="text", length=65535, nullable=false)
      */
     private $params = '';
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="numbers", type="integer", nullable=false)
-     */
-    private $numbers = 0;
 
     /**
      * @var integer
@@ -126,16 +105,6 @@ class IndexGroups extends AbstractEntity
      * @ORM\Column(name="up_date", type="datetime", nullable=false)
      */
     private $upDate;
-    
-    /**
-     * @var \Contentinum\Entity\Accounts
-     *
-     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\Accounts")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id")
-     * })
-     */
-    private $accounts;
     
     /**
      * Construct
@@ -179,7 +148,6 @@ class IndexGroups extends AbstractEntity
     {
         return get_object_vars($this);
     }
-    
 	/**
      * @return the $id
      */
@@ -309,38 +277,6 @@ class IndexGroups extends AbstractEntity
     }
 
 	/**
-     * @return the $publish
-     */
-    public function getPublish()
-    {
-        return $this->publish;
-    }
-
-	/**
-     * @param string $publish
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-	/**
-     * @return the $itemRang
-     */
-    public function getItemRang()
-    {
-        return $this->itemRang;
-    }
-
-	/**
-     * @param number $itemRang
-     */
-    public function setItemRang($itemRang)
-    {
-        $this->itemRang = $itemRang;
-    }
-
-	/**
      * @return the $params
      */
     public function getParams()
@@ -354,22 +290,6 @@ class IndexGroups extends AbstractEntity
     public function setParams($params)
     {
         $this->params = $params;
-    }
-
-	/**
-     * @return the $numbers
-     */
-    public function getNumbers()
-    {
-        return $this->numbers;
-    }
-
-	/**
-     * @param number $numbers
-     */
-    public function setNumbers($numbers)
-    {
-        $this->numbers = $numbers;
     }
 
 	/**
@@ -434,21 +354,5 @@ class IndexGroups extends AbstractEntity
     public function setUpDate($upDate)
     {
         $this->upDate = $upDate;
-    }
-    
-	/**
-     * @return the $accounts
-     */
-    public function getAccounts()
-    {
-        return $this->accounts;
-    }
-
-	/**
-     * @param \Contentinum\Entity\Accounts $accounts
-     */
-    public function setAccounts($accounts)
-    {
-        $this->accounts = $accounts;
-    }
+    }    
 }

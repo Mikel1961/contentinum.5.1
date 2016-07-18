@@ -429,6 +429,7 @@
 				var defaults = {
 					url : false,
 					method : 'get',
+					type : 'POST',
 				};
 				var opts = $.extend({}, defaults, options);
 				return this.get(opts);
@@ -440,7 +441,7 @@
 					cache : false,
 					dataType : "json",
 					url : opts.url,
-					type : 'POST',
+					type : opts.type,
 					data : opts.data,
 					success : function(data) {
 						returndatas = data;

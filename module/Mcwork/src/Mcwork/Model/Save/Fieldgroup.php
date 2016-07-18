@@ -44,7 +44,6 @@ class Fieldgroup extends Process
         if (null === $entity->getPrimaryValue()) {
             $filter = new Prepare();
             $datas['scope'] = $filter->filter($datas['name']);
-            $datas['itemRang'] = $this->sequence('accounts', $datas['accounts'], 'itemRang') + 1;
             parent::save($datas, $entity, $stage, $id);
         } else {
             $filter = new Prepare();

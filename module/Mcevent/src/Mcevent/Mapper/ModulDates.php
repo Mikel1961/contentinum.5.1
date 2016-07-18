@@ -42,7 +42,7 @@ class ModulDates extends AbstractModuls
      */
     public function fetchContent(array $params = null)
     {
-        return $this->query($this->configure['modulParams']);
+        return $this->querylike($this->configure['modulParams']);
     }
 
     /**
@@ -66,4 +66,22 @@ class ModulDates extends AbstractModuls
             ), (int) $this->configure['modulDisplay']);
         }
     }
+
+    private function querylike($id)
+    {
+        if ($this->article && 'archive' !== $this->article) {
+            $rdate = $this->category;
+        } else {
+            $rdate = date('Y');
+        }
+        $repository = $this->getStorage()->getRepository(self::ENTITY_NAME);
+        $qb = $repository->createQueryBuilder('event');
+        $qb->where('event.calendar = :ident');
+        $qb->andWhere('event.dateStart LIKE :eventyear');
+        $qb->orderBy('event.dateStart', 'ASC');
+        $qb->setParameter('ident', $id);
+        $qb->setParameter('eventyear', $rdate . '%');
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -43,7 +43,7 @@ class McworkFormFactory implements FactoryInterface
         $pageOptions = $sl->get('Mcwork\PageOptions');
         
         $em = $sl->get($pageOptions->getAppOption('entitymanager'));
-        $workerName = $pageOptions->getAppOption('worker');
+        $workerName = $pageOptions->getAppOption('worker');      
         $worker = new $workerName($em);
         $entityName = $pageOptions->getAppOption('entity');
         $worker->setEntity(new $entityName());        

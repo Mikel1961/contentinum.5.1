@@ -31,7 +31,7 @@ use Contentinum\View\Helper\AbstractContentHelper;
 
 class Group extends AbstractContentHelper
 {
-    const VIEW_LAYOUT_KEY = 'styles';
+    const VIEW_LAYOUT_KEY = 'contribution';
     
     const VIEW_TEMPLATE = 'person';
     
@@ -63,7 +63,7 @@ class Group extends AbstractContentHelper
      *
      * @var array
      */
-    protected $name;
+    protected $person;
     
     /**
      *
@@ -82,6 +82,12 @@ class Group extends AbstractContentHelper
      * @var array
      */
     protected $businessTitle;
+    
+    /**
+     *
+     * @var unknown
+     */
+    protected $phoneMobile;    
     
     /**
      * 
@@ -134,10 +140,11 @@ class Group extends AbstractContentHelper
         'toolbar',
         'wrapper',
         'schema',
-        'name',
+        'person',
         'internet',
         'contactImgSource',
         'businessTitle',
+        'phoneMobile',
         'phoneHome',
         'phoneWork',
         'phoneFax',
@@ -156,24 +163,70 @@ class Group extends AbstractContentHelper
      */
     public function __invoke($entries, $medias, $template = null)
     {
-        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
-        if (isset($viewTemplate[self::VIEW_TEMPLATE])){
-            $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
-        }        
         
+        $hm = true;
+        switch ($entries['modulConfig']) {
+            case 'templatevalue':
+                return $this->view->grouptemplate($entries, $medias, $template);
+                break;
+            case 'organisation':
+                $hm = false;    
+            default:
+                $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+                if (isset($viewTemplate[self::VIEW_TEMPLATE])) {
+                    $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
+                }
+                break;
+        }
+        $filterDigits = new \Zend\Filter\Digits();
         $html = '';
         foreach ($entries['modulContent'] as $entry) {
             $cardData = '';
-            if ( 1 === $entry->enableImage  && 1 != $entry->contacts->contactImgSource){
-                $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->contactImgSource), $medias, null, null, true));
-
-            }
-
-            $cardData .= $this->deployRow($this->name, $this->view->wantedname($entry));
             
-            if (1 === $entry->enableBusinessTitle && null != ($businesTitle = $this->view->overwriteprops($entry,'contacts','businessTitle'))){
-                $cardData .= $this->deployRow($this->businessTitle, $businesTitle );
+            if (false === $hm){
+                
+                //var_dump($entry->enableImage);
+                
+                if ( 1 === $entry->enableImage  && 1 != $entry->contacts->accounts->imgSource){
+                    $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->accounts->imgSource), $medias, null, null, true));
+                
+                }                
+                
+                
+                $organisation = $this->organisation->toArray();
+                $organisation['grid']['element'] = 'h3';
+                $ext = ($entry->contacts->accounts->organisationExt) ? ', ' . $entry->contacts->accounts->organisationExt . '' : '';
+                $cardData .= $this->deployRow($organisation, $entry->contacts->accounts->organisation . $ext);                
             }
+            
+
+
+            if (true === $hm){
+                
+                if ( 1 === $entry->enableImage  && 1 != $entry->contacts->contactImgSource){
+                    $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contacts->contactImgSource), $medias, null, null, true));
+                
+                }                
+                
+                $cardData .= $this->deployRow($this->person, $this->view->wantedname($entry));
+                $ext = ($entry->contacts->accounts->organisationExt) ? ', ' . $entry->contacts->accounts->organisationExt . '' : '';
+                $cardData .= $this->deployRow($this->organisation, $entry->contacts->accounts->organisation . $ext);
+                             
+                if (1 === $entry->enableBusinessTitle && null != ($businesTitle = $this->view->overwriteprops($entry,'contacts','businessTitle'))){
+                    $cardData .= $this->deployRow($this->businessTitle, $businesTitle );
+                }
+            }  
+
+            if (false === $hm){
+                $str = '';
+                if (1 === $entry->enableBusinessTitle && null != ($businesTitle = $this->view->overwriteprops($entry,'contacts','businessTitle'))){
+                    $str = $businesTitle . ', ';
+                }  
+                $person = $this->person->toArray();
+                $person['grid']['element'] = 'p';     
+                $cardData .= $this->deployRow($person, $str . $this->view->wantedname($entry));
+            }
+            
             if (1 === $entry->enableAddress){
                 if (isset($this->address['grids'])){
                     $location = null;
@@ -207,27 +260,57 @@ class Group extends AbstractContentHelper
                 } 
             }
             if (1=== $entry->enablePhoneHome && null != $entry->contacts->phoneHome){
+                $phoneHomeTemplate = $this->phoneHome->toArray();
+                $phoneHomeTemplate['grid']['attr']['href'] = $phoneHomeTemplate['grid']['attr']['href'] . $filterDigits->filter($entry->contacts->phoneHome);                
                 $cardData .= $this->deployRow($this->phoneHome, $entry->contacts->phoneHome);
-            }                   
+            } 
+            if (1 === $entry->enablePhoneMobile && null != ($phoneMobile = $this->view->overwriteprops($entry, 'contacts', 'phoneMobile'))) {
+                $phoneMobileTemplate = $this->phoneMobile->toArray();
+                $phoneMobileTemplate['grid']['attr']['href'] = $phoneMobileTemplate['grid']['attr']['href'] . $filterDigits->filter($phoneMobile);
+                $cardData .= $this->deployRow($phoneMobileTemplate, $phoneMobile);
+            }                              
             if (1 === $entry->enablePhoneWork && null != ($phoneWork = $this->view->overwriteprops($entry,'contacts','phoneWork'))){   
+                $phoneWorkTemplate = $this->phoneWork->toArray();
+                $phoneWorkTemplate['grid']['attr']['href'] = $phoneWorkTemplate['grid']['attr']['href'] . $filterDigits->filter($phoneWork);                
                 $cardData .= $this->deployRow($this->phoneWork, $phoneWork);
             }
             if (1 === $entry->enablePhoneFax && null != ($phoneFax = $this->view->overwriteprops($entry,'contacts','phoneFax'))){
+                $phoneFaxTemplate = $this->phoneFax->toArray();
+                $phoneFaxTemplate['grid']['attr']['href'] = $phoneFaxTemplate['grid']['attr']['href'] . $filterDigits->filter($phoneFax);                
                 $cardData .= $this->deployRow($this->phoneFax, $phoneFax);
-            }            
-            if (1 === $entry->enableContactEmail && null != ($contactEmail = $this->view->overwriteprops($entry,'contacts','contactEmail'))){
-                $cardData .= $this->deployRow($this->contactEmail, $contactEmail);
             }  
-            if (1 === $entry->enableAlternateEmail && null != $entry->contacts->alternateEmail){
-                $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->alternateEmail);
-            }                      
-            if (1 === $entry->enableInternet && null != ($internet = $this->view->overwriteprops($entry,'contacts','internet'))){    
-                $cardData .= $this->deployRow($this->internet, $internet);
-            } 
-            //if (1=== $entry->enableDescription && null != $entry->contacts->description){
-            if (1=== $entry->enableDescription && null != ($description = $this->view->overwriteprops($entry,'contacts','description'))){      
-                $cardData .= $this->deployRow($this->description, $description);
-            }                       
+            if (true === $hm){
+                if (1 === $entry->enableContactEmail && null != ($contactEmail = $this->view->overwriteprops($entry,'contacts','contactEmail'))){
+                    $cardData .= $this->deployRow($this->contactEmail, $contactEmail);
+                } 
+                if (1 === $entry->enableAlternateEmail && null != $entry->contacts->alternateEmail){
+                    $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->alternateEmail);
+                }                    
+                if (1 === $entry->enableInternet && null != ($internet = $this->view->overwriteprops($entry,'contacts','internet'))){    
+                    $cardData .= $this->deployRow($this->internet, $internet);
+                }              
+                if (1=== $entry->enableDescription && null != ($description = $this->view->overwriteprops($entry,'contacts','description'))){      
+                    $cardData .= $this->deployRow($this->description, $description);
+                }              
+            }
+            
+            
+            
+            
+            
+            if (false === $hm){
+                if (1 === $entry->enableContactEmail && strlen($entry->contacts->accounts->accountEmail) > 0  ){
+                    $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->accounts->accountEmail);
+                }            
+                if (1 === $entry->enableAlternateEmail && null != $entry->contacts->alternateEmail){
+                    $cardData .= $this->deployRow($this->contactEmail, $entry->contacts->alternateEmail);
+                } 
+                if (1 === $entry->enableInternet && strlen($entry->contacts->accounts->internet) > 0  ){
+                    $cardData .= $this->deployRow($this->internet, $entry->contacts->accounts->internet);
+                }
+            }            
+
+                     
             $html .= $this->deployRow($this->schema, $cardData);
         }
         if (null !== $this->wrapper){

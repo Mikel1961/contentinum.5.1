@@ -166,7 +166,6 @@ class Accordion extends AbstractContentHelper
                 $accordion .= $this->deployRow($body, $entry['title']);
             
             }
-            var_dump($i);
             $i++;
         }
         

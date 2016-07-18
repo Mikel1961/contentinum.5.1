@@ -21,6 +21,14 @@ class WebMediaCategories extends AbstractEntity
      *      @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
+    
+    /**
+     * 
+     * @var integer
+     * 
+     * @ORM\Column(name="parent_media_file", type="integer", nullable=false)
+     */
+    private $parentMediaFile = '0';
 
     /**
      *
@@ -199,6 +207,22 @@ class WebMediaCategories extends AbstractEntity
     }
 
     /**
+     * @return the $parentMedia
+     */
+    public function getParentMediaFile()
+    {
+        return $this->parentMediaFile;
+    }
+
+	/**
+     * @param number $parentMediaFile
+     */
+    public function setParentMediaFile($parentMediaFile)
+    {
+        $this->parentMediaFile = $parentMediaFile;
+    }
+
+	/**
      *
      * @return the $itemRang
      */

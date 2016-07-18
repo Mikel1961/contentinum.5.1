@@ -85,7 +85,7 @@ class ContactGroup extends AbstractForms
                     'required' => true,
                     
                     'options' => array(
-                        'label' => 'Select a group',
+                        'label' => 'Kontaktgruppe',
                         'empty_option' => 'Please select',
                         'value_options' => $this->getSelectOptions('indexGroup'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
@@ -101,6 +101,31 @@ class ContactGroup extends AbstractForms
             
             array(
                 'spec' => array(
+                    'name' => 'accounts',
+                    'required' => true,
+            
+                    'options' => array(
+                        'label' => 'Select Account',
+                        'empty_option' => 'Please select',
+                        'value_options' => $this->getSelectOptions('accounts', array(
+                            'value' => 'id',
+                            'label' => array('organisation', 'organisationExt'),
+                        )),
+            
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'required' => 'required',
+                        'id' => 'accounts',
+                        'class' => 'chosen-select'
+                    )
+                )
+            ),            
+            
+            array(
+                'spec' => array(
                     'name' => 'contacts',
                     'required' => true,
             
@@ -109,7 +134,7 @@ class ContactGroup extends AbstractForms
                         'empty_option' => 'Please select',
                         'value_options' => $this->getSelectOptions('contacts', array(
                             'value' => 'id',
-                            'label' => array('firstName', 'lastName')
+                            'label' => array('lastName', 'firstName')
                         )),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
@@ -117,7 +142,8 @@ class ContactGroup extends AbstractForms
                     'type' => 'Select',
                     'attributes' => array(
                         'required' => 'required',
-                        'id' => 'contacts'
+                        'id' => 'contacts',
+                        'class' => 'chosen-select',
                     )
                 )
             ), 
@@ -145,6 +171,25 @@ class ContactGroup extends AbstractForms
                     )
                 )
             ), 
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'contactEmail',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Email',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                         
+            
+                    ),
+            
+                    'type' => 'Email',
+                    'attributes' => array(
+                        'id' => 'contactEmail'
+                    )
+                )
+            ),            
 
             
             array(
@@ -793,7 +838,18 @@ class ContactGroup extends AbstractForms
      */
     public function filter()
     {
-        return array();
+        return array(
+            
+            'contactEmail' => array(
+                'required' => false,
+                'filters' => array(
+                    array(
+                        'name' => 'Zend\Filter\StringTrim'
+                    )
+                )
+            ),
+            
+        );
     }
 
     /**

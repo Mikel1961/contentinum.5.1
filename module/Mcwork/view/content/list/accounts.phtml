@@ -38,6 +38,7 @@ $iClass = 0;
 $headlines = array(
     '#' => array(),
     'Organisation' => array(),
+    'Einordnung' => array(),
     'Address' => array(),
     'Edit' => array(
         'head' => array(
@@ -75,7 +76,9 @@ foreach ($this->entries as $entry) {
     $i ++;
     $rowContent = array();
     $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->organisation . '" />';
-    $rowContent[] = $entry->organisation;
+    $ext = ($entry->organisationExt) ? ', ' . $entry->organisationExt : '';
+    $rowContent[] = $entry->organisation . $ext;
+    $rowContent[] = $entry->fieldtypes->name;
     $str = '';
     if ($entry->accountStreet && $entry->accountCity){
         $str = $entry->accountStreet . ', ' . $entry->accountCity;

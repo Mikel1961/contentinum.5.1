@@ -92,8 +92,8 @@ class MediaCategories extends AbstractForms
                     'name' => 'webMediasId',
                     'required' => true,
                     'options' => array(
-                        'label' => 'Media item',
-                        'empty_option' => 'Please select a media',
+                        'label' => 'Datei in Gruppe einfügen',
+                        'empty_option' => 'Please select',
                         'value_options' => $this->getSelectOptions('webMediasId', array(
                             'value' => 'id',
                             'label' => 'mediaName',
@@ -122,7 +122,7 @@ class MediaCategories extends AbstractForms
                     'type' => 'ContentinumComponents\Forms\Elements\Note',
                     'attributes' => array(
                         'id' => 'selectfile',
-                        'value' => '<a id="viewSelectFile" href="#">View and select</a>'
+                        'value' => '<a id="viewSelectFile" href="#" class="button tiny"><i class="fa fa-file-o"></i></a>'
                     )
                 )
             ),
@@ -132,7 +132,7 @@ class MediaCategories extends AbstractForms
                     'required' => true,
                     'options' => array(
                         'label' => 'Access resources',
-                        'empty_option' => '-- Access values --',
+                        'empty_option' => 'Please select',
                         'value_options' => $this->getOptions('Acl\Resource'),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
@@ -151,6 +151,7 @@ class MediaCategories extends AbstractForms
                     'options' => array(
                         'label' => 'Description',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'description' => 'Beschreibung erscheint unterhalb der Datei und &uuml;berschreibt die Beschreibung in den Metaangaben',
                     ),
                     'type' => 'Textarea',
                     'attributes' => array(
@@ -160,12 +161,34 @@ class MediaCategories extends AbstractForms
                 )
             ),
             
+            
+            array(
+                'spec' => array(
+                    'name' => 'parentMediaFile',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'In Liste einrücken',
+                        //'value_options' => $this->getOptions('Mcwork\MediaParent'),
+                        'value_options' => array(
+                          0 => 'Nein',
+                            1 => 'Ja'
+                        ),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'parentMediaFile',
+                        'class' => 'chosen-select',
+                    )
+                )
+            ),          
+            
             array(
                 'spec' => array(
                     'name' => 'alternateDownload',
                     'required' => false,
                     'options' => array(
-                        'label' => 'Alternativer download',
+                        'label' => 'Alternativer Download anbieten',
                         'empty_option' => 'Keine Datei angegeben',
                         'value_options' => $this->getSelectOptions('webMediasId', array(
                             'value' => 'id',
@@ -174,6 +197,7 @@ class MediaCategories extends AbstractForms
                             null, false, array(), array('main.mediaName' => 'ASC')
                         ),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'description' => 'Nutzen Sie diesen Punkt wenn sie eine Datei mit gleichem Inhalt, in zwei verschiedenen Formen zum Download anbieten m&ouml;chten',
                     ),
             
                     'type' => 'Select',
@@ -189,7 +213,7 @@ class MediaCategories extends AbstractForms
                     'name' => 'alternateLinktitle',
                     'required' => false,
                     'options' => array(
-                        'label' => 'Alternate link title',
+                        'label' => 'Alternativer Linktitel',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
                     'type' => 'Text',
@@ -204,7 +228,7 @@ class MediaCategories extends AbstractForms
                     'name' => 'alternateLabelname',
                     'required' => false,
                     'options' => array(
-                        'label' => 'Alternate labe name',
+                        'label' => 'Alternativer Labelname',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
                     ),
                     'type' => 'Text',
@@ -242,9 +266,8 @@ class MediaCategories extends AbstractForms
     public function filter()
     {
         return array(
-            'webMediasId' => array(
-                'required' => true,              
-            ),
+            'webMediasId' => array('required' => true,),
+            'parentMediaFile' => array('required' => false,),
             'description' => array(
                 'required' => false,
                 'filters' => array(

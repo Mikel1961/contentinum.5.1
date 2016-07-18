@@ -54,6 +54,7 @@ class McuserController extends AbstractFrontendController
         $loginForm = $this->getServiceLocator()->get('User\FormLogin');
         
         return $this->buildView(array(
+            'htmlassets' => $this->getServiceLocator()->get('Contentinum\Htmlassets'),
             'htmllayouts' => $this->getServiceLocator()->get('Contentinum\Htmllayouts'),
             'headline' => $pageOptions->headline,
             'content' => $pageOptions->content,
@@ -110,7 +111,11 @@ class McuserController extends AbstractFrontendController
                         $identity->usergroups = $this->worker->usergroups($user['id']);
                         $authService->getStorage()->write($identity);             
                         $location = '/';
-                        if (isset($user['login_homedir']) && strlen($user['login_homedir']) > 0) {
+                        
+                        $cookies = $this->getRequest()->getHeaders()->get('Cookie');
+                        if (isset($cookies['linkredirect']) && 7 == $identity->roleident ){
+                            $location = $cookies['linkredirect'];
+                        } elseif (isset($user['login_homedir']) && strlen($user['login_homedir']) > 0) {
                             $location = $user['login_homedir'];
                         }
                         $this->worker->updateLogin($user);
@@ -122,7 +127,7 @@ class McuserController extends AbstractFrontendController
                         return $this->redirect()->toUrl('/login');                        
                     }
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {} 
         } else {
             $this->flashMessenger()
                 ->setNamespace('contentinum-login')

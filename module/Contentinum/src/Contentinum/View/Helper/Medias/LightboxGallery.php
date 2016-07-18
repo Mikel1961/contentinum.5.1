@@ -28,7 +28,6 @@
 namespace Contentinum\View\Helper\Medias;
 
 use Contentinum\View\Helper\AbstractContentHelper;
-use ContentinumComponents\Html\HtmlAttribute;
 
 class LightboxGallery extends AbstractContentHelper
 {
@@ -95,7 +94,7 @@ class LightboxGallery extends AbstractContentHelper
             $title = $entryRow['attr']['alt'];
             if (isset($entryRow['caption'])) {
                 $title = $entryRow['caption'];
-                if (is_array($this->caption) && ! empty($this->caption)) {
+                if ($this->caption) {
                     $img .= $this->deployRow($this->caption, $entryRow['caption']);
                 }
             }

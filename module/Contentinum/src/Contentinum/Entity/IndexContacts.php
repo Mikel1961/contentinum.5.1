@@ -39,7 +39,7 @@ class IndexContacts extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="business_title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="business_title", type="string", length=250, nullable=false)
      */
     private $businessTitle = '';
     
@@ -315,6 +315,16 @@ class IndexContacts extends AbstractEntity
      * @ORM\Column(name="up_date", type="datetime", nullable=false)
      */
     private $upDate = '0000-00-00 00:00:00';
+    
+    /**
+     * @var \Contentinum\Entity\Accounts
+     *
+     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\Accounts")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="accounts_id", referencedColumnName="id")
+     * })
+     */
+    private $accounts;    
 
     /**
      * @var \Contentinum\Entity\Contacts
@@ -1066,6 +1076,22 @@ class IndexContacts extends AbstractEntity
     public function setUpDate($upDate)
     {
         $this->upDate = $upDate;
+    }
+
+	/**
+     * @return the $accounts
+     */
+    public function getAccounts()
+    {
+        return $this->accounts;
+    }
+
+	/**
+     * @param \Contentinum\Entity\Accounts $accounts
+     */
+    public function setAccounts($accounts)
+    {
+        $this->accounts = $accounts;
     }
 
 	/**

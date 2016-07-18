@@ -116,9 +116,16 @@ class Accounts extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="account_street", type="string", length=100, nullable=false)
+     * @ORM\Column(name="account_street", type="string", length=250, nullable=false)
      */    
     private $accountStreet = ''; 
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="account_street_number", type="string", length=15, nullable=false)
+     */
+    private $accountStreetNumber = '';
     
     /**
      * @var string
@@ -165,6 +172,20 @@ class Accounts extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     */
+    private $description = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description_ext", type="text", length=65535, nullable=false)
+     */
+    private $descriptionExt = '';    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="longitude", type="string", length=50, nullable=false)
      */
     private $longitude = '';    
@@ -201,16 +222,23 @@ class Accounts extends AbstractEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="webentry", type="integer", nullable=false)
+     * @ORM\Column(name="webentry", type="string", length=10, nullable=false)
      */
-    private $webentry = '';
+    private $webentry = 'default';
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="deleted", type="boolean", nullable=false)
+     * @ORM\Column(name="deleted", type="integer", nullable=false)
      */
     private $deleted = 0;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="event_location", type="integer", nullable=false)
+     */
+    private $eventLocation = 0;    
 
     /**
      * @var integer
@@ -539,6 +567,22 @@ class Accounts extends AbstractEntity
     }
 
 	/**
+     * @return the $accountStreetNumber
+     */
+    public function getAccountStreetNumber()
+    {
+        return $this->accountStreetNumber;
+    }
+
+	/**
+     * @param string $accountStreetNumber
+     */
+    public function setAccountStreetNumber($accountStreetNumber)
+    {
+        $this->accountStreetNumber = $accountStreetNumber;
+    }
+
+	/**
      * @return the $accountAddresss
      */
     public function getAccountAddresss()
@@ -616,6 +660,38 @@ class Accounts extends AbstractEntity
     public function setAccountState($accountState)
     {
         $this->accountState = $accountState;
+    }
+
+	/**
+     * @return the $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+	/**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+	/**
+     * @return the $descriptionExt
+     */
+    public function getDescriptionExt()
+    {
+        return $this->descriptionExt;
+    }
+
+	/**
+     * @param string $descriptionExt
+     */
+    public function setDescriptionExt($descriptionExt)
+    {
+        $this->descriptionExt = $descriptionExt;
     }
 
 	/**
@@ -744,6 +820,22 @@ class Accounts extends AbstractEntity
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+    }
+
+	/**
+     * @return the $eventLocation
+     */
+    public function getEventLocation()
+    {
+        return $this->eventLocation;
+    }
+
+	/**
+     * @param boolean $eventLocation
+     */
+    public function setEventLocation($eventLocation)
+    {
+        $this->eventLocation = $eventLocation;
     }
 
 	/**

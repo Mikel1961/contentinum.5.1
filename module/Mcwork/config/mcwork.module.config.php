@@ -39,7 +39,16 @@ return array(
                     array(
                         'label' => 'MediaGroup',
                         'uri' => '/mcwork/mediagroup',
-                        'resource' => 'authorresource'
+                        'resource' => 'authorresource',
+                        'listClass' => 'has-dropdown',
+                        'subUlClass' => 'dropdown',
+                        'pages' => array(
+                            array(
+                                'label' => 'Dateigruppen zusammenfassen',
+                                'uri' => '/mcwork/mediagroups',
+                                'resource' => 'authorresource'
+                            )
+                        )// end sub medias                        
                     )                    
                 )
             ),
@@ -133,19 +142,40 @@ return array(
                     ),
                     
                     array(
-                        'label' => 'Directories',
+                        'label' => 'Organisationen',
                         'uri' => '/mcwork/accounts', // directory
                         'resource' => 'publisherresource',
                         'listClass' => 'has-dropdown',
                         'subUlClass' => 'dropdown',
                         'pages' => array(
                             array(
+                                'label' => 'Organisationen gruppieren',
+                                'uri' => '/mcwork/organisationgroup',
+                                'resource' => 'publisherresource',
+                            
+                            
+                            ),                            
+                            
+                            array(
                                 'label' => 'Contacts',
                                 'uri' => '/mcwork/contacts',
-                                'resource' => 'publisherresource'
-                            )                         
+                                'resource' => 'publisherresource',
+                                
+                                'listClass' => 'has-dropdown',
+                                'subUlClass' => 'dropdown',
+                                'pages' => array(
+                                    array(
+                                        'label' => 'Kontakte gruppieren',
+                                        'uri' => '/mcwork/indexgroup',
+                                        'resource' =>  'publisherresource',
+                                    )
+                                )// end sub fieldtypes                                
+                                
+                                
+                            ), 
+                                                   
                         ) // end sub directories
-                    )// end directories
+                    ),// end directories
 
                 ) // end sub content
 
@@ -216,15 +246,6 @@ return array(
                         'label' => 'Fieldtypes',
                         'uri' => '/mcwork/fieldtypes',
                         'resource' => 'adminresource',
-                        'listClass' => 'has-dropdown',
-                        'subUlClass' => 'dropdown',
-                        'pages' => array(
-                            array(
-                                'label' => 'Fieldgroups',
-                                'uri' => '/mcwork/indexgroup',
-                                'resource' => 'adminresource'
-                            )
-                        )// end sub fieldtypes
                     ) // end fieldtypes
 
                 ) // end sub administration
@@ -500,7 +521,7 @@ return array(
                                     'route' => '/delete[/][:id][/][:cat]',
                                     'constraints' => array(
                                         'id' => '[0-9]+',
-                                        'cat' => '[0-9]+'
+                                        'cat' => '[a-zA-Z0-9_-]+'
                                     ),
                                     'defaults' => array(
                                         'controller' => 'Mcwork\Delete'
@@ -535,6 +556,8 @@ return array(
             'mcwork_form_rules' => 'Mcwork\Service\Form\RulesServiceFactory',
             
             'mcwork_clientapp_publicmedia' => 'Mcwork\Factory\Service\PublicImagesFactory',
+            'mcwork_clientapp_wanted' => 'Mcwork\Service\Templates\WantedServiceFactory', 
+            'mcwork_clientapp_microdata' => 'Mcwork\Service\Templates\MicrodataServiceFactory',
             
             'mcwork_clientapp_mediagroup' => 'Mcwork\Service\Templates\MediaGroupServiceFactory',
             'mcwork_clientapp_filegroup' => 'Mcwork\Service\Templates\FileGroupServiceFactory',
@@ -625,6 +648,9 @@ return array(
             // datas
             'Mcwork\Media' => 'Mcwork\Service\Media\TableServiceFactory',
             'Mcwork\MediaInUse' => 'Mcwork\Service\Media\InUseServiceFactory',
+            
+            'Mcwork\MediaParent' => 'Mcwork\Service\Files\ParentMediaFactory',
+            
             'File\Tags\Assign' => 'Mcwork\Factory\Model\FsAssignFileTagsFactory',
             'Media\Tags\Assign' => 'Mcwork\Factory\Model\FsAssignMediaTagsFactory',
             'Media\Path' => 'Mcwork\Factory\Model\FsPathMediaFactory',
@@ -696,7 +722,7 @@ return array(
             'mcwork_pages' => __DIR__ . '/../../../data/locale/etc/module/mcwork/pages.php',
             'mcwork_client_apps' => __DIR__ . '/../../../data/locale/etc/module/mcwork/app/client.php',
             'mcwork_form_decorators' => __DIR__ . '/../../../data/locale/etc/module/mcwork/form/decorators.php',
-            'mcwork_form_rules' => __DIR__ . '/../../../data/locale/etc/module/mcwork/form/rules.php',
+            'mcwork_form_rules' => array(__DIR__ . '/../../../data/locale/etc/module/mcwork/form/rules.php',),
             'mcwork_elements_toolbar' => __DIR__ . '/../../../data/locale/etc/module/mcwork/elements/toolbar.php',
             'mcwork_elements_buttons' => __DIR__ . '/../../../data/locale/etc/module/mcwork/elements/buttons.php',
             'mcwork_elements_tableedit' => __DIR__ . '/../../../data/locale/etc/module/mcwork/elements/tableedit.php',
@@ -705,13 +731,20 @@ return array(
             'mcwork_cache_register' => __DIR__ . '/../../../data/locale/etc/module/mcwork/cache/register.php',
         ),
         'db_cache_keys' => array(
+            
             'mcwork_media' => array(
                 'cache' => 'mcwork_media',
                 'entitymanager' => 'doctrine.entitymanager.orm_default',
                 'entity' => 'Contentinum\Entity\WebMedias',
                 'sortby' => 'media_source',
                 'savecache' => false,
-            ),  
+            ),
+            'mcwork_parent_media' => array(
+                'cache' => 'mcwork_parent_media',
+                'entitymanager' => 'doctrine.entitymanager.orm_default',
+                'entity' => 'Contentinum\Entity\WebMediaCategories',
+                'savecache' => false,                
+            ),
             'mcwork_inuse_medias' => array(
                 'cache' =>  'mcwork_inuse_medias',
                 'entitymanager' => 'doctrine.entitymanager.orm_default',
@@ -813,6 +846,7 @@ return array(
                             )
                         )
                     ),
+                                        
                     
                     'mcworkfiles' => array(
                         'assets' => array(
@@ -940,7 +974,33 @@ return array(
                                 'name' => 'Assetic\Filter\JSMinFilter'
                             )
                         )
+                    ), 
+
+                    'assignscripts' => array(
+                    
+                        'assets' => array(
+                            'backend/js/vendor/jquery-1.11.2.min.js',
+                            'backend/js/vendor/jquery.cookie.js',
+                            'backend/js/vendor/jquery-ui-autocomplete.js',
+                            'backend/js/vendor/upload/jquery.file-ajax.js',
+                            'backend/js/vendor/tagging/mcwork.tagging.js',
+                            'backend/js/mcwork.language.js',
+                            'backend/js/foundation.min.js',
+                            'backend/js/vendor/datatables/jquery.dataTables.min.js',
+                            'backend/js/vendor/datatables/dataTables.foundation.js',
+                            'backend/js/vendor/chosen/chosen.jquery.min.js',
+                            'backend/js/mcwork.js',
+                            'backend/js/mcwork.table.js'
+                        ),
+                        'filters' => array(
+                            '?JSMinFilter' => array(
+                                'name' => 'Assetic\Filter\JSMinFilter'
+                            )
+                        )
+                    
+                    
                     ),                    
+                    
                     
                     'filesscripts' => array(
                     
@@ -949,7 +1009,7 @@ return array(
                             'backend/js/vendor/jquery.cookie.js',
                             'backend/js/vendor/jquery-ui-autocomplete.js',
                             'backend/js/vendor/upload/jquery.file-ajax.js',
-                            'backend/js/vendor/tagging/tagging.min.js',
+                            'backend/js/vendor/tagging/mcwork.tagging.js',
                             'backend/js/mcwork.language.js',
                             'backend/js/foundation.min.js',
                             'backend/js/vendor/datatables/jquery.dataTables.min.js',

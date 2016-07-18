@@ -282,6 +282,7 @@ class Content extends Worker
         $contributions['mediaLinkGroup'] = $entry['mediaLinkGroup'];
         $contributions['mediaLinkUrl'] = $entry['mediaLinkUrl'];
         $contributions['mediaStyle'] = $entry['mediaStyle'];
+        $contributions['mediaPlaceholder'] = $entry['mediaPlaceholder'];
         $contributions['source'] = $entry['source'];
         $contributions['lang'] = $entry['lang'];
         $contributions['title'] = $entry['title'];
@@ -372,7 +373,7 @@ class Content extends Worker
         $sql .= "wcg.web_contentgroup_id AS groupId, wcg.web_content_id, "; 
         $sql .= "wc.web_medias_id AS medias, wc.htmlwidgets AS contribHtmlwidgets, wc.element, wc.element_attribute AS elementAttribute, wc.resource, ";
         $sql .= "wc.id AS contribId, wc.modul AS modul, wc.modul_params AS modulParams, wc.modul_display AS modulDisplay, wc.modul_config AS modulConfig, wc.modul_link AS modulLink, wc.modul_format AS modulFormat, ";
-        $sql .= "wc.media_link_page AS mediaLinkPage, wc.media_link_group AS mediaLinkGroup, wc.media_link_url AS mediaLinkUrl, wc.media_style AS mediaStyle, wc.source AS source, wc.lang AS lang, ";
+        $sql .= "wc.media_link_page AS mediaLinkPage, wc.media_link_group AS mediaLinkGroup, wc.media_link_url AS mediaLinkUrl, wc.media_style AS mediaStyle, wc.media_placeholder AS mediaPlaceholder, wc.source AS source, wc.lang AS lang, ";
         $sql .= "wc.title AS title, wc.headline AS headline, wc.content_teaser AS contentTeaser, wc.content AS content, ";
         $sql .= "wc.publish_date AS publishDate, wc.publish_author AS publishAuthor, wc.author_email AS authorEmail, wc.overwrite, wc.replace_default AS replaceDefault ";
         $sql .= "FROM web_pages_content AS main ";

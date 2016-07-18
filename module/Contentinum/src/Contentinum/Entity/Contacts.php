@@ -236,6 +236,20 @@ class Contacts extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="floor", type="string", nullable=false)
+     */
+    private $floor = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="room", type="string", nullable=false)
+     */
+    private $room = '';    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
     private $description = '';    
@@ -829,6 +843,38 @@ class Contacts extends AbstractEntity
     public function setBirthdate($birthdate)
     {
         $this->birthdate = $birthdate;
+    }
+
+	/**
+     * @return the $floor
+     */
+    public function getFloor()
+    {
+        return $this->floor;
+    }
+
+	/**
+     * @return the $room
+     */
+    public function getRoom()
+    {
+        return $this->room;
+    }
+
+	/**
+     * @param string $floor
+     */
+    public function setFloor($floor)
+    {
+        $this->floor = $floor;
+    }
+
+	/**
+     * @param string $room
+     */
+    public function setRoom($room)
+    {
+        $this->room = $room;
     }
 
 	/**

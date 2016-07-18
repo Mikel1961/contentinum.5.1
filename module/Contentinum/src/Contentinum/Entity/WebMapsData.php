@@ -21,6 +21,13 @@ class WebMapsData extends AbstractEntity
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="web_medias_id", type="integer", nullable=false)
+     */
+    private $webMediaIdent = 0;    
 
     /**
      * @var string
@@ -108,16 +115,6 @@ class WebMapsData extends AbstractEntity
     private $upDate;
 
     /**
-     * @var \Contentinum\Entity\WebMedias
-     *
-     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\WebMedias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="web_medias_id", referencedColumnName="id")
-     * })
-     */
-    private $webMedias;
-
-    /**
      * @var \Contentinum\Entity\WebMaps
      *
      * @ORM\ManyToOne(targetEntity="Contentinum\Entity\WebMaps")
@@ -192,6 +189,22 @@ class WebMapsData extends AbstractEntity
         return $this->id;
     }
     
+	/**
+     * @return the $webMediaIdent
+     */
+    public function getWebMediaIdent()
+    {
+        return $this->webMediaIdent;
+    }
+
+	/**
+     * @param string $webMediaIdent
+     */
+    public function setWebMediaIdent($webMediaIdent)
+    {
+        $this->webMediaIdent = $webMediaIdent;
+    }
+
 	/**
      * @return the $latitude
      */
@@ -385,22 +398,6 @@ class WebMapsData extends AbstractEntity
     }
 
 	/**
-     * @return the $webMedias
-     */
-    public function getWebMedias()
-    {
-        return $this->webMedias;
-    }
-
-	/**
-     * @param \Contentinum\Entity\WebMedias $webMedias
-     */
-    public function setWebMedias($webMedias)
-    {
-        $this->webMedias = $webMedias;
-    }
-
-	/**
      * @return the $webMaps
      */
     public function getWebMaps()
@@ -415,8 +412,5 @@ class WebMapsData extends AbstractEntity
     {
         $this->webMaps = $webMaps;
     }
-    
-
 
 }
-

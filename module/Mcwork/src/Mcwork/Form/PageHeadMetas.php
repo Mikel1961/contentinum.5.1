@@ -85,7 +85,8 @@ class PageHeadMetas extends AbstractForms
                     'type' => 'Select',
                     'attributes' => array(
                         'id' => 'webMedias',
-                        'class' => 'chosen-select'
+                        'class' => 'chosen-select',
+                        'value' => 1
                     )
                 )
             ), 
@@ -119,6 +120,7 @@ class PageHeadMetas extends AbstractForms
                            'alternate' => 'Alternate',
                             'icon' => 'Icon',
                             'apple-touch-icon' => 'Apple touch icon',
+                            'apple-touch-icon-precomposed' => 'Apple/Android touch icon precomposed',
                             'author' => 'Author',
                             'start' => 'Sart',
                             'search' => 'Search',

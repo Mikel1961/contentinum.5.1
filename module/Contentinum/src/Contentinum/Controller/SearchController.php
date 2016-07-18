@@ -57,11 +57,17 @@ class SearchController extends AbstractFrontendController
         $modul->setUrl($page['url']);
         $modul->setModul($this->worker->getModul());
         
+        $cookies = $this->getRequest()->getHeaders()->get('Cookie');
+        if (isset($cookies['PHPSESSID'])){
+            unset($cookies['PHPSESSID']);
+        }
+        
         $variables['htmlassets'] = $this->getServiceLocator()->get('Contentinum\Htmlassets');
         $variables['htmllayouts'] = $this->getServiceLocator()->get('Contentinum\Htmllayouts');
         $variables['htmlwidgets'] = $this->getServiceLocator()->get('Contentinum\Widgets');
         $variables['groupstyles'] = $this->getServiceLocator()->get('Contentinum\GroupStyles');
         $variables['contentstyles'] = $this->getServiceLocator()->get('Contentinum\ContentStyles');
+        $variables['assigns'] = $this->getServiceLocator()->get('Contentinum\TemplateAssign');
         $variables['medias'] = $this->getServiceLocator()->get('Contentinum\Medias');
         $variables['entries'] = $entries;
         $variables['plugins'] = $modul->fetchContent();
@@ -71,7 +77,7 @@ class SearchController extends AbstractFrontendController
         $variables['useragent'] = 'desktop';
         $variables['pageurl'] = $page['url'];
         $variables['article'] = $pageOptions->getArticle();
-        $variables['articlecontent'] = $this->worker->fetchArticle();
+        $variables['cookies'] = $cookies;
         $variables['category'] = $pageOptions->getCategory();
         $variables['templateKey'] = $pageOptions->htmlstructure;
         $variables['host'] = $pageOptions->host;

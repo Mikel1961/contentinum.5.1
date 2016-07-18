@@ -92,6 +92,7 @@ foreach ($this->entries as $entry) {
         $rowContent[] = $entry->title . ' ' . $entry->objectName;
     }
     $rowContent[] = $entry->contactEmail; 
+    $ext = ($entry->accounts->organisationExt) ? '<br ><em>' . $entry->accounts->organisationExt . '</em>' : '';
     $rowContent[] = $entry->accounts->organisation;
     $rowContent[] = $this->mcworkPublishItem($entry->publish,$entry->id,'Categories\Account');
     $props = array(

@@ -39,7 +39,6 @@ $iClass = 0; // sorting_disabled
 $headlines = array(
     '#' => array(),
     'Group' => array(),
-    'Fieldtype' => array(),
     'Edit' => array(
         'head' => array(
             'class' => 'hide-for-small text-right'
@@ -79,7 +78,6 @@ foreach ($this->entries as $entry) {
         $ln = ' <a href="/mcwork/contactgroups/category/'.$entry->id.'" data-tooltip aria-haspopup="true" class="has-tip" title="Eine Kontaktgruppe zusammenstellen"><i class="fa fa-user"> </i></a>';
         //$rowContent[] = '<a href="/mcwork/indexcategorie/category/' . $entry->id . '">' . $entry->name . '</a>'. $ln;
         $rowContent[] = $entry->name . ' '. $ln;
-        $rowContent[] = $entry->accounts->organisation;
         $props = array(
             'edit' => array(
                 'href' => '/mcwork/' . $ctrlpath . '/edit/' . $entry->id,

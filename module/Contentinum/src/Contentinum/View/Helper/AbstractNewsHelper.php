@@ -52,7 +52,11 @@ abstract class AbstractNewsHelper extends AbstractContentHelper
      */
     protected $header;
     
-    
+    /**
+     * 
+     * @var array
+     */
+    protected $groupheadline;
     /**
      * 
      * @var array
@@ -157,6 +161,7 @@ abstract class AbstractNewsHelper extends AbstractContentHelper
         'wrapper',
         'news',
         'header',
+        'groupheadline',
         'headline',
         'footer',
         'media',

@@ -31,7 +31,7 @@ use Contentinum\View\Helper\AbstractContentHelper;
 
 class Single extends AbstractContentHelper
 {
-    const VIEW_LAYOUT_KEY = 'styles';
+     const VIEW_LAYOUT_KEY = 'contribution';
 
     const VIEW_TEMPLATE = 'person';
 
@@ -63,7 +63,7 @@ class Single extends AbstractContentHelper
      *
      * @var array
      */
-    protected $name;
+    protected $person;
 
     /**
      *
@@ -134,7 +134,7 @@ class Single extends AbstractContentHelper
         'toolbar',
         'wrapper',
         'schema',
-        'name',
+        'person',
         'internet',
         'contactImgSource',
         'businessTitle',
@@ -156,10 +156,22 @@ class Single extends AbstractContentHelper
      */
     public function __invoke($entries, $medias, $template = null, $objectName = false)
     {
-        $viewTemplate = $this->view->groupstyles[static::VIEW_LAYOUT_KEY];
-        if (isset($viewTemplate[self::VIEW_TEMPLATE])){
-            $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
+        $hm = true;
+        switch ($entries['modulConfig']) {
+            
+            case 'templatevalue':
+                return '<p style="font-weight:bold;color:red">Template configuration error</p>';
+                break;
+            case 'organisation':
+                $hm = false;
+            default:
+                $viewTemplate = $this->view->contentstyles[static::VIEW_LAYOUT_KEY];
+                if (isset($viewTemplate[self::VIEW_TEMPLATE])) {
+                    $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
+                }
+                break;
         }        
+        
         $html = '';
         foreach ($entries['modulContent'] as $entry) {
             $cardData = '';
@@ -168,13 +180,33 @@ class Single extends AbstractContentHelper
             } else {
                 $name = $entry->objectName;
             }
-            if (1 != $entry->contactImgSource){
+            if (0 != $entry->contactImgSource && 1 != $entry->contactImgSource){
                 $cardData .= $this->deployRow($this->contactImgSource, $this->view->images(array('mediaStyle' => '','medias' => $entry->contactImgSource), $medias, null, null, true));
             }
-            $cardData .= $this->deployRow($this->name, $name);
-            if ( strlen($entry->businessTitle) > 1 ){
+            
+            
+            
+            if (true === $hm){
+                $cardData .= $this->deployRow($this->person, $name);
+                $ext = ($entry->accounts->organisationExt) ? ', ' . $entry->accounts->organisationExt . '' : '';
+                $cardData .= $this->deployRow($this->organisation, $entry->accounts->organisation . $ext);
                 $cardData .= $this->deployRow($this->businessTitle, $entry->businessTitle);
+
             }
+            
+            if (false === $hm){
+                $organisation = $this->organisation->toArray();
+                $organisation['grid']['element'] = 'h3';
+                $ext = ($entry->accounts->organisationExt) ? ', ' . $entry->accounts->organisationExt . '' : '';
+                $cardData .= $this->deployRow($organisation, $entry->accounts->organisation . $ext);
+                $person = $this->person->toArray();
+                $person['grid']['element'] = 'p';
+                $cardData .= $this->deployRow($person, $name);
+                $cardData .= $this->deployRow($this->businessTitle, $entry->businessTitle);
+            }            
+            
+          
+
             
             if (isset($this->address['grids'])){
                 $location = '';

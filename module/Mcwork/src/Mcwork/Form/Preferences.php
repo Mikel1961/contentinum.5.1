@@ -89,7 +89,7 @@ class Preferences extends AbstractForms
                     'type' => 'Text',
                     'attributes' => array(
                         'required' => 'required',
-                        'id' => 'host'
+                        'id' => 'host',
                     )
                 )
             ),

@@ -28,6 +28,7 @@
 namespace Mcwork\Service\Form;
 
 use Contentinum\Service\ContentinumServiceFactory;
+use Zend\Config\Config;
 
 /**
  * Backend form rules for javascripts
@@ -50,4 +51,30 @@ class RulesServiceFactory extends ContentinumServiceFactory
      * @var string
      */
     const CONTENTINUM_CACHE = 'Mcwork\Cache\Data';
+    
+    
+    /**
+     * Get result from cache or read from php file
+     *
+     * @param string $file path to file and filename
+     * @param string $key template file ident
+     * @param ServiceLocatorInterface $sl
+     */
+    protected function getFileAsConfig($file, $key, $sl)
+    {
+        $cache = $sl->get( static::CONTENTINUM_CACHE  );
+        if (! ($result = $cache->getItem($key))) {
+            $i = 1;
+            foreach ($file as $singleFile){
+                if (1 === $i) {
+                    $result = new Config(include $singleFile);
+                } else {
+                    $result->merge(new Config(include $singleFile));
+                }
+                $i++;
+            }
+            $cache->setItem($key, $result);
+        }
+        return $result;
+    }
 }

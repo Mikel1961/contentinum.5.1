@@ -62,6 +62,7 @@ class App extends AbstractNewsHelper
         $publishDate = $this->publishDate->toArray();
         $header = $this->header->toArray();
         $filter = new \Zend\Filter\HtmlEntities();
+        $urlFiler = new \ContentinumComponents\Filter\Url\Prepare();
         $html = '';
         foreach ($entries['modulContent']['news'] as $entry) {
             if (1 === (int) $entry['id']) {
@@ -110,13 +111,19 @@ class App extends AbstractNewsHelper
                         } else {
                             $mediaTemplate = $this->mediateaserleft->toArray();
                         }
-                        $setSizes = array(
-                            'landscape' => $this->teaserLandscapeSize,
-                            'portrait' => $this->teaserPortraitSize
-                        );
+                        if (false !== $this->teaserLandscapeSize){
+                            $mediaStyle = '';
+                            $setSizes = array(
+                                'landscape' => $this->teaserLandscapeSize,
+                                'portrait' => $this->teaserPortraitSize
+                            );
+                        } else {
+                            $setSizes = null;
+                            $mediaStyle = 'teaser-imageitem-size';
+                        }
                         $article .= $this->view->images(array(
                             'medias' => $entry['web_medias_id'],
-                            'mediaStyle' => ''
+                            'mediaStyle' => $mediaStyle
                         ), $medias, $mediaTemplate, $setSizes);
                     }
                     
@@ -139,6 +146,8 @@ class App extends AbstractNewsHelper
                             $content = $content . ' ...</p>';
                             $article .= $content;
                             $article .= $this->deployRow($labelReadMore, $entry['label_read_more']);
+                        } else {
+                            $article .= $content;
                         }
                     }
                 } else {
@@ -195,12 +204,25 @@ class App extends AbstractNewsHelper
         }
         
         if (isset($this->groupParams['headlineGroup']) && strlen($this->groupParams['headlineGroup']) > 1) {
-            $html = '<h2>' . $this->groupParams['headlineGroup'] . '</h2>' . $html;
+            if ($this->groupheadline){
+                $html = $this->deployRow($this->groupheadline, $this->groupParams['headlineGroup']) . $html;
+            } else {
+                $html = '<h2>' . $this->groupParams['headlineGroup'] . '</h2>' . $html;
+            }
+            
         } elseif (isset($this->groupParams['headline']) && strlen($this->groupParams['headline']) > 1) {
-            $html = '<h2>' . $this->groupParams['headline'] . '</h2>' . $html;
+            if ($this->groupheadline){
+                $html = $this->deployRow($this->groupheadline, $this->groupParams['headline']) . $html;
+            } else {
+                $html = '<h2 class="headline-'.$urlFiler->filter($this->groupParams['headline']).'">' . $this->groupParams['headline'] . '</h2>' . $html;
+            }
         } else {
             if (null !== $this->groupName) {
-                $html = '<h2>' . $this->groupName . '</h2>' . $html;
+                if ($this->groupheadline){
+                    $html = $this->deployRow($this->groupheadline, $this->groupName) . $html;
+                } else {
+                    $html = '<h2>' . $this->groupName . '</h2>' . $html;
+                }
             }
         }
         

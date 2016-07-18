@@ -142,17 +142,6 @@ abstract class AbstractTags extends Process
     }
 
     /**
-     * Build insert sql string and insert data
-     *
-     * @param array $data
-     */
-    public function insertQuery(array $data)
-    {
-        $conn = $this->getConnection();
-        $conn->insert(self::TAG_ASSIGN_TABLENAME, $data);
-    }
-
-    /**
      * Prepare and execute sql query
      *
      * @return array
@@ -278,7 +267,7 @@ abstract class AbstractTags extends Process
                         self::TAG_ASSIGN_DATEINSERT => $date,
                         self::TAG_ASSIGN_DATEUPDATE => $date
                     );
-                    $this->insertQuery($insert);
+                    $this->insertQuery(self::TAG_ASSIGN_TABLENAME, $insert);
                 }
             }
             if (true === $this->hasLogger()) {

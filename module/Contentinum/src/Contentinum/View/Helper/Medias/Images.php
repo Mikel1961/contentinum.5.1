@@ -105,10 +105,10 @@ class Images extends AbstractContentHelper
             $styleAttr = '';
             $img = '<img src="' . $src . '"';
             if (null !== $setSize) {
-                if (is_array($setSize) && isset($setSize['landscape']) ){
+                if (is_array($setSize) && isset($setSize['landscape']) && false !== $setSize['landscape']){
                     $landscape = $setSize['landscape'];
                     $styleAttr = ' landscape';
-                    if (isset($setSize['portrait'])){
+                    if (isset($setSize['portrait']) && false !== $setSize['portrait']){
                         $styleAttr = ' portrait';
                         $portrait = $setSize['portrait'];
                     } else {

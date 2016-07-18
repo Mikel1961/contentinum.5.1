@@ -91,6 +91,186 @@ McworkAppEdit = (function(){
 })(this.document);
 
 
+(function ($){
+	$.fn.McworkAccountCategories = function(options, elm){
+	
+	
+		var TagsTemplate = {
+			header : {
+
+				content : {
+					element : 'h4',
+					'attr' : {
+						'id' : 'modalhead',
+					},
+					'translate' : {
+						'key' : 'heads',
+						'txt' : 'filecategories'
+					},
+					'behind' : ' [<span id="mcfilename"> </span>] <span id="server-process"> </span>'
+				}
+
+			},
+			body : {
+
+
+				content : {
+					element : 'p',
+					'attr' : {
+						'class' : 'alizarin-color'
+					},
+					'txt' : 
+						formtags()
+					
+
+				}
+
+			},
+			footer : {
+
+
+				content : {
+					row : {
+						element : 'ul',
+						'attr' : {
+							'class' : 'modal-buttons right'
+						}
+					},
+					'grids' : {
+						'1' : {
+							'element' : 'li'
+						},
+						'2' : {
+							'element' : 'li'
+						}						
+					},
+					'1' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'tag-button',
+							'class' : 'button alert'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'save'
+						}
+					},
+					'2' : {
+						'element' : 'button',
+						'attr' : {
+							'id' : 'cancel-button',
+							'class' : 'button'
+						},
+						'translate' : {
+							'key' : 'btn',
+							'txt' : 'cancel'
+						}
+					}					
+
+				}
+
+			}
+		};
+		
+		var defaults = {
+			url : '/mcwork/services/application/savecategories',
+			model : false,
+			alltags : Mcwork.Server.request({url : '/mcwork/services/application/allcategories', data : {'group': $(elm).attr('data-fieldtypes')  }}),
+			elementTags : $(elm).attr('data-tags'),
+			organisation : $(elm).attr('data-accountname'),
+			organisationIdent : $(elm).attr('data-accountident'),
+			ident : $(elm).attr('data-ident'),
+		};				
+		
+		var opts = $.extend({}, defaults, options);	
+		
+		function formtags(){
+			
+			var html = '<form action="#" method="POST" class="tags well"> <label for="tag" class="control-label">Organisationen in Kategorien</label>';
+			html += '<div data-tags-input-name="taggone" id="tag">';
+			html +=  '';
+			html += '</div>';
+			html += '<p class="help-block">'+  Mcwork.Language.translate('text', 'tagshelpblock')  +'</p>';
+			html += '</form>';	
+			return html;			
+			
+		};	
+		
+		Mcwork.Modals.build(Mcwork.ArrayMerge.recursive( Mcwork.Modals.getBasicModal(), TagsTemplate ));
+	    $('#mcfilename').html(opts.organisation);
+		var t = $("#tag").tagging(Mcwork.Parameter.getTagging());
+		
+
+		
+		$( "#mcautocompletetags" ).autocomplete({
+			source: opts.alltags
+		});  		
+		
+		$tagBox = t[0];
+		
+		if (opts.elementTags.length > 1 ){
+			$tagBox.tagging( "add", opts.elementTags.split(',') );
+		}
+		
+		
+		$('#tag-button').click(function(ev) {
+			ev.preventDefault();
+			console.log($tagBox.tagging( "getTags" ));
+			var sendData = {};
+			sendData.tags = $tagBox.tagging( "getTags" );
+			sendData.ident = opts.ident;
+			sendData.model = opts.model;
+			
+			
+			$.ajax({
+					url :  opts.url, 
+					type : 'POST',
+					data : sendData,	
+					beforeSend: function(){ 
+						$('#server-process').html( Mcwork.Icons.getprocess() );	
+					},	
+					success : function(data) {
+						var obj = jQuery.parseJSON(data);
+						if (obj.error) {
+							$('#modalhead').html(Mcwork.Language.translate('errors', 'server') + ' ' + Mcwork.Icons.getwarn() );
+							$('#modalcontent').html( Mcwork.Html.build('p', {'txt':  obj.error } ) );	
+						} else {
+							$('#tag-button').hide();
+							$('#cancel-button').html( Mcwork.Language.translate('btn', 'close') );
+							Mcwork.Parameter.hasRemoveClass('#modalhead', Mcwork.Colors.get(Mcwork.Colors.WARN));  
+							$('#modalhead').addClass( Mcwork.Colors.get(Mcwork.Colors.SUCCESS));  								
+							$('#server-process').html( Mcwork.Icons.getsuccess() );
+							$('#modalcontent').html( '<p>' + Mcwork.Language.translate('messages', 'serversuccess') + '</p>' );
+						}				
+				
+			
+					},
+					error: function (xhr, ajaxOptions, thrownError) {									
+							var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
+							$('#modalhead').html(Mcwork.Language.translate('errors', 'server') + ' ' + Mcwork.Icons.getwarn() );
+							$('#modalcontent').html( Mcwork.Html.build('p', {'txt':  msg } ) );
+					}	
+			});				
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		});
+		
+		$('#cancel-button').click(function(ev) {
+			ev.preventDefault();
+			//$( Mcwork.Modals.getStdModal()).foundation('reveal', 'close');
+			//window.location.reload(true);
+		});				
+				
+	};
+})(jQuery);
+
 (function($) {
 	$.fn.McworkRemoveSubmenue = function(elm){
 		var opts = {
@@ -451,14 +631,33 @@ $(document).ready(function() {
 
 	$('.deleteitem').click(function(ev){
 		ev.preventDefault();
-		var deleteRequest = $(this).attr('href');
+		var currentLocation = window.location;
+        var item = $(this).data('delete');
+        var href = $(this).attr('href');
 		
 		var message = Mcwork.Language.translate('usr','confirm_delete');
 		Mcwork.Modals.buildConfirm(message.replace('%1',  ' <em>[' + $(this).attr('data-name') + ']</em> '));
 		
+		//console.log(href);
+		//if (item === undefined){
+		//console.log('y');
+		//   console.log(item);
+		//}
+		//console.log(this);
+		//console.log(href);
+		//console.log(item);
+		
+		//return false;
 		$('#confirm-button').click(function(ev) {
 			ev.preventDefault();
-			window.location.href = deleteRequest;
+			    if (item === undefined){
+			    	Mcwork.Server.request({url : href , type : 'GET'});
+			    	window.location.href = currentLocation;
+				} else if (false == Mcwork.Server.request({url : '/mcwork/medias/delete/' + item , type : 'GET'})){
+						console.log('false');
+				} else {
+					//window.location.href = currentLocation;
+				}
 		});
 		
 		$('#cancel-button').click(function(ev) {
@@ -534,6 +733,50 @@ $(document).ready(function() {
 		ev.preventDefault();
 		$().McworkClientApplication({}, this, McworkDataSet);
 	});
+
+	$('.orgatags').click(function(ev) {
+		ev.preventDefault();
+		$().McworkAccountCategories({model : 'categorie_tags'},this);
+	});	
+	
+	$('#btnTblDelete').click(function(e) {
+		e.preventDefault();
+		var currentLocation = window.location;
+		var files = '';
+		
+		var table = $('.table');
+		var ch = table.find('tbody input:checkbox:checked');		
+		ch.each(function() {
+			if ('file' == $(this).data('type')){
+				if (files.length > 1){
+					files += ', ';
+				}
+				files += $(this).data('name');
+			}
+		});
+		
+		var message = Mcwork.Language.translate('usr','confirm_delete');
+		Mcwork.Modals.buildConfirm(message.replace('%1',  ' die folgenden markierten Eintr&auml;ge: <em>[ ' + files + ' ]</em> '));		
+
+		$('#confirm-button').click(function(ev) {
+			ev.preventDefault();
+		    ch.each(function() {
+		    	if ('file' == $(this).data('type')){
+					if (false == Mcwork.Server.request({url : '/mcwork/medias/delete/' + $(this).data('ident'), type : 'GET'})){
+						console.log('false');
+					}	
+					$(this).prop('checked', false);		
+				}
+			});			
+			window.location.href = currentLocation;
+		});
+		
+		$('#cancel-button').click(function(ev) {
+			ev.preventDefault();
+			Mcwork.Parameter.unsetDomElement();
+			$( Mcwork.Modals.getStdModal()).foundation('reveal', 'close');
+		});
+	});	
 	
 	$('.usrblocked').click(function(ev){
 		ev.preventDefault();

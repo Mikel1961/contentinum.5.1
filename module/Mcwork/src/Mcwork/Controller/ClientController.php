@@ -44,8 +44,19 @@ class ClientController extends AbstractMcworkController
     {
         $params = $this->params()->fromPost();
         $cat = $this->params()->fromRoute('cat', null);
-        
         switch ($cat) {
+            case 'savecategories' :
+                return $this->savecategories($params);
+                break;
+            case 'allcategories':
+                return $this->allcategories($params);
+                break;
+            case 'accountcategory':
+                return $this->accountCategory($params['accountGroup']);
+                break;                    
+            case 'accountgroups':
+                return $this->accountGroups($params['fieldtypes']);
+                break;
             case 'configure':
                 if (isset($params['service']) && $this->getServiceLocator()->has($params['service'])) {
                     $view = new ViewModel(array(
@@ -78,6 +89,9 @@ class ClientController extends AbstractMcworkController
                 }
                 break;
             case 'fieldvalue':
+                if (empty($params)){
+                    $params = $this->params()->fromQuery();
+                }
                 if (isset($params['entity'])) {
                     $options = new FieldValue($this->worker->getStorage());
                     $view = new ViewModel(array(
@@ -157,7 +171,7 @@ class ClientController extends AbstractMcworkController
                 }    
                 break;
             case 'work':
-                
+                //var_dump($params);//exit;                
                 if (isset($params['app']) && isset($params['data']) ) {
                     try {
                         $worker = $params['app']['worker'];
@@ -488,5 +502,61 @@ class ClientController extends AbstractMcworkController
          
          
         return $result;
-    }    
+    }  
+
+    
+    protected function accountGroups($id)
+    {
+        $groups = new \Municipal\Mapper\AccountGroups($this->worker->getStorage());
+        $groups->setEntity(new \Municipal\Entity\AccountGroups());
+        $result = $groups->fetchByContent(array('fieldtypes' => $id));
+        $options = array();
+        foreach ($result as $entity){
+            $options[$entity->id] = $entity->name;
+        }
+        $view = new ViewModel(array(
+            'data' => $options
+        ));
+        $view->setTemplate('content/response/json');
+        return $view;        
+    }
+    
+    protected function accountCategory($id)
+    {
+        $groups = new \Municipal\Mapper\AccountGroups($this->worker->getStorage());
+        $groups->setEntity(new \Municipal\Entity\AccountCategories());
+        $result = $groups->fetchByContent(array('accountGroup' => $id));
+        $options = array();
+        foreach ($result as $entity){
+            $options[$entity->id] = $entity->name;
+        }
+        $view = new ViewModel(array(
+            'data' => $options
+        ));
+        $view->setTemplate('content/response/json');
+        return $view;        
+    }
+    
+    protected function allcategories($params)
+    {
+        $groups = new \Municipal\Mapper\AccountCategories($this->worker->getStorage());
+        $groups->setEntity(new \Municipal\Entity\AccountCategories());
+        $result = $groups->fetchByContent(array('fieldtypes' => $params['group']));
+        $options = array();
+        foreach ($result as $entity){
+            $options[] = $entity->name;
+        }
+        $view = new ViewModel(array(
+            'data' => $options
+        ));
+        $view->setTemplate('content/response/json');
+        return $view;        
+    }
+    
+    
+    protected function savecategories($params)
+    {
+        $model = $this->getServiceLocator()->get($params['model']);
+        return $this->responseSuccess();
+    }
 }

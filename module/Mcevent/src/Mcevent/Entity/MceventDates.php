@@ -138,14 +138,14 @@ class MceventDates extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="web_medias_id", type="string", length=100, nullable=false)
+     * @ORM\Column(name="web_medias_id", type="integer", nullable=false)
      */
     private $webMediasId = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="web_files_id", type="string", length=250, nullable=false)
+     * @ORM\Column(name="web_files_id", type="integer", nullable=false)
      */
     private $webFilesId = '';
 

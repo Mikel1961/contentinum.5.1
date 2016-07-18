@@ -120,9 +120,21 @@ class Contribution extends AbstractContentHelper
             }
             
             if (false === $factory) {
-                $html .= $media . $entry['content'];
+                if (isset($entry['mediaPlaceholder']) && '1' === $entry['mediaPlaceholder']){
+                    $html .= str_replace('{MEDIAPLACE}', $media, $entry['content']);
+                } else {
+                    $html .= $media . $entry['content'];
+                }                
+                
             } else {
-                $factory->setHtmlContent($media . $entry['content']);
+                if (isset($entry['mediaPlaceholder']) && '1' === $entry['mediaPlaceholder']){
+                    $factory->setHtmlContent(str_replace('{MEDIAPLACE}', $media, $entry['content']));
+                } else {
+                    $factory->setHtmlContent($media . $entry['content']);
+                }
+                
+                
+                
                 $html .= $factory->display();
                 $factory = false;
             }

@@ -84,8 +84,8 @@ foreach ($this->entries as $entry) {
     $rowContent = array();
     $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->summary . '" />';
     $rowContent[] = $entry->summary;
-    $datetime = new \DateTime($entry->dateStart);
-    $rowContent[] = '<time>' . $this->dateFormat(new \DateTime($entry->dateStart), \IntlDateFormatter::FULL) . ', ' . $datetime->format("H:i") . '</time>';
+    //$datetime = new \DateTime($entry->dateStart);
+    $rowContent[] = '<time>' . $this->datetimeformat($entry->dateStart, 'FULL') . ', ' . $this->datetimeformat($entry->dateStart, false, 'SHORT') . '</time>';
     $rowContent[] = $this->mcworkPublishItem($entry->publish,$entry->id,'Mcevent\Model\Save\Dates');
     $props = array(
         'edit' => array(

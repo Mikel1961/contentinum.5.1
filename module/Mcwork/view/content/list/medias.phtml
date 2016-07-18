@@ -98,11 +98,11 @@ if ($this->services && isset($this->services['assigntags'])) {
     $dbAssignTagsTable = $this->services['assigntags'];
 }
 
-
+//var_dump($dbMediaTable);exit;
 
 $upDate = $registerDate = $owner = $updater = '';
 $tableFactory->setHeadline($columns);
-$disablefolder = array();
+$disablefolder = array('_alternate'); 
 $entries = $this->entries;
 $i = 0;
 
@@ -193,7 +193,7 @@ foreach ($entries as $entry) {
     } 
 }
 foreach ($entries as $entry) {
-    if ('.' != $entry->filename && '..' != $entry->filename && 'file' == $entry->type && 'index.html' != $entry->filename && false === strpos($entry->filename, '-200-th') ) {
+    if ('.' != $entry->filename && '..' != $entry->filename && 'file' == $entry->type && 'index.html' != $entry->filename && 'README.md' != $entry->filename && false === strpos($entry->filename, '-200-th') ) {
         $pathname = \ContentinumComponents\Path\Clean::get($entry->pathname);
         $pathname = str_replace($entry->docroot, '', $pathname);
         $label = '';
@@ -222,7 +222,13 @@ foreach ($entries as $entry) {
         
         $i ++;
         $rowContent = array();
-        $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-name="' . $entry->filename . '" />';
+        
+        $id = false;
+        if (isset($thisItem['id'])){
+            $id = $thisItem['id'];
+        }        
+        
+        $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-type="file" data-name="' . $entry->filename . '" data-ident="'.$id.'" />';
         $rowContent[] = $icon . $entry->filename . $label;
         $filesize = $this->filesize($entry->size);
         $rowContent[] = $filesize;
@@ -236,10 +242,7 @@ foreach ($entries as $entry) {
             $resizeapp = false;
         }
         $tags = ' ';
-        $id = false;
-        if (isset($thisItem['id'])){
-            $id = $thisItem['id'];
-        }
+
         $mediaName = false;
         if (isset($thisItem['mediaName'])){
             $mediaName = $thisItem['mediaName'];
@@ -261,16 +264,16 @@ foreach ($entries as $entry) {
                     'data-filename' => $mediaName,
                     'class' => 'button tiny filetags'
                 )
-            ),
-            'copy' => array(
+            ),*/
+            'edit' => array(
                 'attribs' => array(
                     'data-service' => 'backend_client_app',
-                    'data-appkey' => $resizeapp,
+                    'data-appkey' => $editApp,
                     'data-ident' => $id,
-                    'title' => 'Copy and resize item',
-                    'class' => 'button tiny editapp'
+                    'title' => 'Edit',
+                    'class' => 'button tiny loadedititem editapp'
                 )
-            ),*/
+            ),
             'download' => array(
                 'href' => '/mcwork/' . $ctrlpath . '/download/' . $id,
                 'attribs' => array(
@@ -320,11 +323,37 @@ foreach ($entries as $entry) {
 
 $table = $tableFactory->display();
 
+
+$link = '/mcwork/medias/public';
+$breadcrumb = '<ul class="breadcrumbs publicmedias"><li><a href="'.$link.'">Home</a></li>';
+$link .= '/';
 if (strlen($path) > 1){
+    $crumps = explode('_', $path);
+    $iPath = count($crumps);
+    $i = 0;
+    foreach ($crumps as $crump){
+        $i++;
+        $breadcrumb .= '<li';
+        if ($i == $iPath){
+            $breadcrumb .= ' class="current"';
+            $link = '#';
+        } else {
+            if ($i > 1){
+                $link .= '_'. $crump; 
+            } else {
+                $link .= $crump;
+            }
+        }
+        $breadcrumb .= '><a href="'.$link.'">' . $crump . '</a></li>'; 
+    }
+    
+    
+    
     $path = '/' . $path;
 }
-
+$breadcrumb .= '</ul>';
 $html = '<form id="mkDirForm" action="/mcwork/files/makedir'.$path.'" method="POST"><div id="mcworkcontent" role="main"><div class="large-12 columns">';
+$html .= $breadcrumb;
 $html .= '<div id="clNewFolder" class="row collapse">';
 $html .= '<div class="small-9 columns">';
 $html .= '<input id="new-folder" name="new-folder" type="text"><span class="errNewFolder"> </span>';

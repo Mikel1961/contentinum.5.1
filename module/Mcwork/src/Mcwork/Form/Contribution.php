@@ -328,6 +328,25 @@ class Contribution extends AbstractForms
                         'id' => 'htmlwidgets'
                     )
                 )
+            ),  
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'mediaPlaceholder',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => ' Medien Platzhalter setzen',
+                        'label_attributes' => array('for' => 'mediaPlaceholder'),
+                         
+                    ),
+                    'type' => 'Checkbox',
+                    'attributes' => array(
+                        'id' => 'mediaPlaceholder',
+                        'value' => 0
+                    )
+                )
             ),            
             
             array(
@@ -727,6 +746,9 @@ class Contribution extends AbstractForms
             ),
             'mediaStyle' => array(
                 'required' => false
+            ),
+            'mediaPlaceholder' => array(
+                'required' => false                
             ),
             'mediaLinkUrl' => array(
                 'required' => false

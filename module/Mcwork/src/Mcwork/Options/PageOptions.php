@@ -31,6 +31,7 @@ class PageOptions extends AbstractOptions
         'populateFromRoute',
         'setexclude',
         'notpopulate',
+        'services',
         'populateSerializeFields',
     );
 
@@ -71,8 +72,19 @@ class PageOptions extends AbstractOptions
      * Tag category
      * @var string
      */
-    protected $category;    
+    protected $category; 
+
+    /**
+     * Url parameter tag
+     * @var string
+     */
+    protected $tag;
     
+    /**
+     * Url parameter tagvalue
+     * @var string
+     */
+    protected $tagvalue;
     
     /**
      * Host name
@@ -334,6 +346,38 @@ class PageOptions extends AbstractOptions
     public function setCategory($category)
     {
         $this->category = $category;
+    }
+
+	/**
+     * @return the $tag
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+	/**
+     * @return the $tagvalue
+     */
+    public function getTagvalue()
+    {
+        return $this->tagvalue;
+    }
+
+	/**
+     * @param string $tag
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+	/**
+     * @param string $tagvalue
+     */
+    public function setTagvalue($tagvalue)
+    {
+        $this->tagvalue = $tagvalue;
     }
 
 	/**

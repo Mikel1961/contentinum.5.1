@@ -64,7 +64,8 @@ class Contentinum extends Menu
         $maxDepth,
         $onlyActive,
         $escapeLabels,
-        $addClassToListItem
+        $addClassToListItem,
+        $liActiveClass
     ) {
         $html = '';
 

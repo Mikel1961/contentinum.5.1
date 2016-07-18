@@ -79,6 +79,7 @@ class ModulFileGroup extends AbstractModuls
             $result[$entry->webMediasId->id]['mediaType'] = $entry->webMediasId->mediaType;
             $result[$entry->webMediasId->id]['mediaDescription'] = $entry->webMediasId->mediaDescription;
             $result[$entry->webMediasId->id]['resource'] = $entry->webMediasId->resource;
+            $result[$entry->webMediasId->id]['mediaSizes'] = $entry->webMediasId->mediaSizes;
         }
         return $result;
     }    

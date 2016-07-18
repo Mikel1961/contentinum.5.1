@@ -38,6 +38,18 @@ use Mcwork\Model\Medias\InUse;
 class MediaCategories extends Process
 {
     const INUSE_GROUP = 'mediacategories';
+    
+    private $app = array(
+        'webMediagroupId' => 'web_mediagroup_id',
+        'webMediasId' => 'web_medias_id',
+        'resource' => 'resource',
+        'description' => 'description',
+        'parentMediaFile' => 'parent_media_file',
+        'alternateDownload' => 'alternate_download',
+        'alternateLinktitle' => 'alternate_linktitle',
+        'alternateLabelname' => 'alternate_labelname'
+        
+    );
 
     /**
      * Prepare datas before save
@@ -55,6 +67,7 @@ class MediaCategories extends Process
             return true;
         } else {
             $this->inUseMedia($entity->webMediasId->id, $entity->id, self::INUSE_GROUP, 'delete');
+            //var_dump($datas);exit;
             parent::save($datas, $entity, $stage, $id);
             $this->inUseMedia($datas['webMediasId'], $entity->id);
         }

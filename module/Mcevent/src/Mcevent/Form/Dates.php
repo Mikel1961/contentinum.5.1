@@ -237,7 +237,7 @@ class Dates extends AbstractForms
             array(
                 'spec' => array(
                     'name' => 'webFilesId',
-                    'required' => true,
+                    'required' => false,
                     'options' => array(
                         'label' => 'Add a file attachment',
                         'empty_option' => 'Please select',
@@ -247,7 +247,6 @@ class Dates extends AbstractForms
             
                     'type' => 'Select',
                     'attributes' => array(
-                        'required' => 'required',
                         'id' => 'webFilesId',
                         'class' => 'chosen-select',
                     )
@@ -367,6 +366,12 @@ class Dates extends AbstractForms
         return array(
             'account' => array(
                 'required' => false,
+            ),
+            'webFilesId' => array(
+                'required' => false,                
+            ),
+            'webMediasId' => array(
+                'required' => false,                
             ),
         );
     }

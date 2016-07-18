@@ -58,7 +58,7 @@ class NavigationMenue extends AbstractForms
                         'empty_option' => 'Please select',
                         'value_options' => $this->getSelectOptions('webPages', array(
                             'value' => 'id',
-                            'label' => 'label'
+                            'label' => array('label','url')
                             ), array('main.scope != :scope' => array(':scope', '_default'))
                             ),
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),

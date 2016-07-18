@@ -151,7 +151,9 @@ return array(
             'Contentinum\Maps' => 'Contentinum\Factory\Mapper\ModulMapsFactory', 
             'Contentinum\Forms' => 'Contentinum\Factory\Mapper\ModulFormsFactory', 
             'Contentinum\Contact' => 'Contentinum\Factory\Mapper\ModulContactFactory',
+            'Contentinum\Organisation' => 'Contentinum\Factory\Mapper\ModulOrganisationFactory',
             'Contentinum\ContactGroup' => 'Contentinum\Factory\Mapper\ModulContactGroupFactory',
+            'Contentinum\IndexAccounts' => 'Contentinum\Factory\Mapper\ModulIndexAccountsFactory',
 
             'Contentinum\SearchForms' => 'Contentinum\Factory\Mapper\ModulSearchFormFactory',
 
@@ -370,8 +372,10 @@ return array(
             'accountmembers' => 'Contentinum\AccountMembers',
             'maps' => 'Contentinum\Maps',
             'forms' => 'Contentinum\Forms',
-            'wanted' => 'Contentinum\Contact',
-            'wantedgroup' => 'Contentinum\ContactGroup',   
+            'microdataorganisation' => 'Contentinum\Organisation',
+            'microdatagroup' => 'Contentinum\ContactGroup', 
+            'microdatacontact' => 'Contentinum\Contact',
+            'microdataaccountgroup' => 'Contentinum\IndexAccounts',
             'searchform' => 'Contentinum\SearchForms',
             
         ),    
@@ -393,8 +397,10 @@ return array(
             'accountmembers' => 'accountmembers',
             'maps' => 'maps',
             'forms' => 'forms',
-            'wanted' => 'wanted',
-            'wantedgroup' => 'wantedgroup',    
+            'microdataorganisation' => 'microdataorganisation',
+            'microdatagroup' =>  'microdataorganisationcontact',
+            'microdatacontact' => 'microdatacontact',
+            'microdataaccountgroup' => 'microdatacontactorganisation',
             'searchform' => 'searchform',    
         ),
         
@@ -481,22 +487,52 @@ return array(
                     )
                 )
             ),
-            'wantedgroup' => array(
+            
+            'microdatacontact' => array(
                 'resource' => 'intranet',
-                'name' => 'Steckbriefgruppe',
+                'name' => 'Steckbrief (Microdata)',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Kontaktgruppe auswählen',
+                                'label' => 'Kontakt auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
                                     'url' => '/mcwork/services/application/valueoptions',
                                     'data' => array(
-                                        'entity' => 'Contentinum\Entity\IndexGroups',
+                                        'entity' => 'Contentinum\Entity\Contacts',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => array('lastName', 'firstName', 'objectName', 'businessTitle'),
+                                        'sortby' => array('lastName' => 'ASC')
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams',
+                                'class' => 'chosen-select'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Template',
+                                'empty_option' => 'Please Select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_microdata',
                                         'prepare' => 'select',
                                         'value' => 'id',
                                         'label' => 'name'
@@ -508,18 +544,6 @@ return array(
             
                             'attributes' => array(
                                 'required' => 'required',
-                                'id' => 'modulParams'
-                            )
-                        )
-                    ),
-                    2 => array(
-                        'spec' => array(
-                            'name' => 'modulFormat',
-                            'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
-            
-                            'attributes' => array(
                                 'id' => 'modulFormat'
                             )
                         )
@@ -540,9 +564,17 @@ return array(
                         'spec' => array(
                             'name' => 'modulConfig',
                             'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
-            
+                            'options' => array(
+                                'label' => 'Format',
+                                'empty_option' => 'Please Select',
+                                'value_options' => array(
+                                    'standard' => 'Alles Anzeigen (Standard)',
+                                    'organisation' => 'Organisation über Kontakt Anzeigen',
+                                    'templatevalue' => 'Anzeige templateabhängig',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
                             'attributes' => array(
                                 'id' => 'modulConfig'
                             )
@@ -560,27 +592,31 @@ return array(
                             )
                         )
                     )
-                )            
-            ),
-            'wanted' => array(
+                )
+            
+            ),            
+            
+            
+            'microdataorganisation' => array(
                 'resource' => 'intranet',
-                'name' => 'Steckbrief',
+                'name' => 'Steckbrief Organisation (Microdata)',
                 'form' => array(
                     1 => array(
                         'spec' => array(
                             'name' => 'modulParams',
                             'required' => false,
                             'options' => array(
-                                'label' => 'Kontakt auswählen',
+                                'label' => 'Organisation auswählen',
                                 'empty_option' => 'Please select',
                                 'value_function' => array(
                                     'method' => 'ajax',
                                     'url' => '/mcwork/services/application/valueoptions',
                                     'data' => array(
-                                        'entity' => 'Contentinum\Entity\Contacts',
+                                        'entity' => 'Contentinum\Entity\Accounts',
                                         'prepare' => 'select',
                                         'value' => 'id',
-                                        'label' => 'lastName'
+                                        'label' => array('organisation', 'organisationExt'),
+                                        'sortby' => array('organisation' => 'ASC')
                                     )
                                 ),
                                 'deco-row' => 'text'
@@ -589,7 +625,8 @@ return array(
             
                             'attributes' => array(
                                 'required' => 'required',
-                                'id' => 'modulParams'
+                                'id' => 'modulParams',
+                                'class' => 'chosen-select'
                             )
                         )
                     ),
@@ -644,6 +681,218 @@ return array(
                 )
             
             ), 
+
+            
+            'microdataaccountgroup' => array(
+                'resource' => 'intranet',
+                'name' => 'Steckbriefe Organisationgruppe (Microdata)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Organisationgruppe auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\IndexAccountGroups',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Template',
+                                'empty_option' => 'Please Select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_microdata',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Format',
+                                'empty_option' => 'Please Select',
+                                'value_options' => array(
+                                    'organisation' => 'Organisation mit Kontakten Anzeigen',
+                                    'organisationdirect' => 'Nur Organisation Anzeigen',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
+
+            
+            
+            'microdatagroup' => array(
+                'resource' => 'intranet',
+                'name' => 'Steckbrief Kontaktgruppe (Microdata)',
+                'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Kontaktgruppe auswählen',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Contentinum\Entity\IndexGroups',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                    2 => array(
+                        'spec' => array(
+                            'name' => 'modulFormat',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Template',
+                                'empty_option' => 'Please Select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/configure',
+                                    'data' => array(
+                                        'service' => 'mcwork_clientapp_microdata',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulFormat'
+                            )
+                        )
+                    ),
+                    3 => array(
+                        'spec' => array(
+                            'name' => 'modulDisplay',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulDisplay'
+                            )
+                        )
+                    ),
+                    4 => array(
+                        'spec' => array(
+                            'name' => 'modulConfig',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Format',
+                                'empty_option' => 'Please Select',
+                                'value_options' => array(
+                                    'standard' => 'Alles Anzeigen (Standard)',
+                                    'organisation' => 'Organisation über Kontakt Anzeigen',
+                                    'contact' => 'Kontakt der Organisation Anzeigen',
+                                    'templatevalue' => 'Anzeige templateabhängig',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                            'attributes' => array(
+                                'id' => 'modulConfig'
+                            )
+                        )
+                    ),
+                    5 => array(
+                        'spec' => array(
+                            'name' => 'modulLink',
+                            'required' => false,
+                            'options' => array(),
+                            'type' => 'Hidden',
+            
+                            'attributes' => array(
+                                'id' => 'modulLink'
+                            )
+                        )
+                    )
+                )
+            ),            
             'mmenu' => array(
                 'resource' => 'intranet',
                 'name' => 'Navigation (mmenu)',

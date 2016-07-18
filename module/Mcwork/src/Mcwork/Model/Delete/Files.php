@@ -16,10 +16,19 @@ class Files extends Worker
     public function execute($id)
     {
        
-        $entity = $this->find($id);     
-        $this->deleteFile($entity->mediaSource);
-        $this->deleteEntry($entity, $id);
-        return true;
+        $entity = $this->find($id);   
+        if ($entity){
+            
+            $this->deleteFile($entity->mediaSource);
+            $this->deleteThumbnail($id);
+            $this->deleteEntry($entity, $id);            
+            
+            return true;
+        } else {
+            throw new \Mcwork\Model\Exception\InvalidValueModelException('No file found');
+        }
+
+
     }
     
     
@@ -35,6 +44,11 @@ class Files extends Worker
             return false;
         }
         
+    }
+    
+    protected function deleteThumbnail($id)
+    {
+        $this->executeQuery("DELETE FROM web_medias WHERE parent_media = {$id};");
     }
 
 }

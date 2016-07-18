@@ -28,7 +28,6 @@
 namespace Contentinum\View\Helper\Files;
 
 use Contentinum\View\Helper\AbstractContentHelper;
-use ContentinumComponents\Html\HtmlAttribute;
 
 class Group extends AbstractContentHelper
 {
@@ -39,13 +38,25 @@ class Group extends AbstractContentHelper
      *
      * @var unknown
      */
-    protected $row;
+    protected $headline;
 
     /**
      *
      * @var unknown
      */
-    protected $grid;
+    protected $description;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $list;
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $listelement;
 
     /**
      *
@@ -58,8 +69,10 @@ class Group extends AbstractContentHelper
      * @var unknown
      */
     protected $properties = array(
-        'row',
-        'grid',
+        'headline',
+        'description',
+        'list',
+        'listelement',
         'files'
     );
 
@@ -82,19 +95,21 @@ class Group extends AbstractContentHelper
         if (isset($viewTemplate[static::VIEW_TEMPLATE])) {
             $this->setTemplate($viewTemplate[static::VIEW_TEMPLATE]);
         }
-        $attr = '';
-        $grid = $this->getTemplateProperty('grid', 'element');
-        if (false !== ($attr = $this->getTemplateProperty('grid', 'attr'))) {
-            if (is_object($attr)) {
-                $attr = $attr->toArray();
-            }
-            $attr = HtmlAttribute::attributeArray($attr);
-        }
-        $list = '';
-        $files = $this->files->toArray();
-        $href = $files['grid']['attr']['href'];
+        
+        $headline = false;
+        $description = false;
+        $listelements = '';
         foreach ($entry['modulContent'] as $ident => $fileRow) {
-            $list .= '<' . $grid . $attr . '>';
+            if (false === $headline && strlen($fileRow['headline'])) {
+                $headline = $fileRow['headline'];
+            }
+            if (false === $description && strlen($fileRow['description'])) {
+                $description = $fileRow['description'];
+            }
+            
+            
+            $files = $this->files->toArray();
+            
             if (strlen($fileRow['attr']['linkname']) > 1) {
                 $label = $fileRow['attr']['linkname'];
             } else {
@@ -102,23 +117,25 @@ class Group extends AbstractContentHelper
             }
             
             $files['grid']['label'] = 'content';
-            $files['grid']['attr']['href'] = $href . $ident;
+            $files['grid']['attr']['href'] .= $ident;
             $files['grid']['attr']['title'] = 'Download ' . $label;
+            $files['grid']['attr']['data-tooltip'] = 'data-tooltip' . $ident;
             
-            $list .= $this->deployRow($files, $label);
             
-            $list .= '</' . $grid . '>';
+            $listelements .= $this->deployRow($this->listelement, $this->deployRow($files, $label . ' (' . $this->view->filesize($fileRow['mediaSizes']) . ')'));
         }
         
-        if (false !== ($values = $this->getTemplateProperty('row', 'attr'))) {
-            if (is_object($values)) {
-                $attr = $values->toArray();
-            }
-        } else {
-            $attr = array();
+        $html = '';
+        if (false !== $headline) {
+            $html .= $this->deployRow($this->headline, $headline);
         }
         
-        $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $attr);
+        if (false !== $description) {
+            $html .= $this->deployRow($this->description, $description);
+        }
+        
+        $html .= $this->deployRow($this->list, $listelements);
+        
         return $html;
     }
 }

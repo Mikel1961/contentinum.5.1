@@ -48,6 +48,7 @@ class Account extends AbstractForms
         $html .= '<dd class="active"><a href="#fieldsetAccount">' . $translation->translate('Account') . '</a></dd>';// tab1
         $html .= '<dd><a href="#fieldsetContact">' . $translation->translate('Contact data') . '</a></dd>';// tab2
         $html .= '<dd><a href="#fieldsetAddress">' . $translation->translate('Address') . '</a></dd>';// tab3
+        $html .= '<dd><a href="#fieldsetDescription">Bild und Beschreibung</a></dd>'; //tab4
         $html .= '</dl><div class="tabs-content">';// finish and start tab content area
         return $html;
     }    
@@ -131,6 +132,25 @@ class Account extends AbstractForms
                     )
                 )
             ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'eventLocation',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => ' Als Veranstaltungsort auflisten',
+                        'label_attributes' => array('for' => 'eventLocation'),
+                         
+                    ),
+                    'type' => 'Checkbox',
+                    'attributes' => array(
+                        'id' => 'eventLocation',
+                        'value' => 0
+                    )
+                )
+            ),            
+            
             array(
                 'spec' => array(
                     'name' => 'organisationExt',
@@ -153,6 +173,7 @@ class Account extends AbstractForms
                     )
                 )
             ), 
+            
 
             array(
                 'spec' => array(
@@ -238,6 +259,21 @@ class Account extends AbstractForms
                         'value' => '<div class="row"><div class="large-6 columns">'
                     )
                 )
+            ),    
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'formRowStartStreet',
+                    'options' => array(
+            
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formColumStartStreet',
+                        'value' => '<div class="row"><div class="large-9 columns">'
+                    )
+                )
             ),            
             
             array(
@@ -255,6 +291,52 @@ class Account extends AbstractForms
                     )
                 )
             ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'formRowMiddleStreet',
+                    'options' => array(
+            
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formRowMiddleStreet',
+                        'value' => '</div><div class="large-3 columns">',
+                    )
+                )
+            ) ,  
+
+            array(
+                'spec' => array(
+                    'name' => 'accountStreetNumber',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Number',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'accountStreetNumber'
+                    )
+                )
+            ),  
+
+            array(
+                'spec' => array(
+                    'name' => 'formRowEndStreet',
+                    'options' => array(
+
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formColumnEndStreet',
+                        'value' => '</div></div>'
+                    )
+                )
+            ) ,            
+            
             
             array(
                 'spec' => array(
@@ -419,7 +501,63 @@ class Account extends AbstractForms
                         'value' => '</div></div>'
                     )
                 )
-            ) ,           
+            ) ,
+
+            array(
+                'spec' => array(
+                    'name' => 'imgSource',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Bild',
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'imgSource',
+                        'class' => 'chosen-select',
+                        'value' => 1
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'selectfile',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'selectfile',
+                        'value' => '<a id="viewSelectFile" data-mediafield="imgSource" class="button tiny" href="#"><i class="fa fa-file-image-o"></i></a><figure id="selectedMedia"> </figure>'
+                    )
+                )
+            ),            
+            
+            array(
+                'spec' => array(
+                    'name' => 'description',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Description',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Contact',
+                            'attributes' => array(
+                                'class' => 'content',
+                                'id' => 'fieldsetDescription'// tab1
+                            )
+                        )
+                    ),
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '8',
+                        'id' => 'description',
+                        'class' => 'contactdescription smalleditor',
+                    )
+                )
+            ),            
             
             array(
                 'spec' => array(

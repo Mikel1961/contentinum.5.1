@@ -13,14 +13,31 @@ class ValueOptions extends Worker
         $entries = $this->query($params['entity'], $params);
         $options = array();
         foreach ($entries as $entry) {
-            $options[$entry->{$params['value']}] = $entry->{$params['label']};
+            $label = '';
+            $i = 0;
+            if (is_array($params['label'])){
+                foreach ($params['label'] as $labelKey){
+                    if ( strlen($entry->{$labelKey}) > 1 ){
+                       if (0 !== $i){
+                           $label .= ', ';
+                       } 
+                       $i++; 
+                       $label .= $entry->{$labelKey};
+                    }
+                }
+            } else {
+                $label = $entry->{$params['label']};
+            }
+            if (strlen($label) > 1){
+                $options[$entry->{$params['value']}] = $label;
+            }
         }
         return $options;   
     }
     
     protected function query($entityName, $params)
     {
-        if (isset($params['sortby'])){            
+        if (isset($params['sortby'])){           
             return $this->getStorage()->getRepository( $entityName )->findBy(array(),$params['sortby']);
         } else {
             return $this->getStorage()->getRepository( $entityName )->findAll();

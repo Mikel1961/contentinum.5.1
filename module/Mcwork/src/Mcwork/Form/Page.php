@@ -177,6 +177,7 @@ class Page extends AbstractForms
                     'attributes' => array(
                         'required' => 'required',
                         'id' => 'parentPage',
+                        'value' => 1,
                     )
                 )
             ), 

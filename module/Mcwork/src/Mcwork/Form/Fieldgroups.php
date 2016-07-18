@@ -48,31 +48,6 @@ class Fieldgroups extends AbstractForms
             
             array(
                 'spec' => array(
-                    'name' => 'accounts',
-                    'required' => true,
-            
-                    'options' => array(
-                        'label' => 'Select Account',
-                        'empty_option' => 'Please select',
-                        'value_options' => $this->getSelectOptions('accounts', array(
-                            'value' => 'id',
-                            'label' => 'organisation'
-                        )),
-            
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
-                    ),
-            
-                    'type' => 'Select',
-                    'attributes' => array(
-                        'required' => 'required',
-                        'id' => 'accounts',
-                        'class' => 'chosen-select'
-                    )
-                )
-            ),  
-            
-            array(
-                'spec' => array(
                     'name' => 'name',
                     'required' => true,
                     

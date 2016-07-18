@@ -42,6 +42,12 @@ abstract class AbstractContentHelper extends AbstractHelper
      * 
      * @var array
      */
+    protected $convertparams;
+    
+    /**
+     * 
+     * @var array
+     */
     protected $properties = array();
     
     
@@ -55,6 +61,27 @@ abstract class AbstractContentHelper extends AbstractHelper
     }
     
     /**
+     * @return the $convertparams
+     */
+    public function getConvertparams()
+    {
+        return $this->convertparams;
+    }
+
+	/**
+     * @param multitype: $convertparams
+     */
+    public function setConvertparams($convertparams)
+    {
+            if (strlen($convertparams) > 4) {
+            $mcSerialize = new \ContentinumComponents\Tools\HandleSerializeDatabase();
+            $this->convertparams = $mcSerialize->execUnserialize($convertparams);
+        } else {
+            $this->convertparams = array();
+        }
+    }
+
+	/**
      * 
      * @param unknown $prop
      * @return boolean
@@ -218,7 +245,10 @@ abstract class AbstractContentHelper extends AbstractHelper
                 if (isset($pattern['row']['content:before'])){
                     $before = $pattern['row']['content:before'];
                 }
-                $html = $this->view->contentelement($pattern['row']['element'],$before . $html. $after,$attr);                
+                $html = $this->view->contentelement($pattern['row']['element'],$before . $html. $after,$attr);  
+                if (isset($pattern['row']['content:after:outside'])){
+                    $html .= $pattern['row']['content:after:outside'];
+                }                              
             }
         }
         return $html;
@@ -261,7 +291,7 @@ abstract class AbstractContentHelper extends AbstractHelper
             switch ($format['dateFormat']['attr']) {
                 case 'FULL':
                 default:                    
-                    $content = $this->view->dateFormat(new \DateTime($content), \IntlDateFormatter::FULL);
+                    $content = $this->view->datetimeformat($content,'FULL');
                     break;
             }
         }

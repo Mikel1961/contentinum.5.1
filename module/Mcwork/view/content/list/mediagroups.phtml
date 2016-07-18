@@ -38,7 +38,14 @@ $iClass = 0;
 $headlines = array(
     '#' => array(),
     'Groupname' => array(),
-    'Access rights' => array(),
+    'Access rights' => array(
+        'head' => array(
+            'class' => 'text-center'
+        ),
+        'body' => array(
+            'class' => 'text-center'
+        )    
+    ),
     'Edit' => array(
         'head' => array(
             'class' => 'hide-for-small text-right'
@@ -70,13 +77,15 @@ foreach ($headlines as $column => $attributes) {
 }
 $tableFactory->setHeadline($columns);
 $i = 0;
+$resource = $this->resource->toArray();
 foreach ($this->entries as $entry) {
     if (true === $this->listIsAllowed($entry, $this->identity)){
     $i ++;
     $rowContent = array();
     $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]">';
     $rowContent[] = '<a href="/mcwork/mediacategories/category/'.$entry->id.'">' .  $entry->groupName . '</a>';
-    $rowContent[] = $entry->resource;
+    $access = ( isset($resource[$entry->resource]) ) ? $resource[$entry->resource]["name"] : $entry->resource;
+    $rowContent[] = $this->translate($access);
     
     $props = array(
         'edit' => array(

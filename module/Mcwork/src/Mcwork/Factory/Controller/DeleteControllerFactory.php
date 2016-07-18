@@ -43,7 +43,7 @@ class DeleteControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $controllerManager)
     {
-  
+        
         
         $sl = $controllerManager->getServiceLocator();
         /**

@@ -34,10 +34,10 @@ $dayname = array(
     '6' => 'Samstag',
     '7' => 'Sonntag'
 );
-$datetime = new \DateTime();
-//
+//$datetime = new \DateTime();
+// $this->dateFormat
 ?>
-<div class="row">
+<div id="dashboardrow" class="row">
 	<div class="large-12 columns">
 		<div class="right">
 		
@@ -60,8 +60,8 @@ $datetime = new \DateTime();
 			<ul class="stats">
 				<li class="pomegranate"><i class="fa fa-calendar"></i>
 					<div class="details">
-						<span class="big"><?php echo $this->dateFormat(new \DateTime(), \IntlDateFormatter::LONG ) ?></span>
-						<span><?php echo $dayname[$datetime->format('N')] .', <time id="serverClock" datetime="">'.  $datetime->format("H:i:s"); ?></time></span>
+						<span class="big"><?php echo $this->datetimeformat()  ?></span>
+						<span><?php echo $dayname[date('N')]; ?>, <time id="serverClock" datetime=""><?php echo $this->datetimeformat(null,false,'LONG')  ?></time></span>
 					</div></li>
 			</ul>
 			
@@ -70,6 +70,6 @@ $datetime = new \DateTime();
 				</li>
 			</ul>			
 
-		</div>
+		</div>		
 	</div>
 </div>

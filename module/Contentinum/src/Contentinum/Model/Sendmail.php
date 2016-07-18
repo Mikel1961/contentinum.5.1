@@ -28,6 +28,7 @@
 namespace Contentinum\Model;
 
 use Zend\Mail\Message;
+use Doctrine\DBAL\Types\VarDateTimeType;
 
 
 class Sendmail extends Message
@@ -141,13 +142,141 @@ class Sendmail extends Message
     {
         $this->configure = $configure;
     }
+    
+    public function send()
+    {
+        require CON_ROOT_PATH . '/vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
+        $mail = new \PHPMailer;
+        $mail->isSMTP(); 
+        $transport = $this->getTransport()->getOptions();
+        $mail->Host = $transport->getHost();
+        $mail->SMTPAuth = true;
+        $mail->CharSet = 'utf-8';
+        $creditals = $transport->getConnectionConfig();
+        $mail->Username = $creditals["username"];                // SMTP username
+        $mail->Password = $creditals["password"];                           // SMTP password
+        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = $transport->getPort();    
+
+        $mail->From = $this->configure['mailfrom'];
+        $mail->FromName = $this->configure['mailfromname'];             // Name is optional
+        $mail->addReplyTo($this->configure['mailfrom'], $this->configure['mailfromname']); 
+        $emailname = null;
+        if (strlen($this->formConfigure->emailname) > 1){
+            $emailname = $this->formConfigure->emailname;
+        }
+        $mail->addAddress($this->formConfigure->email, $emailname);    
+
+        if (strlen($this->formConfigure->emailcc) > 1){
+            foreach (explode(';', $this->formConfigure->emailcc) as $addCC){
+                $mail->addCC( $addCC );
+            }
+            
+        }        
+        
+        $mail->isHTML(false);
+        $mail->Subject = $this->formConfigure->emailsubject;
+        $emailBody = "\n";
+        $emailBody .= 'Serverzeit: ' . date('d.m.Y, H:i');
+        $emailBody .= "\n\n\n";   
+        foreach ($this->formDatas as $name => $value){
+            if (isset($this->formFields[$name]['label'])){
+                $emailBody .= $this->formFields[$name]['label'] . ": ";
+            }
+            $emailBody .= $value . "\n";
+        }
+        $emailBody .= "\n\n" . $this->configure['signature'];             
+        $mail->Body    = $emailBody;    
+        if(!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            exit;
+        } else {
+            return true;
+        }           
+        //print '<pre>';
+        //var_dump($transport->getConnectionConfig());
+        //var_dump($this->configure);
+        //exit;        
+    }
+    
+    
+    /**
+     *
+     * @param unknown $userData
+     * @param unknown $contribution
+     * @param unknown $host
+     * @return boolean
+     */
+    public function sendRecommendation($userData, $contribution, $host)
+    {
+    
+        require CON_ROOT_PATH . '/vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
+        $mail = new \PHPMailer;
+        $mail->isSMTP();
+        $transport = $this->getTransport()->getOptions();
+        $mail->Host = $transport->getHost();
+        $mail->SMTPAuth = true;
+        $mail->CharSet = 'utf-8';
+        $creditals = $transport->getConnectionConfig();
+        $mail->Username = $creditals["username"];                // SMTP username
+        $mail->Password = $creditals["password"];                           // SMTP password
+        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = $transport->getPort();        
+        
+        
+        
+        $template = file_get_contents(CON_ROOT_PATH . '/data/files/emailtemplates/recommendation');
+        $emailname = null;
+        if (strlen($this->formDatas['namereceiver']) > 1){
+            $emailname = $this->formDatas['namereceiver'];
+        }
+        
+        
+        $mail->From = $this->formDatas['sender'];
+        $mail->FromName = $this->formDatas['name'];             // Name is optional
+        $mail->addReplyTo($this->formDatas['sender'], $this->formDatas['name']);
+        $emailname = null;
+        if (strlen($this->formDatas['namereceiver']) > 1){
+            $emailname = $this->formDatas['namereceiver'];
+        }
+        $mail->addAddress($this->formDatas['receiver'], $emailname);
+        
+
+        
+        $mail->isHTML(false);
+        $mail->Subject = 'Empfehlung von ' . $this->formDatas['name'];       
+        $emailBody = 'Serverzeit: ' . date('d.m.Y, H:i');
+        $emailBody .= "\n\n\n";
+        $body = str_replace('{EMAIL}', $this->formDatas['sender'], $template);
+        $body = str_replace('{NAME}', $this->formDatas['name'], $body);
+        $body = str_replace('{NOTE}', $this->formDatas['note'], $body);
+        $body = str_replace('{HOST}', $host, $body);
+        $body = str_replace('{HAEDLINE}', $this->formDatas['headline'], $body);
+        $body = str_replace('{LINK}', 'http://' . $host . '/' . $contribution['source'], $body);
+        $emailBody .= $body;
+        
+        $mail->Body    = $emailBody;
+        if(!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            exit;
+        } else {
+            return true;
+        }        
+        
+        //$this->setBody($emailBody);
+        //$this->transport->send($this);
+        //return true;
+    }    
 
     /**
      * Prepare and send mail
      * @return boolean
      */
-	public function send()
+	public function org_send()
     {
+
         $this->addFrom($this->configure['mailfrom'], $this->configure['mailfromname']);
         $this->addReplyTo($this->configure['mailfrom'], $this->configure['mailfromname']);
         $emailname = null;
@@ -177,16 +306,17 @@ class Sendmail extends Message
         return true;
     }
     
+    
     /**
-     * 
+     *
      * @param unknown $userData
      * @param unknown $contribution
      * @param unknown $host
      * @return boolean
      */
-    public function sendRecommendation($userData, $contribution, $host)
+    public function org_sendRecommendation($userData, $contribution, $host)
     {
-        
+    
         $template = file_get_contents(CON_ROOT_PATH . '/data/files/emailtemplates/recommendation');
         $this->addFrom($this->formDatas['sender'], $this->formDatas['name']);
         $this->addReplyTo($this->formDatas['sender'], $this->formDatas['name']);
@@ -195,20 +325,22 @@ class Sendmail extends Message
             $emailname = $this->formDatas['namereceiver'];
         }
         $this->addTo($this->formDatas['receiver'], $emailname);
-        $this->setSubject('Empfehlung von ' . $this->formDatas['name']);   
+        $this->setSubject('Empfehlung von ' . $this->formDatas['name']);
         $emailBody = 'Serverzeit: ' . date('d.m.Y, H:i');
-        $emailBody .= "\n\n\n";             
+        $emailBody .= "\n\n\n";
         $body = str_replace('{EMAIL}', $this->formDatas['sender'], $template);
         $body = str_replace('{NAME}', $this->formDatas['name'], $body);
         $body = str_replace('{NOTE}', $this->formDatas['note'], $body);
         $body = str_replace('{HOST}', $host, $body);
         $body = str_replace('{HAEDLINE}', $this->formDatas['headline'], $body);
-        $body = str_replace('{LINK}', 'http://' . $host . '/' . $contribution['source'], $body);     
-        $emailBody .= $body;   
+        $body = str_replace('{LINK}', 'http://' . $host . '/' . $contribution['source'], $body);
+        $emailBody .= $body;
         $this->setBody($emailBody);
         $this->transport->send($this);
         return true;
-    }
+    }    
+    
+
     
     /**
      * Send a text mail

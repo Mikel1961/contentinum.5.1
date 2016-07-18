@@ -62,6 +62,7 @@ class McworkController extends AbstractMcworkController
             'host' => $pageOptions->getHost(),
             'protocol' => 'http',
             'usrgrps' => '',
+            'resource' => $this->getServiceLocator()->get('Acl\Resource'), 
             'category' => $this->params()->fromRoute('id', 0),
             'identity' => $this->getIdentity()
         ), $pageOptions);

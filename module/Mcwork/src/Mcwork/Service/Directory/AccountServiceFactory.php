@@ -66,7 +66,7 @@ class AccountServiceFactory extends WebsiteServiceFactory
         if (! ($result = $cache->getItem($key))) {
             $worker = new Worker($sl->get($config['entitymanager']));
             $conn = $worker->getConnection();
-            $sql = "SELECT main.id, main.organisation ";
+            $sql = "SELECT main.id, main.organisation, main.organisation_ext ";
             $sql .= "FROM accounts AS main ";
             $sql .= "ORDER BY main.organisation ASC";            
             $entries = $conn->query($sql)->fetchAll();
@@ -74,7 +74,7 @@ class AccountServiceFactory extends WebsiteServiceFactory
             $tmp = array();
             foreach ($entries as $entry) {
                 $tmp[$entry['id']] = array(
-                    'name' => $entry['organisation']
+                    'name' => $entry['organisation'] . ', ' . $entry['organisation_ext']
                 );
             }
             $result = new Config($tmp);

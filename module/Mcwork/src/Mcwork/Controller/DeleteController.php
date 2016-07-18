@@ -36,21 +36,34 @@ class DeleteController extends AbstractMcworkController
 {
     public function application($pageOptions, $defaultRole = null, $acl = null)
     {
+        
         $redirectUrl = $pageOptions->getAppOption('settoroute');
         $id = $this->params()->fromRoute('id', false);
-        
+                
         $cat = '';
         if (false !== ($cat = $this->params()->fromRoute('cat', false))){
             $cat = '/'  . $cat;
         }        
 
         if (false === $id){
+            if (true === $this->getXmlHttpRequest()){
+                print false;
+                exit();
+            }
             return $this->redirect()->toUrl( $redirectUrl . $cat );
-        }
+        } 
 
         try {
             $msg = $this->worker->execute($id);
+            if (true === $this->getXmlHttpRequest()){
+                print true;
+                exit();
+            }            
         } catch (\Exception $e){
+            if (true === $this->getXmlHttpRequest()){
+                print false;
+                exit();
+            }            
             $msg = 'ERROR: ' . $e->getMessage();
         }
     

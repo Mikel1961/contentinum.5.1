@@ -115,6 +115,7 @@ return array(
             'Mcevent\Dates' => 'Mcevent\Factory\Mapper\ModulDatesFactory',
             'Mcevent\ActualDates' => 'Mcevent\Factory\Mapper\ModulActualDatesFactory',
             'Mcevent\ActualGroupDates' => 'Mcevent\Factory\Mapper\ModulActualGroupDatesFactory',
+            'Mcevent\ModulCalcAnnuallyFactory' => 'Mcevent\Factory\Mapper\ModulCalcAnnuallyFactory',
             'Mcevent\Locations' => 'Mcevent\Service\Accounts\LocationServiceFactory'
         )
     ),
@@ -139,12 +140,14 @@ return array(
         'key_plugins' => array(
             'eventdates' => 'Mcevent\Dates',
             'actualdates' => 'Mcevent\ActualDates',
-            'actualgroupdates' => 'Mcevent\ActualGroupDates'
+            'actualgroupdates' => 'Mcevent\ActualGroupDates',
+            'eventyeararchive' => 'Mcevent\ModulCalcAnnuallyFactory',
         ),        
         'viewhelper_plugins' => array(
             'eventdates' => 'eventdates',
             'actualdates' => 'eventdates',
-            'actualgroupdates' => 'eventdates'
+            'actualgroupdates' => 'eventdates',
+            'eventyeararchive' => 'eventyeararchive',
         ),        
         'default_plugins' => array(            
             'actualgroupdates' => array(
@@ -290,8 +293,15 @@ return array(
                         'spec' => array(
                             'name' => 'modulFormat',
                             'required' => false,
-                            'options' => array(),
-                            'type' => 'Hidden',
+                            'options' => array(
+                                'label' => 'Ansicht',
+                                'value_options' => array(
+                                    'std' => 'Standard',
+                                    'displaymonthname' => 'Anzeige Monatsüberschrift',
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
                             
                             'attributes' => array(
                                 'id' => 'modulFormat'
@@ -332,8 +342,7 @@ return array(
                             'type' => 'Select',
                             
                             'attributes' => array(
-                                'required' => 'required',
-                                'id' => 'modulFormat'
+                                'id' => 'modulDisplay'
                             )
                         )
                     ),
@@ -422,7 +431,17 @@ return array(
                                     '7' => 'Display 7',
                                     '8' => 'Display 8',
                                     '9' => 'Display 9',
-                                    '10' => 'Display 10'
+                                    '10' => 'Display 10',
+                                    '11' => 'Display 11',
+                                    '12' => 'Display 12',
+                                    '13' => 'Display 13',
+                                    '14' => 'Display 14',
+                                    '15' => 'Display 15',
+                                    '16' => 'Display 16',
+                                    '17' => 'Display 17',
+                                    '18' => 'Display 18',
+                                    '19' => 'Display 19',
+                                    '20' => 'Display 20',
                                 ),
                                 'deco-row' => 'text'
                             ),
@@ -459,8 +478,93 @@ return array(
                         )
                     )
                 )
-            )            
-        )
+            ) ,           
+       
+        'eventyeararchive' => array(
+            'resource' => 'intranet',
+            'name' => 'Kalender Archiv jaehrlich',
+            'form' => array(
+                    1 => array(
+                        'spec' => array(
+                            'name' => 'modulParams',
+                            'required' => false,
+                            'options' => array(
+                                'label' => 'Kalender',
+                                'empty_option' => 'Please select',
+                                'value_function' => array(
+                                    'method' => 'ajax',
+                                    'url' => '/mcwork/services/application/valueoptions',
+                                    'data' => array(
+                                        'entity' => 'Mcevent\Entity\MceventTypes',
+                                        'prepare' => 'select',
+                                        'value' => 'id',
+                                        'label' => 'name'
+                                    )
+                                ),
+                                'deco-row' => 'text'
+                            ),
+                            'type' => 'Select',
+                            
+                            'attributes' => array(
+                                'required' => 'required',
+                                'id' => 'modulParams'
+                            )
+                        )
+                    ),
+                2 => array(
+                    'spec' => array(
+                        'name' => 'modulFormat',
+                        'required' => false,
+                        'options' => array(
+                            'label' => 'Seite',
+                            'deco-row' => 'text'
+                        ),
+                        'type' => 'text',
+        
+                        'attributes' => array(
+                            'id' => 'modulFormat'
+                        )
+                    )
+                ),
+                3 => array(
+                    'spec' => array(
+                        'name' => 'modulDisplay',
+                        'required' => false,
+                        'options' => array(),
+                        'type' => 'Hidden',
+        
+                        'attributes' => array(
+                            'id' => 'modulDisplay'
+                        )
+                    )
+                ),
+                4 => array(
+                    'spec' => array(
+                        'name' => 'modulConfig',
+                        'required' => false,
+                        'options' => array(),
+                        'type' => 'Hidden',
+        
+                        'attributes' => array(
+                            'id' => 'modulConfig'
+                        )
+                    )
+                ),
+                5 => array(
+                    'spec' => array(
+                        'name' => 'modulLink',
+                        'required' => false,
+                        'options' => array(),
+                        'type' => 'Hidden',
+        
+                        'attributes' => array(
+                            'id' => 'modulLink'
+                        )
+                    )
+                )
+            )
+            ),
+        ),        
     ),
     'doctrine' => array(
         'driver' => array(

@@ -54,8 +54,8 @@ class Maps extends AbstractHelper
             $jsMarkerData[$i]['latitude'] = (float) $entry->latitude;
             $jsMarkerData[$i]['longitude'] = (float) $entry->longitude;
             $jsMarkerData[$i]['zindex'] = 1;
-            if ($entry->webMedias->id > 1) {
-                $jsMarkerData[$i]['image'] = $this->view->getmedialink($entry->webMedias->id, $medias);
+            if ($entry->webMediaIdent > 1) {
+                $jsMarkerData[$i]['image'] = $this->view->getmedialink($entry->webMediaIdent, $medias);
             } else {
                 $jsMarkerData[$i]['image'] = "";
             }

@@ -102,7 +102,7 @@ foreach ($this->entries as $entry) {
         } else {
             $rowContent[] = '<input data-name="'. $entry->label .'" id="row' . $i . '" type="checkbox" value="' . $entry->id . '" name="cb[]" data-name="' .  $entry->label . '" />';       
         }
-        $rowContent[] = $entry->label;
+        $rowContent[] = $entry->label;// . '<br /><em>' . $url . '</em>';
         $rowContent[] = ('index' === $entry->url) ? '/' : $entry->url;
         $rowContent[] = $entry->webPreferences->host;
         

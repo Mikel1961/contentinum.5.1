@@ -99,6 +99,7 @@ class FsFileEditController extends AbstractMcworkController
         if ($form->isValid()) {
             $formDatas = $form->getData();
             try {
+                $this->worker->setIdentity($this->getIdentity());
                 $msg = $this->worker->save($form->getData());
                 return $this->redirect()->toUrl($pageOptions->getAppOption('settoroute') . $cat);
             } catch (\Exception $e) {

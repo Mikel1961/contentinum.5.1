@@ -156,7 +156,8 @@ class Monthly extends AbstractContentHelper
             if (false !== ($sublist = $this->months($year, $month))) {
                 $hassub = $this->hassub;
                 if ($hassub) {
-                    $elements['grid']['attr']['class'] = $hassub['attr']['class'] . ' ' . $elements['grid']['attr']['class'];
+                    unset($elements['grid']['attr']['href']);
+                    $elements['grid']['attr']['class'] = $hassub['attr']['class']; // . ' ' . $elements['grid']['attr']['class'];
                     $elements['grid']['attr']['data-ident'] = $year;
                 }
             }

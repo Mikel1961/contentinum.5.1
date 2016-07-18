@@ -25,7 +25,7 @@
  * @link      https://github.com/Mikel1961/contentinum-components
  * @version   1.0.0
  */
-namespace Contentinum\View\Helper\Wanted;
+namespace Contentinum\View\Helper\Microdata\Properties;
 
 use Zend\View\Helper\AbstractHelper;
 
@@ -44,21 +44,21 @@ class Name extends AbstractHelper
 	 *        	file size in bytes
 	 * @return string
 	 */
-	public function __invoke($entry, $group = true) 
+	public function __invoke($entry, $group = true, $base = 'contacts') 
 	{
 	    $result = '';
 	    if (1 === $entry->enableSalutation){
-	        $result .= $this->salutation($entry->contacts->salutation) . ' ';
+	        $result .= $this->salutation($entry->{$base}->salutation) . ' ';
 	    }
 	    if (1 === $entry->enableTitle){
-	        $result .= $this->salutation($entry->contacts->title) . ' ';
+	        $result .= $this->salutation($entry->{$base}->title) . ' ';
 	    }	    
 	    if (1 === $entry->enableFirstName ){
-	        $result .= $entry->contacts->firstName . ' ';
+	        $result .= $entry->{$base}->firstName . ' ';
 	    }
 	    
 	    if (1 === $entry->enableLastName ){
-	        $result .= $entry->contacts->lastName;
+	        $result .= $entry->{$base}->lastName;
 	    }	    
 	    
 	    return $result;

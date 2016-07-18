@@ -29,6 +29,9 @@ foreach ($entries['feedentries'] as $entry) {
         ));
         $feedEntry->setDescription($entry['publish_author']);
         $addMedia = '';
+        if ( isset($entry['content_teaser']) ){
+            $addMedia .= $entry['content_teaser'];
+        }        
         if (1 !== (int) $entry['web_medias_id']) {
             $media = null;
             foreach ($this->medias as $mediaRow) {
@@ -48,6 +51,7 @@ foreach ($entries['feedentries'] as $entry) {
                 $addMedia .= '</figure></p>';
             }            
         }
+
         $feedEntry->setContent($addMedia.$entry['content']);
         $feed->addEntry($feedEntry);
     }

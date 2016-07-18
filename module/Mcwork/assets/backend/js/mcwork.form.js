@@ -1,7 +1,14 @@
 (function ($){
 	$.fn.McworkViewAndSelectFiles = function(options, app) {
 		app.view();
+		var domIdent = 'webMediasId';
 		var opts = {};
+		if (options.hasOwnProperty('domIdent')){
+			domIdent = options.domIdent;
+		}
+		
+		console.log(domIdent);
+		console.log(options);
 		opts.url = '/mcwork/services/application/dirlist';	
 		var dirlist = Mcwork.Server.request(opts);
 		$('#dir-links').html(dirlist);
@@ -16,8 +23,8 @@
 		$(document.body).on('click', ".thisMediaElement", function(ev) {
 			ev.preventDefault();
 			ev.stopImmediatePropagation();
-			$('#webMediasId').val($(this).attr('data-ident'));
-			$('#webMediasId').trigger("chosen:updated");
+			$('#' + domIdent).val($(this).attr('data-ident'));
+			$('#' + domIdent).trigger("chosen:updated");
 			delete app;
 			$(Mcwork.Modals.getStdModal()).foundation('reveal', 'close');		
 		});	
@@ -194,7 +201,7 @@ var McworkFormValidation = {
 		});
 	}, 
 	
-	emptyform : function(std){
+	emptyform : function(std, form){
         $.each($('select'), function(i){
         	var domIdent = $(this).attr('id');
         	if (std.hasOwnProperty('#' +  domIdent)){
@@ -214,6 +221,10 @@ var McworkFormValidation = {
 			}      	
         	
         });
+        
+		if ('tinymce' === $(form).attr('data-editor')){
+			tinymce.activeEditor.setContent('');
+		}        
 		
 		$.each($(":input:visible:not(:button, :submit, :radio, select)"), function(i) {
 			var domIdent = $(this).attr('id');
@@ -221,7 +232,14 @@ var McworkFormValidation = {
         		if ('_leave' == std['#' +  domIdent]['val']){
         			return;
         		}
-        	}			
+        	}	
+			if ('checkbox' === $(this).attr('type')) {
+				console.log('y');
+				if (std.hasOwnProperty('#' +  domIdent) && 'unchecked' === std['#' +  domIdent]['val']){
+					$('#' +  domIdent).prop( "checked", false );
+				}
+				return;
+			}        			
 			$(this).val('');
 			if (std.hasOwnProperty('#' +  domIdent)){
 				$(this).val(std['#' +  domIdent]['val']);
@@ -271,6 +289,11 @@ var McworkFormValidation = {
 		if (false === opts.xhr){
 			$(form).submit();
 		} else {
+			
+			if ('tinymce' === $(form).attr('data-editor')){
+				tinyMCE.triggerSave();
+			}
+						
 			var formData = $(form).serialize();
 			var action = $(form).attr('action');
 			
@@ -288,14 +311,14 @@ var McworkFormValidation = {
 							Mcwork.Parameter.hasRemoveClass('#modalhead', Mcwork.Colors.get(Mcwork.Colors.WARN));  
 							$('#modalhead').addClass( Mcwork.Colors.get(Mcwork.Colors.SUCCESS));  
 							$('#modalhead').html(Mcwork.Language.translate('heads', 'saveplussuccess') + ' ' + Mcwork.Icons.getsuccess() );
-							$('#modalcontent').html( Mcwork.Html.build('p', {'translate': {'key': 'messages', 'txt':'savenextsuccess' }} ) );
+							$('#modalcontent').html( Mcwork.HTML.block('p', {'translate': {'key': 'messages', 'txt':'savenextsuccess' }} ) );
 							$('#footercontent').html('<p class="modal-buttons right">' +  Mcwork.HTML.block('button', {'translate': {'key': 'btn', 'txt':'close'}}  ,{'id': 'cancel-button', 'class': 'button'})  + '</p>');
 						} else {
-							McworkFormValidation.emptyform(opts.std);
+							McworkFormValidation.emptyform(opts.std, form);
 							Mcwork.Parameter.hasRemoveClass('#modalhead', Mcwork.Colors.get(Mcwork.Colors.WARN));  
 							$('#modalhead').addClass( Mcwork.Colors.get(Mcwork.Colors.SUCCESS));  
 							$('#modalhead').html(Mcwork.Language.translate('heads', 'saveplussuccess') + ' ' + Mcwork.Icons.getsuccess() );
-							$('#modalcontent').html( Mcwork.Html.build('p', {'translate': {'key': 'messages', 'txt':'saveplussuccess'  }} ) );
+							$('#modalcontent').html( Mcwork.HTML.block('p', {'translate': {'key': 'messages', 'txt':'saveplussuccess'  }} ) );
 							$('#footercontent').html('<p class="modal-buttons right">' +  Mcwork.HTML.block('button', {'translate': {'key': 'btn', 'txt':'close'}}  ,{'id': 'cancel-button', 'class': 'button'})  + '</p>');
 						}
 						
@@ -310,7 +333,7 @@ var McworkFormValidation = {
 				error: function (xhr, ajaxOptions, thrownError) {									
 						var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
 						$('#modalhead').html(Mcwork.Language.translate('errors', 'server') + ' ' + Mcwork.Icons.getwarn() );
-						$('#modalcontent').html( Mcwork.Html.build('p', {'txt':  msg } ) );
+						$('#modalcontent').html( Mcwork.HTML.block('p', {'txt':  msg } ) );
 						$('#footercontent').html('<p class="modal-buttons right">' +  Mcwork.HTML.block('button', {'translate': {'key': 'btn', 'txt':'close'}}  ,{'id': 'cancel-button', 'class': 'button'})  + '</p>');
 				}				
 			});			
@@ -497,14 +520,14 @@ var McworkGroups = {
 			}
 			
 			if ( element.hasOwnProperty('src') ){
-				str += Mcwork.Html.inline('img', { 'src' : element.src, 'alt' : element.itemName } );
+				str += Mcwork.HTML.inline('img', { 'src' : element.src, 'alt' : element.itemName } );
 			} else if ( element.hasOwnProperty('icon') ){
 				str += Mcwork.Icons.geticon(element.icon + ' ' + Mcwork.icon_sizes.s5); 
 			}
 			if ('media' ==  McworkGroups.options.category){
-				str += Mcwork.Html.block('figcaption',{ 'txt' : element.itemName}, {'class': 'category-desc'});				
-				str = Mcwork.Html.block('a', { 'txt' : str}, { 'href' : '#',  'class': 'saveandnext', 'data-ident' : element.id, 'data-previous' : dataPrevious });
-				content += Mcwork.Html.block('figure', { 'txt' : str}, {'id': 'figident' + figident, 'class': 'group-element' + elmActive});
+				str += Mcwork.HTML.block('figcaption',{ 'txt' : element.itemName}, {'class': 'category-desc'});				
+				str = Mcwork.HTML.block('a', { 'txt' : str}, { 'href' : '#',  'class': 'saveandnext', 'data-ident' : element.id, 'data-previous' : dataPrevious });
+				content += Mcwork.HTML.block('figure', { 'txt' : str}, {'id': 'figident' + figident, 'class': 'group-element' + elmActive});
 			}
 			count++;
 			figident++;
@@ -734,7 +757,7 @@ var McworkGroups = {
 		
 		$(document.body).on('click', '#cancel-button', function(ev) {
 			delete app;
-			$(Mcwork.std_modal).foundation('reveal', 'close');
+			$(Mcwork.Modals.getStdModal()).foundation('reveal', 'close');
 		});			
 
 	};
@@ -747,6 +770,14 @@ $(document).ready(function() {
 	}	
 	
 	$(".chosen-select").chosen();
+	
+	if ($("#menuDate")){
+		$("#menuDate").datetimepicker( Mcwork.Parameter.getDatePicker() );
+	}	
+	
+	if ($("#validUntil").length) {
+		$("#validUntil").datetimepicker( Mcwork.Parameter.getDatePicker() );
+	}
 	
 	if ($("#dateStart")){
 		$("#dateStart").datetimepicker( Mcwork.Parameter.getDatePicker() );
@@ -775,8 +806,135 @@ $(document).ready(function() {
 	
 	$('#viewSelectFile').click(function(ev){
 		ev.preventDefault();
-		$().McworkViewAndSelectFiles({},Mcwork.Explorer);
+		var options = {};
+		var mediafield = $(this).data('mediafield');
+
+		if (typeof mediafield != 'undefined'){
+			options.domIdent = mediafield;
+		}
+		$().McworkViewAndSelectFiles(options,Mcwork.Explorer);
 	});	
+	
+	
+	if (  $('#setAccountGroupForm').length ){
+		
+		var groupForm = {
+			1 : {
+				'spec' : {
+					'name' : 'accountGroup',
+	                'required' : true,
+	                'options' : {
+	                	  'label' : 'Gruppe',
+                          'empty_option' : 'Please Select',
+                          'value_options' : {},
+	                },
+	                'type' : 'Select',
+	                'attributes' : {
+	                	'id' : 'accountGroup'
+	                }
+	            }
+	         },
+	   };
+	   
+	   if (0 != $('#fieldtypes').val()){	   	
+			var datas = {'fieldtypes' : $('#fieldtypes').val()};
+			var populate = { 'accountGroup' : $('#accountGroup').val()};
+			$.ajax({
+				url : '/mcwork/services/application/accountgroups',
+				type : 'POST',
+				data : datas,
+				beforeSend: function(){ 
+					$('#setAccountGroupForm').html('<p><i class="fa fa-spinner fa-pulse"></i></p>');
+				} ,							
+				success : function(data) {
+					groupForm[1].spec.options.value_options = jQuery.parseJSON( data );
+					$('#setAccountGroupForm').html(Mcwork.Forms.init({populateValues : populate, formtag : false }, groupForm));
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) {									
+						var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
+						Mcwork.Modals.buildError(msg);
+				}				
+			});		   	
+	   	
+	   	
+	   }
+		
+		$('#fieldtypes').change(function(ev){
+			$('#setAccountGroupForm').html('');
+			var datas = {'fieldtypes' : $('#fieldtypes').val()};
+			$.ajax({
+				url : '/mcwork/services/application/accountgroups',
+				type : 'POST',
+				data : datas,
+				beforeSend: function(){ 
+					
+				} ,							
+				success : function(data) {
+					groupForm[1].spec.options.value_options = jQuery.parseJSON( data );
+					$('#setAccountGroupForm').html(Mcwork.Forms.init({ formtag : false }, groupForm));
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) {									
+						var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
+						Mcwork.Modals.buildError(msg);
+				}				
+			});				
+			
+			
+			
+		});
+	}
+	
+	if (  $('#setAccountCategoryForm').length ){
+		
+		var categoryForm = {
+			1 : {
+				'spec' : {
+					'name' : 'accountCategory',
+	                'required' : true,
+	                'options' : {
+	                	  'label' : 'Kategorie',
+                          'empty_option' : 'Please Select',
+                          'value_options' : {},
+	                },
+	                'type' : 'Select',
+	                'attributes' : {
+	                	'id' : 'accountCategory'
+	                }
+	            }
+	         },
+	   };
+	   
+		
+		//$('#accountGroup').change(function(ev){
+		$(document.body).on('change', '#accountGroup', function(ev) {	
+			$('#setAccountCategoryForm').html('');
+			var datas = {'accountGroup' : $('#accountGroup').val()};
+			$.ajax({
+				url : '/mcwork/services/application/accountcategory',
+				type : 'POST',
+				data : datas,
+				beforeSend: function(){ 
+					$('#setAccountCategoryForm').html('<p><i class="fa fa-spinner fa-pulse"></i></p>');
+				} ,							
+				success : function(data) {
+					categoryForm[1].spec.options.value_options = jQuery.parseJSON( data );
+					$('#setAccountCategoryForm').html(Mcwork.Forms.init({ formtag : false }, categoryForm));
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) {									
+						var msg = 'Response Status: ' + xhr.status + ' ' + thrownError;
+						Mcwork.Modals.buildError(msg);
+				}				
+			});				
+			
+			
+			
+		});
+	}	
+	
+		
 
 	var app = McworkFormValidation;
 	$('#mcworkForm').Mcworkhtml5FormValidate({build : true }, app);	
@@ -784,6 +942,13 @@ $(document).ready(function() {
 	$('.form-button-save').click(function(ev){
 		ev.preventDefault();
 		$('#mcworkForm').Mcworkhtml5FormValidate({build : false, validation : true, send : true, xhr : false }, app);
+	});	
+	
+	$('.form-button-saveplus').click(function(ev){
+		ev.preventDefault();
+		$('#mcworkForm').Mcworkhtml5FormValidate({build : false, validation : true, send : true, xhr : true }, app);
+		$('#mcworkForm').Mcworkhtml5FormValidate({build : true }, app);
+		
 	});	
 	
 	

@@ -136,7 +136,7 @@ foreach ($this->entries as $entry) {
             
             $i ++;
             $rowContent = array();
-            $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-name="' . $entry->filename . '" />';
+            $rowContent[] = '<input id="row' . $i . '" type="checkbox" value="' . $entry->filename . '" name="cb[]" data-type="file" data-name="' . $entry->filename . '" data-ident="'.$thisItem['id'].'" />';
             $rowContent[] = $icon . $entry->filename;
             $rowContent[] = $tagKey;
             $filesize = $this->filesize($entry->size);

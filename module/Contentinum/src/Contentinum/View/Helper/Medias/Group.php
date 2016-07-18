@@ -39,21 +39,35 @@ class Group extends AbstractContentHelper
      *
      * @var unknown
      */
-    protected $row;
+    protected $wrapper;
 
     /**
      *
      * @var unknown
      */
-    protected $grid;
+    protected $elements;
+    
+    /**
+     *
+     * @var unknown
+     */
+    protected $link;    
+
+    /**
+     *
+     * @var unknown
+     */
+    protected $caption;
 
     /**
      *
      * @var unknown
      */
     protected $properties = array(
-        'row',
-        'grid'
+        'wrapper',
+        'elements',
+        'link',
+        'caption'
     );
     
     /**
@@ -81,25 +95,31 @@ class Group extends AbstractContentHelper
             } else {
                 return '<p style="font-weight:bold;color:red">Template configuration error</p>';
             }
-            $grid = $this->getTemplateProperty('grid', 'element');
-            
-            $attr = $this->getTemplateProperty('grid', 'attr');
-            $attr = HtmlAttribute::attributeArray($attr->toArray());
+
             $list = '';
             foreach ($entry['modulContent'] as $media => $entryRow) {
-                $list .= '<' . $grid . $attr . '><figure class="mediagroup-list-item-figure">';
+                
+                
                 $img = '<img src="' . $media . '" alt="' . $entryRow['attr']['alt'] . '" />';
+                $title = $entryRow['attr']['alt'];
                 if (isset($entryRow['caption'])) {
-                    $list .= $img . '<figcaption class="mediagroup-list-item-figcaption">';
-                    $list .= $entryRow['caption'] . '</figcaption>';
+                    $title = $entryRow['caption'];
+                    if ($this->caption) {
+                        $img .= $this->deployRow($this->caption, $entryRow['caption']);
+                    }
+                }     
+
+                if (is_array($this->link) && ! empty($this->link)) {
+                    $link = $this->link->toArray();
+                    $link['grid']['attr']['title'] = $title;
+                    $link['grid']['attr']['data-groupname'] = $entryRow['name'];
+                    $link['grid']['attr']['href'] = $media;
+                    $list .= $this->deployRow($this->elements, $this->deployRow($link, $img) );
                 } else {
-                    $list .= $img;
+                    $list .= $this->deployRow($this->elements, $img );
                 }
-                $list .= '</figure></' . $grid . '>';
             }
-            $attr = $this->getTemplateProperty('row', 'attr');
-            $html = $this->view->contentelement($this->getTemplateProperty('row', 'element'), $list, $attr->toArray());
-            return $html;
+            return $this->deployRow($this->wrapper, $list);
         }
-    }
+    } 
 }

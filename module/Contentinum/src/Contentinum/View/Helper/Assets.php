@@ -60,7 +60,8 @@ class Assets extends AbstractHelper
         
         $assets = $htmlassets->$htmlLayoutAssetKey->toArray();
         if (isset($htmllayouts->$templateKey->assets)) {
-            $assets = ArrayMergeRecursiveDistinct::merge($assets, $htmllayouts->$templateKey->assets->toArray());
+            $layouts = $htmllayouts->$templateKey->assets->toArray();
+            $assets = ArrayMergeRecursiveDistinct::merge($assets, $layouts);
         }
         if ('production' === $state) {
             if (false === ($cssfile = $this->frontendAssets(self::ASSETS_PATH . '/' . $htmlLayoutAssetKey . '.css'))) {
@@ -210,5 +211,13 @@ class Assets extends AbstractHelper
         } else {
             return false;
         }
+    }
+    
+    protected function javascriptLoads($script)
+    {
+        $str = 'function downloadJSAtOnload(){var element=document.createElement("script");element.src="'.$script.'";';
+        $str .= 'document.body.appendChild(element);}if(window.addEventListener){window.addEventListener("load",downloadJSAtOnload,false);}';
+        $str .= 'else if(window.attachEvent){window.attachEvent("onload",downloadJSAtOnload);}else{window.onload=downloadJSAtOnload;}';
+        return $str;
     }
 }

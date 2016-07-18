@@ -158,10 +158,12 @@ class DatesRow extends AbstractContentHelper
             $this->setTemplate($viewTemplate[self::VIEW_TEMPLATE]);
         }
         $events = '';
+        $format = $entries['modulFormat'];
+        $displaymonthname = false;
         
         $dataProp = array();
         foreach ($entries['modulContent'] as $entry) {
-            $dateData = '';
+            $dateData = '';           
             $dataProp['data-summary'] = $entry->summary;
             
             $dateData .= $this->deployRow($this->summary, $entry->summary);
@@ -172,6 +174,8 @@ class DatesRow extends AbstractContentHelper
             
             $dataProp['data-dstart'] = $datetime->format("Ymd\\THis");
             $dataProp['data-dend'] = '00000000T000000';
+            
+            $mthNum = $datetime->format('m');
             
             $content = $this->dayname[$datetime->format('N')] . ', ' . $datetime->format('d') . '. ' . $this->monthsname[$datetime->format('m')] . ' ' . $datetime->format('Y');
             if ('00:00' !== $datetime->format("H:i")) {
@@ -260,14 +264,26 @@ class DatesRow extends AbstractContentHelper
                 
                 $dataProp['data-location'] = $entry->location . ' ' . $entry->locationAddresse . ' ' . $entry->locationZipcode . ' ' . $entry->locationCity;
             }
-            
+            $description = '';
             if ( strlen($entry->description) > 4 ){
+                $description = $entry->description;
+            }
+            
+            if ( $entry->webMediasId > 0 ){
+                $description .= $this->view->images(array('mediaStyle' => '','medias' => $entry->webMediasId), $medias, null, null, true);
+            }
+            
+            if ( $entry->webFilesId > 0 ){
+                $description .= $this->view->mediadownload($entry->webFilesId, $medias);
+            }
+            
+            if ('' != $description){
                 $descriptionHead = $this->descriptionhead->toArray();
-                $description = $this->description->toArray();
+                $descriptionBody = $this->description->toArray();
                 $descriptionHead['grid']['attr']['data-ident'] = 'event' . $entry->id;
-                $description['grid']['attr']['id'] = 'event' . $entry->id;
+                $descriptionBody['grid']['attr']['id'] = 'event' . $entry->id;
                 $dateData .= $this->deployRow($descriptionHead, 'Weitere Informationen');
-                $dateData .= $this->deployRow($description, $entry->description);
+                $dateData .= $this->deployRow($descriptionBody, $description);                
             }
             
             $toolbar = '';
@@ -277,6 +293,10 @@ class DatesRow extends AbstractContentHelper
                         'attr' => $dataProp
                     )
                 ), $medias, $this->toolbar->toArray());
+            }
+            if ('displaymonthname' == $format && $displaymonthname != $mthNum){
+                $displaymonthname = $mthNum;
+                $events .= '<h3><i class="fa fa-calendar"></i> ' . $this->monthsname[$mthNum] . '</h3>';
             }
             $events .= $this->deployRow($this->schema, $toolbar . $dateData);
             $dataProp = array();

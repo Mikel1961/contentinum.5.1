@@ -73,15 +73,23 @@ class AddFormController extends AbstractMcworkController
         $cat = '';
         if (false !== ($cat = $this->params()->fromRoute('cat', false))){
             $cat = '/category/'  . $cat;
-        }        
+        }    
+
         $form->setInputFilter($form->getInputFilter());
         $form->setData($this->getRequest()
             ->getPost());
+        
         if ($form->isValid()) {
             $formDatas = $form->getData();
             try {
+                $this->worker->setIdentity($this->getIdentity());
                 $msg = $this->worker->save($form->getData(), $this->worker->getEntity());               
-                return $this->redirect()->toUrl($pageOptions->getAppOption('settoroute').$cat);
+                if (false !== $this->getXmlHttpRequest()){
+                    echo true;
+                    exit();                                   
+                } else { 
+                    return $this->redirect()->toUrl($pageOptions->getAppOption('settoroute').$cat);
+                }
             } catch (\Exception $e) {
                 exit($e->getMessage());
             }

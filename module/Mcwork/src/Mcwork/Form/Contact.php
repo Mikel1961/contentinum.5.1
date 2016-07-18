@@ -45,10 +45,8 @@ class Contact extends AbstractForms
     {
         $translation = $this->getServiceLocator()->get('translator');
         $html = '<dl class="tabs" data-tab="data-tab">';// tab header start
-        $html .= '<dd class="active"><a href="#fieldsetName">' . $translation->translate('Contact') . '</a></dd>';// tab1
-        $html .= '<dd><a href="#fieldsetContact">' . $translation->translate('Contact data') . '</a></dd>';// tab2
-        $html .= '<dd><a href="#fieldsetBild">Bild</a></dd>';// tab2
-        $html .= '<dd><a href="#fieldsetDescription">' . $translation->translate('Description') . '</a></dd>';
+        $html .= '<dd class="active"><a href="#fieldsetName">Kontakt, Ressource</a></dd>';// tab1
+        $html .= '<dd><a href="#fieldsetDescription">Bild und Beschreibung</a></dd>';
         $html .= '<dd><a href="#fieldsetAddress">' . $translation->translate('Adresse') . '</a></dd>';// tab3
         $html .= '</dl><div class="tabs-content">';// finish and start tab content area
         return $html;
@@ -63,9 +61,10 @@ class Contact extends AbstractForms
     {
         return array(
             
+ 
             array(
                 'spec' => array(
-                    'name' => 'formpreftab',
+                    'name' => 'formRowStart',
                     'options' => array(
                         'fieldset' => array(
                             'nofieldset' => 1
@@ -73,11 +72,13 @@ class Contact extends AbstractForms
                     ),
                     'type' => 'ContentinumComponents\Forms\Elements\Note',
                     'attributes' => array(
-                        'id' => 'formpreftab',
-                        'value' => $this->tabHeader(),
+                        'id' => 'formColumStart',
+                        'value' => '<div class="row">'
                     )
                 )
-            ),            
+            ),
+            
+         
             
             array(
                 'spec' => array(
@@ -89,7 +90,7 @@ class Contact extends AbstractForms
                         'empty_option' => 'Please select',
                         'value_options' => $this->getSelectOptions('accounts', array(
                             'value' => 'id',
-                            'label' => 'organisation'
+                            'label' => array('organisation', 'organisationExt'),
                         )),
             
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
@@ -115,6 +116,7 @@ class Contact extends AbstractForms
                             'ms' => 'Frau',
                             'mr' => 'Herr',
                             'ressource' => 'Ressource',
+                            'orgalink' => 'Link zur Organisation',
                         ),
                         'deco-row' => $this->getDecorators(self::DECO_TAB_ROW)
                     ),
@@ -126,22 +128,25 @@ class Contact extends AbstractForms
                 )
             ), 
             
+            
             array(
                 'spec' => array(
                     'name' => 'title',
                     'required' => false,
-                    
+            
                     'options' => array(
                         'label' => 'Title',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
-                    
+            
                     'type' => 'Text',
                     'attributes' => array(
                         'id' => 'title'
                     )
                 )
             ),            
+            
+            
          
 
             array(
@@ -180,37 +185,95 @@ class Contact extends AbstractForms
             
             array(
                 'spec' => array(
-                    'name' => 'objectName',
-                    'required' => false,
-            
-                    'options' => array(
-                        'label' => 'Ressource',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                    ),
-            
-                    'type' => 'Text',
-                    'attributes' => array(
-                        'id' => 'objectName'
-                    )
-                )
-            ),            
-            
-            array(
-                'spec' => array(
                     'name' => 'businessTitle',
                     'required' => false,
-                    
+            
                     'options' => array(
                         'label' => 'Business title',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
-                    
+            
                     'type' => 'Text',
                     'attributes' => array(
                         'id' => 'businessTitle'
                     )
                 )
-            ),  
+            ),          
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'description',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Description',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'fieldset' => array(
+                            'legend' => 'Kontakt, Recource',
+                            'attributes' => array(
+                                'class' => 'large-8 columns',
+                                'id' => 'fieldsetContribution'
+                            )
+                        )                        
+            
+                         
+                    ),
+                    'type' => 'Textarea',
+                    'attributes' => array(
+                        'rows' => '8',
+                        'id' => 'description',
+                        'class' => 'contactdescription',
+                    )
+                )
+            ),            
+
+            
+            array(
+                'spec' => array(
+                    'name' => 'formAccordionStart',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formAccordionPanelPublish',
+                        'value' => '<dl class="accordion" data-accordion><dd><a href="#panelMetas">Kontaktdaten</a><div id="panelMetas" class="content active">'
+                    )
+                )
+            ), 
+
+
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'contactImgSource',
+                    'required' => false,
+                    'options' => array(
+                        'label' => 'Bild',
+                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Select',
+                    'attributes' => array(
+                        'id' => 'contactImgSource',
+                        'class' => 'chosen-select',
+                        'value' => 1
+                    )
+                )
+            ), 
+            
+            array(
+                'spec' => array(
+                    'name' => 'selectfile',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'selectfile',
+                        'value' => '<a id="viewSelectFile" data-mediafield="contactImgSource" class="button tiny" href="#"><i class="fa fa-file-image-o"></i></a><figure id="selectedMedia"> </figure>'
+                    )
+                )
+            ),            
 
             array(
                 'spec' => array(
@@ -219,7 +282,8 @@ class Contact extends AbstractForms
             
                     'options' => array(
                         'label' => 'Kurzzeichen',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                         
                     ),
             
                     'type' => 'Text',
@@ -234,7 +298,8 @@ class Contact extends AbstractForms
                     'name' => 'contactEmail',
                     'options' => array(
                         'label' => 'Email',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),    
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),   
+                       
                                           
                     ),
                     
@@ -253,13 +318,6 @@ class Contact extends AbstractForms
                     'options' => array(
                         'label' => 'Internet',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'fieldset' => array(
-                            'legend' => 'Contact',
-                            'attributes' => array(
-                                'class' => 'content active',
-                                'id' => 'fieldsetName'// tab1
-                            )
-                        ) 
                          
                     ),
                     'type' => 'Textarea',
@@ -268,7 +326,9 @@ class Contact extends AbstractForms
                         'id' => 'internet',
                     )
                 )
-            ),            
+            ), 
+
+         
             
             array(
                 'spec' => array(
@@ -349,7 +409,19 @@ class Contact extends AbstractForms
                         'id' => 'phoneHome'
                     )
                 )
-            ),    
+            ), 
+            
+            array(
+                'spec' => array(
+                    'name' => 'formAccordionMedia',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formAccordionPanelMedia',
+                        'value' => '</div></dd><dd><a href="#panelMedia">Social media</a><div id="panelMedia" class="content">'
+                    )
+                )
+            ),            
 
             array(
                 'spec' => array(
@@ -422,14 +494,8 @@ class Contact extends AbstractForms
             
                     'options' => array(
                         'label' => 'Pinterest',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'fieldset' => array(
-                            'legend' => 'Contact',
-                            'attributes' => array(
-                                'class' => 'content',
-                                'id' => 'fieldsetContact'// tab1
-                            )
-                        )                        
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),         
+                                    
                     ),
             
                     'attributes' => array(
@@ -441,54 +507,51 @@ class Contact extends AbstractForms
             
             array(
                 'spec' => array(
-                    'name' => 'contactImgSource',
-                    'required' => false,
-                    'options' => array(
-                        'label' => 'Please select',
-                        'value_options' => $this->getServiceLocator()->get('Mcwork\PublicMedia'),
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'fieldset' => array(
-                            'legend' => 'Bild',
-                            'attributes' => array(
-                                'class' => 'content',
-                                'id' => 'fieldsetBild'// tab1
-                            )
-                        )                        
-                    ),
-            
-                    'type' => 'Select',
+                    'name' => 'formAccordionPlugin',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
                     'attributes' => array(
-                        'id' => 'contactImgSource',
-                        'class' => 'chosen-select'
+                        'id' => 'formAccordionPanelPlugin',
+                        'value' => '</div></dd><dd><a href="#panelPlugin">Stockwerk, Raum, Adresse</a><div id="panelPlugin" class="content">'
                     )
                 )
-            ),            
+            ),          
             
             array(
                 'spec' => array(
-                    'name' => 'description',
+                    'name' => 'floor',
                     'required' => false,
             
                     'options' => array(
-                        'label' => 'Description',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'fieldset' => array(
-                            'legend' => 'Description',
-                            'attributes' => array(
-                                'class' => 'content',
-                                'id' => 'fieldsetDescription'// tab1
-                            )
-                        )                        
-                         
+                        'label' => 'Stockwerk',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
-                    'type' => 'Textarea',
+            
+                    'type' => 'Text',
                     'attributes' => array(
-                        'rows' => '8',
-                        'id' => 'description',
-                        'class' => 'contactdescription',
+                        'id' => 'floor'
                     )
                 )
-            ), 
+            ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'room',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Raum',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'room'
+                    )
+                )
+            ),            
+
 
             array(
                 'spec' => array(
@@ -530,13 +593,7 @@ class Contact extends AbstractForms
                     'options' => array(
                         'label' => 'City',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'fieldset' => array(
-                            'legend' => 'Adresse',
-                            'attributes' => array(
-                                'class' => 'content',
-                                'id' => 'fieldsetAddress'// tab1
-                            )
-                        )                        
+                      
                          
                     ),
                     'type' => 'Text',
@@ -544,12 +601,62 @@ class Contact extends AbstractForms
                         'id' => 'contactCity'
                     )
                 )
-            ),            
-            
+            ),  
 
+            
             array(
                 'spec' => array(
-                    'name' => 'formtabend',
+                    'name' => 'formAccordionJobTitle',
+                    'options' => array(),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formAccordionPanelJobTitle',
+                        'value' => '</div></dd><dd><a href="#panelJobTitle">Objektname</a><div id="panelJobTitle" class="content">'
+                    )
+                )
+            ),
+            
+            
+            array(
+                'spec' => array(
+                    'name' => 'objectName',
+                    'required' => false,
+            
+                    'options' => array(
+                        'label' => 'Ressource',
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                    ),
+            
+                    'type' => 'Text',
+                    'attributes' => array(
+                        'id' => 'objectName'
+                    )
+                )
+            ),            
+            
+            array(
+                'spec' => array(
+                    'name' => 'formAccordionEnd',
+                    'options' => array(
+                        'fieldset' => array(
+                            'legend' => 'Eigenschaften',
+                            'attributes' => array(
+                                'class' => 'large-4 columns',
+                                'id' => 'fieldsetConfiguration'
+                            )
+                        )
+                    ),
+                    'type' => 'ContentinumComponents\Forms\Elements\Note',
+                    'attributes' => array(
+                        'id' => 'formAccordionEnd',
+                        'value' => '</div></dd></dl>'
+                    )
+                )
+            ),
+            
+            array(
+                'spec' => array(
+                    'name' => 'formRowEnd',
                     'options' => array(
                         'fieldset' => array(
                             'nofieldset' => 1
@@ -557,11 +664,12 @@ class Contact extends AbstractForms
                     ),
                     'type' => 'ContentinumComponents\Forms\Elements\Note',
                     'attributes' => array(
-                        'id' => 'formtabend',
+                        'id' => 'formColumnEnd',
                         'value' => '</div>'
                     )
                 )
-            ),             
+            )
+            
             
             
         );

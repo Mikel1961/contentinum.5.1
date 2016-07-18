@@ -66,9 +66,11 @@ class ContentGroupsServiceFactory extends WebsiteServiceFactory
         if (! ($result = $cache->getItem($key))) {
             $worker = new Worker($sl->get($config['entitymanager']));
             $conn = $worker->getConnection();
-            $sql = "SELECT main.web_contentgroup_id, wc.title, wc.id ";
+            $sql = "SELECT main.web_contentgroup_id, wc.title, wc.id, wpp.label ";
             $sql .= "FROM web_content_groups AS main ";
             $sql .= "LEFT JOIN web_content AS wc ON wc.id = main.web_content_id ";
+            $sql .= "LEFT JOIN web_pages_content AS wpc ON wpc.web_contentgroup_id = main.web_contentgroup_id ";
+            $sql .= "LEFT JOIN web_pages_parameter AS wpp ON wpp.id = wpc.web_pages_id ";
             $sql .= "WHERE main.scope = 'content' ";
             $sql .= "GROUP BY main.web_contentgroup_id ";
             $sql .= "ORDER BY wc.title ASC";            
@@ -77,7 +79,7 @@ class ContentGroupsServiceFactory extends WebsiteServiceFactory
             $tmp = array();
             foreach ($entries as $entry) {
                 $tmp[$entry['web_contentgroup_id']] = array(
-                    'name' => $entry['title']
+                    'name' => '(' . $entry['label'] . ') - ' . $entry['title']
                 );
             }
             $result = new Config($tmp);

@@ -140,7 +140,14 @@ class WebContent extends AbstractEntity
      *
      * @ORM\Column(name="media_style", type="string", length=250, nullable=false)
      */
-    private $mediaStyle = '';    
+    private $mediaStyle = '';   
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="media_placeholder", type="integer", nullable=false)
+     */
+    private $mediaPlaceholder = 0;    
 
     /**
      * @var string
@@ -271,7 +278,7 @@ class WebContent extends AbstractEntity
     /**
      * @var boolean
      *
-     * @ORM\Column(name="deleted", type="boolean", nullable=false)
+     * @ORM\Column(name="deleted", type="integer", nullable=false)
      */
     private $deleted = 0;    
 
@@ -307,7 +314,7 @@ class WebContent extends AbstractEntity
      *
      * @var \Contentinum\Entity\WebMedia
      *
-     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\WebMedias")
+     * @ORM\ManyToOne(targetEntity="Contentinum\Entity\WebMedias",cascade={"persist"})
      * @ORM\JoinColumns({
      *  @ORM\JoinColumn(name="web_medias_id", referencedColumnName="id")
      * })
@@ -643,6 +650,22 @@ class WebContent extends AbstractEntity
     public function setMediaStyle($mediaStyle)
     {
         $this->mediaStyle = $mediaStyle;
+    }
+
+	/**
+     * @return the $mediaPlaceholder
+     */
+    public function getMediaPlaceholder()
+    {
+        return $this->mediaPlaceholder;
+    }
+
+	/**
+     * @param boolean $mediaPlaceholder
+     */
+    public function setMediaPlaceholder($mediaPlaceholder)
+    {
+        $this->mediaPlaceholder = $mediaPlaceholder;
     }
 
 	/**

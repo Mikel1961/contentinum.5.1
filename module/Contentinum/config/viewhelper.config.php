@@ -21,6 +21,7 @@ return array(
         'contribution' => 'Contentinum\View\Helper\Contribution',
         'images' => 'Contentinum\View\Helper\Medias\Images',
         'getmedialink' => 'Contentinum\View\Helper\Medias\ImageLink',
+        'mediadownload' => 'Contentinum\View\Helper\Medias\Download',
         'contentelement' => 'Contentinum\View\Helper\Element',
         
         
@@ -41,9 +42,20 @@ return array(
         
         'overwriteprops' => 'Contentinum\View\Helper\Wanted\Properties',
         'wantedname' => 'Contentinum\View\Helper\Wanted\Name',
-        'wanted' => 'Contentinum\View\Helper\Wanted\Single',
-        'wantedobject' => 'Contentinum\View\Helper\Wanted\ObjectName',
-        'wantedgroup' => 'Contentinum\View\Helper\Wanted\Group',        
+        'wantedobject' => 'Contentinum\View\Helper\Wanted\ObjectName', 
+        'grouptemplate' => 'Contentinum\View\Helper\Wanted\GroupTemplate',   
+        'organisation' => 'Contentinum\View\Helper\Wanted\Organisation', 
+        
+        
+        'microdataoverwrite' => 'Contentinum\View\Helper\Microdata\Properties\Values',
+        'microdataname' => 'Contentinum\View\Helper\Microdata\Properties\Name',   
+        'microdataorganisation' => 'Contentinum\View\Helper\Microdata\Organisation',   
+        'microdatapersonorganisation' => 'Contentinum\View\Helper\Microdata\PersonOrganisation',
+        'microdatacontactorganisation' => 'Contentinum\View\Helper\Microdata\ContactOrganisation',
+        'microdataorganisationcontact' => 'Contentinum\View\Helper\Microdata\OrganisationContact',
+        'microdatapersontemplate' => 'Contentinum\View\Helper\Microdata\Template\PersonOrganisation',
+        'microdataperson' => 'Contentinum\View\Helper\Microdata\PersonOrganisation',
+        'microdatacontact' => 'Contentinum\View\Helper\Microdata\Contacts',
 
         
         'newsarchivelist' => 'Contentinum\View\Helper\News\Archive\Monthly',
@@ -58,6 +70,7 @@ return array(
         'maps' => 'Contentinum\View\Helper\Maps',
         'forms' => 'Contentinum\View\Helper\Forms',
         'searchform' => 'Contentinum\View\Helper\SearchForm',
+        'datetimeformat' => 'Contentinum\View\Helper\DateTimeFormat',
         
         'searchhighlight' => 'Contentinum\View\Helper\Search\HighlightPhrase',
         

@@ -31,7 +31,7 @@ use ContentinumComponents\Forms\AbstractForms;
 
 /**
  * contentinum mcwork form fieldtypes
- * 
+ *
  * @author Michael Jochum, michael.jochum@jochum-mediaservices.de
  */
 class TemplateFiles extends AbstractForms
@@ -39,7 +39,7 @@ class TemplateFiles extends AbstractForms
 
     /**
      * form field elements
-     * 
+     *
      * @see \ContentinumComponents\Forms\AbstractForms::elements()
      */
     public function elements()
@@ -53,7 +53,7 @@ class TemplateFiles extends AbstractForms
                     'options' => array(
                         'label' => 'Name',
                         'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
-                        'description' => 'Filename',
+                        'description' => 'Filename'
                     ),
                     
                     'type' => 'Text',
@@ -69,21 +69,21 @@ class TemplateFiles extends AbstractForms
                     'name' => 'content',
                     'options' => array(
                         'label' => 'Template',
-                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW),
+                        'deco-row' => $this->getDecorators(self::DECO_ELM_ROW)
                     ),
                     'type' => 'Textarea',
                     'attributes' => array(
                         'rows' => '8',
-                        'id' => 'content',
+                        'id' => 'content'
                     )
                 )
-            ),
+            )
         );
     }
 
     /**
      * form input filter and validation
-     * 
+     *
      * @see \ContentinumComponents\Forms\AbstractForms::filter()
      */
     public function filter()
@@ -102,15 +102,15 @@ class TemplateFiles extends AbstractForms
                 'filters' => array(
                     array(
                         'name' => 'Zend\Filter\StringTrim'
-                    ),
-                ),
+                    )
+                )
             )
         );
     }
 
     /**
      * initiation and get form
-     * 
+     *
      * @see \ContentinumComponents\Forms\AbstractForms::getForm()
      */
     public function getForm()

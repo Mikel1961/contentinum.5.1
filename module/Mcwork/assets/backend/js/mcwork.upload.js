@@ -629,8 +629,19 @@ $(document).ready(function() {
 	
 	$('#btnNewFolder').click(function(ev) {
 		ev.preventDefault();
-		var someForm = $('#mkDirForm');
-		someForm.submit();
+		
+		Mcwork.Parameter.hasRemoveClass($('#new-folder'), 'error');
+		$('.errNewFolder').html( '' );
+		if ('' == $('#new-folder').val()) {
+			$('#new-folder').addClass('error');
+			$('.errNewFolder').css( 'display', 'block' );
+			$('.errNewFolder').css( 'background', '#c60f13' );
+			$('.errNewFolder').css( 'color', '#FFFFFF' );
+			$('.errNewFolder').html( Mcwork.Language.translate('val','newdir') );
+		} else {
+			var someForm = $('#mkDirForm');
+			someForm.submit();
+		}
 		return false;
 	});	
 

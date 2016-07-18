@@ -386,7 +386,7 @@ class PageOptions extends AbstractOptions
     {
         foreach ($pageOptions as $property => $option) {
             if (in_array($property, $this->properties)) {
-                if (is_array($option) || strlen($option) > 0) {
+                if (is_array($option) || strlen($option) > 0) {                 
                     $this->{$property} = $option;
                 }
             }

@@ -23,14 +23,14 @@
  * @license http://www.opensource.org/licenses/bsd-license
  * @since contentinum version 5.0
  * @link      https://github.com/Mikel1961/contentinum-components
- * @version   1.0.0
+ * @version +  1.0.0
  */
 // display form
 $aside = '';
 $mcontent = $this->headline;
 $header = '';
 $footer = '';
-$this->layoutassets($this->htmllayouts,'login');
+$this->layoutassets($this->htmllayouts,'login',$this->htmlassets);
 $locked = false;
 if ($this->messages){
     $str = '';
